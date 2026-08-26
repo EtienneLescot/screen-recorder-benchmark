@@ -790,17 +790,37 @@ async function cmdRoster() {
 		["linux", "Linux"],
 	];
 
-	const present = (v) => v === "✓" || v === "degraded";
+	// A slot is not the same as shipping. `surplus` means the product runs on the platform but
+	// sits outside a roster that is already full; `n/a` means it is not there at all. Collapsing
+	// the two would turn a positioning decision into a claim about the product.
+	const member = (v) => v === "✓" || v === "✓?" || v === "degraded";
 	const blocks = PLATFORMS.map(([key, label]) => {
-		const on = tools.filter((t) => present(t[key]));
+		const on = tools.filter((t) => member(t[key]));
 		const rows = on
-			.map((t) => `| **${t.tool}** | ${t[key] === "degraded" ? "degraded — " : ""}${t.note} |`)
+			.map((t) => {
+				// A per-platform note already says what the cell says; prefixing it repeats itself.
+				const own = t.notes?.[key];
+				const flag = own
+					? ""
+					: t[key] === "degraded"
+						? "degraded — "
+						: t[key] === "✓?"
+							? "**unverified** — "
+							: "";
+				return `| **${t.tool}** | ${flag}${own ?? t.note} |`;
+			})
 			.join("\n");
-		const absent = tools.filter((t) => !present(t[key]));
-		const tail = absent.length
-			? `\nNot on ${label}: ${absent.map((t) => t.tool).join(", ")}.\n`
-			: "";
-		return `### ${label} — ${on.length} of ${tools.length}\n\n| Tool | Status |\n|---|---|\n${rows}\n${tail}`;
+		const surplus = tools
+			.filter((t) => t[key] === "surplus")
+			.map((t) => (t.notes?.[key] ? `${t.tool} (${t.notes[key]})` : t.tool));
+		const missing = tools.filter((t) => t[key] === "n/a").map((t) => t.tool);
+		const tail = [
+			missing.length ? `Not on ${label}: ${missing.join(", ")}.` : "",
+			surplus.length ? `Ships on ${label} but outside the table: ${surplus.join(", ")}.` : "",
+		]
+			.filter(Boolean)
+			.join(" ");
+		return `### ${label} — ${on.length}\n\n| Tool | Status |\n|---|---|\n${rows}\n${tail ? `\n${tail}\n` : ""}`;
 	});
 
 	// Which roster entries have an adapter, and why the rest do not — joined rather than listed.

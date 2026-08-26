@@ -27,62 +27,73 @@ fall outside it are not carried.
 <!-- generated from roster.json by `node bench.mjs roster` — edit that file, not this block -->
 <!-- roster:start -->
 
-### macOS — 6 of 7
+### macOS — 5
 
 | Tool | Status |
 |---|---|
-| **OpenScreen** | open source (Electron); ships on all three platforms |
-| **Screen Studio** | macOS only; defines the category |
-| **Cap** | architectural peer (Rust/WGSL); no Linux desktop build |
-| **Recordly** | Electron/Pixi; loses the rendered cursor on Linux, so S3 is n/a there |
+| **OpenScreen** | reference |
+| **Screen Studio** | defines the category |
+| **Cap** | the only architectural peer — Rust/WGSL |
+| **Recordly** | same lineage — Electron/Pixi |
 | **FocuSee** | closed source, widest feature coverage |
-| **ScreenArc** | open source (Electron/ffmpeg); dmg, exe and AppImage — ships on all three platforms |
 
-Not on macOS: Screenix.
+Not on macOS: Screenix. Ships on macOS but outside the table: ScreenArc (would be sixth; the table is full).
 
-### Windows — 5 of 7
+### Windows — 5
 
 | Tool | Status |
 |---|---|
-| **OpenScreen** | open source (Electron); ships on all three platforms |
-| **Cap** | architectural peer (Rust/WGSL); no Linux desktop build |
-| **Recordly** | Electron/Pixi; loses the rendered cursor on Linux, so S3 is n/a there |
-| **FocuSee** | closed source, widest feature coverage |
-| **ScreenArc** | open source (Electron/ffmpeg); dmg, exe and AppImage — ships on all three platforms |
+| **OpenScreen** | reference |
+| **Cap** | the only architectural peer — Rust/WGSL |
+| **Recordly** | same lineage — Electron/Pixi |
+| **FocuSee** | closed source, widest feature coverage — also on the Microsoft Store |
+| **ScreenArc** | cross-platform, verified at source — holds the fifth slot |
 
 Not on Windows: Screen Studio, Screenix.
 
-### Linux — 4 of 7
+### Linux — 3
 
 | Tool | Status |
 |---|---|
-| **OpenScreen** | open source (Electron); ships on all three platforms |
-| **Recordly** | degraded — Electron/Pixi; loses the rendered cursor on Linux, so S3 is n/a there |
-| **ScreenArc** | open source (Electron/ffmpeg); dmg, exe and AppImage — ships on all three platforms |
-| **Screenix** | architectural peer (Rust/wgpu), Linux only by design; proprietary, paid |
+| **OpenScreen** | reference |
+| **Recordly** | degraded, per their own documentation — the rendered cursor is lost, so S3 is n/a here |
+| **Screenix** | closed source, Rust/wgpu — Ubuntu, Fedora, Debian, Arch, GNOME |
 
-Not on Linux: Screen Studio, Cap, FocuSee.
+Not on Linux: Screen Studio, Cap, FocuSee. Ships on Linux but outside the table: ScreenArc (ships an AppImage; the Linux table is not capped, so this is a decision, not a limit).
 
 <!-- roster:end -->
 
-The roster is per-platform, because the segment is. A tool missing from a platform, or listed as
-degraded on one, is a finding about that product rather than a gap in this benchmark — which is
-why the tables above are worth reading as results and not as coverage.
+The roster is per-platform because the segment is, and each table is capped at the size of the
+segment on that platform rather than at a fixed number. A slot is therefore contested: shipping on
+a platform does not earn one, which is why a product can be present and still sit outside the
+table.
 
-## Provenance, checked
+Two cells carry the result rather than the method. **Screen Studio is `n/a` on Windows** — absent
+by construction from the platform with the most users, which is a fact about the product and not a
+tackle. And **Recordly is degraded on Linux**, by its own documentation, which costs it S3 there. A
+three-row Linux table with one incomplete row says more than any export time on it would.
 
-Two entries were carried on thin sourcing and have since been verified at the vendor:
+## Provenance
 
-- **ScreenArc** — [tamnguyenvan/screenarc](https://github.com/tamnguyenvan/screenarc), open
-  source, Electron + ffmpeg. Publishes a `.dmg` for both Apple architectures, a Windows
-  `Setup.exe` and a Linux AppImage. Backgrounds, shadows, pan-and-zoom on mouse activity,
-  webcam overlay. No CLI.
-- **Screenix** — [screenix.studio](https://screenix.studio/), proprietary and paid, Rust +
-  wgpu, native Wayland and X11. Linux is the whole product rather than a port, which is why its
-  macOS and Windows cells are `n/a` by design and not by omission. Auto-zoom on cursor activity,
-  styled camera with corner radius and shadow, cursor smoothing at export. No CLI.
+The roster is capped at the size of the segment on each platform, so a slot is contested. One
+entry rested on thin sourcing and has since been checked at the vendor:
 
-Both pass the filter at the top of this file. Neither has an adapter yet.
+- **ScreenArc** — the only source was an AlternativeTo listing with 19 likes, which is not enough
+  to award a slot. It holds up: [tamnguyenvan/screenarc](https://github.com/tamnguyenvan/screenarc),
+  open source, Electron + ffmpeg, 705 stars, publishing a `.dmg` for both Apple architectures, a
+  Windows `Setup.exe` and a Linux AppImage. Backgrounds, shadows, pan-and-zoom on mouse activity,
+  webcam overlay, no CLI. It takes the fifth Windows slot on that basis, so **Rapidemo** — the
+  natural substitute, but out of the SEO swarm — is not needed and was not awarded one by default.
+- **Screenix** — [screenix.studio](https://screenix.studio/), proprietary and paid, Rust + wgpu,
+  native Wayland and X11. Linux is the product rather than a port, which is what its macOS and
+  Windows cells mean.
+
+Verifying ScreenArc turned up one thing the roster did not anticipate: it ships a Linux AppImage.
+The Linux table is short because the segment is short there, not because it is capped at three, so
+that is a membership decision rather than a fact about the product — and until it is taken, the
+cell says `surplus`, not `n/a`.
+
+Neither entry has an adapter, and neither is measured.
 
 ## Implementation status
 

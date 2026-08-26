@@ -1,54 +1,73 @@
 {
-	"_comment": "Roster membership, decided by positioning — see CANDIDATES.md, whose platform tables are generated from this file. n/a is a finding about the product, not a gap in this benchmark.",
+	"_comment": "Roster membership, decided by positioning — see CANDIDATES.md, whose tables are generated from this file. Membership is per-platform and capped at the size of the segment on that platform; shipping on a platform does not earn a slot there.",
+	"_legend": {
+		"✓": "roster member on this platform",
+		"✓?": "claimed but unverified — not measured until confirmed",
+		"degraded": "member, but the product is degraded on this platform",
+		"n/a": "the product does not exist on this platform — a fact about it, not a gap here",
+		"surplus": "ships on this platform but sits outside its roster, which is already full",
+		"notes": "optional per-platform override of `note`, keyed by platform"
+	},
 	"tools": [
 		{
 			"tool": "OpenScreen",
 			"macos": "✓",
 			"windows": "✓",
 			"linux": "✓",
-			"note": "open source (Electron); ships on all three platforms"
+			"note": "reference"
 		},
 		{
 			"tool": "Screen Studio",
 			"macos": "✓",
 			"windows": "n/a",
 			"linux": "n/a",
-			"note": "macOS only; defines the category"
+			"note": "defines the category"
 		},
 		{
 			"tool": "Cap",
 			"macos": "✓",
 			"windows": "✓",
 			"linux": "n/a",
-			"note": "architectural peer (Rust/WGSL); no Linux desktop build"
+			"note": "the only architectural peer — Rust/WGSL"
 		},
 		{
 			"tool": "Recordly",
 			"macos": "✓",
 			"windows": "✓",
 			"linux": "degraded",
-			"note": "Electron/Pixi; loses the rendered cursor on Linux, so S3 is n/a there"
+			"note": "same lineage — Electron/Pixi",
+			"notes": {
+				"linux": "degraded, per their own documentation — the rendered cursor is lost, so S3 is n/a here"
+			}
 		},
 		{
 			"tool": "FocuSee",
 			"macos": "✓",
 			"windows": "✓",
 			"linux": "n/a",
-			"note": "closed source, widest feature coverage"
+			"note": "closed source, widest feature coverage",
+			"notes": {
+				"windows": "closed source, widest feature coverage — also on the Microsoft Store"
+			}
 		},
 		{
 			"tool": "ScreenArc",
-			"macos": "✓",
+			"macos": "surplus",
 			"windows": "✓",
-			"linux": "✓",
-			"note": "open source (Electron/ffmpeg); dmg, exe and AppImage — ships on all three platforms"
+			"linux": "surplus",
+			"note": "open source, Electron/ffmpeg",
+			"notes": {
+				"windows": "cross-platform, verified at source — holds the fifth slot",
+				"macos": "would be sixth; the table is full",
+				"linux": "ships an AppImage; the Linux table is not capped, so this is a decision, not a limit"
+			}
 		},
 		{
 			"tool": "Screenix",
 			"macos": "n/a",
 			"windows": "n/a",
 			"linux": "✓",
-			"note": "architectural peer (Rust/wgpu), Linux only by design; proprietary, paid"
+			"note": "closed source, Rust/wgpu — Ubuntu, Fedora, Debian, Arch, GNOME"
 		}
 	]
 }
