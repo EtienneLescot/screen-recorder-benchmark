@@ -1,7 +1,14 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.5.10/schema.json",
 	"files": {
-		"includes": ["**", "!results/**", "!.cache/**", "!node_modules/**"]
+		"includes": [
+			"**",
+			"!results/**",
+			"!.cache/**",
+			"!node_modules/**",
+			"!docs/**",
+			"!submissions/**"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -109,7 +116,12 @@
 	},
 	"overrides": [
 		{
-			"includes": ["*.ts", "*.tsx", "*.mts", "*.cts"],
+			"includes": [
+				"*.ts",
+				"*.tsx",
+				"*.mts",
+				"*.cts"
+			],
 			"linter": {
 				"rules": {
 					"complexity": {
