@@ -1,0 +1,12 @@
+# Keep the working tree LF on every platform.
+#
+# biome.json pins lineEnding to "lf" and `npm run verify` runs `biome check .`, so without
+# this a Windows checkout (core.autocrlf=true by default) fails the linter on every file
+# before the contributor has changed anything.
+* text=auto eol=lf
+
+# Binary
+*.png binary
+*.jpg binary
+*.mp4 binary
+*.webm binary
