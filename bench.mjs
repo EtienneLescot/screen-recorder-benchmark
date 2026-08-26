@@ -432,9 +432,18 @@ async function cmdRun({ flags }) {
 				log: () => undefined,
 				state: {},
 			};
-			let previous = null;
+			// Convergence alone is not enough, and the first version of this got it wrong: two
+			// back-to-back exports agree while the clock is still boosted, so it "settled" at 7.73 s
+			// — the boosted figure — and warmed nothing. Steady state needs sustained load for a
+			// while *and* a flat trend, so both are required: at least MIN_WARM_MS of continuous
+			// encoding, and three consecutive samples within tolerance.
+			const MIN_WARM_MS = 60_000;
+			const TOLERANCE = 0.03;
+			const MAX_PASSES = 15;
+			const samples = [];
+			const warmStart = Date.now();
 			let settled = false;
-			for (let pass = 0; pass < 6 && !settled; pass++) {
+			for (let pass = 0; pass < MAX_PASSES; pass++) {
 				const rec = await runApp(warmDriver, warmCtx, {
 					repetitions: 1,
 					discardFirst: false,
@@ -443,15 +452,23 @@ async function cmdRun({ flags }) {
 				});
 				const ms = rec.runs?.[0]?.exportMs ?? null;
 				if (!ms) break;
-				if (previous && Math.abs(ms - previous) / previous < 0.03) settled = true;
-				previous = ms;
+				samples.push(ms);
+				const elapsed = Date.now() - warmStart;
+				if (elapsed < MIN_WARM_MS || samples.length < 3) continue;
+				const last3 = samples.slice(-3);
+				if (Math.max(...last3) / Math.min(...last3) - 1 < TOLERANCE) {
+					settled = true;
+					break;
+				}
 			}
+			const last = samples.at(-1);
+			const first = samples[0];
 			log(
 				settled
-					? `GPU warmed to a steady ${(previous / 1000).toFixed(2)}s on the floor workload\n`
-					: `GPU warm-up did not settle (last ${previous ? (previous / 1000).toFixed(2) : "?"}s) — read driftRatio closely\n`,
+					? `GPU warmed over ${samples.length} passes: ${(first / 1000).toFixed(2)}s cold -> ${(last / 1000).toFixed(2)}s steady\n`
+					: `GPU warm-up did not settle after ${samples.length} passes (${(first / 1000).toFixed(2)}s -> ${(last / 1000).toFixed(2)}s) — read driftRatio closely\n`,
 			);
-			state.event("gpu-warmup", { settledMs: previous, settled });
+			state.event("gpu-warmup", { samples, settledMs: last, settled });
 		} catch (e) {
 			log(`GPU warm-up failed: ${e.message?.slice(0, 120)}\n`);
 		}
