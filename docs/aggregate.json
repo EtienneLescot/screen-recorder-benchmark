@@ -43,7 +43,7 @@
     {
       "a": "openscreen-cli",
       "b": "cap",
-      "logRatio": 0.0429179374610809,
+      "logRatio": 0.042917937,
       "weight": 0.5,
       "machine": "Apple M1"
     }
