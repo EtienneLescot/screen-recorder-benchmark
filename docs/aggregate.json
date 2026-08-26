@@ -129,7 +129,7 @@
           "Parsec was closed for this run — it encodes the screen through the same hardware H.264 block the exports use.",
           "Source is a local recording, not a public bundle: this submission is here as a worked example and is excluded from the aggregate for that reason."
         ],
-        "_path": "/Users/m1/Documents/repos/openscreen-benchmark/submissions/darwin/apple-m1-2026-08-25.json"
+        "_path": "submissions/darwin/apple-m1-2026-08-25.json"
       },
       "weight": 0.5,
       "reasons": [

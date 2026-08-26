@@ -65,7 +65,7 @@ function validate(node, sch, path = "") {
 }
 
 for (const sub of subs) {
-	const where = sub._path.replace(`${BENCH_ROOT}/`, "");
+	const where = sub._path;
 	const { _path, ...clean } = sub;
 	for (const e of validate(clean, schema, where)) problems.push(e);
 
