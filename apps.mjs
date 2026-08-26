@@ -2,9 +2,13 @@
  * The registry: which tools are in the benchmark, where each comes from, and what it costs to
  * obtain.
  *
- * Membership follows the roster in CANDIDATES.md, which is decided by what a tool is *for* —
- * turning a screen recording into a finished demo — not by which adapters happen to exist.
- * General-purpose editors and plain recorders are out even when they can be driven.
+ * Membership follows roster.json, which is decided by what a tool is *for* — turning a screen
+ * recording into a finished demo — not by which adapters happen to exist. General-purpose
+ * editors and plain recorders are out even when they can be driven. Each entry below names the
+ * roster tool it implements via `roster:`, and CANDIDATES.md's status table is generated from
+ * that join, so no list of tools is maintained by hand in two places.
+ *
+ * `ffmpeg-baseline` carries no `roster:` — it is the unit, not a candidate.
  *
  * Separate from the drivers on purpose — `preflight` has to be able to show the user the whole
  * download list, with sizes and licence terms, and get one approval for all of it *before*
@@ -18,6 +22,7 @@
  */
 export const APPS = {
 	"openscreen-cli": {
+		roster: "OpenScreen",
 		driver: "./drivers/openscreen-cli.mjs",
 		default: true,
 		install: {
@@ -30,11 +35,13 @@ export const APPS = {
 		},
 	},
 	"openscreen-gui": {
+		roster: "OpenScreen",
 		driver: "./drivers/openscreen-gui.mjs",
 		default: true,
 		sharesInstallWith: "openscreen-cli",
 	},
 	"screen-studio": {
+		roster: "Screen Studio",
 		blocker: "export requires an activated licence — there is no trial export",
 		// Off by default: export is licence-gated, so an unactivated machine would only ever
 		// record a failure. Enable it explicitly once a licence is activated.
@@ -56,6 +63,7 @@ export const APPS = {
 		},
 	},
 	cap: {
+		roster: "Cap",
 		driver: "./drivers/cap.mjs",
 		default: true,
 		install: {
@@ -70,6 +78,7 @@ export const APPS = {
 		},
 	},
 	focusee: {
+		roster: "FocuSee",
 		blocker: "the macOS build rejects every MP4, including real recordings; Windows untested",
 		driver: { darwin: "./drivers/focusee.mjs", win32: "./drivers/focusee-win.mjs" },
 		// On macOS the import is broken in 2.4.1 (see drivers/focusee.mjs); on Windows the

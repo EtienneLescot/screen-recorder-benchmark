@@ -13,7 +13,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const TARGETS = ["CREDITS.md", "docs"];
+const TARGETS = ["CREDITS.md", "CANDIDATES.md", "docs"];
 
 const digest = (p) => {
 	const abs = join(ROOT, p);
@@ -27,7 +27,7 @@ const digest = (p) => {
 };
 
 const before = Object.fromEntries(TARGETS.map((t) => [t, digest(t)]));
-for (const cmd of ["site", "credits"]) {
+for (const cmd of ["site", "credits", "roster"]) {
 	execFileSync(process.execPath, [join(ROOT, "bench.mjs"), cmd], { cwd: ROOT, stdio: "ignore" });
 }
 const stale = TARGETS.filter((t) => digest(t) !== before[t]);

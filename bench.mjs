@@ -775,6 +775,70 @@ carries no third-party rights.
 	log(`${join(BENCH_ROOT, "CREDITS.md")}  (${Object.keys(src.bundles).length} bundle(s))`);
 }
 
+/**
+ * Rewrite the roster tables inside CANDIDATES.md from roster.json.
+ *
+ * The roster used to be written out in prose here and machine-readable there, which is two
+ * copies of one fact — they had already drifted. roster.json is the source; this renders it.
+ */
+async function cmdRoster() {
+	const fs = await import("node:fs");
+	const tools = loadRoster(BENCH_ROOT);
+	const PLATFORMS = [
+		["macos", "macOS"],
+		["windows", "Windows"],
+		["linux", "Linux"],
+	];
+
+	const present = (v) => v === "✓" || v === "degraded";
+	const blocks = PLATFORMS.map(([key, label]) => {
+		const on = tools.filter((t) => present(t[key]));
+		const rows = on
+			.map((t) => `| **${t.tool}** | ${t[key] === "degraded" ? "degraded — " : ""}${t.note} |`)
+			.join("\n");
+		const absent = tools.filter((t) => !present(t[key]));
+		const tail = absent.length
+			? `\nNot on ${label}: ${absent.map((t) => t.tool).join(", ")}.\n`
+			: "";
+		return `### ${label} — ${on.length} of ${tools.length}\n\n| Tool | Status |\n|---|---|\n${rows}\n${tail}`;
+	});
+
+	// Which roster entries have an adapter, and why the rest do not — joined rather than listed.
+	const { APPS } = await import("./apps.mjs");
+	const adapters = new Map();
+	for (const [key, entry] of Object.entries(APPS)) {
+		if (!entry.roster) continue;
+		const prev = adapters.get(entry.roster) ?? { keys: [], blocker: null };
+		prev.keys.push(key);
+		prev.blocker ??= entry.blocker ?? null;
+		adapters.set(entry.roster, prev);
+	}
+	const statusRows = tools
+		.map((t) => {
+			const a = adapters.get(t.tool);
+			const adapter = a ? `yes (${a.keys.join(", ")})` : "**no**";
+			const blocker = a ? (a.blocker ?? "—") : "adapter wanted";
+			return `| ${t.tool} | ${adapter} | ${a && !a.blocker ? "yes" : "**no**"} | ${blocker} |`;
+		})
+		.join("\n");
+	const statusTable = `| Tool | Adapter | Measured | Blocker |\n|---|---|---|---|\n${statusRows}`;
+
+	const path = join(BENCH_ROOT, "CANDIDATES.md");
+	let doc = fs.readFileSync(path, "utf8");
+	const splice = (text, tag, body) => {
+		const START = `<!-- ${tag}:start -->`;
+		const END = `<!-- ${tag}:end -->`;
+		const i = text.indexOf(START);
+		const j = text.indexOf(END);
+		if (i < 0 || j < 0) throw new Error(`CANDIDATES.md is missing the ${tag} markers`);
+		return `${text.slice(0, i + START.length)}\n\n${body}\n${text.slice(j)}`;
+	};
+	doc = splice(doc, "roster", blocks.join("\n"));
+	doc = splice(doc, "status", statusTable);
+	fs.writeFileSync(path, doc);
+	log(`${path}  (${tools.length} tool(s), ${adapters.size} with adapters)`);
+}
+
 async function cmdSite() {
 	const fs = await import("node:fs");
 	const subs = collectSubmissions(BENCH_ROOT);
@@ -1035,6 +1099,7 @@ const commands = {
 	aggregate: cmdAggregate,
 	site: cmdSite,
 	credits: cmdCredits,
+	roster: cmdRoster,
 	"fetch-source": cmdFetchSource,
 	reverify: cmdReverify,
 	report: cmdReport,

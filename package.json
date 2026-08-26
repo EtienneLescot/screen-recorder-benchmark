@@ -18,7 +18,7 @@
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
 		"verify": "node scripts/validate-submissions.mjs && vitest --run && biome check . && node scripts/check-generated.mjs",
-		"fix": "biome check --write . && node bench.mjs site && node bench.mjs credits"
+		"fix": "biome check --write . && node bench.mjs site && node bench.mjs credits && node bench.mjs roster"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.12",

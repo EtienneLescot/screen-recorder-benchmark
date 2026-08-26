@@ -1,12 +1,12 @@
 {
-	"_comment": "Roster membership, decided by positioning — see CANDIDATES.md. n/a is a finding about the product, not a gap in this benchmark.",
+	"_comment": "Roster membership, decided by positioning — see CANDIDATES.md, whose platform tables are generated from this file. n/a is a finding about the product, not a gap in this benchmark.",
 	"tools": [
 		{
 			"tool": "OpenScreen",
 			"macos": "✓",
 			"windows": "✓",
 			"linux": "✓",
-			"note": "open source; the only member shipping on all three platforms"
+			"note": "open source (Electron); ships on all three platforms"
 		},
 		{
 			"tool": "Screen Studio",
@@ -38,17 +38,17 @@
 		},
 		{
 			"tool": "ScreenArc",
-			"macos": "✓?",
-			"windows": "✓?",
-			"linux": "n/a",
-			"note": "provenance unverified — one AlternativeTo listing"
+			"macos": "✓",
+			"windows": "✓",
+			"linux": "✓",
+			"note": "open source (Electron/ffmpeg); dmg, exe and AppImage — ships on all three platforms"
 		},
 		{
 			"tool": "Screenix",
 			"macos": "n/a",
 			"windows": "n/a",
-			"linux": "✓?",
-			"note": "provenance unverified — vendor site only"
+			"linux": "✓",
+			"note": "architectural peer (Rust/wgpu), Linux only by design; proprietary, paid"
 		}
 	]
 }

@@ -24,75 +24,86 @@ fall outside it are not carried.
 
 ## Roster
 
-The roster is per-platform, because the segment is. An empty cell is a finding.
+<!-- generated from roster.json by `node bench.mjs roster` — edit that file, not this block -->
+<!-- roster:start -->
 
-### macOS — 5 of 5, complete
+### macOS — 6 of 7
 
 | Tool | Status |
 |---|---|
-| **OpenScreen** | reference |
-| **Screen Studio** | defines the category |
-| **Cap** | the only architectural peer — Rust/WGSL |
-| **Recordly** | same lineage — Electron/Pixi |
+| **OpenScreen** | open source (Electron); ships on all three platforms |
+| **Screen Studio** | macOS only; defines the category |
+| **Cap** | architectural peer (Rust/WGSL); no Linux desktop build |
+| **Recordly** | Electron/Pixi; loses the rendered cursor on Linux, so S3 is n/a there |
 | **FocuSee** | closed source, widest feature coverage |
+| **ScreenArc** | open source (Electron/ffmpeg); dmg, exe and AppImage — ships on all three platforms |
 
-The only platform where the segment exists in full. ScreenArc would be sixth.
+Not on macOS: Screenix.
 
-### Windows — 5 of 5
-
-| Tool | Status |
-|---|---|
-| **OpenScreen** | reference |
-| **Cap** | architectural peer; ships `cap-cli.exe`, so it stays headless |
-| **Recordly** | same lineage |
-| **FocuSee** | also on the Microsoft Store |
-| **ScreenArc** | cross-platform claimed — **provenance unverified** |
-
-Screen Studio is absent by construction, and the table says so: *n/a — macOS only*, on the
-platform with the most users. That is a fact about the product, not a criticism.
-
-### Linux — 3, and the table is the result
+### Windows — 5 of 7
 
 | Tool | Status |
 |---|---|
-| **OpenScreen** | reference |
-| **Recordly** | degraded — their own documentation says so |
-| **Screenix** | closed source; Ubuntu/Fedora/Debian/GNOME — **provenance unverified** |
+| **OpenScreen** | open source (Electron); ships on all three platforms |
+| **Cap** | architectural peer (Rust/WGSL); no Linux desktop build |
+| **Recordly** | Electron/Pixi; loses the rendered cursor on Linux, so S3 is n/a there |
+| **FocuSee** | closed source, widest feature coverage |
+| **ScreenArc** | open source (Electron/ffmpeg); dmg, exe and AppImage — ships on all three platforms |
 
-Cap ships no Linux desktop build per its own README. FocuSee and Screen Studio have none either.
+Not on Windows: Screen Studio, Screenix.
 
-And the real result is in a cell rather than a number: **Recordly loses the rendered cursor on
-Linux** — Electron capture, no pointer masking — so **S3 is `n/a`** for it there. A three-row
-table with one incomplete row says more than any export time.
+### Linux — 4 of 7
 
-## Provenance, stated
+| Tool | Status |
+|---|---|
+| **OpenScreen** | open source (Electron); ships on all three platforms |
+| **Recordly** | degraded — Electron/Pixi; loses the rendered cursor on Linux, so S3 is n/a there |
+| **ScreenArc** | open source (Electron/ffmpeg); dmg, exe and AppImage — ships on all three platforms |
+| **Screenix** | architectural peer (Rust/wgpu), Linux only by design; proprietary, paid |
 
-Two roster entries rest on thin sourcing and are marked accordingly. Neither is measured until
-confirmed:
+Not on Linux: Screen Studio, Cap, FocuSee.
 
-- **ScreenArc** — one AlternativeTo listing (19 likes). If it does not hold up, **Rapidemo** is
-  the natural substitute on Windows, but it comes from the SEO swarm, so that slot is *to be
-  confirmed*, not awarded by default.
-- **Screenix** — its own site, cross-checked against an unnamed AlternativeTo entry describing
-  the same product. Positioning is identical to OpenScreen's, down to offline Whisper captions.
+<!-- roster:end -->
+
+The roster is per-platform, because the segment is. A tool missing from a platform, or listed as
+degraded on one, is a finding about that product rather than a gap in this benchmark — which is
+why the tables above are worth reading as results and not as coverage.
+
+## Provenance, checked
+
+Two entries were carried on thin sourcing and have since been verified at the vendor:
+
+- **ScreenArc** — [tamnguyenvan/screenarc](https://github.com/tamnguyenvan/screenarc), open
+  source, Electron + ffmpeg. Publishes a `.dmg` for both Apple architectures, a Windows
+  `Setup.exe` and a Linux AppImage. Backgrounds, shadows, pan-and-zoom on mouse activity,
+  webcam overlay. No CLI.
+- **Screenix** — [screenix.studio](https://screenix.studio/), proprietary and paid, Rust +
+  wgpu, native Wayland and X11. Linux is the whole product rather than a port, which is why its
+  macOS and Windows cells are `n/a` by design and not by omission. Auto-zoom on cursor activity,
+  styled camera with corner radius and shadow, cursor smoothing at export. No CLI.
+
+Both pass the filter at the top of this file. Neither has an adapter yet.
 
 ## Implementation status
 
-Roster membership and a working adapter are different things.
+Roster membership and a working adapter are different things. This table is generated by joining
+`roster.json` with the `roster:` field on each entry in `apps.mjs` — run `node bench.mjs apps` for
+the answer on the machine in front of you.
 
-`node bench.mjs apps` answers this for the machine in front of you. As of the last run:
+<!-- status:start -->
 
 | Tool | Adapter | Measured | Blocker |
 |---|---|---|---|
-| OpenScreen (CLI + GUI) | yes | yes | — |
-| Cap | yes | yes | — |
-| Screen Studio | yes | **no** | export gated behind account activation; supply a licence and it runs |
-| FocuSee | yes (macOS + Windows) | **no** | macOS build rejects every MP4, including real recordings; Windows untested |
-| Recordly | **no** | no | adapter wanted |
-| ScreenArc | **no** | no | provenance first |
-| Screenix | **no** | no | provenance first |
+| OpenScreen | yes (openscreen-cli, openscreen-gui) | yes | — |
+| Screen Studio | yes (screen-studio) | **no** | export requires an activated licence — there is no trial export |
+| Cap | yes (cap) | yes | — |
+| Recordly | **no** | **no** | adapter wanted |
+| FocuSee | yes (focusee) | **no** | the macOS build rejects every MP4, including real recordings; Windows untested |
+| ScreenArc | **no** | **no** | adapter wanted |
+| Screenix | **no** | **no** | adapter wanted |
+<!-- status:end -->
 
-`ffmpeg (re-encode floor)` is not a candidate. It is the unit.
+`ffmpeg (re-encode floor)` is not a candidate. It is the unit, and carries no roster entry.
 
 ## The adapter contract
 
