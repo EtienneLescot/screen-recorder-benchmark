@@ -6,7 +6,7 @@
 			"macos": "✓",
 			"windows": "✓",
 			"linux": "✓",
-			"note": "reference — maintained by this benchmark's author"
+			"note": "open source; the only member shipping on all three platforms"
 		},
 		{
 			"tool": "Screen Studio",
@@ -38,7 +38,7 @@
 		},
 		{
 			"tool": "ScreenArc",
-			"macos": "6th",
+			"macos": "✓?",
 			"windows": "✓?",
 			"linux": "n/a",
 			"note": "provenance unverified — one AlternativeTo listing"
