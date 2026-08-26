@@ -1,0 +1,132 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://github.com/EtienneLescot/screen-recorder-benchmark/schema/submission.schema.json",
+	"title": "Benchmark submission",
+	"description": "One machine's measurements, contributed to the aggregate. A submission carries at least two tools measured under the same conditions, because it is the ratio between them that travels — never the seconds.",
+	"type": "object",
+	"required": ["schemaVersion", "submittedAt", "machine", "scenario", "source", "measurements"],
+	"additionalProperties": false,
+	"properties": {
+		"schemaVersion": { "const": 1 },
+		"submittedAt": { "type": "string", "format": "date-time" },
+		"submitter": {
+			"type": "object",
+			"description": "Optional attribution for the run.",
+			"properties": {
+				"name": { "type": "string" },
+				"github": { "type": "string" }
+			},
+			"additionalProperties": false
+		},
+		"machine": {
+			"type": "object",
+			"required": ["platform", "chip", "cpuCount", "memoryGiB", "osVersion"],
+			"properties": {
+				"platform": { "enum": ["darwin", "win32", "linux"] },
+				"chip": { "type": "string" },
+				"gpu": { "type": ["string", "null"] },
+				"cpuCount": { "type": "integer", "minimum": 1 },
+				"memoryGiB": { "type": "number" },
+				"osVersion": { "type": "string" },
+				"osBuild": { "type": ["string", "null"] }
+			}
+		},
+		"conditions": {
+			"type": "object",
+			"description": "What the aggregate uses to decide whether a submission is trustworthy enough to weight normally.",
+			"properties": {
+				"onACPower": { "type": "boolean" },
+				"maxForeignCpuPercent": {
+					"type": "number",
+					"description": "Highest background load, excluding the tool being measured, seen during any scoring run."
+				},
+				"loadSpreadPercentagePoints": {
+					"type": "number",
+					"description": "Difference in background load between the busiest and quietest tool's leg. Large values mean the tools were not measured under the same conditions."
+				},
+				"driftRatio": {
+					"type": "number",
+					"description": "Closing control divided by opening control. 1.00 means the machine did not change underneath the run."
+				},
+				"remoteDesktopActive": {
+					"type": ["boolean", "null"],
+					"description": "Screen sharing encodes through the same hardware H.264 block the exports use; submissions with this true are down-weighted."
+				}
+			}
+		},
+		"scenario": {
+			"type": "object",
+			"required": ["step", "outputWidth", "outputHeight", "outputFps", "outputCodec"],
+			"properties": {
+				"step": {
+					"enum": ["S0", "S1", "S2", "S3", "S4", "S5"],
+					"description": "Which rung of the ladder. Only tools measured on the same rung may be compared."
+				},
+				"outputWidth": { "type": "integer" },
+				"outputHeight": { "type": "integer" },
+				"outputFps": { "type": "number" },
+				"outputCodec": { "type": "string" }
+			}
+		},
+		"source": {
+			"type": "object",
+			"required": ["kind"],
+			"properties": {
+				"kind": { "enum": ["public-bundle", "generated", "recording"] },
+				"bundle": { "type": ["string", "null"] },
+				"downloadSha256": {
+					"type": ["string", "null"],
+					"description": "Required for public-bundle: it is what proves two machines measured the same footage."
+				},
+				"normalisedSha256": { "type": ["string", "null"] },
+				"durationSec": { "type": "number" },
+				"frames": { "type": ["integer", "null"] }
+			}
+		},
+		"measurements": {
+			"type": "array",
+			"minItems": 2,
+			"description": "At least two tools. One tool contributes no ratio and cannot join the graph; no particular tool is required.",
+			"items": {
+				"type": "object",
+				"required": ["tool", "version", "exportMs", "fidelity", "verified"],
+				"additionalProperties": false,
+				"properties": {
+					"tool": {
+						"type": "string",
+						"description": "Registry id, e.g. \"cap\", \"openscreen-cli\"."
+					},
+					"version": { "type": "string" },
+					"exportMs": { "type": "number", "description": "Median of the scoring runs." },
+					"madMs": { "type": ["number", "null"] },
+					"runs": { "type": "integer", "minimum": 1 },
+					"localFloorMs": {
+						"type": ["number", "null"],
+						"description": "Floor measured beside this tool. Present, it is what makes the submission comparable across machines."
+					},
+					"cpuSeconds": { "type": ["number", "null"] },
+					"peakRssMiB": { "type": ["number", "null"] },
+					"foreignCpuPercent": { "type": ["number", "null"] },
+					"outputBytes": { "type": ["integer", "null"] },
+					"outputMeanVolumeDb": {
+						"type": ["number", "null"],
+						"description": "A silent track passes every check that only asks whether audio exists."
+					},
+					"fidelity": { "type": "number", "minimum": 0, "maximum": 1 },
+					"missing": { "type": "array", "items": { "type": "string" } },
+					"contradicted": {
+						"type": "array",
+						"items": { "type": "string" },
+						"description": "Features the tool reported as configured but the pixel verifier could not find in the output."
+					},
+					"verified": {
+						"type": "boolean",
+						"description": "Output passed metadata, pixel and audio verification. Unverified measurements are recorded and excluded from the ratio graph."
+					},
+					"automation": { "type": "string" }
+				}
+			}
+		},
+		"notes": { "type": "array", "items": { "type": "string" } }
+	}
+}
