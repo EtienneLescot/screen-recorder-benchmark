@@ -189,7 +189,7 @@ everywhere, and it does not follow the pointer visible in the footage. The manif
 ## 10. Submitting
 
 ```bash
-npm run bench -- --bundle wikipedia-browse --scenario full-demo
+npm run bench -- --bundle commons-upload --scenario full-demo
 node bench.mjs submit --run <runId> > submission.json
 ```
 

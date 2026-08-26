@@ -704,6 +704,51 @@ async function cmdAggregate({ flags }) {
 }
 
 /** Regenerate the published page from the submissions in the repository. */
+/**
+ * Regenerate CREDITS.md from sources.json.
+ *
+ * The footage is other people's work under licences that require attribution, so the credits
+ * have to follow the manifest rather than someone's memory of it. CI fails if this output
+ * differs from what is committed.
+ */
+async function cmdCredits() {
+	const fs = await import("node:fs");
+	const src = JSON.parse(fs.readFileSync(join(BENCH_ROOT, "sources.json"), "utf8"));
+	const name = (t) => decodeURIComponent(t.page.split("/File:").pop()).replace(/_/g, " ");
+	const track = (label, t) =>
+		`**${label}** — [${name(t)}](${t.page})\nby ${t.attribution}. Licensed **${t.licence}**.\n`;
+
+	const body = Object.entries(src.bundles)
+		.map(([bundle, b]) => {
+			const parts = [`## ${bundle}`, "", track("Screen track", b.screen)];
+			if (b.webcam) parts.push(track("Camera track", b.webcam));
+			return parts.join("\n");
+		})
+		.join("\n");
+
+	fs.writeFileSync(
+		join(BENCH_ROOT, "CREDITS.md"),
+		`# Credits
+
+The benchmark runs on public footage so that every machine measures the same bytes. Those clips
+are other people's work, under licences that ask for attribution. This file is that attribution,
+and it is generated from \`sources.json\` by \`node bench.mjs credits\` — if you add a bundle, add
+it there and regenerate.
+
+${body}
+No clip is redistributed by this repository. They are downloaded at run time, verified against
+the hashes in \`sources.json\`, and normalised locally; the exports made from them are not
+published.
+
+---
+
+The generated fixture (\`lib/fixture.mjs\`, \`lib/assets.mjs\`) is original to this repository and
+carries no third-party rights.
+`,
+	);
+	log(`${join(BENCH_ROOT, "CREDITS.md")}  (${Object.keys(src.bundles).length} bundle(s))`);
+}
+
 async function cmdSite() {
 	const fs = await import("node:fs");
 	const subs = collectSubmissions(BENCH_ROOT);
@@ -767,7 +812,7 @@ async function cmdApps() {
 	log("");
 	log("Pick your own with --apps:");
 	log(
-		`  node bench.mjs run --bundle wikipedia-browse --apps ${
+		`  node bench.mjs run --bundle commons-upload --apps ${
 			ready
 				.slice(0, 2)
 				.map((r) => r.id)
@@ -963,6 +1008,7 @@ const commands = {
 	submit: cmdSubmit,
 	aggregate: cmdAggregate,
 	site: cmdSite,
+	credits: cmdCredits,
 	"fetch-source": cmdFetchSource,
 	reverify: cmdReverify,
 	report: cmdReport,

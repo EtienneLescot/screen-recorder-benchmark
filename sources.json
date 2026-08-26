@@ -12,45 +12,47 @@
 		"",
 		"Codec note: the LGPL ffmpeg this benchmark prefers has no software AV1 decoder — its only",
 		"av1 entry is hardware-only, and fails on hardware without an AV1 block. Several otherwise",
-		"ideal Commons screencasts are AV1 and therefore unusable. Sources here are VP8/VP9."
+		"Codec note: the LGPL ffmpeg this benchmark prefers has no software AV1 decoder — its only av1 entry is hardware-only, and decoding an AV1 Commons file here yields zero frames. Several otherwise ideal 60 fps Commons screencasts are AV1 and therefore unusable. Sources here are VP8/VP9.",
+		"",
+		"Frame rate: sources are chosen at 60 fps native, matching the pinned output. A 25 fps source would leave every app converting the rate inside the interval being timed, and duplicating frames is not the same work as interpolating motion. Of 623 HD videos surveyed on Commons, 263 are >=50 fps and non-AV1, but only 32 are genuine 1920x1080 screen recordings at 60."
 	],
 	"bundles": {
-		"wikipedia-browse": {
-			"description": "A Wikipedia article browsed in a desktop browser, with a talking-head camera track — the shape of a real product demo.",
+		"commons-upload": {
+			"description": "A Wikimedia Commons upload walked through in a desktop browser, with a webcam-framed presenter track — the shape of a real product demo, recorded at the rate the benchmark exports at.",
 			"screen": {
-				"url": "https://upload.wikimedia.org/wikipedia/commons/5/58/Namespaces.webm",
-				"sha256": "781f882229f6768c",
+				"url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Wikimedia_Commons_media_upload_guide_%28screen_recording%29.webm",
+				"sha256": "f8f1cd1fab93e739",
 				"shaPrefix": true,
 				"width": 1920,
 				"height": 1080,
-				"durationSec": 216.76,
-				"codec": "vp8",
-				"licence": "CC BY-SA 4.0",
-				"attribution": "Ichdunich, via Wikimedia Commons",
-				"page": "https://commons.wikimedia.org/wiki/File:Namespaces.webm",
-				"fpsNative": 25
+				"fpsNative": 60,
+				"durationSec": 290.12,
+				"codec": "vp9",
+				"licence": "CC BY 4.0",
+				"attribution": "Status 401, via Wikimedia Commons",
+				"page": "https://commons.wikimedia.org/wiki/File:Wikimedia_Commons_media_upload_guide_(screen_recording).webm"
 			},
 			"webcam": {
-				"url": "https://upload.wikimedia.org/wikipedia/commons/8/82/Crear_una_cuenta_%E2%80%93_saludos.webm",
-				"sha256": "aca319e8efc30a9e",
+				"url": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Introduction_to_Maryana_Iskander_%28extended%29.webm",
+				"sha256": "0bb5362151c1d8e0",
 				"shaPrefix": true,
-				"width": 1280,
-				"height": 720,
-				"durationSec": 50.9,
-				"codec": "vp9",
+				"width": 1920,
+				"height": 1080,
+				"fpsNative": 60,
+				"durationSec": 232.86,
+				"codec": "vp8",
 				"licence": "CC BY-SA 4.0",
-				"attribution": "Wikimedia Foundation, via Wikimedia Commons",
-				"page": "https://commons.wikimedia.org/wiki/File:Crear_una_cuenta_%E2%80%93_saludos.webm",
-				"fpsNative": 25
+				"attribution": "Victor Grigas, via Wikimedia Commons",
+				"page": "https://commons.wikimedia.org/wiki/File:Introduction_to_Maryana_Iskander_(extended).webm"
 			},
 			"trimSec": 60,
 			"cursor": "generated",
+			"conformedFps": 60,
 			"notes": [
 				"Neither clip carries cursor telemetry — a downloaded video never does. The pointer track is generated from the fixture seed, so it is identical on every machine but does not follow the cursor visible in the footage.",
-				"Both clips are 25 fps at the source and are conformed to the 60 fps target during preparation, before any measurement starts. Left at 25, every app would have to convert the rate mid-export — duplicating frames is nearly free, interpolating motion is not — and the ratio would partly measure conversion strategy rather than compositing. The screen clip is also trimmed to the first 60 s.",
-				"Conforming 25 to 60 duplicates frames rather than inventing them: 35 of every 60 frames repeat, which compresses more cheaply than a native 60 fps capture would. Every app and the floor receive the identical file, so ratios hold, but absolute seconds from this bundle run lower than from native 60 fps footage."
-			],
-			"conformedFps": 60
+				"Both clips are 60 fps at the source, which is the rate the benchmark exports at. Preparation still passes them through ffmpeg -r 60 so the file handed to every app is constant-rate, but no frames are invented or repeated to get there.",
+				"The screen clip is trimmed to the first 60 s; the camera clip runs 232 s and is trimmed to the same window."
+			]
 		}
 	}
 }

@@ -17,7 +17,7 @@ node bench.mjs apps        # what can it measure, and what is missing
 node bench.mjs preflight   # the one interactive step — grant everything here
 node bench.mjs install     # unattended
 node bench.mjs calibrate   # once per machine
-node bench.mjs run --bundle wikipedia-browse
+node bench.mjs run --bundle commons-upload
 node bench.mjs report
 ```
 
@@ -40,7 +40,7 @@ ffmpeg-baseline       ready         8.1.2           cli
 Then pick any set:
 
 ```bash
-node bench.mjs run --bundle wikipedia-browse --apps cap,openscreen-cli
+node bench.mjs run --bundle commons-upload --apps cap,openscreen-cli
 ```
 
 `ffmpeg-baseline` is added automatically and is not a competitor — it is the unit everything
@@ -83,7 +83,7 @@ affects tools unequally.
 ## Contributing a measurement
 
 ```bash
-node bench.mjs run --bundle wikipedia-browse --apps <two or more tools>
+node bench.mjs run --bundle commons-upload --apps <two or more tools>
 node bench.mjs submit --run <runId> --as "your name" > submissions/<platform>/<chip>-<date>.json
 ```
 
