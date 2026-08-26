@@ -713,11 +713,12 @@ async function cmdSite() {
 		// The newest submission, not the wall clock: the reader wants to know how fresh the
 		// data is, and a build stamp would also make CI's staleness check fail every day
 		// simply because the date moved on.
-		generatedAt: subs
-			.map((s) => s.submittedAt ?? "")
-			.sort()
-			.at(-1)
-			?.slice(0, 10) ?? "no data",
+		generatedAt:
+			subs
+				.map((s) => s.submittedAt ?? "")
+				.sort()
+				.at(-1)
+				?.slice(0, 10) ?? "no data",
 		roster: loadRoster(BENCH_ROOT),
 	});
 	const out = join(BENCH_ROOT, "docs", "index.html");

@@ -151,3 +151,13 @@ docs/                  the published site, regenerated from submissions/
 
 MIT. The footage it downloads is other people's work under its own licences — see
 [CREDITS.md](./CREDITS.md).
+
+## Before you push
+
+```bash
+npm run verify
+```
+
+Runs exactly what CI runs: the submission schema, the unit tests, the linter, and a
+rebuild of `docs/` checked against what is committed. `npm run fix` applies the
+formatting and regenerates the site.

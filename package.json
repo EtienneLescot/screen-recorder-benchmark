@@ -2,7 +2,7 @@
 	"name": "screen-recorder-benchmark",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Export-time benchmark for desktop screen-demo apps \u2014 same recording, same edit, same stopwatch, verified in pixels and audio",
+	"description": "Export-time benchmark for desktop screen-demo apps — same recording, same edit, same stopwatch, verified in pixels and audio",
 	"type": "module",
 	"engines": {
 		"node": ">=22"
@@ -16,7 +16,9 @@
 		"report": "node bench.mjs report",
 		"test": "vitest --run",
 		"lint": "biome check .",
-		"lint:fix": "biome check --write ."
+		"lint:fix": "biome check --write .",
+		"verify": "node scripts/validate-submissions.mjs && vitest --run && biome check . && node bench.mjs site && git diff --quiet -- docs/ || (echo '\\ndocs/ is stale — commit the regenerated site' && exit 1)",
+		"fix": "biome check --write . && node bench.mjs site"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.12",
