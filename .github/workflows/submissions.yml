@@ -1,0 +1,57 @@
+name: submissions
+
+# A submission is data other people will read. CI's job is to make sure it is well-formed and
+# that the published page can never drift from what was merged — not to judge the numbers.
+
+on:
+  pull_request:
+    paths: ["submissions/**", "schema/**", "lib/**", "roster.json"]
+  push:
+    branches: [main]
+    paths: ["submissions/**", "schema/**", "lib/**", "roster.json", "docs/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "22", cache: npm }
+      - run: npm ci
+      - name: Validate every submission against the schema
+        run: node scripts/validate-submissions.mjs
+      - name: Unit tests
+        run: npx vitest --run
+      - name: Lint
+        run: npx biome check .
+      - name: Regenerate the site and fail if it is stale
+        run: |
+          node bench.mjs site
+          if ! git diff --quiet -- docs/; then
+            echo "::error::docs/ is out of date — run 'node bench.mjs site' and commit the result."
+            git --no-pager diff --stat -- docs/
+            exit 1
+          fi
+
+  publish:
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions: { pages: write, id-token: write }
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "22", cache: npm }
+      - run: npm ci
+      - run: node bench.mjs site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: docs }
+      - id: deploy
+        uses: actions/deploy-pages@v4

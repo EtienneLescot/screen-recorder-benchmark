@@ -1,0 +1,80 @@
+{
+	"schemaVersion": 1,
+	"submittedAt": "2026-08-26T08:23:37.201Z",
+	"submitter": {
+		"name": "Etienne Lescot"
+	},
+	"machine": {
+		"platform": "darwin",
+		"chip": "Apple M1",
+		"gpu": "Apple M1",
+		"cpuCount": 8,
+		"memoryGiB": 8,
+		"osVersion": "26.5",
+		"osBuild": "25F71"
+	},
+	"conditions": {
+		"onACPower": true,
+		"maxForeignCpuPercent": 341.5,
+		"loadSpreadPercentagePoints": 196.5,
+		"driftRatio": 0.9992,
+		"remoteDesktopActive": false
+	},
+	"scenario": {
+		"step": "S4",
+		"outputWidth": 1920,
+		"outputHeight": 1080,
+		"outputFps": 60,
+		"outputCodec": "h264"
+	},
+	"source": {
+		"kind": "recording",
+		"bundle": null,
+		"downloadSha256": null,
+		"normalisedSha256": "53eb22f8345c8a841e9058dec78a55f22a07e0079f50fd4906087e2d2640c40b",
+		"durationSec": 66.154,
+		"frames": 3969
+	},
+	"measurements": [
+		{
+			"tool": "openscreen-cli",
+			"version": "1.10.0-rc.3",
+			"exportMs": 24726,
+			"madMs": null,
+			"runs": 3,
+			"localFloorMs": 19701,
+			"cpuSeconds": 7.43,
+			"peakRssMiB": 551.5,
+			"foreignCpuPercent": 145,
+			"outputBytes": 67230074,
+			"outputMeanVolumeDb": null,
+			"fidelity": 1,
+			"missing": [],
+			"contradicted": [],
+			"verified": true,
+			"automation": "cli"
+		},
+		{
+			"tool": "cap",
+			"version": "0.5.9",
+			"exportMs": 23656,
+			"madMs": null,
+			"runs": 3,
+			"localFloorMs": 19675,
+			"cpuSeconds": 30.77,
+			"peakRssMiB": 1160.5,
+			"foreignCpuPercent": 260,
+			"outputBytes": 104677594,
+			"outputMeanVolumeDb": null,
+			"fidelity": 1,
+			"missing": [],
+			"contradicted": [],
+			"verified": true,
+			"automation": "cli"
+		}
+	],
+	"notes": [
+		"Parsec was closed for this run \u2014 it encodes the screen through the same hardware H.264 block the exports use.",
+		"Source is a local recording, not a public bundle: this submission is here as a worked example and is excluded from the aggregate for that reason."
+	]
+}
