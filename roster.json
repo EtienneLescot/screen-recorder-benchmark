@@ -1,11 +1,9 @@
 {
-	"_comment": "Roster membership, decided by positioning — see CANDIDATES.md, whose tables are generated from this file. Membership is per-platform and capped at the size of the segment on that platform; shipping on a platform does not earn a slot there.",
+	"_comment": "Roster membership, decided by positioning — see CANDIDATES.md, whose tables are generated from this file. Membership is per-platform: a table is the size of the segment on that platform, not a quota to fill.",
 	"_legend": {
 		"✓": "roster member on this platform",
-		"✓?": "claimed but unverified — not measured until confirmed",
 		"degraded": "member, but the product is degraded on this platform",
 		"n/a": "the product does not exist on this platform — a fact about it, not a gap here",
-		"surplus": "ships on this platform but sits outside its roster, which is already full",
 		"notes": "optional per-platform override of `note`, keyed by platform"
 	},
 	"tools": [
@@ -49,25 +47,6 @@
 			"notes": {
 				"windows": "closed source, widest feature coverage — also on the Microsoft Store"
 			}
-		},
-		{
-			"tool": "ScreenArc",
-			"macos": "surplus",
-			"windows": "✓",
-			"linux": "surplus",
-			"note": "open source, Electron/ffmpeg",
-			"notes": {
-				"windows": "cross-platform, verified at source — holds the fifth slot",
-				"macos": "would be sixth; the table is full",
-				"linux": "ships an AppImage; the Linux table is not capped, so this is a decision, not a limit"
-			}
-		},
-		{
-			"tool": "Screenix",
-			"macos": "n/a",
-			"windows": "n/a",
-			"linux": "✓",
-			"note": "closed source, Rust/wgpu — Ubuntu, Fedora, Debian, Arch, GNOME"
 		}
 	]
 }

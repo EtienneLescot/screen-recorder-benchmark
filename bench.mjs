@@ -790,36 +790,21 @@ async function cmdRoster() {
 		["linux", "Linux"],
 	];
 
-	// A slot is not the same as shipping. `surplus` means the product runs on the platform but
-	// sits outside a roster that is already full; `n/a` means it is not there at all. Collapsing
-	// the two would turn a positioning decision into a claim about the product.
-	const member = (v) => v === "✓" || v === "✓?" || v === "degraded";
+	// Membership, not capability: `n/a` says the product is not on the platform at all, which is
+	// the finding a short table carries.
+	const member = (v) => v === "✓" || v === "degraded";
 	const blocks = PLATFORMS.map(([key, label]) => {
 		const on = tools.filter((t) => member(t[key]));
 		const rows = on
 			.map((t) => {
 				// A per-platform note already says what the cell says; prefixing it repeats itself.
 				const own = t.notes?.[key];
-				const flag = own
-					? ""
-					: t[key] === "degraded"
-						? "degraded — "
-						: t[key] === "✓?"
-							? "**unverified** — "
-							: "";
+				const flag = !own && t[key] === "degraded" ? "degraded — " : "";
 				return `| **${t.tool}** | ${flag}${own ?? t.note} |`;
 			})
 			.join("\n");
-		const surplus = tools
-			.filter((t) => t[key] === "surplus")
-			.map((t) => (t.notes?.[key] ? `${t.tool} (${t.notes[key]})` : t.tool));
 		const missing = tools.filter((t) => t[key] === "n/a").map((t) => t.tool);
-		const tail = [
-			missing.length ? `Not on ${label}: ${missing.join(", ")}.` : "",
-			surplus.length ? `Ships on ${label} but outside the table: ${surplus.join(", ")}.` : "",
-		]
-			.filter(Boolean)
-			.join(" ");
+		const tail = missing.length ? `Not on ${label}: ${missing.join(", ")}.` : "";
 		return `### ${label} — ${on.length}\n\n| Tool | Status |\n|---|---|\n${rows}\n${tail ? `\n${tail}\n` : ""}`;
 	});
 

@@ -19,8 +19,22 @@ That filter excludes by definition, not by arbitration:
 - **Kap** — a recorder with no compositing at all.
 - The macOS shareware swarm and the Chrome-extension recorders — same reason.
 
-An adapter existing is not a reason to keep a tool in the roster, and adapters for tools that
-fall outside it are not carried.
+Passing that filter is necessary and not sufficient. A tool also has to have enough reach for its
+export time to mean something to anyone — a benchmark of products nobody runs measures nothing.
+Two were checked against the filter, pass it on features, and are out on reach:
+
+- **ScreenArc** — [tamnguyenvan/screenarc](https://github.com/tamnguyenvan/screenarc), open source,
+  Electron + ffmpeg, publishing a `.dmg` for both Apple architectures, a Windows `Setup.exe` and a
+  Linux AppImage. Backgrounds, shadows, pan-and-zoom on mouse activity, webcam overlay. Real, and
+  genuinely cross-platform — just not yet used widely enough to belong in the tables.
+- **Screenix** — [screenix.studio](https://screenix.studio/), proprietary, Rust + wgpu, native
+  Wayland and X11, Linux as the product rather than a port. Same conclusion, same reason.
+
+**Rapidemo** was raised as a Windows substitute and is not awarded a slot either: it comes out of
+the SEO swarm, which is a reason for scrutiny, not for a default place.
+
+Neither the filter nor reach is settled by an adapter existing, and adapters for tools outside the
+roster are not carried.
 
 ## Roster
 
@@ -37,9 +51,7 @@ fall outside it are not carried.
 | **Recordly** | same lineage — Electron/Pixi |
 | **FocuSee** | closed source, widest feature coverage |
 
-Not on macOS: Screenix. Ships on macOS but outside the table: ScreenArc (would be sixth; the table is full).
-
-### Windows — 5
+### Windows — 4
 
 | Tool | Status |
 |---|---|
@@ -47,53 +59,28 @@ Not on macOS: Screenix. Ships on macOS but outside the table: ScreenArc (would b
 | **Cap** | the only architectural peer — Rust/WGSL |
 | **Recordly** | same lineage — Electron/Pixi |
 | **FocuSee** | closed source, widest feature coverage — also on the Microsoft Store |
-| **ScreenArc** | cross-platform, verified at source — holds the fifth slot |
 
-Not on Windows: Screen Studio, Screenix.
+Not on Windows: Screen Studio.
 
-### Linux — 3
+### Linux — 2
 
 | Tool | Status |
 |---|---|
 | **OpenScreen** | reference |
 | **Recordly** | degraded, per their own documentation — the rendered cursor is lost, so S3 is n/a here |
-| **Screenix** | closed source, Rust/wgpu — Ubuntu, Fedora, Debian, Arch, GNOME |
 
-Not on Linux: Screen Studio, Cap, FocuSee. Ships on Linux but outside the table: ScreenArc (ships an AppImage; the Linux table is not capped, so this is a decision, not a limit).
+Not on Linux: Screen Studio, Cap, FocuSee.
 
 <!-- roster:end -->
 
-The roster is per-platform because the segment is, and each table is capped at the size of the
-segment on that platform rather than at a fixed number. A slot is therefore contested: shipping on
-a platform does not earn one, which is why a product can be present and still sit outside the
-table.
+Each table is the size of the segment on its platform. Windows has four rows because four of these
+products ship there, not because a fifth is missing; Linux has two for the same reason. Reading a
+short table as incomplete coverage gets it backwards — the shortness is the finding.
 
-Two cells carry the result rather than the method. **Screen Studio is `n/a` on Windows** — absent
-by construction from the platform with the most users, which is a fact about the product and not a
-tackle. And **Recordly is degraded on Linux**, by its own documentation, which costs it S3 there. A
-three-row Linux table with one incomplete row says more than any export time on it would.
-
-## Provenance
-
-The roster is capped at the size of the segment on each platform, so a slot is contested. One
-entry rested on thin sourcing and has since been checked at the vendor:
-
-- **ScreenArc** — the only source was an AlternativeTo listing with 19 likes, which is not enough
-  to award a slot. It holds up: [tamnguyenvan/screenarc](https://github.com/tamnguyenvan/screenarc),
-  open source, Electron + ffmpeg, 705 stars, publishing a `.dmg` for both Apple architectures, a
-  Windows `Setup.exe` and a Linux AppImage. Backgrounds, shadows, pan-and-zoom on mouse activity,
-  webcam overlay, no CLI. It takes the fifth Windows slot on that basis, so **Rapidemo** — the
-  natural substitute, but out of the SEO swarm — is not needed and was not awarded one by default.
-- **Screenix** — [screenix.studio](https://screenix.studio/), proprietary and paid, Rust + wgpu,
-  native Wayland and X11. Linux is the product rather than a port, which is what its macOS and
-  Windows cells mean.
-
-Verifying ScreenArc turned up one thing the roster did not anticipate: it ships a Linux AppImage.
-The Linux table is short because the segment is short there, not because it is capped at three, so
-that is a membership decision rather than a fact about the product — and until it is taken, the
-cell says `surplus`, not `n/a`.
-
-Neither entry has an adapter, and neither is measured.
+Two cells carry that result. **Screen Studio is `n/a` on Windows**, absent by construction from the
+platform with the most users, which is a fact about the product and not a tackle. And **Recordly is
+degraded on Linux**, by its own documentation, which costs it S3 there. A two-row Linux table with
+one incomplete row says more than any export time measured on it would.
 
 ## Implementation status
 
@@ -110,8 +97,6 @@ the answer on the machine in front of you.
 | Cap | yes (cap) | yes | — |
 | Recordly | **no** | **no** | adapter wanted |
 | FocuSee | yes (focusee) | **no** | the macOS build rejects every MP4, including real recordings; Windows untested |
-| ScreenArc | **no** | **no** | adapter wanted |
-| Screenix | **no** | **no** | adapter wanted |
 <!-- status:end -->
 
 `ffmpeg (re-encode floor)` is not a candidate. It is the unit, and carries no roster entry.
