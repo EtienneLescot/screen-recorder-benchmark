@@ -36,7 +36,7 @@ export default {
 			const banner = ffmpegVersion().banner;
 			const v = /ffmpeg version (\S+)/.exec(banner)?.[1] ?? "unknown";
 			return { installed: true, version: `${v} (${source.split(":")[0]})`, path: ffmpeg };
-		} catch (e) {
+		} catch {
 			return {
 				installed: false,
 				version: null,
@@ -85,9 +85,8 @@ export default {
 			"-r",
 			String(t.fps),
 			"-c:v",
-			"h264_videotoolbox",
-			"-b:v",
-			"20M",
+			enc.encoder,
+			...enc.rateArgs(20),
 			"-profile:v",
 			"high",
 			"-c:a",

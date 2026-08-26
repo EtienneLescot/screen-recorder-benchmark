@@ -579,6 +579,9 @@ async function cmdCalibrate({ flags }) {
 			outDir,
 			scenario,
 			source: fixture,
+			// Without these the calibrator solves padding against a scene with no wallpaper and
+			// no camera — a different composition from the one the run will measure.
+			assets: calibAssets,
 			log,
 			state: {},
 			run: { index: 0 },
