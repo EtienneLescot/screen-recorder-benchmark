@@ -1,0 +1,54 @@
+{
+	"_comment": [
+		"Public footage bundles. Every machine downloads the same bytes from a permanent URL and",
+		"checks the sha256 before using them, so a run on real footage is reproducible without",
+		"anybody having to ship a video file — which is what the generated fixture existed to work",
+		"around, and what a personal recording could never offer.",
+		"",
+		"Why Wikimedia: upload.wikimedia.org URLs are permanent and content-addressed by path, the",
+		"licence of every file is machine-readable, and nothing behind them expires or rotates.",
+		"Stock libraries were rejected: Pexels and Pixabay read as CC0 but forbid redistributing",
+		"content 'on a Standalone basis', and their URLs are not stable.",
+		"",
+		"Codec note: the LGPL ffmpeg this benchmark prefers has no software AV1 decoder — its only",
+		"av1 entry is hardware-only, and fails on hardware without an AV1 block. Several otherwise",
+		"ideal Commons screencasts are AV1 and therefore unusable. Sources here are VP8/VP9."
+	],
+	"bundles": {
+		"wikipedia-browse": {
+			"description": "A Wikipedia article browsed in a desktop browser, with a talking-head camera track — the shape of a real product demo.",
+			"screen": {
+				"url": "https://upload.wikimedia.org/wikipedia/commons/5/58/Namespaces.webm",
+				"sha256": "781f882229f6768c",
+				"shaPrefix": true,
+				"width": 1920,
+				"height": 1080,
+				"fps": 25,
+				"durationSec": 216.76,
+				"codec": "vp8",
+				"licence": "CC BY-SA 4.0",
+				"attribution": "Ichdunich, via Wikimedia Commons",
+				"page": "https://commons.wikimedia.org/wiki/File:Namespaces.webm"
+			},
+			"webcam": {
+				"url": "https://upload.wikimedia.org/wikipedia/commons/8/82/Crear_una_cuenta_%E2%80%93_saludos.webm",
+				"sha256": "aca319e8efc30a9e",
+				"shaPrefix": true,
+				"width": 1280,
+				"height": 720,
+				"fps": 25,
+				"durationSec": 50.9,
+				"codec": "vp9",
+				"licence": "CC BY-SA 4.0",
+				"attribution": "Wikimedia Foundation, via Wikimedia Commons",
+				"page": "https://commons.wikimedia.org/wiki/File:Crear_una_cuenta_%E2%80%93_saludos.webm"
+			},
+			"trimSec": 60,
+			"cursor": "generated",
+			"notes": [
+				"Neither clip carries cursor telemetry — a downloaded video never does. The pointer track is generated from the fixture seed, so it is identical on every machine but does not follow the cursor visible in the footage.",
+				"The screen clip is 25 fps and is trimmed to the first 60 s; the pinned output stays 60 fps for every app, as it must for OpenScreen."
+			]
+		}
+	}
+}
