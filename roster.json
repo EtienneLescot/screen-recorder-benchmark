@@ -1,0 +1,54 @@
+{
+	"_comment": "Roster membership, decided by positioning — see CANDIDATES.md. n/a is a finding about the product, not a gap in this benchmark.",
+	"tools": [
+		{
+			"tool": "OpenScreen",
+			"macos": "✓",
+			"windows": "✓",
+			"linux": "✓",
+			"note": "reference — maintained by this benchmark's author"
+		},
+		{
+			"tool": "Screen Studio",
+			"macos": "✓",
+			"windows": "n/a",
+			"linux": "n/a",
+			"note": "macOS only; defines the category"
+		},
+		{
+			"tool": "Cap",
+			"macos": "✓",
+			"windows": "✓",
+			"linux": "n/a",
+			"note": "architectural peer (Rust/WGSL); no Linux desktop build"
+		},
+		{
+			"tool": "Recordly",
+			"macos": "✓",
+			"windows": "✓",
+			"linux": "degraded",
+			"note": "Electron/Pixi; loses the rendered cursor on Linux, so S3 is n/a there"
+		},
+		{
+			"tool": "FocuSee",
+			"macos": "✓",
+			"windows": "✓",
+			"linux": "n/a",
+			"note": "closed source, widest feature coverage"
+		},
+		{
+			"tool": "ScreenArc",
+			"macos": "6th",
+			"windows": "✓?",
+			"linux": "n/a",
+			"note": "provenance unverified — one AlternativeTo listing"
+		},
+		{
+			"tool": "Screenix",
+			"macos": "n/a",
+			"windows": "n/a",
+			"linux": "✓?",
+			"note": "provenance unverified — vendor site only"
+		}
+	]
+}
