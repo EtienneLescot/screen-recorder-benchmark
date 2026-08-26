@@ -41,6 +41,7 @@ import {
 	pendingPermissionDialog,
 	primeAutomation,
 } from "./lib/permissions.mjs";
+import { remoteDesktopActive } from "./lib/platform.mjs";
 import { fetchBundle, loadSources } from "./lib/publicSource.mjs";
 import { renderReport } from "./lib/report.mjs";
 import { preconditionCheck, runApp } from "./lib/runner.mjs";
@@ -352,6 +353,13 @@ async function cmdRun({ flags }) {
 		machine: machineFingerprint(),
 		power: powerState(),
 		disk: diskState(),
+		// Recorded at the top of the run so the submission can state it instead of asking the
+		// submitter to remember. A streaming session is the heaviest down-weight in the protocol
+		// and the only condition a CPU reading cannot see.
+		conditions: (() => {
+			const r = remoteDesktopActive();
+			return { remoteDesktopActive: r.active, remoteDesktopReasons: r.reasons };
+		})(),
 		ffmpeg: (() => {
 			try {
 				return ffmpegVersion();

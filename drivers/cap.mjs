@@ -14,7 +14,7 @@ import { copyFileSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node
 import { join } from "node:path";
 import { convertCursorForCap, writeCapCursor } from "../lib/assets.mjs";
 import { resolveFfmpeg } from "../lib/env.mjs";
-import { appVersion, IS_WIN, resolveAppPath } from "../lib/platform.mjs";
+import { appVersion, IS_WIN, killProcesses, resolveAppPath } from "../lib/platform.mjs";
 
 export const CAP = {
 	macPath: "/Applications/Cap.app",
@@ -58,16 +58,9 @@ export default {
 
 	detect() {
 		if (!existsSync(CLI)) return { installed: false, version: null, path: null };
-		let version = null;
-		try {
-			version = execFileSync(
-				"/usr/bin/defaults",
-				["read", `${APP}/Contents/Info.plist`, "CFBundleShortVersionString"],
-				{ encoding: "utf8" },
-			).trim();
-		} catch {
-			/* keep null */
-		}
+		// appVersion() already branches on platform; the inline `defaults` call this replaces
+		// left every Windows row without a version, which the report prints as "—".
+		const version = appVersion(APP);
 		return { installed: true, version, path: CLI };
 	},
 
@@ -371,6 +364,11 @@ export default {
 	},
 
 	async cleanup() {
-		// Nothing to tear down: `cap export` is a one-shot process.
+		// True on macOS, not on Windows: there `cap-cli export` leaves a Cap process alive that
+		// keeps burning ~0.4 of a core indefinitely — measured at 2.56 CPU-seconds per 6 seconds
+		// while idle. Every later leg then inherits it. Across two runs of this benchmark Cap's own
+		// median went 23.0 s to 50.0 s while OpenScreen and the ffmpeg floor stayed flat in the
+		// same runs, because the second run was still sharing the machine with the first's orphan.
+		if (IS_WIN) killProcesses(["Cap", "cap-cli"]);
 	},
 };

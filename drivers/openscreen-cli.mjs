@@ -52,16 +52,9 @@ export default {
 
 	detect() {
 		if (!existsSync(BIN)) return { installed: false, version: null, path: null };
-		let version = null;
-		try {
-			version = execFileSync(
-				"/usr/bin/defaults",
-				["read", `${APP}/Contents/Info.plist`, "CFBundleShortVersionString"],
-				{ encoding: "utf8" },
-			).trim();
-		} catch {
-			/* unreadable plist — report installed without a version */
-		}
+		// appVersion() already branches on platform; the inline `defaults` call this replaces
+		// left every Windows row without a version, which the report prints as "—".
+		const version = appVersion(APP);
 		return { installed: true, version, path: BIN };
 	},
 
