@@ -19,6 +19,7 @@ import { join } from "node:path";
 import { CdpSession, DOM_HELPERS, listTargets } from "../lib/cdp.mjs";
 import { sleep } from "../lib/measure.mjs";
 import { buildProject } from "../lib/openscreenProject.mjs";
+import { appVersion, IS_WIN, resolveAppPath } from "../lib/platform.mjs";
 import {
 	activateApp,
 	appIsRunning,
@@ -27,9 +28,13 @@ import {
 	osa,
 	quitApp,
 } from "../lib/uiScript.mjs";
+import { OPENSCREEN } from "./openscreen-cli.mjs";
 
-const APP = "/Applications/Openscreen.app";
-const BIN = `${APP}/Contents/MacOS/Openscreen`;
+// Same bundle the CLI adapter resolves — the GUI is not a separate install. Hardcoding the
+// macOS path here meant `bench.mjs apps` reported openscreen-gui as "not installed" on a
+// Windows machine with OpenScreen sitting in Program Files.
+const APP = IS_WIN ? resolveAppPath(OPENSCREEN) : "/Applications/Openscreen.app";
+const BIN = APP ? (IS_WIN ? APP : `${APP}/Contents/MacOS/Openscreen`) : null;
 const PORT = 9335;
 
 const editorTarget = async () =>
@@ -47,18 +52,10 @@ export default {
 	install: null, // shares the install with openscreen-cli
 
 	detect() {
-		if (!existsSync(BIN)) return { installed: false, version: null, path: null };
-		let version = null;
-		try {
-			version = execFileSync(
-				"/usr/bin/defaults",
-				["read", `${APP}/Contents/Info.plist`, "CFBundleShortVersionString"],
-				{ encoding: "utf8" },
-			).trim();
-		} catch {
-			/* keep null */
-		}
-		return { installed: true, version, path: BIN };
+		if (!BIN || !existsSync(BIN)) return { installed: false, version: null, path: null };
+		// appVersion() already branches on platform; the inline `defaults` call this replaces
+		// left the Windows row without a version.
+		return { installed: true, version: appVersion(APP), path: BIN };
 	},
 
 	defaultPaddingControl(scenario) {
