@@ -10,9 +10,9 @@
 		"Stock libraries were rejected: Pexels and Pixabay read as CC0 but forbid redistributing",
 		"content 'on a Standalone basis', and their URLs are not stable.",
 		"",
-		"Codec note: the LGPL ffmpeg this benchmark prefers has no software AV1 decoder — its only",
+		"Codec note: sources are VP8/VP9 because AV1 is not portable between submitters. Whether an AV1 file decodes depends on the ffmpeg a machine happens to have: the LGPL build this benchmark prefers carries only a hardware av1 entry and yields zero frames on hardware without an AV1 block, while a GPL build with libaom or dav1d decodes it fine. Both were observed on the same Mac. Several otherwise ideal 60 fps Commons screencasts are AV1 and are unusable for that reason.",
 		"av1 entry is hardware-only, and fails on hardware without an AV1 block. Several otherwise",
-		"Codec note: the LGPL ffmpeg this benchmark prefers has no software AV1 decoder — its only av1 entry is hardware-only, and decoding an AV1 Commons file here yields zero frames. Several otherwise ideal 60 fps Commons screencasts are AV1 and therefore unusable. Sources here are VP8/VP9.",
+		"Codec note: sources are VP8/VP9 because AV1 is not portable between submitters. Whether an AV1 file decodes depends on the ffmpeg a machine happens to have: the LGPL build this benchmark prefers carries only a hardware av1 entry and yields zero frames on hardware without an AV1 block, while a GPL build with libaom or dav1d decodes it fine. Both were observed on the same Mac. Several otherwise ideal 60 fps Commons screencasts are AV1 and are unusable for that reason.",
 		"",
 		"Frame rate: sources are chosen at 60 fps native, matching the pinned output. A 25 fps source would leave every app converting the rate inside the interval being timed, and duplicating frames is not the same work as interpolating motion. Of 623 HD videos surveyed on Commons, 263 are >=50 fps and non-AV1, but only 32 are genuine 1920x1080 screen recordings at 60."
 	],

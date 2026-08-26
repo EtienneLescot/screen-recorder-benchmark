@@ -77,6 +77,24 @@ export const APPS = {
 			],
 		},
 	},
+	recordly: {
+		roster: "Recordly",
+		// No driver yet: the roster is decided by positioning, so a member with no adapter is a
+		// gap worth showing rather than an entry worth hiding. surveyApps reports it as
+		// unsupported on every platform until one lands.
+		driver: null,
+		install: {
+			method: "dmg",
+			url: "https://github.com/webadderallorg/Recordly/releases/download/v1.3.3/Recordly-arm64.dmg",
+			appName: "Recordly.app",
+			approxMB: 220,
+			licence: "open source, free — no account or activation needed",
+			notes: [
+				"Official repository is webadderallorg/Recordly; a swarm of same-named forks exists, so pin the org.",
+				"Signed by Fido Tech (54QUWA9PZA).",
+			],
+		},
+	},
 	focusee: {
 		roster: "FocuSee",
 		blocker: "the macOS build rejects every MP4, including real recordings; Windows untested",
