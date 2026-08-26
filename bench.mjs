@@ -51,6 +51,12 @@ import { prepareBundle } from "./lib/sourceBundle.mjs";
 import { newRunId, RunState } from "./lib/state.mjs";
 import { buildSubmission, collectSubmissions, renderAggregate } from "./lib/submission.mjs";
 import {
+	IS_WIN,
+	appIsRunning as uiAppIsRunning,
+	describeApp as uiDescribeApp,
+	launchApp as uiLaunchApp,
+} from "./lib/ui.mjs";
+import {
 	appIsRunning,
 	describeWindow,
 	dumpMenus,
@@ -1113,12 +1119,31 @@ async function cmdDiscover({ positional, flags }) {
 
 	log(`# ${driver.displayName}`);
 	log(`bundle: ${driver.appPath}`);
-	log(`AppleScript dictionary: ${hasScriptingDictionary(driver.appPath) ? "YES" : "no"}`);
-	if (!appIsRunning(driver.processName)) {
-		log(`launching ${driver.processName}…`);
-		await launchApp(driver.appPath, driver.processName);
-		await new Promise((r) => setTimeout(r, 4000));
+	if (!IS_WIN) {
+		log(`AppleScript dictionary: ${hasScriptingDictionary(driver.appPath) ? "YES" : "no"}`);
 	}
+
+	// Through lib/ui.mjs, not lib/uiScript.mjs. This command reached for osascript directly, so
+	// the one tool the README points a Windows adapter author at — "discover dumps the real tree
+	// on the target machine" — died on `spawnSync /usr/bin/osascript ENOENT` on Windows.
+	if (!uiAppIsRunning(driver.processName)) {
+		log(`launching ${driver.processName}…`);
+		await uiLaunchApp(driver.appPath, driver.processName);
+		await new Promise((r) => setTimeout(r, 6000));
+	}
+
+	if (IS_WIN) {
+		// Windows has no menu bar to dump: UIA exposes named controls instead, which is what a
+		// driver here matches on.
+		log("\n## Controls (UI Automation)");
+		try {
+			log(uiDescribeApp(driver.processName));
+		} catch (e) {
+			log(`(could not read the control tree: ${e.message})`);
+		}
+		return;
+	}
+
 	log("\n## Menus");
 	log(JSON.stringify(dumpMenus(driver.processName), null, 1));
 	log("\n## Window accessibility tree");
