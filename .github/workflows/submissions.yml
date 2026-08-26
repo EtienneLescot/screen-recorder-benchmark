@@ -1,14 +1,12 @@
-name: submissions
+name: ci
 
 # A submission is data other people will read. CI's job is to make sure it is well-formed and
 # that the published page can never drift from what was merged — not to judge the numbers.
 
 on:
   pull_request:
-    paths: ["submissions/**", "schema/**", "lib/**", "roster.json"]
   push:
     branches: [main]
-    paths: ["submissions/**", "schema/**", "lib/**", "roster.json", "docs/**"]
 
 permissions:
   contents: read
