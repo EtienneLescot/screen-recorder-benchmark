@@ -25,6 +25,11 @@ import { clickControl, describeApp, fileDialogTo, setControlValue } from "../lib
 export const FOCUSEE = {
 	macPath: "/Applications/FocuSee.app",
 	winPaths: [
+		// The vendor is iMobie now — the MSI on the Microsoft Store is signed "iMobie Inc." and
+		// installs to Program Files (x86)\\iMobie\\FocuSee. Only the Gemoo paths were listed, so
+		// detect() reported "not installed" on a machine where FocuSee was sitting right there.
+		"%ProgramFiles(x86)%\\iMobie\\FocuSee\\FocuSee.exe",
+		"%ProgramFiles%\\iMobie\\FocuSee\\FocuSee.exe",
 		"%ProgramFiles%\\Gemoo\\FocuSee\\FocuSee.exe",
 		"%ProgramFiles(x86)%\\Gemoo\\FocuSee\\FocuSee.exe",
 		"%LOCALAPPDATA%\\Programs\\FocuSee\\FocuSee.exe",
