@@ -1,41 +1,41 @@
 {
   "tools": [
     {
-      "tool": "cap",
+      "tool": "openscreen-cli",
       "component": 0,
       "relativeCost": 1,
       "submissions": 1,
       "machines": [
-        "Apple M1"
+        "AMD Ryzen 7 5800X 8-Core Processor             "
       ],
       "platforms": [
-        "darwin"
+        "win32"
+      ],
+      "versions": [
+        "1.10.0.0"
+      ],
+      "observedCostRange": [
+        1.077,
+        1.077
+      ]
+    },
+    {
+      "tool": "cap",
+      "component": 0,
+      "relativeCost": 2.351,
+      "submissions": 1,
+      "machines": [
+        "AMD Ryzen 7 5800X 8-Core Processor             "
+      ],
+      "platforms": [
+        "win32"
       ],
       "versions": [
         "0.5.9"
       ],
       "observedCostRange": [
-        1.202,
-        1.202
-      ]
-    },
-    {
-      "tool": "openscreen-cli",
-      "component": 0,
-      "relativeCost": 1.044,
-      "submissions": 1,
-      "machines": [
-        "Apple M1"
-      ],
-      "platforms": [
-        "darwin"
-      ],
-      "versions": [
-        "1.10.0-rc.3"
-      ],
-      "observedCostRange": [
-        1.255,
-        1.255
+        2.531,
+        2.531
       ]
     }
   ],
@@ -43,12 +43,100 @@
     {
       "a": "openscreen-cli",
       "b": "cap",
-      "logRatio": 0.042917937,
-      "weight": 0.5,
-      "machine": "Apple M1"
+      "logRatio": -0.85473137,
+      "weight": 1,
+      "machine": "AMD Ryzen 7 5800X 8-Core Processor             "
     }
   ],
   "used": [
+    {
+      "sub": {
+        "schemaVersion": 1,
+        "submittedAt": "2026-08-26T14:29:56.614Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "win32",
+          "chip": "AMD Ryzen 7 5800X 8-Core Processor             ",
+          "gpu": "NVIDIA GeForce RTX 4070 Ti",
+          "cpuCount": 16,
+          "memoryGiB": 31.9,
+          "osVersion": "10.0.26200",
+          "osBuild": "26200"
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 96,
+          "loadSpreadPercentagePoints": 14.5,
+          "driftRatio": 0.9997,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "9162881a929643de62a4a97dee57571d514878d727585da60709bf4dfefd0d53",
+          "durationSec": 60.007,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "openscreen-cli",
+            "version": "1.10.0.0",
+            "exportMs": 9845,
+            "madMs": null,
+            "runs": 5,
+            "localFloorMs": 9143,
+            "cpuSeconds": 4.73,
+            "peakRssMiB": 798.7,
+            "foreignCpuPercent": 76.5,
+            "outputBytes": 36693461,
+            "outputMeanVolumeDb": null,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "cap",
+            "version": "0.5.9",
+            "exportMs": 23219,
+            "madMs": null,
+            "runs": 5,
+            "localFloorMs": 9173,
+            "cpuSeconds": 43.83,
+            "peakRssMiB": 1380.3,
+            "foreignCpuPercent": 62,
+            "outputBytes": 151113212,
+            "outputMeanVolumeDb": null,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          }
+        ],
+        "notes": [],
+        "_path": "submissions/win32/amd-ryzen-7-5800x-2026-08-26.json"
+      },
+      "weight": 1,
+      "reasons": [],
+      "tools": [
+        "openscreen-cli",
+        "cap"
+      ]
+    }
+  ],
+  "skipped": [
     {
       "sub": {
         "schemaVersion": 1,
@@ -131,17 +219,9 @@
         ],
         "_path": "submissions/darwin/apple-m1-2026-08-25.json"
       },
-      "weight": 0.5,
-      "reasons": [
-        "background load differed by 197 points between tools"
-      ],
-      "tools": [
-        "openscreen-cli",
-        "cap"
-      ]
+      "why": "source is recording — only public-bundle footage is comparable across machines"
     }
   ],
-  "skipped": [],
   "components": [
     [
       "cap",
@@ -157,7 +237,7 @@
     "worst": {
       "a": "openscreen-cli",
       "b": "cap",
-      "machine": "Apple M1",
+      "machine": "AMD Ryzen 7 5800X 8-Core Processor             ",
       "disagreementPercent": 0
     }
   },
