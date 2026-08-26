@@ -23,12 +23,12 @@
 				"shaPrefix": true,
 				"width": 1920,
 				"height": 1080,
-				"fps": 25,
 				"durationSec": 216.76,
 				"codec": "vp8",
 				"licence": "CC BY-SA 4.0",
 				"attribution": "Ichdunich, via Wikimedia Commons",
-				"page": "https://commons.wikimedia.org/wiki/File:Namespaces.webm"
+				"page": "https://commons.wikimedia.org/wiki/File:Namespaces.webm",
+				"fpsNative": 25
 			},
 			"webcam": {
 				"url": "https://upload.wikimedia.org/wikipedia/commons/8/82/Crear_una_cuenta_%E2%80%93_saludos.webm",
@@ -36,19 +36,21 @@
 				"shaPrefix": true,
 				"width": 1280,
 				"height": 720,
-				"fps": 25,
 				"durationSec": 50.9,
 				"codec": "vp9",
 				"licence": "CC BY-SA 4.0",
 				"attribution": "Wikimedia Foundation, via Wikimedia Commons",
-				"page": "https://commons.wikimedia.org/wiki/File:Crear_una_cuenta_%E2%80%93_saludos.webm"
+				"page": "https://commons.wikimedia.org/wiki/File:Crear_una_cuenta_%E2%80%93_saludos.webm",
+				"fpsNative": 25
 			},
 			"trimSec": 60,
 			"cursor": "generated",
 			"notes": [
 				"Neither clip carries cursor telemetry — a downloaded video never does. The pointer track is generated from the fixture seed, so it is identical on every machine but does not follow the cursor visible in the footage.",
-				"The screen clip is 25 fps and is trimmed to the first 60 s; the pinned output stays 60 fps for every app, as it must for OpenScreen."
-			]
+				"Both clips are 25 fps at the source and are conformed to the 60 fps target during preparation, before any measurement starts. Left at 25, every app would have to convert the rate mid-export — duplicating frames is nearly free, interpolating motion is not — and the ratio would partly measure conversion strategy rather than compositing. The screen clip is also trimmed to the first 60 s.",
+				"Conforming 25 to 60 duplicates frames rather than inventing them: 35 of every 60 frames repeat, which compresses more cheaply than a native 60 fps capture would. Every app and the floor receive the identical file, so ratios hold, but absolute seconds from this bundle run lower than from native 60 fps footage."
+			],
+			"conformedFps": 60
 		}
 	}
 }

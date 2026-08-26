@@ -45,6 +45,19 @@ difference into a speed comparison. Submit it if you like; it is aggregated sepa
 60 rather than 30 because one tool's MP4 export is fixed at 60 and every other tool can be told
 to emit 60 — it is the only rate on which identical output is achievable at all.
 
+**The input is conformed to that rate too.** The public footage is 25 fps at the source, and a
+25 fps input with a 60 fps target leaves every app converting the rate inside the interval being
+timed. That is not equal work: duplicating frames costs almost nothing, interpolating motion
+costs a great deal, and a tool that did the expensive thing would look slow for doing more. The
+bundle is therefore conformed to 60 fps during preparation, once, by ffmpeg, before the stopwatch
+starts.
+
+The trade this makes is worth stating: conforming 25 to 60 repeats frames rather than inventing
+them, so 35 of every 60 frames are duplicates and encode more cheaply than a native 60 fps
+capture would. Every app and the floor read the identical file, so the ratios hold — but absolute
+seconds from a bundle run are lower than from native 60 fps footage, and the two are not
+interchangeable.
+
 An export that does not hit the target is a **failure**, not a fast run.
 
 ## 4. Verification — an output has to earn its number
