@@ -408,6 +408,72 @@ async function cmdRun({ flags }) {
 	const results = prior.filter((r) => !apps.includes(r.app));
 	const localFloor = new Map();
 	const interleaveFloor = !flags["no-local-floor"] && apps.length > 1;
+	// Bring the GPU to its steady clock before anything is measured.
+	//
+	// An NVIDIA card boosts while it is cool and settles lower under sustained load, and the
+	// first leg of a run gets the whole boost window to itself. Measured here: the first leg's
+	// floor came out at 7.64 s while every later measurement — the second leg's floor and both
+	// closing-control runs — sat at 9.15-9.24 s. That is not noise the per-leg warm-up can
+	// absorb, because all four of the first floor's runs land inside the boosted window; it is
+	// a bias attached to leg order, and it moved driftRatio to 1.202, which quarters the
+	// submission's weight.
+	//
+	// So: run the floor workload, discarding every result, until two consecutive samples agree.
+	// Costs about a minute against a run of many.
+	if (interleaveFloor) {
+		try {
+			const warmDriver = await loadDriver("ffmpeg-baseline");
+			const warmCtx = {
+				workDir: WORK_DIR,
+				outDir,
+				scenario,
+				source: fixture,
+				assets,
+				log: () => undefined,
+				state: {},
+			};
+			// Convergence alone is not enough, and the first version of this got it wrong: two
+			// back-to-back exports agree while the clock is still boosted, so it "settled" at 7.73 s
+			// — the boosted figure — and warmed nothing. Steady state needs sustained load for a
+			// while *and* a flat trend, so both are required: at least MIN_WARM_MS of continuous
+			// encoding, and three consecutive samples within tolerance.
+			const MIN_WARM_MS = 60_000;
+			const TOLERANCE = 0.03;
+			const MAX_PASSES = 15;
+			const samples = [];
+			const warmStart = Date.now();
+			let settled = false;
+			for (let pass = 0; pass < MAX_PASSES; pass++) {
+				const rec = await runApp(warmDriver, warmCtx, {
+					repetitions: 1,
+					discardFirst: false,
+					cooldownSec: 0,
+					log: () => undefined,
+				});
+				const ms = rec.runs?.[0]?.exportMs ?? null;
+				if (!ms) break;
+				samples.push(ms);
+				const elapsed = Date.now() - warmStart;
+				if (elapsed < MIN_WARM_MS || samples.length < 3) continue;
+				const last3 = samples.slice(-3);
+				if (Math.max(...last3) / Math.min(...last3) - 1 < TOLERANCE) {
+					settled = true;
+					break;
+				}
+			}
+			const last = samples.at(-1);
+			const first = samples[0];
+			log(
+				settled
+					? `GPU warmed over ${samples.length} passes: ${(first / 1000).toFixed(2)}s cold -> ${(last / 1000).toFixed(2)}s steady\n`
+					: `GPU warm-up did not settle after ${samples.length} passes (${(first / 1000).toFixed(2)}s -> ${(last / 1000).toFixed(2)}s) — read driftRatio closely\n`,
+			);
+			state.event("gpu-warmup", { samples, settledMs: last, settled });
+		} catch (e) {
+			log(`GPU warm-up failed: ${e.message?.slice(0, 120)}\n`);
+		}
+	}
+
 	for (const [i, id] of apps.entries()) {
 		let driver;
 		try {
