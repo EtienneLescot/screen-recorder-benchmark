@@ -135,7 +135,25 @@ Not a judgement of submitters — only the conditions that provably move a ratio
 
 Weighting applies to every submission identically.
 
-## 8. Footage
+## 8. Versions
+
+**Tools are measured as shipped, not pinned.** The question is how the current products compare,
+and half of these vendors publish no version-addressable download at all — a stable "latest" URL
+is the only thing some of them offer.
+
+What that costs, and how it is paid:
+
+- Every measurement records the version it measured, and it travels with the submission.
+- Where a tool's submissions span more than one build, the aggregate and the site **say so** and
+  name the versions. A number resting on two builds is not a number about one product.
+- Install specs resolve at install time rather than hard-coding a URL. A pinned URL keeps
+  fetching an old build long after the vendor has moved on, and does it silently — which is
+  worse than either policy chosen deliberately.
+
+A submission measuring a prerelease is valid, and its version string says so. Comparing a
+prerelease against a competitor's stable build is a choice the reader can see and weigh.
+
+## 9. Footage
 
 Three sources, in descending order of how well they travel:
 
@@ -155,7 +173,7 @@ encoders differ.
 Downloaded footage carries no cursor telemetry, so it is generated from a fixed seed: identical
 everywhere, and it does not follow the pointer visible in the footage. The manifest says so.
 
-## 9. Submitting
+## 10. Submitting
 
 ```bash
 npm run bench -- --bundle wikipedia-browse --scenario full-demo

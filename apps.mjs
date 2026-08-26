@@ -42,9 +42,11 @@ export const APPS = {
 		driver: { darwin: "./drivers/screen-studio.mjs" },
 		default: false,
 		install: {
-			method: "dmg",
-			url: "https://screenstudioassets.com/releases/3.7.5-4595/Screen%20Studio%203.7.5-4595%20Apple%20Silicon.dmg",
-			version: "3.7.5-4595",
+			// Resolved from the vendor's page at install time, not pinned: a hard-coded URL keeps
+			// installing an old build long after the vendor has moved on, and does it silently.
+			method: "page",
+			page: "https://screen.studio/download",
+			assetPattern: /https:\/\/screenstudioassets\.com\/releases\/[^"' ]*Apple%20Silicon\.dmg/,
 			appName: "Screen Studio.app",
 			approxMB: 349,
 			licence: "commercial — trial exports carry a watermark (which does not change render time)",
