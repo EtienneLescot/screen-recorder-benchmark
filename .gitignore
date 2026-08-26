@@ -1,0 +1,7 @@
+node_modules/
+.cache/
+results/*/
+results/install.json
+results/preflight.json
+# Exports and fixtures are large and machine-specific; the results JSON records their hashes.
+work/

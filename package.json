@@ -1,0 +1,30 @@
+{
+	"name": "screen-recorder-benchmark",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Export-time benchmark for desktop screen-demo apps \u2014 same recording, same edit, same stopwatch, verified in pixels and audio",
+	"type": "module",
+	"engines": {
+		"node": ">=22"
+	},
+	"scripts": {
+		"doctor": "node bench.mjs doctor",
+		"preflight": "node bench.mjs preflight --launch",
+		"install:apps": "node bench.mjs install",
+		"calibrate": "node bench.mjs calibrate",
+		"bench": "node bench.mjs run",
+		"report": "node bench.mjs report",
+		"test": "vitest --run",
+		"lint": "biome check .",
+		"lint:fix": "biome check --write ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.12",
+		"vitest": "^4.1.10"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/EtienneLescot/screen-recorder-benchmark.git"
+	}
+}
