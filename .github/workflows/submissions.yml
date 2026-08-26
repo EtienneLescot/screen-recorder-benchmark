@@ -31,6 +31,9 @@ jobs:
           if ! git diff --quiet -- docs/; then
             echo "::error::docs/ is out of date — run 'node bench.mjs site' and commit the result."
             git --no-pager diff --stat -- docs/
+            # Show the change itself, not just the file name: when this fires it is usually
+            # one value that is not reproducible across platforms, and --stat cannot say which.
+            git --no-pager diff -U0 -- docs/aggregate.json | head -40
             exit 1
           fi
 
