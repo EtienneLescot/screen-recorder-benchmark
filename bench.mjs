@@ -36,6 +36,7 @@ import {
 } from "./lib/env.mjs";
 import { buildFixture, DEFAULT_SPEC, fixturePath, probe, sha256 } from "./lib/fixture.mjs";
 import { installApp } from "./lib/install.mjs";
+import { median } from "./lib/measure.mjs";
 import {
 	accessibilityGranted,
 	pendingPermissionDialog,
@@ -453,10 +454,20 @@ async function cmdRun({ flags }) {
 						log: () => undefined,
 						state: {},
 					},
-					{ repetitions: 1, discardFirst: false, cooldownSec: 5, log: () => undefined },
+					// The same shape as the tools this divides: a discarded warm-up, then a median.
+					// Measured once and cold, the denominator of the headline number was the
+					// noisiest thing in the run — two legs of one run disagreed by 15 %, which
+					// moved a tool's published cost from 1.284× to 1.077× while the other tool,
+					// whose two floors happened to agree, stayed put to 0.4 %. And because an
+					// aggregate edge is log((exportA/floorA) / (exportB/floorB)), floors that
+					// disagree do not cancel — that noise goes straight into the ranking.
+					// Four short ffmpeg runs per leg, about 50 s, against a leg that already
+					// costs several minutes.
+					{ repetitions: 3, discardFirst: true, cooldownSec: 5, log: () => undefined },
 				);
-				const ms = floorRec.runs?.[0]?.exportMs ?? null;
-				const bg = floorRec.runs?.[0]?.foreignCpuPercent ?? null;
+				const scored = (floorRec.runs ?? []).filter((r) => !r.warmup && r.ok);
+				const ms = median(scored.map((r) => r.exportMs).filter((x) => x != null));
+				const bg = median(scored.map((r) => r.foreignCpuPercent).filter((x) => x != null));
 				localFloor.set(id, { exportMs: ms, foreignCpuPercent: bg });
 				if (ms) log(`  local floor for ${id}: ${(ms / 1000).toFixed(2)}s at ${bg}% background`);
 			} catch (e) {
@@ -519,9 +530,12 @@ async function cmdRun({ flags }) {
 		};
 		try {
 			const rec = await runApp(driver, baseCtx, {
-				repetitions: 2,
-				discardFirst: false,
-				cooldownSec,
+				// Same shape as the opening floor, or the drift ratio compares a median against
+				// a cold single sample and reports the difference between two protocols as
+				// drift. The short cooldown is the opening floor's, for the same reason.
+				repetitions: 3,
+				discardFirst: true,
+				cooldownSec: 5,
 				log,
 			});
 			rec.app = "ffmpeg-baseline-close";
