@@ -49,8 +49,29 @@ export const SCENARIOS = {
 			/**
 			 * An image, not a flat colour. A fill is one clear; a wallpaper is a texture fetch
 			 * for every pixel of every frame, which is what these apps actually do.
+			 *
+			 * `source: "tool-default"` means each tool composites its own built-in wallpaper
+			 * rather than one supplied here, and that is a deliberate tolerance.
+			 *
+			 * What it costs: two different photographic backdrops are not the same bytes. What
+			 * it buys: they are very nearly the same *work*. A background is one texture fetch
+			 * per pixel against thirteen samples per pixel for the motion blur — Recordly's own
+			 * normalised project reports zoomMotionBlurSampleCount: 13 — on top of decoding 3600
+			 * frames of 1080p and a second camera stream. Which image it is barely moves the
+			 * number.
+			 *
+			 * What it removes is large. Supplying one image meant every adapter needed its own
+			 * import route — a data URI for OpenScreen, a file copied into the project for Cap —
+			 * and a tool whose project format takes neither could not be measured at all: given
+			 * an absolute path, Recordly joins it onto its own asset base, fails to read it,
+			 * silently renders no background, and eventually crashes its network service.
+			 *
+			 * The requirement that remains is presence, not identity: a tool that composites no
+			 * background does strictly less work and the verifier still says so. Harden this
+			 * later if the tolerance turns out to matter — it is recorded here so a future
+			 * measurement can be checked against the assumption rather than inheriting it.
 			 */
-			background: { kind: "image", asset: "wallpaper" },
+			background: { kind: "image", source: "tool-default" },
 			/** Inset of the recording inside the frame, as a percent of the frame's short side. */
 			paddingPercent: 5,
 			cornerRadiusPx: 40,
