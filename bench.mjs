@@ -391,7 +391,12 @@ async function cmdRun({ flags }) {
 			webcam: fixture.webcam ?? null,
 			cursorPath: fixture.cursorPath ?? null,
 		},
-		assets: {
+		// What the harness *generated* and had available — not necessarily what the run used.
+		// A public bundle brings its own camera and pointer tracks, and the drivers prefer them;
+		// those are recorded under `fixture`. This block was called `assets`, which read as
+		// "the assets of this run" and sent at least one reader looking for a camera clip the
+		// export had never seen.
+		generatedAssets: {
 			wallpaper: { path: assets.wallpaper, sha256: sha256(assets.wallpaper) },
 			webcam: { path: assets.webcam, sha256: sha256(assets.webcam), probe: probe(assets.webcam) },
 		},
@@ -1053,7 +1058,9 @@ async function cmdReverify({ flags }) {
 	const scenario = getScenario(doc.scenario?.id ?? DEFAULT_SCENARIO);
 	const spec = doc.fixture?.spec ?? null;
 	const cursorPath = doc.fixture?.cursorPath ?? null;
-	const webcamPath = doc.fixture?.webcam ?? doc.assets?.webcam?.path ?? null;
+	// `assets` is what runs before 2026-08-27 called it; both are read so an old run re-verifies.
+	const webcamPath =
+		doc.fixture?.webcam ?? doc.generatedAssets?.webcam?.path ?? doc.assets?.webcam?.path ?? null;
 
 	for (const app of doc.results ?? []) {
 		for (const run of app.runs ?? []) {
