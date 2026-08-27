@@ -385,6 +385,11 @@ async function cmdRun({ flags }) {
 			downloadSha256: fixture.downloadSha256 ?? null,
 			spec: fixture.spec,
 			probe: fixture.probe,
+			// The tracks a bundle carries. Recorded because `reverify` reads its inputs back
+			// off this document and had neither — so it silently skipped the cursor check on
+			// every run it was asked to re-check.
+			webcam: fixture.webcam ?? null,
+			cursorPath: fixture.cursorPath ?? null,
 		},
 		assets: {
 			wallpaper: { path: assets.wallpaper, sha256: sha256(assets.wallpaper) },
@@ -1048,6 +1053,7 @@ async function cmdReverify({ flags }) {
 	const scenario = getScenario(doc.scenario?.id ?? DEFAULT_SCENARIO);
 	const spec = doc.fixture?.spec ?? null;
 	const cursorPath = doc.fixture?.cursorPath ?? null;
+	const webcamPath = doc.fixture?.webcam ?? doc.assets?.webcam?.path ?? null;
 
 	for (const app of doc.results ?? []) {
 		for (const run of app.runs ?? []) {
@@ -1057,6 +1063,7 @@ async function cmdReverify({ flags }) {
 					probe: run.outputProbe ?? probe(run.outputPath),
 					spec,
 					cursorPath,
+					webcamPath,
 				});
 				run.effectsVerified = run.visual.allPassed ?? null;
 				run.contradicted = Object.entries(run.visual.checks ?? {})
