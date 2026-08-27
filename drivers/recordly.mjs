@@ -15,8 +15,18 @@
  * `$TMPDIR/recordly-export-<id>-final.mp4` and only then opens a native save panel to ask where
  * to put it. Waiting for the saved copy would put a modal dialog — and on macOS an Accessibility
  * grant — inside the measured interval, timing the operator rather than the encoder. So the
- * driver watches the temp render, copies it to the run's output path, and lets the dialog be
- * discarded on cleanup.
+ * driver watches the temp render and copies it to the run's output path.
+ *
+ * That panel is then in the way of everything: the app will not start another export while it is
+ * up, and it blocks a polite quit as well, so the app is relaunched — by force if it will not go
+ * — before each export. Every leg therefore starts from an identical, empty state, which also
+ * settles the panel's open/closed flag; that flag survives a relaunch and made the same Export
+ * button open a dialog on one run and start a render on the next.
+ *
+ * The project is built inside `getProjectsDirectory()`. Recordly resolves media through
+ * `resolveAllowedReadableFilePath` and refuses paths outside the directories it owns; building
+ * elsewhere and copying does not help, because the document embeds absolute paths and the app
+ * then reports "No video to load".
  */
 import { execFileSync } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, statSync } from "node:fs";
@@ -189,10 +199,25 @@ export default {
 		// seconds after a quit races the previous process's helpers and the debugging port they
 		// still hold, and the new instance then comes up with a renderer that never runs anything
 		// — which is indistinguishable, from the outside, from an app that is broken.
+		// A polite quit is not enough here. The save panel left open by the previous export is a
+		// modal, and the app will not act on a quit request while it is up — so every second run
+		// found the port still held and failed. Ask nicely, then insist.
 		if (appIsRunning(this.processName)) await quitApp(this.processName, { force: true });
-		for (let i = 0; i < 30 && appIsRunning(this.processName); i++) await sleep(1000);
+		for (let i = 0; i < 10 && appIsRunning(this.processName); i++) await sleep(1000);
 		if (appIsRunning(this.processName)) {
-			throw new Error("Recordly: a previous instance would not quit; the port is still held");
+			try {
+				execFileSync(
+					IS_WIN ? "taskkill" : "/usr/bin/pkill",
+					IS_WIN ? ["/F", "/IM", "Recordly.exe"] : ["-9", "-f", "MacOS/Recordly"],
+					{ stdio: "ignore" },
+				);
+			} catch {
+				/* already gone between the check and the signal */
+			}
+			for (let i = 0; i < 20 && appIsRunning(this.processName); i++) await sleep(1000);
+		}
+		if (appIsRunning(this.processName)) {
+			throw new Error("Recordly: a previous instance survived SIGKILL; the port is still held");
 		}
 		await sleep(2000);
 
