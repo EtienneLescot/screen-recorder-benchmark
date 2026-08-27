@@ -67,6 +67,87 @@ async function waitFor(find, { timeoutMs = 60_000, pollMs = 1500, label = "targe
 	throw new Error(`${label} never appeared within ${Math.round(timeoutMs / 1000)}s`);
 }
 
+/**
+ * Launch the app, load the project, and park in the editor with a session open.
+ *
+ * Called before *every* export, not once per leg. The editor does not return to a usable state
+ * after an export: the panel never reopens, so the second and later repetitions of a leg failed
+ * where the first had succeeded. Resetting the application is the only way to make a repetition
+ * mean the same thing as the one before it.
+ *
+ * It costs about thirteen seconds a repetition and none of it is measured — ctx.commit() is
+ * called at the export click, so everything here is warm-up. That is the trade a GUI adapter
+ * should make: pay wall-clock for a known state rather than reason about a residual one.
+ */
+async function launchAndOpen(ctx, built, useCuda, logPath) {
+	killProcesses([PROC]);
+	await sleep(1500);
+
+	// The app's own stderr is kept, not discarded. Every earlier failure here was diagnosed from
+	// the outside — CDP traces, DOM scraping, window lists — while the process was being spawned
+	// with stdio "ignore" and was saying exactly what was wrong the whole time.
+	const { spawn } = await import("node:child_process");
+	const { appendFileSync } = await import("node:fs");
+	const child = spawn(BIN, [`--remote-debugging-port=${PORT}`], {
+		detached: true,
+		stdio: ["ignore", "pipe", "pipe"],
+	});
+	const keep = (d) => {
+		try {
+			appendFileSync(logPath, d);
+		} catch {
+			/* the run matters more than its log */
+		}
+	};
+	child.stdout.on("data", keep);
+	child.stderr.on("data", keep);
+	child.unref();
+
+	const page = await waitFor(anyPage, { label: "Recordly's CDP page" });
+	const s = new CdpSession(page.webSocketDebuggerUrl);
+	await s.open();
+	await s.eval(DOM_HELPERS);
+
+	const call = async (expr) => {
+		const raw = await s.eval(`Promise.resolve(${expr}).then(r => JSON.stringify(r ?? null))`);
+		return raw ? JSON.parse(raw) : null;
+	};
+
+	const set = await call(
+		`window.electronAPI.setCurrentVideoPath(${JSON.stringify(built.mediaPath)})`,
+	);
+	if (set?.success === false) throw new Error(`setCurrentVideoPath refused: ${set.error}`);
+
+	// The pointer is data, not pixels: without this the whole cursor stage — sprite, smoothing,
+	// its own motion blur, click effect — never runs.
+	if (built.cursorTelemetry?.length) {
+		await call(`window.electronAPI.setCursorTelemetry(${JSON.stringify(built.cursorTelemetry)})`);
+	}
+
+	const opened = await call(
+		`window.electronAPI.openProjectFileAtPath(${JSON.stringify(built.projectPath)})`,
+	);
+	if (opened?.success === false) {
+		throw new Error(`openProjectFileAtPath refused: ${opened.error ?? "no reason given"}`);
+	}
+
+	await call("window.electronAPI.switchToEditor()");
+	const ed = await waitFor(editorTarget, { label: "the editor window" });
+	const es = new CdpSession(ed.webSocketDebuggerUrl);
+	await es.open();
+	await es.eval(DOM_HELPERS);
+
+	// The CUDA path is a persisted product setting, not an argument: ExportSettingsMenu renders
+	// it as an "NVIDIA CUDA / Experimental" toggle and useNvidiaCudaExportOptIn stores it under
+	// this key. Setting it is what separates the two rows — the export action is identical.
+	await call(
+		`window.electronAPI.setAppSetting("recordly.export.experimentalNvidiaCuda", ${useCuda})`,
+	);
+	await sleep(4000);
+
+	return { cdp: s, editor: es, call };
+}
+
 export default {
 	id: "recordly",
 	displayName: "Recordly",
@@ -112,85 +193,15 @@ export default {
 		});
 		ctx.state.built = built;
 
-		// A stale instance would answer CDP with the previous project still loaded.
-		killProcesses([PROC]);
-		await sleep(1500);
-
-		// The app's own stderr is kept, not discarded. Every earlier failure here was diagnosed
-		// from the outside — CDP traces, DOM scraping, window lists — while the process was
-		// being spawned with stdio "ignore" and was saying exactly what was wrong the whole
-		// time. It costs nothing and it is the first thing to read when a leg fails.
 		const logPath = join(ctx.outDir, `${this.id}-app.log`);
 		ctx.state.appLog = logPath;
-		const { spawn } = await import("node:child_process");
-		const { appendFileSync, writeFileSync } = await import("node:fs");
-		writeFileSync(logPath, "");
-		const child = spawn(BIN, [`--remote-debugging-port=${PORT}`], {
-			detached: true,
-			stdio: ["ignore", "pipe", "pipe"],
-		});
-		const keep = (d) => {
-			try {
-				appendFileSync(logPath, d);
-			} catch {
-				/* the run matters more than its log */
-			}
-		};
-		child.stdout.on("data", keep);
-		child.stderr.on("data", keep);
-		child.unref();
-		const page = await waitFor(anyPage, { label: "Recordly's CDP page" });
+		(await import("node:fs")).writeFileSync(logPath, "");
 
-		const s = new CdpSession(page.webSocketDebuggerUrl);
-		await s.open();
-		await s.eval(DOM_HELPERS);
-		ctx.state.cdp = s;
-
-		const call = async (expr) => {
-			const raw = await s.eval(`Promise.resolve(${expr}).then(r => JSON.stringify(r ?? null))`);
-			return raw ? JSON.parse(raw) : null;
-		};
-
-		const media = JSON.stringify(built.mediaPath);
-		const set = await call(`window.electronAPI.setCurrentVideoPath(${media})`);
-		if (set?.success === false) throw new Error(`setCurrentVideoPath refused: ${set.error}`);
-
-		// The pointer is data, not pixels: without this the whole cursor stage — sprite,
-		// smoothing, its own motion blur, click effect — never runs.
-		if (built.cursorTelemetry?.length) {
-			await call(`window.electronAPI.setCursorTelemetry(${JSON.stringify(built.cursorTelemetry)})`);
-		}
-
-		const opened = await call(
-			`window.electronAPI.openProjectFileAtPath(${JSON.stringify(built.projectPath)})`,
-		);
-		if (opened?.success === false) {
-			throw new Error(`openProjectFileAtPath refused: ${opened.error ?? "no reason given"}`);
-		}
-
-		await call("window.electronAPI.switchToEditor()");
-		const ed = await waitFor(editorTarget, { label: "the editor window" });
-		const es = new CdpSession(ed.webSocketDebuggerUrl);
-		await es.open();
-		await es.eval(DOM_HELPERS);
-		ctx.state.editor = es;
-
-		// The CUDA path is a persisted product setting, not an argument: ExportSettingsMenu
-		// renders it as an "NVIDIA CUDA / Experimental" toggle and useNvidiaCudaExportOptIn
-		// stores it under this key. Setting it here is what separates the two rows — the export
-		// action itself is identical.
-		await call(
-			`window.electronAPI.setAppSetting("recordly.export.experimentalNvidiaCuda", ${this.useCuda})`,
-		);
-
-		// Let the editor settle before anything touches it.
-		//
-		// The CDP target exists well before the renderer has finished deciding what it can
-		// encode with. Driven immediately, every export died on "VideoEncoder is not defined" —
-		// the WebCodecs fallback — while the identical sequence run by hand, which happened to
-		// pause here, took the native WebGPU path every time. This is the difference between
-		// those two, and it is warm-up rather than measurement: the clock has not started.
-		await sleep(8000);
+		// Opened once here so the leg can report what the app can do and prove the project
+		// loads; runExport opens it again, fresh, before each export.
+		const { cdp, editor, call } = await launchAndOpen(ctx, built, this.useCuda, logPath);
+		ctx.state.cdp = cdp;
+		ctx.state.editor = editor;
 
 		const caps = await call("window.electronAPI.getNativeExportCapabilities()");
 		const cuda = caps?.capabilities?.nvidiaCuda ?? {};
@@ -234,8 +245,21 @@ export default {
 		const out = this.outputPath(ctx);
 		if (existsSync(out)) rmSync(out, { force: true });
 
-		const es = ctx.state.editor;
-		if (!es) throw new Error("the editor session is not open — prepare() did not complete");
+		// A fresh application for every repetition.
+		//
+		// The editor does not come back to a usable state once an export has run through it —
+		// the settings panel never reopens, however long it is waited for or however many times
+		// the button is clicked. Measured: the first repetition of a leg succeeded at 62 s and
+		// the next three failed identically. Relaunching is the only way to make repetition two
+		// mean what repetition one meant, and it is free where it matters, because ctx.commit()
+		// is not called until the export click below.
+		if (!ctx.state.built) throw new Error("prepare() did not complete: no project was built");
+		ctx.state.cdp?.close?.();
+		ctx.state.editor?.close?.();
+		const fresh = await launchAndOpen(ctx, ctx.state.built, this.useCuda, ctx.state.appLog);
+		ctx.state.cdp = fresh.cdp;
+		ctx.state.editor = fresh.editor;
+		const es = fresh.editor;
 
 		// Nothing is subscribed to the app's export events here, deliberately. Registering a
 		// listener through onNativeStaticLayoutExportProgress was the difference between this
@@ -315,8 +339,27 @@ export default {
 		};
 
 		// "Exporter" opens the settings panel; it does not start anything.
-		await clickAny(["Exporter", "Export"], "the export panel");
-		await sleep(2000);
+		//
+		// Waited for, not slept through, and retried. The first export of a leg opens it
+		// promptly; the ones after it did not, because prepare() runs once per leg and every
+		// repetition inherits an editor that has already been through an export and a save
+		// dialog. A fixed 2 s pause then clicked "MP4" into a panel that was not there, and the
+		// run reported "aria-pressed came back null" three times in a row after a first
+		// repetition that had worked.
+		const panelOpen = async () => (await pressed("Lightning (Beta)")) !== null;
+		let opened = false;
+		for (let attempt = 0; attempt < 3 && !opened; attempt++) {
+			await clickAny(["Exporter", "Export"], "the export panel");
+			for (let i = 0; i < 10 && !opened; i++) {
+				await sleep(600);
+				opened = await panelOpen();
+			}
+		}
+		if (!opened) {
+			throw new Error(
+				`the export panel never opened after three attempts; on screen: ${await onScreen()}`,
+			);
+		}
 
 		const t = ctx.scenario.output;
 		await pin(["MP4"], "container");
