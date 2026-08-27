@@ -552,6 +552,19 @@ export default {
 			}
 			if (/opening save dialog/i.test(text)) {
 				sawDialogCue = true;
+				// Stop the clock here, not when the saved file settles.
+				//
+				// Everything after this cue is the save panel: the app raising a native dialog,
+				// and this harness filling a filename and finding a commit button. On Windows
+				// that was measured at 36.1 s against a 28.7 s render — more than half the
+				// reported number was the dialog. macOS shows the same shape: four legs at
+				// 50.99 / 50.52 / 50.53 / 50.49 s, a 0.02 s spread across scoring legs, which is
+				// a fixed cost sitting on top of a render rather than a render being measured.
+				//
+				// The runner only accepts this instant when it is *earlier* than the
+				// filesystem's answer, so it can never inflate a result — it can only stop
+				// charging the encoder for the operator.
+				ctx.markComplete();
 				break;
 			}
 			await sleep(2000);
