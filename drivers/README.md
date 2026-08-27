@@ -53,3 +53,69 @@ GUI drivers should reach for the highest rung that works, and record which one t
 
 `node bench.mjs discover <app>` dumps the menus and the accessibility tree of an installed app,
 which is how a driver gets written or repaired when a new version moves something.
+
+## Traps every GUI candidate sets
+
+These are not Recordly quirks. They come from what this whole category of app *is* — a screen
+recorder, built on Electron, that remembers your last export — so expect each of them on each
+candidate, on every machine. Each one below cost real time before it was named.
+
+### A screenshot cannot see these apps
+
+Screen recorders deliberately exclude their own HUD and overlays from screen capture, so the
+recording does not show the recorder. On macOS that is `kCGWindowSharingNone`; Screen Studio and
+Recordly both do it.
+
+The consequence is worth stating bluntly: **a screenshot is not evidence about these windows.** A
+capture-excluded window is absent from screenshots, and can be absent from the Window menu too, so
+"I took a screenshot and there was no window" says nothing at all. Diagnose over CDP or the
+accessibility tree, which do not care about capture exclusion, and never conclude an app is broken
+from a picture of an empty desktop.
+
+### A CDP target existing is not the same as its renderer running
+
+Electron publishes a target while the renderer behind it is still coming up. An evaluate sent into
+that window does not fail — it **hangs**, for the whole timeout. Recordly's HUD takes around ten
+seconds; a driver that attaches the instant the target is listed will look like it is talking to a
+dead app.
+
+Probe with something trivial (`1+1`) until it answers, then proceed. That also separates "not ready
+yet" from "never going to answer", which are different problems with different fixes.
+
+### Relaunching too quickly keeps the old instance's port
+
+Asking an app to quit and relaunching two seconds later races the previous process's helpers,
+which may still hold the debugging port. The new instance then comes up with a renderer that never
+runs anything — the exact same symptom as the point above, from an unrelated cause. Wait until the
+process is *gone*, not until it was asked to leave, and fail loudly if it will not go.
+
+### `open -a App --args …` silently drops the flags
+
+The app launches, without the debugging port, and every later step fails in a way that points
+anywhere but here. Launch the binary inside the bundle directly.
+
+### Export settings persist, so an unpinned axis is not a measurement
+
+These apps remember the last export's format, resolution, frame rate, encoding mode and pipeline —
+in Recordly's case in `app-settings.json`. A run that does not pin every axis measures whatever the
+last run, or the last human, happened to leave selected, and one wrong pin contaminates every run
+after it on that machine.
+
+Pin all of them, and then **read them back** rather than trusting the clicks: a renamed or
+translated label makes a click report success against the wrong control, and the export proceeds
+down a path nobody chose. Where the app offers a fast path and a legacy one, measure the **default**
+— that is the shipped product — and keep any opt-in path as its own row, never averaged in.
+
+### The bridge's promises do not all resolve
+
+Some methods on an app's own bridge are fire-and-forget by design: Recordly's `switchToEditor`
+tears down the renderer that called it, so awaiting it hangs the leg, while `openProjectFileAtPath`
+returns a promise whose value the caller needs. `awaitPromise` therefore belongs on the individual
+call, not on the helper.
+
+### The save panel may come after the render, not before it
+
+An app can render to a temporary file and only then ask where to put it. Waiting for the *saved*
+file puts a modal dialog — and on macOS an Accessibility grant — inside the measured interval,
+which times the operator rather than the encoder. Find the rendered file, hand its settled instant
+to `ctx.markComplete`, and copy it to the run's output path.

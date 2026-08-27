@@ -127,6 +127,11 @@ No conforming adapter, no slot, whatever the product is called.
 See [`drivers/README.md`](./drivers/README.md) for the code-level contract and
 `node bench.mjs discover <app>` for dumping an installed app's menus and accessibility tree.
 
+Read its **Traps every GUI candidate sets** section before writing a line. Those are not
+per-product quirks — they follow from what this category of app is, so every candidate sets most
+of them on every machine. The costliest is the first: these apps hide their own windows from
+screen capture, so a screenshot showing an empty desktop is not evidence that anything is wrong.
+
 ## Adding a tool to the roster
 
 Open an issue with the positioning argument first — does it pass the filter at the top of this
