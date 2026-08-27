@@ -95,7 +95,7 @@ the answer on the machine in front of you.
 | OpenScreen | yes (openscreen-cli, openscreen-gui) | yes | — |
 | Screen Studio | yes (screen-studio) | **no** | export requires an activated licence — there is no trial export |
 | Cap | yes (cap) | yes | — |
-| Recordly | yes (recordly) | yes | — |
+| Recordly | yes (recordly, recordly-cuda) | yes | — |
 | FocuSee | yes (focusee) | **no** | the macOS build rejects every MP4, including real recordings; Windows untested |
 <!-- status:end -->
 

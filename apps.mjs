@@ -62,6 +62,39 @@ export const APPS = {
 			],
 		},
 	},
+	recordly: {
+		roster: "Recordly",
+		driver: "./drivers/recordly.mjs",
+		default: true,
+		install: {
+			// Windows installs per-user through winget — no elevation, no interactive installer.
+			// macOS takes the signed dmg below; the two are listed together rather than split
+			// because installPlan reads one spec per entry.
+			method: "winget",
+			id: "Webadderall.Recordly",
+			url: "https://github.com/webadderallorg/Recordly/releases",
+			macUrl:
+				"https://github.com/webadderallorg/Recordly/releases/download/v1.3.3/Recordly-arm64.dmg",
+			appName: "Recordly.exe",
+			macAppName: "Recordly.app",
+			approxMB: 201,
+			licence: "AGPL-3.0 — free, no account or activation needed",
+			notes: [
+				"Official repository is webadderallorg/Recordly; a swarm of same-named forks exists, so pin the org.",
+				"macOS build is signed by Fido Tech (54QUWA9PZA).",
+			],
+		},
+	},
+	"recordly-cuda": {
+		roster: "Recordly",
+		driver: "./drivers/recordly-cuda.mjs",
+		// Off by default: the CUDA path is shipped disabled and marked Experimental in the
+		// product, so the default row has to be the one a fresh install produces. Enable this
+		// explicitly to measure the other side of the toggle — as a separate row, never averaged
+		// with the first.
+		default: false,
+		sharesInstallWith: "recordly",
+	},
 	cap: {
 		roster: "Cap",
 		driver: "./drivers/cap.mjs",
@@ -74,24 +107,6 @@ export const APPS = {
 			licence: "AGPL-3.0 — free; signing in is optional and not needed for a local export",
 			notes: [
 				"Ships a real CLI at Cap.app/Contents/MacOS/cap-cli — `cap export` renders a .cap project.",
-			],
-		},
-	},
-	recordly: {
-		roster: "Recordly",
-		// No driver yet: the roster is decided by positioning, so a member with no adapter is a
-		// gap worth showing rather than an entry worth hiding. surveyApps reports it as
-		// unsupported on every platform until one lands.
-		driver: null,
-		install: {
-			method: "dmg",
-			url: "https://github.com/webadderallorg/Recordly/releases/download/v1.3.3/Recordly-arm64.dmg",
-			appName: "Recordly.app",
-			approxMB: 220,
-			licence: "open source, free — no account or activation needed",
-			notes: [
-				"Official repository is webadderallorg/Recordly; a swarm of same-named forks exists, so pin the org.",
-				"Signed by Fido Tech (54QUWA9PZA).",
 			],
 		},
 	},
