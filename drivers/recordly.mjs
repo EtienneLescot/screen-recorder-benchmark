@@ -368,18 +368,62 @@ export default {
 		await pin([String(t.fps)], "frame rate");
 		await pin(["Lightning (Beta)", "Lightning"], "export pipeline");
 
-		if (this.useCuda) {
-			// Only offered once the pipeline is not Legacy, which is why it is set after it.
-			await clickAny(["NVIDIA CUDA"], "the CUDA toggle");
-			await sleep(400);
-		}
-		ctx.state.pinned = {
+		// The CUDA opt-in is a switch, not one of the pressed buttons above: it carries
+		// aria-checked, it is only rendered once the pipeline is not Legacy, and it is addressed
+		// by its accessible name because the visible text is split across "NVIDIA CUDA" and
+		// "Experimental" — no leaf of the DOM holds the whole label.
+		const CUDA_EL = `[...document.querySelectorAll("[aria-label]")].find(e => /CUDA/i.test(e.getAttribute("aria-label") || ""))`;
+		const cudaState = async () =>
+			JSON.parse(
+				await es.eval(
+					`JSON.stringify((() => { const el = ${CUDA_EL}; return el ? el.getAttribute("aria-checked") === "true" : null; })())`,
+				),
+			);
+
+		/**
+		 * Set the toggle, rather than clicking it.
+		 *
+		 * It used to be clicked unconditionally whenever the CUDA variant ran, which is wrong in
+		 * a way that hid itself: the switch writes recordly.export.experimentalNvidiaCuda to
+		 * disk, the app hydrates the next launch from it, and this driver relaunches for every
+		 * repetition. So the first repetition turned CUDA on, the second launched with it
+		 * already on and clicked it *off*, and the leg alternated between the two paths while
+		 * reporting one. Both variants now state the value they want and read it back — the
+		 * plain row has to turn it off for the same reason.
+		 *
+		 * Writing the setting through setAppSetting does not do this: the value lands on disk
+		 * and getAppSetting agrees, but the panel's switch still reads false, because the store
+		 * behind it is hydrated at mount and does not watch the file. Verified directly.
+		 */
+		const setCuda = async (want) => {
+			const before = await cudaState();
+			if (before === null) {
+				if (want) {
+					throw new Error(`the CUDA toggle is not on screen; on screen: ${await onScreen()}`);
+				}
+				return null;
+			}
+			if (before !== want) {
+				await es.eval(`(() => { const el = ${CUDA_EL}; if (el) el.click(); })()`);
+				await sleep(600);
+			}
+			const after = await cudaState();
+			if (after !== want) {
+				throw new Error(`the CUDA toggle reads ${after} after being set to ${want}`);
+			}
+			return after;
+		};
+
+		const cudaApplied = await setCuda(this.useCuda);
+		ctx.observe("pinned", {
 			container: "MP4",
 			size: `${t.width}x${t.height}`,
 			fps: t.fps,
 			pipeline: "Lightning (Beta)",
 			cudaRequested: this.useCuda,
-		};
+			// Read back off the switch, not inferred from the request.
+			cudaApplied,
+		});
 
 		await clickAny(["Exporter en Video", "Export Video", "Exporter la vidéo"], "the export action");
 		ctx.commit();
@@ -430,6 +474,7 @@ export default {
 
 		const RENDER_DEADLINE_MS = 20 * 60_000;
 		const renderStart = Date.now();
+		let backend = null;
 		let sawDialogCue = false;
 		let lastSeen = "";
 		while (Date.now() - renderStart < RENDER_DEADLINE_MS) {
@@ -441,7 +486,12 @@ export default {
 			// Read the route while the panel still shows it — by the time the save dialog has
 			// been answered it is gone, which is why the first version recorded null.
 			const route = text.match(/Path:\s*([^|]{3,60}?)\s*(?:Annuler|Cancel|$)/i);
-			if (route && !ctx.state.backend) ctx.state.backend = route[1].trim();
+			// Per run, not per leg: this used to guard on ctx.state.backend, which survives the
+			// whole leg, so only the first repetition ever recorded a route.
+			if (route && !backend) {
+				backend = route[1].trim();
+				ctx.observe("backend", backend);
+			}
 			if (/opening save dialog/i.test(text)) {
 				sawDialogCue = true;
 				break;
@@ -461,9 +511,9 @@ export default {
 			throw new Error(`could not point the save dialog at ${out}: ${e.message}`);
 		}
 
-		// ctx.state.backend was captured during the render, above — what the app says it did
-		// rather than what it was asked to do, and more trustworthy than the flag that
-		// requested it.
+		// The route was recorded during the render, above, through ctx.observe — what the app
+		// says it did rather than what it was asked to do, and more trustworthy than the flag
+		// that requested it.
 	},
 
 	async cleanup(ctx) {
