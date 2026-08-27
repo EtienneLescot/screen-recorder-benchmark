@@ -143,8 +143,12 @@ export default {
 				writeCapCursor(project, ctx.source.spec);
 			}
 		}
+		// `source: "tool-default"` leaves Cap's own background alone, which is what the scenario
+		// now asks for. A supplied image is still copied in when one is named.
 		let wallpaperPath = null;
-		if (e.background?.kind === "image" && ctx.assets?.wallpaper) {
+		const toolDefaultBackground =
+			e.background?.kind === "image" && e.background.source === "tool-default";
+		if (e.background?.kind === "image" && !toolDefaultBackground && ctx.assets?.wallpaper) {
 			wallpaperPath = join(project, "content", "wallpaper.png");
 			copyFileSync(ctx.assets.wallpaper, wallpaperPath);
 		}
@@ -203,9 +207,19 @@ export default {
 
 		// An image the compositor samples per pixel, not a fill it clears once — which is what
 		// these apps' own wallpapers cost, and what the first version of this scenario missed.
-		base.background.source = wallpaperPath
-			? { type: "image", path: wallpaperPath }
-			: { type: "color", value: rgb(e.background?.color ?? "#000000"), alpha: 255 };
+		if (toolDefaultBackground) {
+			// Whatever the template already carries — Cap's own default. The verifier checks that
+			// it varies like an image rather than sitting flat, so a tool that defaults to a fill
+			// is reported rather than assumed.
+		} else if (wallpaperPath) {
+			base.background.source = { type: "image", path: wallpaperPath };
+		} else {
+			base.background.source = {
+				type: "color",
+				value: rgb(e.background?.color ?? "#000000"),
+				alpha: 255,
+			};
+		}
 		base.background.blur = 0;
 		base.background.padding = ctx.paddingControl ?? this.defaultPaddingControl(ctx.scenario);
 		base.background.rounding = e.cornerRadiusPx;
