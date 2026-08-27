@@ -554,6 +554,15 @@ export default {
 				sawDialogCue = true;
 				// Stop the clock here, not when the saved file settles.
 				//
+				// Measured on macOS before trusting it, because stopping early would quietly
+				// flatter this tool: trigger at t=0, the rendered file appears at +45.6 s, and
+				// the cue arrives at +48.7 s with the panel reading 100% — the same instant the
+				// file stops growing. The undercount is zero.
+				//
+				// Note this contradicts the 72% figure recorded elsewhere in this file, which
+				// came from Windows. Either the two platforms announce at different points or
+				// the earlier reading caught a different phase; on macOS the cue means finished.
+				//
 				// Everything after this cue is the save panel: the app raising a native dialog,
 				// and this harness filling a filename and finding a commit button. On Windows
 				// that was measured at 36.1 s against a 28.7 s render — more than half the
