@@ -3,7 +3,7 @@
     {
       "tool": "openscreen-cli",
       "component": 0,
-      "relativeCost": 1.411,
+      "relativeCost": 1.48,
       "submissions": 2,
       "machines": [
         "Apple M1",
@@ -17,14 +17,14 @@
         "1.10.0"
       ],
       "observedCostRange": [
-        1.077,
+        1.292,
         2.063
       ]
     },
     {
       "tool": "cap",
       "component": 0,
-      "relativeCost": 1.876,
+      "relativeCost": 2.185,
       "submissions": 2,
       "machines": [
         "Apple M1",
@@ -39,26 +39,29 @@
       ],
       "observedCostRange": [
         1.283,
-        2.531
+        2.937
       ]
     },
     {
       "tool": "recordly",
       "component": 0,
-      "relativeCost": 2.612,
-      "submissions": 1,
+      "relativeCost": 3.231,
+      "submissions": 2,
       "machines": [
-        "Apple M1"
+        "Apple M1",
+        "AMD Ryzen 7 5800X 8-Core Processor             "
       ],
       "platforms": [
-        "darwin"
+        "darwin",
+        "win32"
       ],
       "versions": [
+        "1.3.3.0",
         "unknown"
       ],
       "observedCostRange": [
         2.612,
-        2.612
+        3.702
       ]
     }
   ],
@@ -87,7 +90,21 @@
     {
       "a": "openscreen-cli",
       "b": "cap",
-      "logRatio": -0.85473137,
+      "logRatio": -0.821492271,
+      "weight": 1,
+      "machine": "AMD Ryzen 7 5800X 8-Core Processor             "
+    },
+    {
+      "a": "openscreen-cli",
+      "b": "recordly",
+      "logRatio": -1.053050582,
+      "weight": 1,
+      "machine": "AMD Ryzen 7 5800X 8-Core Processor             "
+    },
+    {
+      "a": "cap",
+      "b": "recordly",
+      "logRatio": -0.231558312,
       "weight": 1,
       "machine": "AMD Ryzen 7 5800X 8-Core Processor             "
     }
@@ -212,7 +229,7 @@
     {
       "sub": {
         "schemaVersion": 1,
-        "submittedAt": "2026-08-26T14:29:56.614Z",
+        "submittedAt": "2026-08-28T07:54:49.183Z",
         "submitter": {
           "name": "Etienne Lescot"
         },
@@ -227,9 +244,9 @@
         },
         "conditions": {
           "onACPower": true,
-          "maxForeignCpuPercent": 96,
-          "loadSpreadPercentagePoints": 14.5,
-          "driftRatio": 0.9997,
+          "maxForeignCpuPercent": 114,
+          "loadSpreadPercentagePoints": 47.5,
+          "driftRatio": 1.0015,
           "remoteDesktopActive": false
         },
         "scenario": {
@@ -251,14 +268,14 @@
           {
             "tool": "openscreen-cli",
             "version": "1.10.0",
-            "exportMs": 9845,
-            "madMs": null,
-            "runs": 5,
-            "localFloorMs": 9143,
-            "cpuSeconds": 4.73,
-            "peakRssMiB": 798.7,
-            "foreignCpuPercent": 76.5,
-            "outputBytes": 36693461,
+            "exportMs": 10093,
+            "madMs": 6,
+            "runs": 3,
+            "localFloorMs": 7814,
+            "cpuSeconds": 4.5,
+            "peakRssMiB": 803.6,
+            "foreignCpuPercent": 69,
+            "outputBytes": 36794796,
             "outputMeanVolumeDb": null,
             "fidelity": 1,
             "missing": [],
@@ -269,30 +286,58 @@
           {
             "tool": "cap",
             "version": "0.5.9",
-            "exportMs": 23219,
-            "madMs": null,
-            "runs": 5,
-            "localFloorMs": 9173,
-            "cpuSeconds": 43.83,
-            "peakRssMiB": 1380.3,
-            "foreignCpuPercent": 62,
-            "outputBytes": 151113212,
+            "exportMs": 22968,
+            "madMs": 490,
+            "runs": 3,
+            "localFloorMs": 7820,
+            "cpuSeconds": 41.84,
+            "peakRssMiB": 1378.8,
+            "foreignCpuPercent": 95.5,
+            "outputBytes": 151330732,
             "outputMeanVolumeDb": null,
             "fidelity": 1,
             "missing": [],
             "contradicted": [],
             "verified": true,
             "automation": "cli"
+          },
+          {
+            "tool": "recordly",
+            "version": "1.3.3.0",
+            "exportMs": 28786,
+            "madMs": 6,
+            "runs": 3,
+            "localFloorMs": 7775,
+            "cpuSeconds": 147.68,
+            "peakRssMiB": 1524.3,
+            "foreignCpuPercent": 48,
+            "outputBytes": 126932081,
+            "outputMeanVolumeDb": null,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cdp"
           }
         ],
-        "notes": [],
-        "_path": "submissions/win32/amd-ryzen-7-5800x-2026-08-26.json"
+        "notes": [
+          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "cap: zoom segments written: 3",
+          "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+          "recordly: CUDA export path: available=true, requested=false",
+          "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+          "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events.",
+          "ffmpeg-baseline: encoder: h264_nvenc (hardware)",
+          "ffmpeg-baseline: No compositing: this row is the encode-only reference, not a product."
+        ],
+        "_path": "submissions/win32/amd-ryzen-7-5800x-2026-08-28.json"
       },
       "weight": 1,
       "reasons": [],
       "tools": [
         "openscreen-cli",
-        "cap"
+        "cap",
+        "recordly"
       ]
     }
   ],
@@ -305,17 +350,25 @@
     ]
   ],
   "consistency": {
-    "edges": 4,
-    "redundantEdges": 2,
+    "edges": 6,
+    "redundantEdges": 4,
     "measurable": true,
-    "medianResidualPercent": 60.77,
-    "maxResidualPercent": 113.76,
+    "medianResidualPercent": 45.61,
+    "maxResidualPercent": 137.29,
     "worst": {
       "a": "openscreen-cli",
       "b": "cap",
       "machine": "Apple M1",
-      "disagreementPercent": 113.76
+      "disagreementPercent": 137.29
     }
   },
-  "versionSpread": []
+  "versionSpread": [
+    {
+      "tool": "recordly",
+      "versions": [
+        "1.3.3.0",
+        "unknown"
+      ]
+    }
+  ]
 }
