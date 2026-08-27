@@ -19,9 +19,9 @@
  * discarded on cleanup.
  */
 import { execFileSync } from "node:child_process";
-import { copyFileSync, existsSync, readdirSync, rmSync, statSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { CdpSession, DOM_HELPERS, listTargets } from "../lib/cdp.mjs";
 import { sleep, waitForStableFile } from "../lib/measure.mjs";
 import { appVersion, IS_WIN, resolveAppPath } from "../lib/platform.mjs";
@@ -110,11 +110,21 @@ async function waitForRenderer(session, { timeoutMs = 90_000, probeMs = 3000 } =
 	);
 }
 
-/** Click the first label that exists, and say which spellings were tried when none do. */
-async function clickAny(session, labels, what) {
+/**
+ * Click the first label that exists, and say which spellings were tried when none do.
+ *
+ * `exact` matters more than it looks. `find` matches substrings and prefers the smallest hit, so
+ * "Export" also matches inside "Export Video" — and which one wins depends on whether the panel
+ * happens to be open. That ambiguity made the same call open a settings panel on one run and
+ * start an export on the next, which read as the app behaving inconsistently.
+ */
+async function clickAny(session, labels, what, { exact = false } = {}) {
 	for (const label of labels) {
 		const r = JSON.parse(
-			await evaluate(session, `JSON.stringify(window.__osbench.click(${JSON.stringify(label)}))`),
+			await evaluate(
+				session,
+				`JSON.stringify(window.__osbench.click(${JSON.stringify(label)}, { exact: ${exact} }))`,
+			),
 		);
 		if (r.ok) return r.matched;
 	}
@@ -158,23 +168,19 @@ export default {
 		return Math.round(Math.min(250, Math.max(0, scenario.effects.paddingPercent * 4)));
 	},
 
-	async prepare(ctx) {
-		const outDir = join(ctx.workDir, "projects", "recordly");
-		const built = buildProject({
-			sourcePath: ctx.source.path,
-			scenario: ctx.scenario,
-			outDir,
-			title: ctx.scenario.id,
-			paddingControl: ctx.paddingControl ?? this.defaultPaddingControl(ctx.scenario),
-			assets: {
-				...(ctx.assets ?? {}),
-				webcam: ctx.source.webcam ?? ctx.assets?.webcam,
-				cursorPath: ctx.source.cursorPath ?? null,
-			},
-			spec: ctx.source.spec,
-		});
-		ctx.state.project = built;
-
+	/**
+	 * Bring the app up on the scenario's project, from nothing.
+	 *
+	 * Run once per export rather than once per leg. Recordly leaves a native save panel open when
+	 * a render finishes — there is no way to answer it without Accessibility, and the app will not
+	 * start another export while it is up, so runs 2 and beyond failed against a window that was
+	 * waiting for a click nobody was going to give it. A fresh instance also erases the panel
+	 * open/closed flag that survives a relaunch, so every run starts from one state instead of
+	 * inheriting the last one's.
+	 *
+	 * None of this is measured: the clock starts at the export trigger, well after this returns.
+	 */
+	async open(ctx) {
 		// Stale renders would be indistinguishable from this run's, since the watcher picks the
 		// newest match.
 		for (const f of renderedExports()) rmSync(f, { force: true });
@@ -212,6 +218,54 @@ export default {
 		const h = new CdpSession(hud.webSocketDebuggerUrl);
 		await h.open();
 		await waitForRenderer(h);
+
+		// Build inside the app's own projects directory, not ours — and build it there rather than
+		// building elsewhere and copying, because the document embeds absolute media paths and a
+		// copy leaves them pointing at the old location. The app then loads the project, refuses
+		// the media, and shows "No video to load".
+		//
+		// Recordly resolves readable media through `resolveAllowedReadableFilePath` and rejects
+		// anything outside the directories it owns; the app log says so plainly
+		// (`[get-local-media-url] Blocked disallowed path: …/screen.system.wav`). A project whose
+		// video happens to load can still have its audio sidecars blocked, and the export then
+		// starts and produces nothing, which reads as a hang rather than a refusal.
+		//
+		// Recordly resolves readable media through `resolveAllowedReadableFilePath` and refuses
+		// anything outside the directories it owns — the app log says so plainly
+		// (`[get-local-media-url] Blocked disallowed path: …/screen.system.wav`). A project whose
+		// video happens to load can still have its audio sidecars blocked, and the export then
+		// starts and produces nothing, which reads as a hang rather than a refusal.
+		const projectsDir = await evaluate(
+			h,
+			`window.electronAPI.getProjectsDirectory().then((r) => JSON.stringify(r)).catch(() => null)`,
+			{ timeoutMs: 20_000, awaitPromise: true },
+		);
+		const allowedRoot = (() => {
+			try {
+				const r = JSON.parse(projectsDir);
+				return typeof r === "string" ? r : (r?.path ?? r?.directory ?? null);
+			} catch {
+				return null;
+			}
+		})();
+		const outDir = allowedRoot
+			? join(allowedRoot, "openscreen-benchmark")
+			: join(ctx.workDir, "projects", "recordly");
+		mkdirSync(outDir, { recursive: true });
+		const built = buildProject({
+			sourcePath: ctx.source.path,
+			scenario: ctx.scenario,
+			outDir,
+			title: ctx.scenario.id,
+			paddingControl: ctx.paddingControl ?? this.defaultPaddingControl(ctx.scenario),
+			assets: {
+				...(ctx.assets ?? {}),
+				webcam: ctx.source.webcam ?? ctx.assets?.webcam,
+				cursorPath: ctx.source.cursorPath ?? null,
+			},
+			spec: ctx.source.spec,
+		});
+		ctx.state.project = built;
 
 		let opened;
 		try {
@@ -257,16 +311,27 @@ export default {
 		await waitForRenderer(s);
 		await evaluate(s, DOM_HELPERS);
 		ctx.state.cdp = s;
+	},
 
+	async prepare(ctx) {
+		await this.open(ctx);
+		const built = ctx.state.project;
 		return {
 			version: appVersion(APP),
+			// Names come from `fidelity()` in scenarios/index.mjs, not from Recordly's own vocabulary.
+			// An earlier version reported "wallpaper" for what the scenario calls "background" and
+			// never mentioned the output target at all, so a correct export was scored partial at
+			// 70% — and a partial row is excluded from the ranking. Mislabelling costs a
+			// measurement just as surely as a bad export does.
 			appliedFeatures: [
-				"wallpaper",
+				"background",
 				"padding",
 				"cornerRadius",
 				"shadow",
 				"zooms",
 				"cursor",
+				"targetResolution",
+				"targetFps",
 				...(built.webcamApplied ? ["webcam"] : []),
 				...(ctx.scenario.effects.motionBlur?.enabled ? ["motionBlur"] : []),
 			],
@@ -287,69 +352,119 @@ export default {
 	},
 
 	async runExport(ctx) {
+		// Every export starts from a fresh instance — see `open`.
+		if (ctx.run.index > 0 || !ctx.state.cdp) await this.open(ctx);
 		const s = ctx.state.cdp;
 		const out = this.outputPath(ctx);
 		if (existsSync(out)) rmSync(out, { force: true });
 		for (const f of renderedExports()) rmSync(f, { force: true });
 
-		await clickAny(s, EXPORT_LABELS.open, "the export panel");
-		await sleep(1500);
-
-		// Pin all four axes. Defaults are not a fixed target: they persist between runs and differ
-		// between installs, so an unpinned row is not comparable with any other.
-		for (const [what, labels] of [
-			["format", EXPORT_LABELS.format],
-			["resolution", EXPORT_LABELS.resolution],
-			["encoding mode", EXPORT_LABELS.encoding],
-			["pipeline", EXPORT_LABELS.pipeline],
-		]) {
-			await clickAny(s, labels, what);
-			await sleep(300);
-		}
-		// The frame-rate control is a bare number, so it is matched exactly to avoid hitting a
-		// timeline label that happens to read the same.
-		const fps = String(ctx.scenario.output.fps);
-		const gotFps = JSON.parse(
-			await evaluate(
-				s,
-				`JSON.stringify(window.__osbench.click(${JSON.stringify(fps)}, { exact: true }))`,
-			),
-		);
-		if (!gotFps.ok) throw new Error(`Recordly export panel: no ${fps} fps control`);
-		await sleep(300);
-
-		// Read the settings back rather than trusting the clicks. A label that no longer matches —
-		// a rename, a translation, a control that moved behind a disclosure — makes `click` report
-		// a hit on the wrong element, and the export then runs on whatever was already selected.
-		// Since these settings persist, that would be silent and would survive into later runs.
-		const settings = JSON.parse(
-			(await evaluate(s, `localStorage.getItem("recordly.editor.preferences")`)) ?? "null",
-		);
-		if (!settings) throw new Error("Recordly: could not read back the export settings");
-		const mismatches = Object.entries({
+		// The Export button does one of two things, and which one is not predictable from here.
+		//
+		// There is a single control carrying the word — one 112x32 button; `find` returns the span
+		// inside it and `click` walks up to the button, so exact and loose matching are the same
+		// thing here. What varies is the app's own state: the settings panel's open/closed flag
+		// survives a relaunch, so the click opens the panel when it was left shut and starts the
+		// render when it was left open. Chasing that as if it were a selector problem cost most of
+		// a day.
+		//
+		// So the settings are verified *first* — the direct-render branch offers no dialog to fix
+		// them in — and then the click waits for whichever of the two outcomes actually arrives.
+		const readSettings = async () =>
+			JSON.parse(
+				(await evaluate(s, `localStorage.getItem("recordly.editor.preferences")`)) ?? "null",
+			);
+		const wanted = {
 			exportPipelineModel: REQUIRED_PIPELINE,
 			exportFormat: "mp4",
 			mp4FrameRate: ctx.scenario.output.fps,
 			exportEncodingMode: "balanced",
-		})
-			.filter(([k, want]) => settings[k] !== want)
-			.map(([k, want]) => `${k} is ${JSON.stringify(settings[k])}, wanted ${JSON.stringify(want)}`);
-		if (mismatches.length) {
-			throw new Error(
-				`Recordly export settings did not take: ${mismatches.join("; ")}. The panel's labels ` +
-					"have probably changed — fix EXPORT_LABELS rather than letting the row measure a " +
-					"different export path.",
+		};
+		const mismatchesIn = (cfg) =>
+			Object.entries(wanted)
+				.filter(([k, want]) => cfg?.[k] !== want)
+				.map(([k, want]) => `${k} is ${JSON.stringify(cfg?.[k])}, wanted ${JSON.stringify(want)}`);
+
+		const before = await readSettings();
+		if (!before) throw new Error("Recordly: could not read the export settings");
+		const preMismatch = mismatchesIn(before);
+
+		const panelOpen = () =>
+			evaluate(
+				s,
+				`!!window.__osbench.find(${JSON.stringify(EXPORT_LABELS.go[0])}, { exact: true })`,
 			);
+		const rendering = () =>
+			evaluate(
+				s,
+				`/exporting|rendering your file|preparing export/i.test(document.body.innerText)`,
+			);
+
+		let panelUp = await panelOpen();
+		let started = false;
+		if (!panelUp) {
+			// Nothing can be corrected once a direct render begins, so refuse before pressing.
+			if (preMismatch.length) {
+				throw new Error(
+					`Recordly is not configured for this scenario: ${preMismatch.join("; ")}. The Export ` +
+						"button may start the render immediately, with no dialog to correct it in.",
+				);
+			}
+			await clickAny(s, EXPORT_LABELS.open, "the export control", { exact: true });
+			ctx.commit(); // harmless if the panel opens instead — the clock restarts below
+			for (let i = 0; i < 40 && !panelUp && !started; i++) {
+				await sleep(500);
+				panelUp = await panelOpen();
+				if (!panelUp) started = await rendering();
+			}
+		}
+
+		if (panelUp) {
+			// The panel is up: pin every axis, because these persist and an unpinned one measures
+			// whatever the last run — or the last human — left selected.
+			for (const [what, labels] of [
+				["format", EXPORT_LABELS.format],
+				["resolution", EXPORT_LABELS.resolution],
+				["encoding mode", EXPORT_LABELS.encoding],
+				["pipeline", EXPORT_LABELS.pipeline],
+			]) {
+				await clickAny(s, labels, what);
+				await sleep(300);
+			}
+			const fps = String(ctx.scenario.output.fps);
+			const gotFps = JSON.parse(
+				await evaluate(
+					s,
+					`JSON.stringify(window.__osbench.click(${JSON.stringify(fps)}, { exact: true }))`,
+				),
+			);
+			if (!gotFps.ok) throw new Error(`Recordly export panel: no ${fps} fps control`);
+			await sleep(500);
+
+			// Read back rather than trust the clicks: a renamed or translated label makes `click`
+			// report success against the wrong element, silently and persistently.
+			const after = mismatchesIn(await readSettings());
+			if (after.length)
+				throw new Error(`Recordly export settings did not take: ${after.join("; ")}`);
+
+			await clickAny(s, EXPORT_LABELS.go, "the export button", { exact: true });
+			ctx.commit();
+			for (let i = 0; i < 40 && !started; i++) {
+				await sleep(500);
+				started = await rendering();
+			}
+		}
+
+		if (!started) {
+			const seen = await evaluate(s, `document.body.innerText.slice(-240)`);
+			throw new Error(`Recordly: the export never started. Screen reads: ${JSON.stringify(seen)}`);
 		}
 		ctx.state.exportSettings = {
-			pipeline: settings.exportPipelineModel,
-			encodingMode: settings.exportEncodingMode,
-			backendPreference: settings.exportBackendPreference,
-			quality: settings.exportQuality,
+			pipeline: before.exportPipelineModel,
+			encodingMode: before.exportEncodingMode,
+			backendPreference: before.exportBackendPreference,
+			quality: before.exportQuality,
 		};
-
-		await clickAny(s, EXPORT_LABELS.go, "the export button");
-		ctx.commit();
 
 		// The runner watches `out`, and Recordly never writes there: it renders to the temp file
 		// and then asks a native save panel where to put it. So the wait happens here, on the
@@ -359,7 +474,7 @@ export default {
 		// The temp name carries a timestamp the driver cannot predict, so the path is resolved
 		// first and only then handed to the runner's own stability watcher.
 		let rendered = null;
-		for (let i = 0; i < 300 && !rendered; i++) {
+		for (let i = 0; i < 900 && !rendered; i++) {
 			rendered = renderedExports()
 				.map((p) => ({ p, mtime: statSync(p).mtimeMs }))
 				.sort((a, b) => b.mtime - a.mtime)[0]?.p;
@@ -367,7 +482,7 @@ export default {
 		}
 		if (!rendered) {
 			throw new Error(
-				`Recordly: no rendered export appeared in ${tmpdir()} within 5 minutes — the export ` +
+				`Recordly: no rendered export appeared in ${tmpdir()} within 15 minutes — the export ` +
 					"panel accepted the click but nothing started.",
 			);
 		}
