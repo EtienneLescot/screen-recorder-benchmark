@@ -309,6 +309,37 @@ export default {
 			throw new Error(`Recordly could not open the project: ${opened.error ?? "unknown"}`);
 		}
 
+		// Hand the pointer track over *after* the project is open.
+		//
+		// `setCursorTelemetry` refuses while no video is loaded — it answers
+		// `{"success":false,"message":"No video path available for cursor telemetry"}` — so calling
+		// it first silently does nothing. That is how the first working runs exported with no
+		// rendered cursor while the driver went on declaring "cursor" as applied: a leg doing less
+		// work than the scenario asks, reported as if it had done it.
+		//
+		// The scenario's cursor is data, not pixels. The apps hide the system pointer and re-render
+		// from this track, so an export showing only the pointer baked into the source footage has
+		// exercised none of the smoothing, scaling or motion blur the row exists to measure.
+		ctx.state.cursorApplied = false;
+		if (built.cursorTelemetry) {
+			const set = JSON.parse(
+				(await evaluate(
+					h,
+					`window.electronAPI.setCursorTelemetry(${JSON.stringify(built.cursorTelemetry)})
+					   .then((r) => JSON.stringify(r ?? { success: true }))
+					   .catch((e) => JSON.stringify({ success: false, error: String(e) }))`,
+					{ timeoutMs: 60_000, awaitPromise: true },
+				)) ?? "{}",
+			);
+			if (set?.success === false) {
+				throw new Error(
+					`Recordly refused the cursor telemetry: ${set.message ?? set.error ?? "unknown"}. ` +
+						"Measuring without it would compare a rendered cursor against none.",
+				);
+			}
+			ctx.state.cursorApplied = true;
+		}
+
 		await sleep(1500);
 		// switchToEditor tears the HUD renderer down, so its reply may never arrive: fire it and
 		// wait on the target list instead.
@@ -354,7 +385,7 @@ export default {
 				"cornerRadius",
 				"shadow",
 				"zooms",
-				"cursor",
+				...(ctx.state.cursorApplied ? ["cursor"] : []),
 				"targetResolution",
 				"targetFps",
 				...(built.webcamApplied ? ["webcam"] : []),
