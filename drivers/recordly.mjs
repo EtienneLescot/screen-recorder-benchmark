@@ -179,10 +179,22 @@ export default {
 		// newest match.
 		for (const f of renderedExports()) rmSync(f, { force: true });
 
+		// Wait for the old instance to be *gone*, not merely asked to leave. Relaunching two
+		// seconds after a quit races the previous process's helpers and the debugging port they
+		// still hold, and the new instance then comes up with a renderer that never runs anything
+		// — which is indistinguishable, from the outside, from an app that is broken.
 		if (appIsRunning(this.processName)) await quitApp(this.processName, { force: true });
+		for (let i = 0; i < 30 && appIsRunning(this.processName); i++) await sleep(1000);
+		if (appIsRunning(this.processName)) {
+			throw new Error("Recordly: a previous instance would not quit; the port is still held");
+		}
 		await sleep(2000);
+
 		// `open -a Recordly --args …` silently drops the flag and the app comes up with no
 		// debugging port, which looks like a hang rather than a mistake. Launch the binary.
+		//
+		// The project is *not* passed as an argument: the app accepts it and still opens only the
+		// HUD, so the editor has to be asked for over the bridge either way.
 		execFileSync("/bin/sh", [
 			"-c",
 			`nohup ${JSON.stringify(BIN)} --remote-debugging-port=${PORT} >/dev/null 2>&1 &`,
