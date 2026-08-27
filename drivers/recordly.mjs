@@ -368,7 +368,12 @@ export default {
 		// Matched on the resolution rather than the localised word beside it.
 		await pin([`Originale ${t.width}`, `Original ${t.width}`, String(t.width)], "output size");
 		await pin([String(t.fps)], "frame rate");
-		await pin(["Lightning (Beta)", "Lightning"], "export pipeline");
+		// Kept: pin() throws unless the control reads back as selected, so this is the label the
+		// app confirmed, not the one that was asked for. Recorded because "is it really on
+		// Lightning?" is the first thing anyone asks of a 0.96x-realtime number.
+		const pipelinePinned = await pin(["Lightning (Beta)", "Lightning"], "export pipeline");
+		// And the other one, to prove the panel is not showing both as selected.
+		const legacyStillOn = await pressed("Legacy");
 
 		// The CUDA opt-in is a switch, not one of the pressed buttons above: it carries
 		// aria-checked, it is only rendered once the pipeline is not Legacy, and it is addressed
@@ -421,7 +426,9 @@ export default {
 			container: "MP4",
 			size: `${t.width}x${t.height}`,
 			fps: t.fps,
-			pipeline: "Lightning (Beta)",
+			// The label the panel confirmed as selected, and Legacy's own state beside it.
+			pipeline: pipelinePinned,
+			legacySelected: legacyStillOn,
 			cudaRequested: this.useCuda,
 			// Read back off the switch, not inferred from the request.
 			cudaApplied,
@@ -429,6 +436,12 @@ export default {
 
 		await clickAny(["Exporter en Video", "Export Video", "Exporter la vidéo"], "the export action");
 		ctx.commit();
+		// Where the measured window actually goes. The leg reports ~62 s against a 60 s source
+		// while the panel shows render speeds around 185 fps, which would be ~19 s of rendering —
+		// so most of the number is something other than compositing, and a headline that does not
+		// say which is not worth publishing. Answering the save dialog happens inside this window
+		// too, and it is driven over UIA, which is not free.
+		const commitAt = Date.now();
 
 		// Wait for the render in the DOM, not by polling for the native window.
 		//
@@ -507,11 +520,21 @@ export default {
 			);
 		}
 
+		ctx.observe("renderMs", Date.now() - commitAt);
+		if (lastSeen) ctx.observe("lastProgress", lastSeen);
+
+		const dialogAt = Date.now();
 		try {
-			await fileDialogTo(PROC, out, { timeoutMs: 120_000 });
+			const dlg = await fileDialogTo(PROC, out, { timeoutMs: 120_000 });
+			// Split, because the whole of it lands inside the export clock. `appearedMs` is
+			// mostly the app: it announces "opening save dialog" at about 72% and the window
+			// only shows once it has finished. What comes after is this harness — filling the
+			// field and finding the commit button, a PowerShell and UIA round trip each.
+			if (dlg?.timings) ctx.observe("saveDialogPhases", dlg.timings);
 		} catch (e) {
 			throw new Error(`could not point the save dialog at ${out}: ${e.message}`);
 		}
+		ctx.observe("saveDialogMs", Date.now() - dialogAt);
 
 		// The route was recorded during the render, above, through ctx.observe — what the app
 		// says it did rather than what it was asked to do, and more trustworthy than the flag
