@@ -62,6 +62,30 @@ export const APPS = {
 			],
 		},
 	},
+	recordly: {
+		roster: "Recordly",
+		driver: "./drivers/recordly.mjs",
+		default: true,
+		install: {
+			method: "winget",
+			id: "Webadderall.Recordly",
+			url: "https://github.com/webadderallorg/Recordly/releases",
+			appName: "Recordly.exe",
+			approxMB: 201,
+			licence: "AGPL-3.0 — free",
+			notes: ["Installs per-user through winget; no elevation and no interactive installer."],
+		},
+	},
+	"recordly-cuda": {
+		roster: "Recordly",
+		driver: "./drivers/recordly-cuda.mjs",
+		// Off by default: the CUDA path is shipped disabled and marked Experimental in the
+		// product, so the default row has to be the one a fresh install produces. Enable this
+		// explicitly to measure the other side of the toggle — as a separate row, never averaged
+		// with the first.
+		default: false,
+		sharesInstallWith: "recordly",
+	},
 	cap: {
 		roster: "Cap",
 		driver: "./drivers/cap.mjs",
