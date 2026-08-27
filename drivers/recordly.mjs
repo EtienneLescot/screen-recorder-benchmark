@@ -43,17 +43,26 @@ const editorTarget = async () =>
 	(await listTargets(PORT)).find((t) => String(t.url).includes("windowType=editor"));
 const anyPage = async () => (await listTargets(PORT)).find((t) => t.type === "page");
 
-/** Wait for a CDP target, rather than guessing at a fixed sleep. */
-async function waitFor(find, { timeoutMs = 60_000, label = "target" } = {}) {
+/**
+ * Wait for a CDP target — sleeping *before* the first look, which is not a detail.
+ *
+ * A target is listed before its renderer has finished deciding what it can encode with, and
+ * attaching a session that early leaves the app on its WebCodecs path, where `VideoEncoder` is
+ * undefined and every export dies. Polling immediately made this adapter fail every time while
+ * the identical sequence run by hand — which happened to pause here — took the native WebGPU
+ * path at ~185 fps every time. Isolated by giving the hand-driven sequence this loop's timing:
+ * it started failing too.
+ */
+async function waitFor(find, { timeoutMs = 60_000, pollMs = 1500, label = "target" } = {}) {
 	const deadline = Date.now() + timeoutMs;
 	while (Date.now() < deadline) {
+		await sleep(pollMs);
 		try {
 			const t = await find();
 			if (t) return t;
 		} catch {
 			/* the app is not listening yet */
 		}
-		await sleep(1000);
 	}
 	throw new Error(`${label} never appeared within ${Math.round(timeoutMs / 1000)}s`);
 }
@@ -107,8 +116,29 @@ export default {
 		killProcesses([PROC]);
 		await sleep(1500);
 
+		// The app's own stderr is kept, not discarded. Every earlier failure here was diagnosed
+		// from the outside — CDP traces, DOM scraping, window lists — while the process was
+		// being spawned with stdio "ignore" and was saying exactly what was wrong the whole
+		// time. It costs nothing and it is the first thing to read when a leg fails.
+		const logPath = join(ctx.outDir, `${this.id}-app.log`);
+		ctx.state.appLog = logPath;
 		const { spawn } = await import("node:child_process");
-		spawn(BIN, [`--remote-debugging-port=${PORT}`], { detached: true, stdio: "ignore" }).unref();
+		const { appendFileSync, writeFileSync } = await import("node:fs");
+		writeFileSync(logPath, "");
+		const child = spawn(BIN, [`--remote-debugging-port=${PORT}`], {
+			detached: true,
+			stdio: ["ignore", "pipe", "pipe"],
+		});
+		const keep = (d) => {
+			try {
+				appendFileSync(logPath, d);
+			} catch {
+				/* the run matters more than its log */
+			}
+		};
+		child.stdout.on("data", keep);
+		child.stderr.on("data", keep);
+		child.unref();
 		const page = await waitFor(anyPage, { label: "Recordly's CDP page" });
 
 		const s = new CdpSession(page.webSocketDebuggerUrl);
@@ -313,16 +343,25 @@ export default {
 
 		// Wait for the render in the DOM, not by polling for the native window.
 		//
-		// The save dialog only opens once the render is finished, which for a 60 s clip is
-		// minutes. Handing that wait to fileDialogTo means it polls listWindows every 400 ms,
-		// and each of those is a PowerShell spawn plus a UIA descendant walk of about a second
-		// — hundreds of them, competing with the very export being timed, and it showed up as
-		// 560 % background load. One CDP eval every two seconds costs nothing and is exact: the
-		// editor prints its own progress, and says "Opening save dialog" when it is done.
+		// Handing that wait to fileDialogTo means it polls listWindows every 400 ms, and each of
+		// those is a PowerShell spawn plus a UIA descendant walk of about a second — hundreds of
+		// them, competing with the very export being timed, and it showed up as 560 % background
+		// load. One CDP eval every two seconds costs nothing and is exact: the editor prints its
+		// own progress, and says "Opening save dialog" when it reaches that step.
+		//
+		// On this build and this path — Lightning, on Windows — the dialog does come after the
+		// render, and this ordering has produced a correct 60 s export. It is NOT assumed to
+		// hold elsewhere: a parallel macOS run of this benchmark found the dialog arriving
+		// before or during the render on Lightning and blocking it, which is the opposite. That
+		// was a generalisation from one observation of the *Legacy* path, and this comment used
+		// to make the same mistake. If a leg here ever stalls with no progress, read
+		// `ctx.state.appLog` and check whether a dialog is already waiting.
+		//
 		// Only "opening save dialog" means finished. `Path:` does *not*: the editor prints the
 		// route it picked beside the percentage while it is still rendering — at 45 % complete
 		// the panel already reads "45 % terminé / Render speed 185.4 FPS / Path: WebGPU + Breeze
-		// (h264-stream-copy)" — so matching on it declares the render done halfway through.
+		// (h264-stream-copy)" — so matching on it declares the render done halfway through. It
+		// is captured there instead, while it is still on screen.
 		const body = async () =>
 			es
 				.eval('JSON.stringify((document.body.innerText || "").replace(/\\s+/g, " "))')
@@ -346,10 +385,6 @@ export default {
 			);
 		}
 
-		// Only "opening save dialog" means finished. `Path:` does *not*: the editor prints the
-		// route it picked beside the percentage while it is still rendering — at 45 % complete
-		// the panel already reads "45 % terminé / Render speed 185.4 FPS / Path: WebGPU + Breeze
-		// (h264-stream-copy)" — so matching on it declares the render done halfway through.
 		const RENDER_DEADLINE_MS = 20 * 60_000;
 		const renderStart = Date.now();
 		let sawDialogCue = false;
@@ -360,6 +395,10 @@ export default {
 				/[\d.]+\s*%\s*termin\S*|[\d.]+\s*%\s*complete|Render speed[^A-Z]*/i,
 			);
 			if (progress) lastSeen = progress[0].trim().slice(0, 120);
+			// Read the route while the panel still shows it — by the time the save dialog has
+			// been answered it is gone, which is why the first version recorded null.
+			const route = text.match(/Path:\s*([^|]{3,60}?)\s*(?:Annuler|Cancel|$)/i);
+			if (route && !ctx.state.backend) ctx.state.backend = route[1].trim();
 			if (/opening save dialog/i.test(text)) {
 				sawDialogCue = true;
 				break;
@@ -379,18 +418,9 @@ export default {
 			throw new Error(`could not point the save dialog at ${out}: ${e.message}`);
 		}
 
-		// What the app says it did, not what it was asked to do. The editor prints the route it
-		// took beside the progress — "Path: WebGPU + Breeze (h264-stream-copy)" on this machine —
-		// and that is more trustworthy than the flag that requested it.
-		const reported = await es
-			.eval(`
-				(function () {
-					const m = (document.body.innerText || "").match(/Path:\\s*(.+)/);
-					return JSON.stringify(m ? m[1].trim().slice(0, 80) : null);
-				})()
-			`)
-			.catch(() => null);
-		ctx.state.backend = reported ? JSON.parse(reported) : null;
+		// ctx.state.backend was captured during the render, above — what the app says it did
+		// rather than what it was asked to do, and more trustworthy than the flag that
+		// requested it.
 	},
 
 	async cleanup(ctx) {
