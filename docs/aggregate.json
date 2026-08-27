@@ -4,42 +4,87 @@
       "tool": "openscreen-cli",
       "component": 0,
       "relativeCost": 1,
-      "submissions": 1,
+      "submissions": 2,
       "machines": [
+        "Apple M1",
         "AMD Ryzen 7 5800X 8-Core Processor             "
       ],
       "platforms": [
+        "darwin",
         "win32"
       ],
       "versions": [
+        "1.10.0",
         "1.10.0.0"
       ],
       "observedCostRange": [
         1.077,
-        1.077
+        2.063
       ]
     },
     {
       "tool": "cap",
       "component": 0,
-      "relativeCost": 2.351,
-      "submissions": 1,
+      "relativeCost": 1.33,
+      "submissions": 2,
       "machines": [
+        "Apple M1",
         "AMD Ryzen 7 5800X 8-Core Processor             "
       ],
       "platforms": [
+        "darwin",
         "win32"
       ],
       "versions": [
         "0.5.9"
       ],
       "observedCostRange": [
-        2.531,
+        1.283,
         2.531
+      ]
+    },
+    {
+      "tool": "recordly",
+      "component": 0,
+      "relativeCost": 1.851,
+      "submissions": 1,
+      "machines": [
+        "Apple M1"
+      ],
+      "platforms": [
+        "darwin"
+      ],
+      "versions": [
+        "unknown"
+      ],
+      "observedCostRange": [
+        2.612,
+        2.612
       ]
     }
   ],
   "edges": [
+    {
+      "a": "openscreen-cli",
+      "b": "cap",
+      "logRatio": 0.474699922,
+      "weight": 0.5,
+      "machine": "Apple M1"
+    },
+    {
+      "a": "openscreen-cli",
+      "b": "recordly",
+      "logRatio": -0.236097537,
+      "weight": 0.5,
+      "machine": "Apple M1"
+    },
+    {
+      "a": "cap",
+      "b": "recordly",
+      "logRatio": -0.710797459,
+      "weight": 0.5,
+      "machine": "Apple M1"
+    },
     {
       "a": "openscreen-cli",
       "b": "cap",
@@ -49,6 +94,122 @@
     }
   ],
   "used": [
+    {
+      "sub": {
+        "schemaVersion": 1,
+        "submittedAt": "2026-08-27T23:36:40.545Z",
+        "submitter": {
+          "name": "apple-m1"
+        },
+        "machine": {
+          "platform": "darwin",
+          "chip": "Apple M1",
+          "gpu": "Apple M1",
+          "cpuCount": 8,
+          "memoryGiB": 8,
+          "osVersion": "26.5",
+          "osBuild": "25F71"
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 194.6,
+          "loadSpreadPercentagePoints": 120.3,
+          "driftRatio": 0.9996,
+          "remoteDesktopActive": null
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "c407c71ad0de9c89533abe2d66918657f76f4e9474d86241efc8e03e5d779c66",
+          "durationSec": 60,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "openscreen-cli",
+            "version": "1.10.0",
+            "exportMs": 37583,
+            "madMs": 53,
+            "runs": 3,
+            "localFloorMs": 18222,
+            "cpuSeconds": 8.7,
+            "peakRssMiB": 720.7,
+            "foreignCpuPercent": 32.3,
+            "outputBytes": 60015257,
+            "outputMeanVolumeDb": null,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "cap",
+            "version": "0.5.9",
+            "exportMs": 23396,
+            "madMs": 201,
+            "runs": 3,
+            "localFloorMs": 18235,
+            "cpuSeconds": 26.33,
+            "peakRssMiB": 1561.5,
+            "foreignCpuPercent": 152.6,
+            "outputBytes": 94232079,
+            "outputMeanVolumeDb": null,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "recordly",
+            "version": "unknown",
+            "exportMs": 47620,
+            "madMs": 54,
+            "runs": 3,
+            "localFloorMs": 18233,
+            "cpuSeconds": 88.01,
+            "peakRssMiB": 1368.3,
+            "foreignCpuPercent": 65.5,
+            "outputBytes": 87840531,
+            "outputMeanVolumeDb": null,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cdp"
+          }
+        ],
+        "notes": [
+          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "cap: zoom segments written: 3",
+          "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+          "recordly: CUDA export path: available=false, requested=false",
+          "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+          "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events.",
+          "ffmpeg-baseline: encoder: h264_videotoolbox (hardware)",
+          "ffmpeg-baseline: No compositing: this row is the encode-only reference, not a product."
+        ],
+        "_path": "submissions/darwin/apple-m1-2026-08-28.json"
+      },
+      "weight": 0.5,
+      "reasons": [
+        "background load differed by 120 points between tools"
+      ],
+      "tools": [
+        "openscreen-cli",
+        "cap",
+        "recordly"
+      ]
+    },
     {
       "sub": {
         "schemaVersion": 1,
@@ -136,110 +297,34 @@
       ]
     }
   ],
-  "skipped": [
-    {
-      "sub": {
-        "schemaVersion": 1,
-        "submittedAt": "2026-08-26T08:23:37.201Z",
-        "submitter": {
-          "name": "Etienne Lescot"
-        },
-        "machine": {
-          "platform": "darwin",
-          "chip": "Apple M1",
-          "gpu": "Apple M1",
-          "cpuCount": 8,
-          "memoryGiB": 8,
-          "osVersion": "26.5",
-          "osBuild": "25F71"
-        },
-        "conditions": {
-          "onACPower": true,
-          "maxForeignCpuPercent": 341.5,
-          "loadSpreadPercentagePoints": 196.5,
-          "driftRatio": 0.9992,
-          "remoteDesktopActive": false
-        },
-        "scenario": {
-          "step": "S4",
-          "outputWidth": 1920,
-          "outputHeight": 1080,
-          "outputFps": 60,
-          "outputCodec": "h264"
-        },
-        "source": {
-          "kind": "recording",
-          "bundle": null,
-          "downloadSha256": null,
-          "normalisedSha256": "53eb22f8345c8a841e9058dec78a55f22a07e0079f50fd4906087e2d2640c40b",
-          "durationSec": 66.154,
-          "frames": 3969
-        },
-        "measurements": [
-          {
-            "tool": "openscreen-cli",
-            "version": "1.10.0-rc.3",
-            "exportMs": 24726,
-            "madMs": null,
-            "runs": 3,
-            "localFloorMs": 19701,
-            "cpuSeconds": 7.43,
-            "peakRssMiB": 551.5,
-            "foreignCpuPercent": 145,
-            "outputBytes": 67230074,
-            "outputMeanVolumeDb": null,
-            "fidelity": 1,
-            "missing": [],
-            "contradicted": [],
-            "verified": true,
-            "automation": "cli"
-          },
-          {
-            "tool": "cap",
-            "version": "0.5.9",
-            "exportMs": 23656,
-            "madMs": null,
-            "runs": 3,
-            "localFloorMs": 19675,
-            "cpuSeconds": 30.77,
-            "peakRssMiB": 1160.5,
-            "foreignCpuPercent": 260,
-            "outputBytes": 104677594,
-            "outputMeanVolumeDb": null,
-            "fidelity": 1,
-            "missing": [],
-            "contradicted": [],
-            "verified": true,
-            "automation": "cli"
-          }
-        ],
-        "notes": [
-          "Parsec was closed for this run — it encodes the screen through the same hardware H.264 block the exports use.",
-          "Source is a local recording, not a public bundle: this submission is here as a worked example and is excluded from the aggregate for that reason."
-        ],
-        "_path": "submissions/darwin/apple-m1-2026-08-25.json"
-      },
-      "why": "source is recording — only public-bundle footage is comparable across machines"
-    }
-  ],
+  "skipped": [],
   "components": [
     [
       "cap",
-      "openscreen-cli"
+      "openscreen-cli",
+      "recordly"
     ]
   ],
   "consistency": {
-    "edges": 1,
-    "redundantEdges": 0,
-    "measurable": false,
-    "medianResidualPercent": 0,
-    "maxResidualPercent": 0,
+    "edges": 4,
+    "redundantEdges": 2,
+    "measurable": true,
+    "medianResidualPercent": 60.77,
+    "maxResidualPercent": 113.76,
     "worst": {
       "a": "openscreen-cli",
       "b": "cap",
-      "machine": "AMD Ryzen 7 5800X 8-Core Processor             ",
-      "disagreementPercent": 0
+      "machine": "Apple M1",
+      "disagreementPercent": 113.76
     }
   },
-  "versionSpread": []
+  "versionSpread": [
+    {
+      "tool": "openscreen-cli",
+      "versions": [
+        "1.10.0",
+        "1.10.0.0"
+      ]
+    }
+  ]
 }

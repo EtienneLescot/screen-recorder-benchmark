@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "submittedAt": "2026-08-27T23:36:40.545Z",
+  "submitter": {
+    "name": "apple-m1"
+  },
+  "machine": {
+    "platform": "darwin",
+    "chip": "Apple M1",
+    "gpu": "Apple M1",
+    "cpuCount": 8,
+    "memoryGiB": 8,
+    "osVersion": "26.5",
+    "osBuild": "25F71"
+  },
+  "conditions": {
+    "onACPower": true,
+    "maxForeignCpuPercent": 194.6,
+    "loadSpreadPercentagePoints": 120.3,
+    "driftRatio": 0.9996,
+    "remoteDesktopActive": null
+  },
+  "scenario": {
+    "step": "S4",
+    "outputWidth": 1920,
+    "outputHeight": 1080,
+    "outputFps": 60,
+    "outputCodec": "h264"
+  },
+  "source": {
+    "kind": "public-bundle",
+    "bundle": "commons-upload",
+    "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+    "normalisedSha256": "c407c71ad0de9c89533abe2d66918657f76f4e9474d86241efc8e03e5d779c66",
+    "durationSec": 60,
+    "frames": 3600
+  },
+  "measurements": [
+    {
+      "tool": "openscreen-cli",
+      "version": "1.10.0",
+      "exportMs": 37583,
+      "madMs": 53,
+      "runs": 3,
+      "localFloorMs": 18222,
+      "cpuSeconds": 8.7,
+      "peakRssMiB": 720.7,
+      "foreignCpuPercent": 32.3,
+      "outputBytes": 60015257,
+      "outputMeanVolumeDb": null,
+      "fidelity": 1,
+      "missing": [],
+      "contradicted": [],
+      "verified": true,
+      "automation": "cli"
+    },
+    {
+      "tool": "cap",
+      "version": "0.5.9",
+      "exportMs": 23396,
+      "madMs": 201,
+      "runs": 3,
+      "localFloorMs": 18235,
+      "cpuSeconds": 26.33,
+      "peakRssMiB": 1561.5,
+      "foreignCpuPercent": 152.6,
+      "outputBytes": 94232079,
+      "outputMeanVolumeDb": null,
+      "fidelity": 1,
+      "missing": [],
+      "contradicted": [],
+      "verified": true,
+      "automation": "cli"
+    },
+    {
+      "tool": "recordly",
+      "version": "unknown",
+      "exportMs": 47620,
+      "madMs": 54,
+      "runs": 3,
+      "localFloorMs": 18233,
+      "cpuSeconds": 88.01,
+      "peakRssMiB": 1368.3,
+      "foreignCpuPercent": 65.5,
+      "outputBytes": 87840531,
+      "outputMeanVolumeDb": null,
+      "fidelity": 1,
+      "missing": [],
+      "contradicted": [],
+      "verified": true,
+      "automation": "cdp"
+    }
+  ],
+  "notes": [
+    "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+    "cap: zoom segments written: 3",
+    "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+    "recordly: CUDA export path: available=false, requested=false",
+    "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+    "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events.",
+    "ffmpeg-baseline: encoder: h264_videotoolbox (hardware)",
+    "ffmpeg-baseline: No compositing: this row is the encode-only reference, not a product."
+  ]
+}

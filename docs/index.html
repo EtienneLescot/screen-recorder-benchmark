@@ -63,9 +63,9 @@
 
   <div class="meta">
     <span>2 submissions</span>
-    <span>1 ratio</span>
-    <span>2 tools</span>
-    <span>data as of 2026-08-26</span>
+    <span>4 ratios</span>
+    <span>3 tools</span>
+    <span>data as of 2026-08-27</span>
   </div>
 
   
@@ -75,21 +75,30 @@
   a plain ffmpeg transcode measured on the same machine moments earlier. Seconds are not
   comparable across machines; this is.</p>
   <div class="row">
-        <div class="name">openscreen-cli<span class="tag" title="one submission — no independent confirmation">1 machine</span></div>
-        <div class="track"><div class="fill thin" style="width:42.5%"></div></div>
+        <div class="name">openscreen-cli</div>
+        <div class="track"><div class="fill" style="width:54.0%"></div></div>
         <div class="val">1×</div>
       </div>
 <div class="row">
-        <div class="name">cap<span class="tag" title="one submission — no independent confirmation">1 machine</span></div>
+        <div class="name">cap</div>
+        <div class="track"><div class="fill" style="width:71.9%"></div></div>
+        <div class="val">1.33×</div>
+      </div>
+<div class="row">
+        <div class="name">recordly<span class="tag" title="one submission — no independent confirmation">1 machine</span></div>
         <div class="track"><div class="fill thin" style="width:100.0%"></div></div>
-        <div class="val">2.351×</div>
+        <div class="val">1.851×</div>
       </div>
 
-  <div class="note"><strong>Not cross-checked yet.</strong> Every ratio here rests on a
-      single machine, so nothing contradicts anything and no agreement figure is meaningful.
-      Consistency becomes measurable once two submissions measure an overlapping pair.</div>
+  <div class="note"><strong>Consistency.</strong> Where several machines measured the same
+      pair, they disagree by 60.77% at the median and 113.76%
+      at worst — <code>openscreen-cli</code> against <code>cap</code> on Apple M1.
+      Redundant paths are what makes that measurable; a single machine could not tell you.</div>
 
-  
+  <div class="note warn"><strong>Mixed versions.</strong>
+      <code>openscreen-cli</code> spans 2 builds (1.10.0, 1.10.0.0).
+      Tools are measured as shipped rather than pinned, so a figure can rest on more than one
+      build as submissions accumulate.</div>
 
   <h2>Detail</h2>
   <div class="scroll"><table>
@@ -97,18 +106,26 @@
     <tbody><tr>
       <td><strong>openscreen-cli</strong></td>
       <td class="num">1×</td>
-      <td class="num">1</td>
-      <td>win32</td>
-      <td class="num">1.077–1.077×</td>
-      <td class="muted">1.10.0.0</td>
+      <td class="num">2</td>
+      <td>darwin, win32</td>
+      <td class="num">1.077–2.063×</td>
+      <td class="muted">1.10.0, 1.10.0.0</td>
     </tr>
 <tr>
       <td><strong>cap</strong></td>
-      <td class="num">2.351×</td>
-      <td class="num">1</td>
-      <td>win32</td>
-      <td class="num">2.531–2.531×</td>
+      <td class="num">1.33×</td>
+      <td class="num">2</td>
+      <td>darwin, win32</td>
+      <td class="num">1.283–2.531×</td>
       <td class="muted">0.5.9</td>
+    </tr>
+<tr>
+      <td><strong>recordly</strong></td>
+      <td class="num">1.851×</td>
+      <td class="num">1</td>
+      <td>darwin</td>
+      <td class="num">2.612–2.612×</td>
+      <td class="muted">unknown</td>
     </tr></tbody>
   </table></div>
 
