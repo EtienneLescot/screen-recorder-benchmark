@@ -190,6 +190,8 @@ export default {
 			paddingControl: ctx.paddingControl ?? defaultPaddingControl(ctx.scenario),
 			assets: { ...(ctx.assets ?? {}), webcam: ctx.source.webcam ?? ctx.assets?.webcam },
 			spec: ctx.source.spec,
+			// Downloaded footage has no spec but does carry a generated pointer track.
+			cursorPath: ctx.source.cursorPath ?? ctx.assets?.cursorPath ?? null,
 		});
 		ctx.state.built = built;
 
