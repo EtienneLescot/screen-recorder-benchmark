@@ -67,13 +67,22 @@ export const APPS = {
 		driver: "./drivers/recordly.mjs",
 		default: true,
 		install: {
+			// Windows installs per-user through winget — no elevation, no interactive installer.
+			// macOS takes the signed dmg below; the two are listed together rather than split
+			// because installPlan reads one spec per entry.
 			method: "winget",
 			id: "Webadderall.Recordly",
 			url: "https://github.com/webadderallorg/Recordly/releases",
+			macUrl:
+				"https://github.com/webadderallorg/Recordly/releases/download/v1.3.3/Recordly-arm64.dmg",
 			appName: "Recordly.exe",
+			macAppName: "Recordly.app",
 			approxMB: 201,
-			licence: "AGPL-3.0 — free",
-			notes: ["Installs per-user through winget; no elevation and no interactive installer."],
+			licence: "AGPL-3.0 — free, no account or activation needed",
+			notes: [
+				"Official repository is webadderallorg/Recordly; a swarm of same-named forks exists, so pin the org.",
+				"macOS build is signed by Fido Tech (54QUWA9PZA).",
+			],
 		},
 	},
 	"recordly-cuda": {
