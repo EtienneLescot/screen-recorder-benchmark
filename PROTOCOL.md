@@ -94,6 +94,14 @@ A run that measures a compromised machine measures nothing.
   source found while building this benchmark, it is not visible in CPU usage, and it affects
   tools unequally — so it moves rankings, not just times. Measured: the floor went 17.7 s →
   23.7 s with a session live while one tool went 19.6 s → 43.8 s.
+- **The benchmark's own output must not be indexed.** A run that exports video leaves gigabytes
+  of it behind, and macOS then analyses what it finds: `mediaanalysisd` was measured at 125% of a
+  core mid-run against 12 GB of this benchmark's own exports, alongside `VTDecoderXPCService` at
+  22%. It is a confound the harness creates for itself, it grows with every run, and it lands on
+  whichever tool happens to be measured while the daemon is busy — so, like a remote-desktop
+  session, it moves rankings rather than times. The harness writes `.metadata_never_index` into
+  the work directory to opt out; if you move the work directory, keep the marker with it.
+  Dropping it took the daemon from 125% to 0%.
 - **Background load is recorded per tool**, excluding the tool being measured.
 - **Three scoring runs** after one discarded warm-up, 45 s of cooldown between them. The
   headline is the median with a median absolute deviation.
