@@ -18,7 +18,8 @@
  * instead of the product. The editor's own export action is triggered instead, and the app
  * routes, composites and encodes exactly as it would for a user.
  */
-import { existsSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, rmSync } from "node:fs";
+import { homedir } from "node:os";
 import { join } from "node:path";
 import { CdpSession, DOM_HELPERS, listTargets } from "../lib/cdp.mjs";
 import { sleep } from "../lib/measure.mjs";
@@ -53,6 +54,33 @@ const anyPage = async () => (await listTargets(PORT)).find((t) => t.type === "pa
  * path at ~185 fps every time. Isolated by giving the hand-driven sequence this loop's timing:
  * it started failing too.
  */
+/**
+ * Where Recordly will agree to read a project from.
+ *
+ * The app resolves media through `resolveAllowedReadableFilePath` and refuses anything outside
+ * the directories it owns. A project written to the harness's own work directory loads its video
+ * — that path is handed over explicitly — but its audio sidecars are rejected, and the app log
+ * says so plainly: `[get-local-media-url] Blocked disallowed path: …/screen.system.wav`. The
+ * export then starts and produces nothing, which reads as a hang rather than a refusal.
+ *
+ * Building elsewhere and copying does not help either: the document embeds absolute paths, so a
+ * copied project opens with "No video to load".
+ *
+ * This is the location the app reports through `getProjectsDirectory()`; `prepare` asserts they
+ * still agree once the bridge is up, so a change of layout fails loudly instead of silently
+ * costing the audio.
+ */
+function projectsRoot() {
+	return IS_WIN
+		? join(
+				process.env.APPDATA ?? join(homedir(), "AppData", "Roaming"),
+				"Recordly",
+				"recordings",
+				"Projects",
+			)
+		: join(homedir(), "Library", "Application Support", "Recordly", "recordings", "Projects");
+}
+
 async function waitFor(find, { timeoutMs = 60_000, pollMs = 1500, label = "target" } = {}) {
 	const deadline = Date.now() + timeoutMs;
 	while (Date.now() < deadline) {
@@ -181,7 +209,8 @@ export default {
 	defaultPaddingControl,
 
 	async prepare(ctx) {
-		const outDir = join(ctx.workDir, "projects", this.id);
+		const outDir = join(projectsRoot(), "openscreen-benchmark");
+		mkdirSync(outDir, { recursive: true });
 		const built = buildProject({
 			sourcePath: ctx.source.path,
 			scenario: ctx.scenario,
@@ -203,6 +232,20 @@ export default {
 		// loads; runExport opens it again, fresh, before each export.
 		const { cdp, editor, call } = await launchAndOpen(ctx, built, this.useCuda, logPath);
 		ctx.state.cdp = cdp;
+
+		// Confirm the app reads projects from where this driver wrote one. A silent disagreement
+		// costs the audio sidecars and nothing else — the video still loads — so it would surface
+		// as an export that starts and never finishes rather than as a path error.
+		const reported = await call("getProjectsDirectory()").catch(() => null);
+		const root =
+			typeof reported === "string" ? reported : (reported?.path ?? reported?.directory ?? null);
+		if (root && !built.projectPath.startsWith(root)) {
+			throw new Error(
+				`Recordly reads projects from ${root}, but this one was written to ${built.projectPath}. ` +
+					"Media outside the app's own directories is refused, so the export would start and stall.",
+			);
+		}
+
 		ctx.state.editor = editor;
 
 		const caps = await call("window.electronAPI.getNativeExportCapabilities()");
