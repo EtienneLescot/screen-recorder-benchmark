@@ -9,11 +9,11 @@
  * or a UI-driven tool's numbers; `openscreen-gui` exists for that comparison, and the report keeps
  * two rows apart.
  */
-import { execFileSync, spawn } from "node:child_process";
+import { spawn } from "node:child_process";
 import { existsSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { buildProject } from "../lib/openscreenProject.mjs";
-import { appVersion, IS_WIN, resolveAppPath } from "../lib/platform.mjs";
+import { appVersion, IS_WIN, killProcesses, resolveAppPath } from "../lib/platform.mjs";
 
 export const OPENSCREEN = {
 	macPath: "/Applications/Openscreen.app",
@@ -161,10 +161,9 @@ export default {
 	async cleanup() {
 		// CLI exports leave the on-device STT server running; on an 8 GB machine those orphans
 		// distort the next run's memory figures and the process sampler's totals.
-		try {
-			execFileSync("/usr/bin/pkill", ["-f", "whisper-stt-server"], { stdio: "ignore" });
-		} catch {
-			/* none running */
-		}
+		// This was a bare /usr/bin/pkill in a swallowing try/catch, so on Windows it threw ENOENT and was
+		// discarded — the orphans this exists to reap were never reaped there, silently, which is
+		// exactly the distortion the comment above warns about. killProcesses() branches per platform.
+		killProcesses(["whisper-stt-server"]);
 	},
 };
