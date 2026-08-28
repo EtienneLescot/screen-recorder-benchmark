@@ -102,6 +102,16 @@ A run that measures a compromised machine measures nothing.
   session, it moves rankings rather than times. The harness writes `.metadata_never_index` into
   the work directory to opt out; if you move the work directory, keep the marker with it.
   Dropping it took the daemon from 125% to 0%.
+- **The backdrop is each tool's own, and this is a known bias — not a neutral choice.** `full-demo`
+  asks for a wallpaper but does not supply one, because supplying a file needs a per-adapter import
+  route and at least one tool has none. The cost was assumed to be small and has now been measured:
+  running OpenScreen over two documents identical but for the wallpaper, all four paired legs came
+  out about 10% apart (39.8 s on its own backdrop, 35.5 s on a supplied one). The mechanism is
+  resolution. The wallpapers these tools ship are desktop photographs and they are not sized alike —
+  Cap's are a uniform 10.0 Mpx, Recordly's span 2.6–12.0 Mpx, OpenScreen's 9.3–36.2 Mpx — so each
+  tool is handed a different amount of texture work, chosen by its own vendor, and shipping a
+  smaller default is rewarded. Reproduce it with `scratch/wallpaper-ab.mjs`. Until the rule changes,
+  read a gap under ~10% as within this bias rather than as a difference between the tools.
 - **Background load is recorded per tool**, excluding the tool being measured.
 - **Three scoring runs** after one discarded warm-up, 45 s of cooldown between them. The
   headline is the median with a median absolute deviation.

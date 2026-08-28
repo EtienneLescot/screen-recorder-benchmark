@@ -1,0 +1,31 @@
+leg 1 toolDefault 39.77s
+leg 1 supplied    35.52s
+leg 2 toolDefault 39.89s
+leg 2 supplied    35.39s
+leg 3 toolDefault 39.82s
+leg 3 supplied    37.36s
+leg 4 toolDefault 45.59s
+leg 4 supplied    40.78s
+
+toolDefault median 39.86s  spread ±2.91s  legs 39.77 39.89 39.82 45.59
+supplied    median 36.44s  spread ±2.69s  legs 35.52 35.39 37.36 40.78
+
+supplied − tool-default: -3.42s (-8.6%)
+
+paired differences (supplied − tool-default), same leg:
+  leg 1  -4.25s  (-10.7%)
+  leg 2  -4.50s  (-11.3%)
+  leg 3  -2.46s  ( -6.2%)
+  leg 4  -4.81s  (-10.6%)
+all four the same sign; leg 4 is slower in both arms, which is machine drift the pairing absorbs.
+
+verified in pixels: both arms composited a real backdrop, identical in every other respect
+(padding, corner radius, inset recording, webcam PiP, rendered cursor). Output is deterministic
+within an arm — all four legs byte-identical — and the tool-default arm reproduces the submitted
+macOS measurement exactly (60,015,257 bytes).
+
+mechanism, measured off the installed bundles:
+  Openscreen.app  wallpapers   9.3 – 36.2 Mpx   (wallpaper1 5724x3816, wallpaper10 6016x6016)
+  Recordly.app    wallpapers   2.6 – 12.0 Mpx
+  Cap.app         backgrounds  uniform 10.0 Mpx (4000x2500)
+  the benchmark's supplied wallpaper           2.1 Mpx (1920x1080)

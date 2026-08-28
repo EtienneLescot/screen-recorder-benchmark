@@ -53,23 +53,32 @@ export const SCENARIOS = {
 			 * `source: "tool-default"` means each tool composites its own built-in wallpaper
 			 * rather than one supplied here, and that is a deliberate tolerance.
 			 *
-			 * What it costs: two different photographic backdrops are not the same bytes. What
-			 * it buys: they are very nearly the same *work*. A background is one texture fetch
-			 * per pixel against thirteen samples per pixel for the motion blur — Recordly's own
-			 * normalised project reports zoomMotionBlurSampleCount: 13 — on top of decoding 3600
-			 * frames of 1080p and a second camera stream. Which image it is barely moves the
-			 * number.
+			 * What it buys is large. Supplying one image meant every adapter needed its own import
+			 * route — a data URI for OpenScreen, a file copied into the project for Cap — and a
+			 * tool whose project format takes neither could not be measured at all: given an
+			 * absolute path, Recordly joins it onto its own asset base, fails to read it, silently
+			 * renders no background, and eventually crashes its network service.
 			 *
-			 * What it removes is large. Supplying one image meant every adapter needed its own
-			 * import route — a data URI for OpenScreen, a file copied into the project for Cap —
-			 * and a tool whose project format takes neither could not be measured at all: given
-			 * an absolute path, Recordly joins it onto its own asset base, fails to read it,
-			 * silently renders no background, and eventually crashes its network service.
+			 * What it costs was stated here as an assumption — "two photographic backdrops are
+			 * very nearly the same work" — with a note asking for it to be checked. It has been,
+			 * and it is false. scratch/wallpaper-ab.mjs runs OpenScreen over two documents
+			 * identical but for `editor.wallpaper`, legs alternating so machine drift lands on
+			 * both arms. All four paired legs came out the same way: 39.77/39.89/39.82/45.59s on
+			 * the tool's own backdrop against 35.52/35.39/37.36/40.78s on the supplied one —
+			 * roughly 10% of the export, every time.
 			 *
-			 * The requirement that remains is presence, not identity: a tool that composites no
-			 * background does strictly less work and the verifier still says so. Harden this
-			 * later if the tolerance turns out to matter — it is recorded here so a future
-			 * measurement can be checked against the assumption rather than inheriting it.
+			 * The mechanism is resolution, not identity. The supplied wallpaper is 1920x1080, or
+			 * 2.1 Mpx. The wallpapers these tools ship are photographs sized for a desktop, and
+			 * they are not sized alike: Cap's are a uniform 4000x2500 (10.0 Mpx), Recordly's range
+			 * 2.6 to 12.0 Mpx, OpenScreen's 9.3 to 36.2 Mpx. So the tolerance does not merely add
+			 * noise — it hands each tool a different amount of texture work, decided by its
+			 * vendor, and a tool that ships a smaller default is rewarded for it.
+			 *
+			 * This is recorded rather than fixed because the fix changes what is measured and
+			 * invalidates the submissions taken under the present rule. The route that needs no
+			 * import: pin the backdrop by resolution instead of by identity — have each driver
+			 * pick, from the tool's own shipped set, the wallpaper nearest a common megapixel
+			 * target. All three can reach ~10 Mpx from assets they already carry.
 			 */
 			background: { kind: "image", source: "tool-default" },
 			/** Inset of the recording inside the frame, as a percent of the frame's short side. */
