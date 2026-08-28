@@ -61,7 +61,6 @@ import {
 	describeWindow,
 	dumpMenus,
 	hasScriptingDictionary,
-	launchApp,
 } from "./lib/uiScript.mjs";
 import { inspectExport } from "./lib/visualCheck.mjs";
 import { DEFAULT_SCENARIO, fidelity, getScenario } from "./scenarios/index.mjs";
@@ -240,7 +239,11 @@ async function cmdPreflight({ flags }) {
 			if (d.kind !== "gui" || !d.appPath || !existsSync(d.appPath)) continue;
 			log(`  → ${d.displayName}`);
 			try {
-				await launchApp(d.appPath, d.processName);
+				// uiLaunchApp, not launchApp: both are imported here, and the unaliased one is
+				// lib/uiScript.mjs's macOS implementation, so --launch died on
+				// "spawnSync /usr/bin/open ENOENT" on every Windows machine. lib/ui.mjs is the
+				// dispatcher that picks an implementation per platform.
+				await uiLaunchApp(d.appPath, d.processName);
 			} catch (e) {
 				log(`     could not launch: ${e.message.split("\n")[0]}`);
 			}
@@ -282,7 +285,15 @@ async function cmdInstall({ flags }) {
 	for (const spec of plan) {
 		log(`${spec.appName}`);
 		try {
-			const rec = installApp(spec, { cacheDir, force: !!flags.force, log });
+			// Where the app ends up on Windows is the installer's choice, so installApp asks the
+			// driver. It has always looked for `spec.resolve` and nothing ever supplied one, so
+			// every Windows install that otherwise succeeded ended on "installed but its
+			// executable was not found where expected".
+			const driver = await loadDriver(spec.app).catch(() => null);
+			const rec = installApp(
+				{ ...spec, resolve: driver?.resolveInstalledPath },
+				{ cacheDir, force: !!flags.force, log },
+			);
 			records.push(rec);
 			log(
 				`  ${rec.status} — ${rec.version ?? "?"} — gatekeeper: ${rec.codesign.accepted ? "accepted" : "REJECTED"}`,

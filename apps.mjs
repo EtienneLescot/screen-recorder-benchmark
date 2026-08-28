@@ -32,6 +32,13 @@ export const APPS = {
 			appName: "Openscreen.app",
 			approxMB: 250,
 			licence: "MIT — free, no account, no watermark",
+			// The same release publishes an electron-builder NSIS installer. Anchoring the pattern
+			// on .exe$ keeps the .exe.blockmap published beside it from matching first.
+			win32: {
+				assetPattern: /^Openscreen\.Setup\..*\.exe$/i,
+				appName: "Openscreen.exe",
+				approxMB: 233,
+			},
 		},
 	},
 	"openscreen-gui": {
@@ -74,16 +81,19 @@ export const APPS = {
 		default: true,
 		install: {
 			// Windows installs per-user through winget — no elevation, no interactive installer.
-			// macOS takes the signed dmg below; the two are listed together rather than split
-			// because installPlan reads one spec per entry.
+			// The macOS dmg is a `darwin` override rather than the macUrl/macAppName pair this
+			// carried before: those were read by nothing, so on macOS the entry described a winget
+			// package and the plan offered a releases *page* as the thing to download.
 			method: "winget",
 			id: "Webadderall.Recordly",
 			url: "https://github.com/webadderallorg/Recordly/releases",
-			macUrl:
-				"https://github.com/webadderallorg/Recordly/releases/download/v1.3.3/Recordly-arm64.dmg",
 			appName: "Recordly.exe",
-			macAppName: "Recordly.app",
 			approxMB: 201,
+			darwin: {
+				method: "dmg",
+				url: "https://github.com/webadderallorg/Recordly/releases/download/v1.3.3/Recordly-arm64.dmg",
+				appName: "Recordly.app",
+			},
 			licence: "AGPL-3.0 — free, no account or activation needed",
 			notes: [
 				"Official repository is webadderallorg/Recordly; a swarm of same-named forks exists, so pin the org.",
@@ -114,6 +124,15 @@ export const APPS = {
 			notes: [
 				"Ships a real CLI at Cap.app/Contents/MacOS/cap-cli — `cap export` renders a .cap project.",
 			],
+			// /download/windows redirects to the vendor's CDN and lands on an NSIS x86_64 build,
+			// which takes the same /S switch as every other Windows entry here. cap-cli.exe ships
+			// beside Cap.exe rather than inside a bundle.
+			win32: {
+				method: "exe",
+				url: "https://cap.so/download/windows",
+				appName: "Cap.exe",
+				approxMB: 134,
+			},
 		},
 	},
 	focusee: {
@@ -201,7 +220,7 @@ export function availableOn(platform = process.platform) {
 }
 
 /** Every distinct thing that has to be downloaded for the given app ids. */
-export function installPlan(appIds) {
+export function installPlan(appIds, { platform = process.platform } = {}) {
 	const seen = new Set();
 	const plan = [];
 	for (const id of appIds) {
@@ -210,7 +229,14 @@ export function installPlan(appIds) {
 		const target = entry.sharesInstallWith ?? id;
 		if (seen.has(target)) continue;
 		seen.add(target);
-		const spec = (APPS[target] ?? entry).install;
+		const base = (APPS[target] ?? entry).install;
+		// A vendor ships one product per platform, from different URLs, by different mechanisms.
+		// Holding one spec meant the registry described whichever platform was written first:
+		// Cap's pointed every machine at /download/apple-silicon and OpenScreen's asset pattern
+		// matched only the Apple Silicon dmg, so `install` on Windows fetched a macOS build and
+		// stopped. A per-platform key is merged over the base, so the shape stays flat for the
+		// single-platform case and neither side is described in terms of the other.
+		const spec = base && { ...base, ...(base[platform] ?? {}) };
 		// `app` is the benchmark's id for the entry; `id` stays whatever the install spec sets,
 		// because for a winget entry that is the package id installApp needs. The spread used to
 		// clobber the entry id silently — plan rows for Recordly came back as
