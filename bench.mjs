@@ -360,7 +360,7 @@ async function cmdRun({ flags }) {
 			calibration.machine.osVersion !== here.osVersion
 		) {
 			log(
-				`⚠ benchmark/calibration.json was solved on ${calibration.machine.chip} / macOS ${calibration.machine.osVersion}, ` +
+				`⚠ benchmark/calibration.json was solved on ${calibration.machine.chip} / ${calibration.machine.osVersion}, ` +
 					`not this machine. Re-run \`bench.mjs calibrate\` — app versions differ between machines and ` +
 					`a stale padding solve makes the apps composite different rectangles.\n`,
 			);
