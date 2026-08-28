@@ -3,8 +3,8 @@
     {
       "tool": "openscreen-cli",
       "component": 0,
-      "relativeCost": 1.617,
-      "submissions": 2,
+      "relativeCost": 1.552,
+      "submissions": 3,
       "machines": [
         "Apple M1",
         "AMD Ryzen 7 5800X 8-Core Processor             "
@@ -18,15 +18,15 @@
       ],
       "versionsUnreported": 0,
       "observedCostRange": [
-        1.292,
+        1.204,
         2.023
       ]
     },
     {
       "tool": "cap",
       "component": 0,
-      "relativeCost": 1.886,
-      "submissions": 2,
+      "relativeCost": 2.369,
+      "submissions": 3,
       "machines": [
         "Apple M1",
         "AMD Ryzen 7 5800X 8-Core Processor             "
@@ -41,14 +41,14 @@
       "versionsUnreported": 0,
       "observedCostRange": [
         1.21,
-        2.937
+        3.145
       ]
     },
     {
       "tool": "recordly",
       "component": 0,
-      "relativeCost": 3.118,
-      "submissions": 2,
+      "relativeCost": 3.4,
+      "submissions": 3,
       "machines": [
         "Apple M1",
         "AMD Ryzen 7 5800X 8-Core Processor             "
@@ -112,6 +112,30 @@
       "a": "cap",
       "b": "recordly",
       "logRatio": -0.231558312,
+      "weight": 1,
+      "machine": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "platform": "win32"
+    },
+    {
+      "a": "openscreen-cli",
+      "b": "cap",
+      "logRatio": -0.960196613,
+      "weight": 1,
+      "machine": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "platform": "win32"
+    },
+    {
+      "a": "openscreen-cli",
+      "b": "recordly",
+      "logRatio": -1.03839479,
+      "weight": 1,
+      "machine": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "platform": "win32"
+    },
+    {
+      "a": "cap",
+      "b": "recordly",
+      "logRatio": -0.078198177,
       "weight": 1,
       "machine": "AMD Ryzen 7 5800X 8-Core Processor             ",
       "platform": "win32"
@@ -340,6 +364,120 @@
         "cap",
         "recordly"
       ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
+        "submittedAt": "2026-08-28T17:57:01.186Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "win32",
+          "chip": "AMD Ryzen 7 5800X 8-Core Processor             ",
+          "gpu": "NVIDIA GeForce RTX 4070 Ti",
+          "cpuCount": 16,
+          "memoryGiB": 31.9,
+          "osVersion": "10.0.26200",
+          "osBuild": "26200"
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 144,
+          "loadSpreadPercentagePoints": 59.5,
+          "driftRatio": 0.9992,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "9162881a929643de62a4a97dee57571d514878d727585da60709bf4dfefd0d53",
+          "durationSec": 60.007,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "openscreen-cli",
+            "version": "1.10.0",
+            "exportMs": 9385,
+            "madMs": 4,
+            "runs": 3,
+            "localFloorMs": 7796,
+            "cpuSeconds": 3.88,
+            "peakRssMiB": 773.5,
+            "foreignCpuPercent": 68.5,
+            "outputBytes": 36794796,
+            "outputMeanVolumeDb": null,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "cap",
+            "version": "0.5.9",
+            "exportMs": 24481,
+            "madMs": 6,
+            "runs": 3,
+            "localFloorMs": 7785,
+            "cpuSeconds": 44.2,
+            "peakRssMiB": 1386.6,
+            "foreignCpuPercent": 128,
+            "outputBytes": 156565641,
+            "outputMeanVolumeDb": null,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "recordly",
+            "version": "1.3.3",
+            "exportMs": 26394,
+            "madMs": 86,
+            "runs": 3,
+            "localFloorMs": 7762,
+            "cpuSeconds": 82.42,
+            "peakRssMiB": 1606.3,
+            "foreignCpuPercent": 86,
+            "outputBytes": 126932081,
+            "outputMeanVolumeDb": null,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cdp"
+          }
+        ],
+        "notes": [
+          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "cap: zoom segments written: 3",
+          "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+          "recordly: CUDA export path: available=true, requested=false",
+          "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+          "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events.",
+          "ffmpeg-baseline: encoder: h264_nvenc (hardware)",
+          "ffmpeg-baseline: No compositing: this row is the encode-only reference, not a product."
+        ],
+        "_path": "submissions/win32/amd-ryzen-7-5800x-2026-08-28b.json"
+      },
+      "weight": 1,
+      "reasons": [],
+      "tools": [
+        "openscreen-cli",
+        "cap",
+        "recordly"
+      ]
     }
   ],
   "skipped": [],
@@ -351,27 +489,27 @@
     ]
   ],
   "consistency": {
-    "edges": 6,
-    "redundantEdges": 4,
+    "edges": 9,
+    "redundantEdges": 7,
     "measurable": true,
-    "medianResidualPercent": 48.61,
-    "maxResidualPercent": 94.96,
+    "medianResidualPercent": 49.01,
+    "maxResidualPercent": 155.07,
     "byPlatform": {
-      "samePlatformPairs": 0,
+      "samePlatformPairs": 3,
       "crossPlatformPairs": 3,
-      "samePlatformSpreadPercent": null,
-      "crossPlatformSpreadPercent": 120.85
+      "samePlatformSpreadPercent": 14.88,
+      "crossPlatformSpreadPercent": 119.24
     },
     "worst": {
       "a": "openscreen-cli",
       "b": "cap",
-      "spreadPercent": 280.09,
+      "spreadPercent": 336.64,
       "inverts": true,
       "ends": [
         {
           "machine": "AMD Ryzen 7 5800X 8-Core Processor",
           "platform": "win32",
-          "ratio": 0.44
+          "ratio": 0.38
         },
         {
           "machine": "Apple M1",
