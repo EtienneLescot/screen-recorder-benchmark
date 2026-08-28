@@ -3,7 +3,7 @@
     {
       "tool": "openscreen-cli",
       "component": 0,
-      "relativeCost": 1,
+      "relativeCost": 1.411,
       "submissions": 2,
       "machines": [
         "Apple M1",
@@ -24,7 +24,7 @@
     {
       "tool": "cap",
       "component": 0,
-      "relativeCost": 1.33,
+      "relativeCost": 1.876,
       "submissions": 2,
       "machines": [
         "Apple M1",
@@ -45,7 +45,7 @@
     {
       "tool": "recordly",
       "component": 0,
-      "relativeCost": 1.851,
+      "relativeCost": 2.612,
       "submissions": 1,
       "machines": [
         "Apple M1"

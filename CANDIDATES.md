@@ -45,7 +45,7 @@ roster are not carried.
 
 | Tool | Status |
 |---|---|
-| **OpenScreen** | reference |
+| **OpenScreen** | open source, Electron; the only member on all three platforms |
 | **Screen Studio** | defines the category |
 | **Cap** | the only architectural peer — Rust/WGSL |
 | **Recordly** | same lineage — Electron/Pixi |
@@ -55,7 +55,7 @@ roster are not carried.
 
 | Tool | Status |
 |---|---|
-| **OpenScreen** | reference |
+| **OpenScreen** | open source, Electron; the only member on all three platforms |
 | **Cap** | the only architectural peer — Rust/WGSL |
 | **Recordly** | same lineage — Electron/Pixi |
 | **FocuSee** | closed source, widest feature coverage — also on the Microsoft Store |
@@ -66,7 +66,7 @@ Not on Windows: Screen Studio.
 
 | Tool | Status |
 |---|---|
-| **OpenScreen** | reference |
+| **OpenScreen** | open source, Electron; the only member on all three platforms |
 | **Recordly** | degraded, per their own documentation — the rendered cursor is lost, so S3 is n/a here |
 
 Not on Linux: Screen Studio, Cap, FocuSee.

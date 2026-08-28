@@ -931,7 +931,9 @@ async function cmdSite() {
 	const subs = collectSubmissions(BENCH_ROOT);
 	const result = aggregate(subs, { step: "S4" });
 	const html = renderSite(result, {
-		submissions: subs.length,
+		// The page filters and drills into individual runs, so it needs the submissions
+		// themselves rather than a count of them.
+		submissions: subs,
 		// The newest submission, not the wall clock: the reader wants to know how fresh the
 		// data is, and a build stamp would also make CI's staleness check fail every day
 		// simply because the date moved on.

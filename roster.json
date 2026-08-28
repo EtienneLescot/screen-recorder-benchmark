@@ -12,7 +12,7 @@
 			"macos": "✓",
 			"windows": "✓",
 			"linux": "✓",
-			"note": "reference"
+			"note": "open source, Electron; the only member on all three platforms"
 		},
 		{
 			"tool": "Screen Studio",

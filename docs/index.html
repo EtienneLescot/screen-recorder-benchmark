@@ -29,7 +29,12 @@
   .meta { font-family:"IBM Plex Mono", monospace; font-size:.78rem; color:var(--muted);
           border-top:1px solid var(--line); border-bottom:1px solid var(--line);
           padding:.7rem 0; margin:0 0 2.5rem; display:flex; gap:1.5rem; flex-wrap:wrap; }
-  .row { display:grid; grid-template-columns:minmax(9rem,13rem) 1fr 4rem; gap:1rem;
+  .filters { display:flex; gap:1.1rem; flex-wrap:wrap; align-items:center; margin:0 0 1rem;
+      font-family:"IBM Plex Mono", monospace; font-size:.8rem; }
+    .filters label { display:flex; gap:.4rem; align-items:center; color:var(--muted); }
+    .filters select { font:inherit; background:var(--card); color:var(--ink);
+      border:1px solid var(--line); border-radius:4px; padding:.25rem .4rem; }
+    .row { display:grid; grid-template-columns:minmax(9rem,13rem) 1fr 4rem; gap:1rem;
          align-items:center; margin:.45rem 0; }
   .name { font-family:"IBM Plex Mono", monospace; font-size:.85rem; }
   .tag { font-size:.62rem; background:var(--accent-soft); color:var(--accent); padding:.1rem .35rem;
@@ -77,17 +82,17 @@
   <div class="row">
         <div class="name">openscreen-cli</div>
         <div class="track"><div class="fill" style="width:54.0%"></div></div>
-        <div class="val">1×</div>
+        <div class="val">1.411×</div>
       </div>
 <div class="row">
         <div class="name">cap</div>
-        <div class="track"><div class="fill" style="width:71.9%"></div></div>
-        <div class="val">1.33×</div>
+        <div class="track"><div class="fill" style="width:71.8%"></div></div>
+        <div class="val">1.876×</div>
       </div>
 <div class="row">
         <div class="name">recordly<span class="tag" title="one submission — no independent confirmation">1 machine</span></div>
         <div class="track"><div class="fill thin" style="width:100.0%"></div></div>
-        <div class="val">1.851×</div>
+        <div class="val">2.612×</div>
       </div>
 
   <div class="note"><strong>Consistency.</strong> Where several machines measured the same
@@ -97,12 +102,127 @@
 
   
 
+  <h2>Every run</h2>
+  <p class="muted" style="font-size:.95rem;margin:0 0 .9rem">One row per measured leg, with the
+  machine that produced it. <strong>Cost</strong> is that leg's own export divided by the floor
+  measured beside it, so it is comparable across every row here. Seconds and frames per second
+  are not — they describe one machine, and are shown because a reader comparing hardware wants
+  them.</p>
+
+  <div class="filters">
+    <label>Machine
+      <select id="f-machine"><option value="">all</option><option value="AMD Ryzen 7 5800X 8-Core Processor             ">AMD Ryzen 7 5800X 8-Core Processor             </option><option value="Apple M1">Apple M1</option></select>
+    </label>
+    <label>Platform
+      <select id="f-platform"><option value="">all</option><option value="darwin">darwin</option><option value="win32">win32</option></select>
+    </label>
+    <label>Tool
+      <select id="f-tool"><option value="">all</option><option value="cap">cap</option><option value="openscreen-cli">openscreen-cli</option><option value="recordly">recordly</option></select>
+    </label>
+    <span class="muted" id="f-count"></span>
+  </div>
+
+  <div style="overflow-x:auto">
+  <table id="runs">
+    <thead><tr>
+      <th>Tool</th><th>Machine</th><th>OS</th><th class="num">Cost</th><th class="num">Export</th>
+      <th class="num">fps</th><th class="num">CPU·s</th><th class="num">RSS MiB</th>
+      <th class="num">Bg load</th><th>Fidelity</th><th>Driven</th>
+    </tr></thead>
+    <tbody><tr data-machine="Apple M1" data-platform="darwin" data-tool="openscreen-cli">
+      <td><strong>openscreen-cli</strong> <span class="muted">1.10.0</span></td>
+      <td>Apple M1</td>
+      <td class="muted">darwin</td>
+      <td class="num"><strong>2.063×</strong></td>
+      <td class="num">37.58 s</td>
+      <td class="num">95.8</td>
+      <td class="num">8.7</td>
+      <td class="num">721</td>
+      <td class="num">32%</td>
+      <td>full</td>
+      <td class="muted">cli</td>
+    </tr>
+<tr data-machine="Apple M1" data-platform="darwin" data-tool="cap">
+      <td><strong>cap</strong> <span class="muted">0.5.9</span></td>
+      <td>Apple M1</td>
+      <td class="muted">darwin</td>
+      <td class="num"><strong>1.283×</strong></td>
+      <td class="num">23.4 s</td>
+      <td class="num">153.9</td>
+      <td class="num">26.33</td>
+      <td class="num">1562</td>
+      <td class="num">153%</td>
+      <td>full</td>
+      <td class="muted">cli</td>
+    </tr>
+<tr data-machine="Apple M1" data-platform="darwin" data-tool="recordly">
+      <td><strong>recordly</strong> <span class="muted">unknown</span></td>
+      <td>Apple M1</td>
+      <td class="muted">darwin</td>
+      <td class="num"><strong>2.612×</strong></td>
+      <td class="num">47.62 s</td>
+      <td class="num">75.6</td>
+      <td class="num">88.01</td>
+      <td class="num">1368</td>
+      <td class="num">66%</td>
+      <td>full</td>
+      <td class="muted">cdp</td>
+    </tr>
+<tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="openscreen-cli">
+      <td><strong>openscreen-cli</strong> <span class="muted">1.10.0</span></td>
+      <td>AMD Ryzen 7 5800X 8-Core Processor             </td>
+      <td class="muted">win32</td>
+      <td class="num"><strong>1.077×</strong></td>
+      <td class="num">9.85 s</td>
+      <td class="num">365.7</td>
+      <td class="num">4.73</td>
+      <td class="num">799</td>
+      <td class="num">77%</td>
+      <td>full</td>
+      <td class="muted">cli</td>
+    </tr>
+<tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="cap">
+      <td><strong>cap</strong> <span class="muted">0.5.9</span></td>
+      <td>AMD Ryzen 7 5800X 8-Core Processor             </td>
+      <td class="muted">win32</td>
+      <td class="num"><strong>2.531×</strong></td>
+      <td class="num">23.22 s</td>
+      <td class="num">155</td>
+      <td class="num">43.83</td>
+      <td class="num">1380</td>
+      <td class="num">62%</td>
+      <td>full</td>
+      <td class="muted">cli</td>
+    </tr></tbody>
+  </table>
+  </div>
+
+  <script>
+  (() => {
+    const rows = [...document.querySelectorAll("#runs tbody tr")];
+    const sel = (id) => document.getElementById(id);
+    const apply = () => {
+      const m = sel("f-machine").value, p = sel("f-platform").value, t = sel("f-tool").value;
+      let shown = 0;
+      for (const r of rows) {
+        const ok = (!m || r.dataset.machine === m) && (!p || r.dataset.platform === p) &&
+                   (!t || r.dataset.tool === t);
+        r.hidden = !ok;
+        if (ok) shown++;
+      }
+      sel("f-count").textContent = shown + " of " + rows.length + " runs";
+    };
+    for (const id of ["f-machine", "f-platform", "f-tool"]) sel(id).addEventListener("change", apply);
+    apply();
+  })();
+  </script>
+
   <h2>Detail</h2>
   <div class="scroll"><table>
     <thead><tr><th>Tool</th><th>Cost</th><th>Submissions</th><th>Platforms</th><th>Observed range</th><th>Versions</th></tr></thead>
     <tbody><tr>
       <td><strong>openscreen-cli</strong></td>
-      <td class="num">1×</td>
+      <td class="num">1.411×</td>
       <td class="num">2</td>
       <td>darwin, win32</td>
       <td class="num">1.077–2.063×</td>
@@ -110,7 +230,7 @@
     </tr>
 <tr>
       <td><strong>cap</strong></td>
-      <td class="num">1.33×</td>
+      <td class="num">1.876×</td>
       <td class="num">2</td>
       <td>darwin, win32</td>
       <td class="num">1.283–2.531×</td>
@@ -118,7 +238,7 @@
     </tr>
 <tr>
       <td><strong>recordly</strong></td>
-      <td class="num">1.851×</td>
+      <td class="num">2.612×</td>
       <td class="num">1</td>
       <td>darwin</td>
       <td class="num">2.612–2.612×</td>
@@ -134,7 +254,7 @@
     <tbody><tr>
       <td><strong>OpenScreen</strong></td>
       <td><span title="roster member">✓</span></td><td><span title="roster member">✓</span></td><td><span title="roster member">✓</span></td>
-      <td class="muted">reference</td>
+      <td class="muted">open source, Electron; the only member on all three platforms</td>
     </tr>
 <tr>
       <td><strong>Screen Studio</strong></td>
