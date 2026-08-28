@@ -1,29 +1,29 @@
 /**
  * FocuSee — the closest pitch-for-pitch rival, currently unmeasurable.
  *
- * **FocuSee 2.4.1 rejects every MP4 it is given.** Its own import panel and `open -a` both end
- * at *"The source file is damaged and cannot be opened."* — for the benchmark fixture and for a
- * real 2560×1440 H.264 screen recording alike. The app is not sandboxed (no
- * `com.apple.security.app-sandbox` entitlement), so this is not a file-access grant that could
- * be fixed by choosing the file through a picker. Verified on macOS 26.5 with the direct
- * download from imobie; the Mac App Store build may differ.
+ * **The import works. The export needs an account.** An earlier note here said FocuSee 2.4.1
+ * "rejects every MP4 it is given", and that was wrong — wrong in a way worth writing down,
+ * because the same mistake will be made against the next native-Cocoa candidate.
  *
- * Re-confirmed 2026-08-28, and narrowed, so nobody repeats the elimination. The message is not
- * about the media: the same rejection comes back for the fixture re-muxed to 10s, for the same
- * clip with its audio removed, for H.264 Main at 30 fps, for Baseline 3.0 at 720p with no audio
- * — the most conservative MP4 that can be written — and for a copy placed in ~/Movies rather
- * than the work directory. Format, profile, level, frame rate, resolution, audio and location
- * are all ruled out. The drop zone itself advertises "Supported Formats: MP4".
+ * Two separate things were being confused. `open -a FocuSee clip.mp4` really does fail with
+ * *"The source file is damaged and cannot be opened."*, for every MP4 tried — the fixture, a 10s
+ * remux, the same clip with no audio, H.264 Main at 30 fps, Baseline 3.0 at 720p, and a copy in
+ * ~/Movies. That is a genuine defect in FocuSee's document-open path. But it is not the import
+ * path, and the import path works: File > Import Video to Create Project opens a drop zone, the
+ * drop zone opens an NSOpenPanel, and the panel loads the benchmark fixture without complaint —
+ * clip "screen", duration 01:00.00, "Clip 1m0s 1X" on the timeline, Export and Timeline live.
  *
- * What the app *does* manage is its own recorder: its telemetry in com.imobie.FocuSee records
- * first_click_rec, first_stop_rec and first_enter_editor on 2026-08-13, so the editor is
- * reachable from a FocuSee recording and only from one. That is the shape of the block — this is
- * an app that opens its own projects, not an importer that happens to be broken.
+ * What hid it is the trap: **the drop zone ignores System Events' `click at`**. That call posts a
+ * synthetic event, and FocuSee's custom view does not act on it — no panel, no error, nothing to
+ * distinguish "the click missed" from "the app refused". A real CGEvent mouse-down/up at the same
+ * point opens the panel every time. Any candidate drawing its own controls can behave this way,
+ * so a click that produces no reaction is not evidence about the app until it has been retried
+ * with a real event.
  *
- * The one variable left is the account: `UserInfoManager.userCheck` is `[null]`, so nothing has
- * ever been signed in here, and "damaged" would not be the first misleading message an app has
- * shown for "not entitled". Testing that needs credentials, which is the owner's call and not
- * something this harness should hold. Until then the block stands.
+ * The block that remains is a licence gate, the same class as Screen Studio's: clicking Export
+ * raises *"Log in to your account to use FocuSee"* with Google SSO or an email password. The
+ * benchmark holds no credentials and should not, so the export cannot be timed here until the
+ * machine's owner signs in. Everything before the export is automatable today.
  *
  * The rest of the driver is written and works: FocuSee is a native Cocoa app, so unlike the
  * Electron entrants its whole interface is published to the accessibility API — the canvas-size

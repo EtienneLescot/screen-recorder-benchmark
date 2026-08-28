@@ -56,6 +56,24 @@ which is how a driver gets written or repaired when a new version moves somethin
 
 ## Traps every GUI candidate sets
 
+### A synthetic click is not a click
+
+System Events' `click at {x, y}` posts a synthetic event. An app drawing its own controls —
+anything that is not a stock AppKit button — may ignore it completely: no reaction, no error,
+nothing that distinguishes "the click missed" from "the app refused to act". FocuSee's import
+drop zone behaved exactly this way, and it cost this benchmark a candidate: the import was
+recorded as broken for weeks when it worked on the first real click.
+
+The same point clicked with a genuine CGEvent mouse-down/up opens the panel every time. A
+~30-line C program against ApplicationServices does it, and clang ships with the Command Line
+Tools that are already required here.
+
+So: a click that produces no reaction is not evidence about the application. Retry it with a real
+event before concluding anything, and prefer real events for any control that is not a named,
+AX-addressable button. Elements with no `AXPress` action are the tell — if the accessibility tree
+offers no action, the app is drawing that control itself.
+
+
 These are not Recordly quirks. They come from what this whole category of app *is* — a screen
 recorder, built on Electron, that remembers your last export — so expect each of them on each
 candidate, on every machine. Each one below cost real time before it was named.

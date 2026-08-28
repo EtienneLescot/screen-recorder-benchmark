@@ -119,7 +119,7 @@ export const APPS = {
 	focusee: {
 		roster: "FocuSee",
 		blocker:
-			"the macOS build rejects every MP4 — format, profile, frame rate, resolution, audio and location all ruled out; it opens only its own recordings. Windows untested",
+			"export requires a signed-in account — import and the whole editor are automatable, only the export is gated. Windows untested",
 		driver: { darwin: "./drivers/focusee.mjs", win32: "./drivers/focusee-win.mjs" },
 		// On macOS the import is broken in 2.4.1 (see drivers/focusee.mjs); on Windows the
 		// vendor ships the real application rather than a downloader stub, so it is in the

@@ -96,7 +96,7 @@ the answer on the machine in front of you.
 | Screen Studio | yes (screen-studio) | **no** | export requires an activated licence — there is no trial export |
 | Cap | yes (cap) | yes | — |
 | Recordly | yes (recordly, recordly-cuda) | yes | — |
-| FocuSee | yes (focusee) | **no** | the macOS build rejects every MP4 — format, profile, frame rate, resolution, audio and location all ruled out; it opens only its own recordings. Windows untested |
+| FocuSee | yes (focusee) | **no** | export requires a signed-in account — import and the whole editor are automatable, only the export is gated. Windows untested |
 <!-- status:end -->
 
 `ffmpeg (re-encode floor)` is not a candidate. It is the unit, and carries no roster entry.
