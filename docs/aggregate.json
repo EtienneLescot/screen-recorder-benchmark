@@ -356,6 +356,12 @@
     "measurable": true,
     "medianResidualPercent": 48.61,
     "maxResidualPercent": 94.96,
+    "byPlatform": {
+      "samePlatformPairs": 0,
+      "crossPlatformPairs": 3,
+      "samePlatformSpreadPercent": null,
+      "crossPlatformSpreadPercent": 120.85
+    },
     "worst": {
       "a": "openscreen-cli",
       "b": "cap",
