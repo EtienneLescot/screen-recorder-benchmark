@@ -187,6 +187,15 @@ export default {
 	automation: "cdp",
 	processName: PROC,
 	appPath: APP,
+	/**
+	 * Where the app is *now*, re-resolved on each call.
+	 *
+	 * `appPath` above is computed once at import, which is before the installer has run — so
+	 * install used it, found null, and reported "installed but its executable was not found where
+	 * expected" for an app it had just installed correctly. This is the hook installApp already
+	 * looked for and nothing supplied.
+	 */
+	resolveInstalledPath: () => (IS_WIN ? resolveAppPath(RECORDLY) : RECORDLY.macPath),
 	bundleId: "dev.recordly.app",
 	install: {
 		method: "winget",
