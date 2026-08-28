@@ -119,7 +119,7 @@ export const APPS = {
 	focusee: {
 		roster: "FocuSee",
 		blocker:
-			"every export raises a Premium upsell whose only actions are Buy Now and close — closing it cancels the export. Import and the editor automate fine. Windows untested",
+			"every export raises a Premium upsell whose only actions are Buy Now and close — closing it cancels the export, on a 10s clip as on a 60s one. Import and the editor automate fine on both platforms; on Windows the import needs a real mouse event, not a UIA invoke",
 		driver: { darwin: "./drivers/focusee.mjs", win32: "./drivers/focusee-win.mjs" },
 		// On macOS the export is gated behind a purchase in 2.4.1 (see drivers/focusee.mjs); on
 		// Windows the vendor ships the real application rather than a downloader stub, so it is

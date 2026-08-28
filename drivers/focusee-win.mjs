@@ -11,8 +11,25 @@
  * interface is published to the automation API — canvas size, Padding / Inset / Roundness /
  * Shadow, and the Export button are all addressable by name.
  *
- * NOT YET RUN ON WINDOWS. `bench.mjs discover focusee` dumps the real control names; every
- * lookup here fails loudly with what it did find.
+ * NOT YET RUN ON WINDOWS, and the lookups below are still written against English names that
+ * do not exist on this build. What a discovery pass on 2026-08-28 actually found, so the next
+ * attempt starts from data rather than guesses:
+ *
+ *   · Names are localised — "Fichier", "Plein écran", "Téléprompteur" on a French install —
+ *     but AutomationIds are stable and language-independent. Match on ids.
+ *   · Recorder window id `record`. Buttons: `tb_file_main` (File), `B_Full`, `B_Window`,
+ *     `B_Custom`, `B_Device`, `ITB_Setting`, `OpenTeleprompter_Btn`.
+ *   · The import path is `tb_file_main` → the menu item "Importer une vidéo pour créer un
+ *     projet" → a `VideoImportView` window whose `uploadButton` opens the OS file picker.
+ *     Menu items carry no AutomationId, only localised names, so that one step has to match
+ *     on text or on position.
+ *   · MP4 is accepted here. The upload target says so itself: "Formats vidéo pris en charge :
+ *     MP4". The macOS blocker is a macOS fact and does not carry over.
+ *   · The file dialog answers in ~1.3s through lib/uiWindows.mjs, though it fell back to Enter
+ *     rather than invoking the `Ouvrir` button, and left a second picker open. Worth fixing
+ *     before driving this app for real.
+ *
+ * Unmapped: everything after the import — the editor, the scenario controls, and the export.
  */
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, rmSync } from "node:fs";
