@@ -14,8 +14,7 @@
         "win32"
       ],
       "versions": [
-        "1.10.0",
-        "1.10.0.0"
+        "1.10.0"
       ],
       "observedCostRange": [
         1.077,
@@ -251,7 +250,7 @@
         "measurements": [
           {
             "tool": "openscreen-cli",
-            "version": "1.10.0.0",
+            "version": "1.10.0",
             "exportMs": 9845,
             "madMs": null,
             "runs": 5,
@@ -318,13 +317,5 @@
       "disagreementPercent": 113.76
     }
   },
-  "versionSpread": [
-    {
-      "tool": "openscreen-cli",
-      "versions": [
-        "1.10.0",
-        "1.10.0.0"
-      ]
-    }
-  ]
+  "versionSpread": []
 }
