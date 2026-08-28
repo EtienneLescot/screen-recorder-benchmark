@@ -877,17 +877,21 @@ async function cmdRoster() {
 	const member = (v) => v === "✓" || v === "degraded";
 	const blocks = PLATFORMS.map(([key, label]) => {
 		const on = tools.filter((t) => member(t[key]));
+		// Membership, and — where the cell is not ✓ — who says so. The prose that used to sit here
+		// described competitors in a maintainer's words; a citation cannot. Where every member is
+		// a plain ✓ the second column repeats itself five times, so it is not drawn at all.
+		const qualified = on.some((t) => t[key] !== "✓");
 		const rows = on
 			.map((t) => {
-				// A per-platform note already says what the cell says; prefixing it repeats itself.
-				const own = t.notes?.[key];
-				const flag = !own && t[key] === "degraded" ? "degraded — " : "";
-				return `| **${t.tool}** | ${flag}${own ?? t.note} |`;
+				if (!qualified) return `| **${t.tool}** |`;
+				const cited = t.sources?.[key];
+				return `| **${t.tool}** | ${t[key]}${cited ? ` — ${cited}` : ""} |`;
 			})
 			.join("\n");
+		const head = qualified ? "| Tool | Status |\n|---|---|" : "| Tool |\n|---|";
 		const missing = tools.filter((t) => t[key] === "n/a").map((t) => t.tool);
 		const tail = missing.length ? `Not on ${label}: ${missing.join(", ")}.` : "";
-		return `### ${label} — ${on.length}\n\n| Tool | Status |\n|---|---|\n${rows}\n${tail ? `\n${tail}\n` : ""}`;
+		return `### ${label} — ${on.length}\n\n${head}\n${rows}\n${tail ? `\n${tail}\n` : ""}`;
 	});
 
 	// Which roster entries have an adapter, and why the rest do not — joined rather than listed.

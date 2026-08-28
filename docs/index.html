@@ -55,6 +55,13 @@
     .plain-tool { font-family:"IBM Plex Mono", monospace; font-size:.8rem; color:var(--muted); }
     .plain-secs { font-size:1.9rem; font-weight:600; line-height:1; letter-spacing:-.02em; }
     .plain-note { margin:0; font-size:.88rem; color:var(--muted); }
+    .row.floor-row .name, .row.floor-row .val { color:var(--muted); }
+    .row.floor-row .track { border-style:dashed; }
+    .row.floor-row .fill.floor-fill {
+      background:repeating-linear-gradient(45deg,var(--line) 0 4px,transparent 4px 8px); }
+    .row.floor-row { padding-bottom:.5rem; border-bottom:1px solid var(--line); margin-bottom:.6rem; }
+    .cites { margin:.6rem 0 0; padding-left:1.1rem; font-size:.85rem; color:var(--muted); }
+    .cites li { margin:.2rem 0; }
     .note .lead { margin:0; font-size:1rem; }
     .note .fine { margin:.45rem 0 0; font-size:.85rem; color:var(--muted); line-height:1.55; }
     .legend { display:flex; gap:1rem; flex-wrap:wrap; margin:0 0 .5rem;
@@ -67,7 +74,7 @@
     .filters label { display:flex; gap:.4rem; align-items:center; color:var(--muted); }
     .filters select { font:inherit; background:var(--card); color:var(--ink);
       border:1px solid var(--line); border-radius:4px; padding:.25rem .4rem; }
-    .row { display:grid; grid-template-columns:minmax(9rem,13rem) 1fr 4rem; gap:1rem;
+    .row { display:grid; grid-template-columns:minmax(9rem,13rem) 1fr 3.6rem; gap:1rem;
          align-items:center; margin:.45rem 0; }
     @media (max-width:620px) {
       /* The track is the data. Below this width the three-column grid leaves it about
@@ -83,7 +90,7 @@
   .track { background:var(--card); border:1px solid var(--line); border-radius:3px; height:1.6rem; overflow:hidden; }
   .fill { background:var(--accent); height:100%; }
   .fill.thin { background:repeating-linear-gradient(45deg,var(--accent),var(--accent) 5px,var(--accent-soft) 5px,var(--accent-soft) 10px); }
-  .val { font-family:"IBM Plex Mono", monospace; font-size:.85rem; text-align:right; font-variant-numeric:tabular-nums; }
+  .val { font-family:"IBM Plex Mono", monospace; font-size:.85rem; white-space:nowrap; text-align:right; font-variant-numeric:tabular-nums; }
   .scroll { overflow-x:auto; border:1px solid var(--line); border-radius:4px; background:var(--card); }
   table { border-collapse:collapse; width:100%; font-size:.86rem;
           font-family:"IBM Plex Mono", monospace; }
@@ -116,37 +123,31 @@
 
   
 
-  <div class="plain">
-      <p class="plain-q">A 60-second screen
-      demo — wallpaper, rounded corners, three zooms, a cursor and a webcam — exported on
-<strong>AMD Ryzen 7 5800X 8-Core Processor             </strong>.</p>
-      <ul class="plain-list"><li><span class="plain-tool">openscreen</span>
-             <span class="plain-secs">10 s</span></li><li><span class="plain-tool">cap</span>
-             <span class="plain-secs">23 s</span></li><li><span class="plain-tool">recordly</span>
-             <span class="plain-secs">29 s</span></li></ul>
-      <p class="plain-note">Those seconds describe that machine and no other. Everything below
-      divides them by what a plain <code>ffmpeg</code> transcode cost on the same machine, which
-      is what lets one computer's result be compared with another's.</p>
-    </div>
-
   <h2>Export time against ffmpeg — lower is faster</h2>
-  <p class="muted" style="font-size:.95rem;margin:0 0 1.2rem">Each tool's export time divided by
-  a plain ffmpeg transcode measured on the same machine moments earlier. Seconds are not
-  comparable across machines; this is.</p>
-  <div class="row">
+  <p class="muted" style="font-size:.95rem;margin:0 0 1.2rem">Every tool is timed against the
+  same yardstick: re-encoding the identical clip with plain <code>ffmpeg</code>, on the same
+  machine, minutes apart. <strong>2× means it took twice as long as that</strong> — not twice as
+  fast. ffmpeg does no compositing at all, so a tool that paints a wallpaper, rounds the corners,
+  animates three zooms and mixes in a camera is expected to sit above 1×. Seconds would only
+  describe the machine they were measured on; this survives the trip to yours.</p>
+  <div class="row floor-row">
+      <div class="name">ffmpeg <span class="tag">the yardstick</span></div>
+      <div class="track"><div class="fill floor-fill" style="width:31.0%"></div></div>
+      <div class="val">1×</div>
+    </div><div class="row">
         <div class="name">openscreen</div>
         <div class="track"><div class="fill" style="width:45.8%"></div></div>
-        <div class="val">1.48× <span class="muted">ffmpeg</span></div>
+        <div class="val">1.48×</div>
       </div>
 <div class="row">
         <div class="name">cap</div>
         <div class="track"><div class="fill" style="width:67.6%"></div></div>
-        <div class="val">2.185× <span class="muted">ffmpeg</span></div>
+        <div class="val">2.185×</div>
       </div>
 <div class="row">
         <div class="name">recordly</div>
         <div class="track"><div class="fill" style="width:100.0%"></div></div>
-        <div class="val">3.231× <span class="muted">ffmpeg</span></div>
+        <div class="val">3.231×</div>
       </div>
 
   <div class="note"><p class="lead"><strong>The machines do not fully agree.</strong> Where several measured the same pair, they differ by 45.61% at the median.</p><p class="fine">The worst pair is 137.29% — <code>openscreen</code> against <code>cap</code> on Apple M1. Disagreement of this size is not error: it is the ranking depending on the hardware. Only pairs measured on more than one machine can be checked this way, which is why more submissions make the figure stronger rather than noisier.</p></div>
@@ -358,33 +359,29 @@
   <p class="muted" style="font-size:.95rem;margin:0 0 1.2rem">Membership is decided by
   positioning, not by whether an adapter exists. An empty cell is a finding.</p>
   <div class="scroll"><table>
-    <thead><tr><th>Tool</th><th>macOS</th><th>Windows</th><th>Linux</th><th>Note</th></tr></thead>
+    <thead><tr><th>Tool</th><th>macOS</th><th>Windows</th><th>Linux</th></tr></thead>
     <tbody><tr>
       <td><strong>OpenScreen</strong></td>
       <td><span title="roster member">✓</span></td><td><span title="roster member">✓</span></td><td><span title="roster member">✓</span></td>
-      <td class="muted">open source, Electron; the only member on all three platforms</td>
     </tr>
 <tr>
       <td><strong>Screen Studio</strong></td>
       <td><span title="roster member">✓</span></td><td><span class="muted" title="the product does not exist on this platform">n/a</span></td><td><span class="muted" title="the product does not exist on this platform">n/a</span></td>
-      <td class="muted">defines the category</td>
     </tr>
 <tr>
       <td><strong>Cap</strong></td>
       <td><span title="roster member">✓</span></td><td><span title="roster member">✓</span></td><td><span class="muted" title="the product does not exist on this platform">n/a</span></td>
-      <td class="muted">the only architectural peer — Rust/WGSL</td>
     </tr>
 <tr>
       <td><strong>Recordly</strong></td>
       <td><span title="roster member">✓</span></td><td><span title="roster member">✓</span></td><td><span title="member, degraded on this platform">degraded</span></td>
-      <td class="muted">same lineage — Electron/Pixi</td>
     </tr>
 <tr>
       <td><strong>FocuSee</strong></td>
       <td><span title="roster member">✓</span></td><td><span title="roster member">✓</span></td><td><span class="muted" title="the product does not exist on this platform">n/a</span></td>
-      <td class="muted">closed source, widest feature coverage</td>
     </tr></tbody>
-  </table></div>
+  </table>
+  <ul class="cites"><li><strong>Recordly</strong> on linux — per the vendor&#39;s own documentation: the rendered cursor is lost, so S3 is n/a here</li></ul></div>
 
   <h2>Method</h2>
   <div class="note">Each tool is timed by one shared stopwatch, from the instant its export is

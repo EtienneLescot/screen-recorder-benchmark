@@ -4,49 +4,21 @@
 		"✓": "roster member on this platform",
 		"degraded": "member, but the product is degraded on this platform",
 		"n/a": "the product does not exist on this platform — a fact about it, not a gap here",
-		"notes": "optional per-platform override of `note`, keyed by platform"
+		"sources": "citation for a cell that is not ✓, keyed by platform — a reference, not a comment"
 	},
 	"tools": [
-		{
-			"tool": "OpenScreen",
-			"macos": "✓",
-			"windows": "✓",
-			"linux": "✓",
-			"note": "open source, Electron; the only member on all three platforms"
-		},
-		{
-			"tool": "Screen Studio",
-			"macos": "✓",
-			"windows": "n/a",
-			"linux": "n/a",
-			"note": "defines the category"
-		},
-		{
-			"tool": "Cap",
-			"macos": "✓",
-			"windows": "✓",
-			"linux": "n/a",
-			"note": "the only architectural peer — Rust/WGSL"
-		},
+		{ "tool": "OpenScreen", "macos": "✓", "windows": "✓", "linux": "✓" },
+		{ "tool": "Screen Studio", "macos": "✓", "windows": "n/a", "linux": "n/a" },
+		{ "tool": "Cap", "macos": "✓", "windows": "✓", "linux": "n/a" },
 		{
 			"tool": "Recordly",
 			"macos": "✓",
 			"windows": "✓",
 			"linux": "degraded",
-			"note": "same lineage — Electron/Pixi",
-			"notes": {
-				"linux": "degraded, per their own documentation — the rendered cursor is lost, so S3 is n/a here"
+			"sources": {
+				"linux": "per the vendor's own documentation: the rendered cursor is lost, so S3 is n/a here"
 			}
 		},
-		{
-			"tool": "FocuSee",
-			"macos": "✓",
-			"windows": "✓",
-			"linux": "n/a",
-			"note": "closed source, widest feature coverage",
-			"notes": {
-				"windows": "closed source, widest feature coverage — also on the Microsoft Store"
-			}
-		}
+		{ "tool": "FocuSee", "macos": "✓", "windows": "✓", "linux": "n/a" }
 	]
 }

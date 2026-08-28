@@ -43,22 +43,22 @@ roster are not carried.
 
 ### macOS — 5
 
-| Tool | Status |
-|---|---|
-| **OpenScreen** | open source, Electron; the only member on all three platforms |
-| **Screen Studio** | defines the category |
-| **Cap** | the only architectural peer — Rust/WGSL |
-| **Recordly** | same lineage — Electron/Pixi |
-| **FocuSee** | closed source, widest feature coverage |
+| Tool |
+|---|
+| **OpenScreen** |
+| **Screen Studio** |
+| **Cap** |
+| **Recordly** |
+| **FocuSee** |
 
 ### Windows — 4
 
-| Tool | Status |
-|---|---|
-| **OpenScreen** | open source, Electron; the only member on all three platforms |
-| **Cap** | the only architectural peer — Rust/WGSL |
-| **Recordly** | same lineage — Electron/Pixi |
-| **FocuSee** | closed source, widest feature coverage — also on the Microsoft Store |
+| Tool |
+|---|
+| **OpenScreen** |
+| **Cap** |
+| **Recordly** |
+| **FocuSee** |
 
 Not on Windows: Screen Studio.
 
@@ -66,8 +66,8 @@ Not on Windows: Screen Studio.
 
 | Tool | Status |
 |---|---|
-| **OpenScreen** | open source, Electron; the only member on all three platforms |
-| **Recordly** | degraded, per their own documentation — the rendered cursor is lost, so S3 is n/a here |
+| **OpenScreen** | ✓ |
+| **Recordly** | degraded — per the vendor's own documentation: the rendered cursor is lost, so S3 is n/a here |
 
 Not on Linux: Screen Studio, Cap, FocuSee.
 
