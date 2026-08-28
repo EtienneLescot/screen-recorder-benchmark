@@ -56,8 +56,7 @@
         "win32"
       ],
       "versions": [
-        "1.3.3.0",
-        "unknown"
+        "1.3.3"
       ],
       "observedCostRange": [
         2.612,
@@ -362,13 +361,5 @@
       "disagreementPercent": 137.29
     }
   },
-  "versionSpread": [
-    {
-      "tool": "recordly",
-      "versions": [
-        "1.3.3.0",
-        "unknown"
-      ]
-    }
-  ]
+  "versionSpread": []
 }
