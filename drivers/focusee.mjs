@@ -20,10 +20,18 @@
  * so a click that produces no reaction is not evidence about the app until it has been retried
  * with a real event.
  *
- * The block that remains is a licence gate, the same class as Screen Studio's: clicking Export
- * raises *"Log in to your account to use FocuSee"* with Google SSO or an email password. The
- * benchmark holds no credentials and should not, so the export cannot be timed here until the
- * machine's owner signs in. Everything before the export is automatable today.
+ * The block that remains is commercial, and it survived signing in. With an account active the
+ * login prompt is gone and the export dialog is reached — Name, Save to, Format MP4, Resolution
+ * "Original (1920 * 1080)", Frame Rate 60FPS, all matching the scenario's pinned target. Pressing
+ * Export in that dialog raises a "FocuSee Premium" sheet whose only two actions are *Buy Now* and
+ * a close dot; there is no "continue with watermark". Closing it cancels: CPU returns to zero and
+ * no file is written. Verified for a 60s clip and for a 10s one, so it is not a duration cap.
+ *
+ * One thing is unexplained and worth checking before anyone concludes the app cannot be measured
+ * at all. A 1.83s 1920x1080@60 export does exist in ~/Documents/FocuSee from 14:27 on 2026-08-28,
+ * written from a project FocuSee *recorded* rather than imported. If the upsell gates imported
+ * projects and not recorded ones, the scenario would need FocuSee to record its own source, which
+ * this harness cannot arrange without capturing the operator's screen. Untested deliberately.
  *
  * The rest of the driver is written and works: FocuSee is a native Cocoa app, so unlike the
  * Electron entrants its whole interface is published to the accessibility API — the canvas-size

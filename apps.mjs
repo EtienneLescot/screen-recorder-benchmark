@@ -118,11 +118,12 @@ export const APPS = {
 	},
 	focusee: {
 		roster: "FocuSee",
-
+		blocker:
+			"every export raises a Premium upsell whose only actions are Buy Now and close — closing it cancels the export. Import and the editor automate fine. Windows untested",
 		driver: { darwin: "./drivers/focusee.mjs", win32: "./drivers/focusee-win.mjs" },
-		// On macOS the import is broken in 2.4.1 (see drivers/focusee.mjs); on Windows the
-		// vendor ships the real application rather than a downloader stub, so it is in the
-		// default set there.
+		// On macOS the export is gated behind a purchase in 2.4.1 (see drivers/focusee.mjs); on
+		// Windows the vendor ships the real application rather than a downloader stub, so it is
+		// in the default set there.
 		default: process.platform === "win32",
 		install: {
 			method: "manual",
