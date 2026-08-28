@@ -37,6 +37,7 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, rmSync } from "node:fs";
 import { join } from "node:path";
+import { hidClick } from "../lib/hidClick.mjs";
 import { sleep } from "../lib/measure.mjs";
 import { activateApp, appIsRunning, jxa, launchApp, osa, quitApp } from "../lib/uiScript.mjs";
 
@@ -107,22 +108,81 @@ export default {
 	async prepare(ctx) {
 		if (appIsRunning(PROC)) await quitApp(PROC, { force: true });
 		await sleep(2000);
-		// FocuSee registers as an MP4 handler; opening the file this way is what creates a
-		// project without having to drive its drag-and-drop drop zone.
-		execFileSync("/usr/bin/open", ["-a", APP, ctx.source.path]);
-		await sleep(18000);
+		await launchApp(APP, PROC);
+		await sleep(9000);
 		activateApp(PROC);
 
+		// `open -a` is the obvious route and it is the wrong one: FocuSee's document-open path
+		// answers "The source file is damaged and cannot be opened" for every MP4 it is given.
+		// Its import path is separate and works. File > Import Video to Create Project raises a
+		// drop zone, the drop zone raises an NSOpenPanel, and the panel takes the clip.
+		jxa(`
+			const se = Application("System Events");
+			const p = se.processes["${PROC}"];
+			p.frontmost = true;
+			delay(1);
+			const file = p.menuBars()[0].menuBarItems().find(m => {
+				try { return m.name() === "File"; } catch (e) { return false; }
+			});
+			const items = file.menus()[0].menuItems();
+			let hit = null;
+			for (let i = 0; i < items.length; i++) {
+				let n = ""; try { n = items[i].name() || ""; } catch (e) {}
+				if (/import video/i.test(n)) { hit = items[i]; break; }
+			}
+			if (!hit) throw new Error("no Import Video menu item");
+			hit.click();
+			"ok";
+		`);
+		await sleep(3000);
+
+		// The drop zone ignores a synthetic click, so it is pressed with a real event. It is
+		// located by its own label rather than by window geometry: the import window is a
+		// different size signed in than signed out.
+		const zone = JSON.parse(
+			jxa(`
+				const se = Application("System Events");
+				const p = se.processes["${PROC}"];
+				function find(el, d, out) {
+					if (d > 12) return;
+					try {
+						const v = el.value() || el.name();
+						if (el.role() === "AXStaticText" && v && /Drag Files Here/i.test(String(v))) {
+							const pos = el.position(), sz = el.size();
+							out.push({ x: pos[0] + sz[0] / 2, y: pos[1] - 60 });
+						}
+					} catch (e) {}
+					try { for (const k of el.uiElements()) find(k, d + 1, out); } catch (e) {}
+				}
+				const out = [];
+				for (const w of p.windows()) find(w, 0, out);
+				JSON.stringify(out[0] ?? null);
+			`),
+		);
+		if (!zone) throw new Error("FocuSee: the import drop zone never appeared");
+		hidClick(zone.x, zone.y);
+		await sleep(3000);
+
+		osa(`tell application "System Events" to tell process "${PROC}"
+			set frontmost to true
+			delay 0.5
+			keystroke "g" using {command down, shift down}
+			delay 1.5
+			keystroke "${ctx.source.path}"
+			delay 1.5
+			key code 36
+			delay 1.5
+			key code 36
+		end tell`);
+		await sleep(20000);
+
 		const text = editorText();
-		const damaged = text.some((t) => /damaged and cannot be opened/i.test(t));
-		if (damaged) {
+		if (text.some((t) => /damaged and cannot be opened/i.test(t)))
+			throw new Error("FocuSee refused the source through its import panel as well");
+		if (!text.some((t) => /^\d\d:\d\d\.\d\d$/.test(t)))
 			throw new Error(
-				"FocuSee refused the source: “The source file is damaged and cannot be opened.” " +
-					"Reproduced with a real 1440p H.264 recording too, so it is not specific to the benchmark " +
-					"fixture. The app is not sandboxed, so this is not a file-access grant.",
+				`FocuSee opened no clip — the timeline shows no duration. Editor: ${text.slice(0, 12).join(" · ")}`,
 			);
-		}
-		if (!text.length) throw new Error("FocuSee did not open an edit window for the source clip");
 
 		// The composition controls are AX static texts paired with sliders; FocuSee exposes their
 		// values but not setters, so what the scenario can reach here is limited to the canvas
