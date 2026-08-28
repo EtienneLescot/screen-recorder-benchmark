@@ -16,6 +16,7 @@
       "versions": [
         "1.10.0"
       ],
+      "versionsUnreported": 0,
       "observedCostRange": [
         1.292,
         2.063
@@ -37,6 +38,7 @@
       "versions": [
         "0.5.9"
       ],
+      "versionsUnreported": 0,
       "observedCostRange": [
         1.283,
         2.937
@@ -58,6 +60,7 @@
       "versions": [
         "1.3.3"
       ],
+      "versionsUnreported": 1,
       "observedCostRange": [
         2.612,
         3.702
@@ -361,5 +364,14 @@
       "disagreementPercent": 137.29
     }
   },
-  "versionSpread": []
+  "versionSpread": [
+    {
+      "tool": "recordly",
+      "versions": [
+        "1.3.3"
+      ],
+      "unreported": 1,
+      "submissions": 2
+    }
+  ]
 }

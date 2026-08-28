@@ -152,7 +152,10 @@
 
   <div class="note"><p class="lead"><strong>The machines do not fully agree.</strong> Where several measured the same pair, they differ by 45.61% at the median.</p><p class="fine">The worst pair is 137.29% — <code>openscreen</code> against <code>cap</code> on Apple M1. Disagreement of this size is not error: it is the ranking depending on the hardware. Only pairs measured on more than one machine can be checked this way, which is why more submissions make the figure stronger rather than noisier.</p></div>
 
-  
+  <div class="note warn"><p class="lead"><strong>A build here is unaccounted for.</strong> One or more submissions did not record which build they measured, so a line may be folding two builds into one without saying so.</p><p class="fine"><code>recordly</code> on 1.3.3, with 1 of 2 submissions reporting none.
+      Tools are measured as shipped rather than pinned, so a figure resting on several known
+      builds is expected as submissions accumulate. A missing version is not: it is a defect in
+      the submitting harness, and the fix is to re-measure rather than to assume.</p></div>
 
   <h2>Every measurement</h2>
   <p class="muted" style="font-size:.95rem;margin:0 0 .6rem">One dot per measured leg, placed by
