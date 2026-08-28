@@ -8,6 +8,23 @@
  * be fixed by choosing the file through a picker. Verified on macOS 26.5 with the direct
  * download from imobie; the Mac App Store build may differ.
  *
+ * Re-confirmed 2026-08-28, and narrowed, so nobody repeats the elimination. The message is not
+ * about the media: the same rejection comes back for the fixture re-muxed to 10s, for the same
+ * clip with its audio removed, for H.264 Main at 30 fps, for Baseline 3.0 at 720p with no audio
+ * — the most conservative MP4 that can be written — and for a copy placed in ~/Movies rather
+ * than the work directory. Format, profile, level, frame rate, resolution, audio and location
+ * are all ruled out. The drop zone itself advertises "Supported Formats: MP4".
+ *
+ * What the app *does* manage is its own recorder: its telemetry in com.imobie.FocuSee records
+ * first_click_rec, first_stop_rec and first_enter_editor on 2026-08-13, so the editor is
+ * reachable from a FocuSee recording and only from one. That is the shape of the block — this is
+ * an app that opens its own projects, not an importer that happens to be broken.
+ *
+ * The one variable left is the account: `UserInfoManager.userCheck` is `[null]`, so nothing has
+ * ever been signed in here, and "damaged" would not be the first misleading message an app has
+ * shown for "not entitled". Testing that needs credentials, which is the owner's call and not
+ * something this harness should hold. Until then the block stands.
+ *
  * The rest of the driver is written and works: FocuSee is a native Cocoa app, so unlike the
  * Electron entrants its whole interface is published to the accessibility API — the canvas-size
  * buttons, the Padding / Inset / Roundness / Shadow values and the Export button are all
