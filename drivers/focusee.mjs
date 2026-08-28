@@ -25,7 +25,14 @@
  * "Original (1920 * 1080)", Frame Rate 60FPS, all matching the scenario's pinned target. Pressing
  * Export in that dialog raises a "FocuSee Premium" sheet whose only two actions are *Buy Now* and
  * a close dot; there is no "continue with watermark". Closing it cancels: CPU returns to zero and
- * no file is written. Verified for a 60s clip and for a 10s one, so it is not a duration cap.
+ * no file is written.
+ *
+ * The sheet's own wording argues the other way — it sells "Export in 4K at 60fps *without
+ * watermark*" and "*Unlimited* recording & export", which reads as though a watermarked,
+ * length-limited export were the free tier's. It is worth trying to get past it, and these
+ * attempts all failed: closing by the dot, clicking outside the sheet (strictly modal, ignored),
+ * Escape (ignored), and pressing Export a second time after dismissing it. Also not a duration
+ * cap — a 10s clip raises it exactly as a 60s one does.
  *
  * One thing is unexplained and worth checking before anyone concludes the app cannot be measured
  * at all. A 1.83s 1920x1080@60 export does exist in ~/Documents/FocuSee from 14:27 on 2026-08-28,
