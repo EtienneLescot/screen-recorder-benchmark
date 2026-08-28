@@ -132,25 +132,25 @@
   describe the machine they were measured on; this survives the trip to yours.</p>
   <div class="row floor-row">
       <div class="name">ffmpeg <span class="tag">the yardstick</span></div>
-      <div class="track"><div class="fill floor-fill" style="width:31.0%"></div></div>
+      <div class="track"><div class="fill floor-fill" style="width:32.1%"></div></div>
       <div class="val">1×</div>
     </div><div class="row">
         <div class="name">openscreen</div>
-        <div class="track"><div class="fill" style="width:45.8%"></div></div>
-        <div class="val">1.48×</div>
+        <div class="track"><div class="fill" style="width:51.9%"></div></div>
+        <div class="val">1.617×</div>
       </div>
 <div class="row">
         <div class="name">cap</div>
-        <div class="track"><div class="fill" style="width:67.6%"></div></div>
-        <div class="val">2.185×</div>
+        <div class="track"><div class="fill" style="width:60.5%"></div></div>
+        <div class="val">1.886×</div>
       </div>
 <div class="row">
         <div class="name">recordly</div>
         <div class="track"><div class="fill" style="width:100.0%"></div></div>
-        <div class="val">3.231×</div>
+        <div class="val">3.118×</div>
       </div>
 
-  <div class="note"><p class="lead"><strong>Which tool wins depends on the platform.</strong> Where a pair was measured on more than one, its ratio moves by 45.61% at the median.</p><p class="fine"><code>openscreen</code> takes 1.61× as long as <code>cap</code> on Apple M1 (macOS), and 0.44× as long on AMD Ryzen 7 5800X 8-Core Processor (Windows) — the two swap places. That is the expected behaviour of different media stacks, not a fault in the measurement: the encoders, the GPUs and the drivers underneath are not the same, and a tool built against one of them has no obligation to lead on another. It is also why the figure above is a consensus rather than a verdict — to see your own hardware, filter the runs below. Only pairs measured on more than one platform can be compared this way, so each new submission narrows what the consensus is guessing at.</p></div>
+  <div class="note"><p class="lead"><strong>Which tool wins depends on the platform.</strong> Where a pair was measured on more than one, its ratio moves by 48.61% at the median.</p><p class="fine"><code>openscreen</code> takes 1.67× as long as <code>cap</code> on Apple M1 (macOS), and 0.44× as long on AMD Ryzen 7 5800X 8-Core Processor (Windows) — the two swap places. That is the expected behaviour of different media stacks, not a fault in the measurement: the encoders, the GPUs and the drivers underneath are not the same, and a tool built against one of them has no obligation to lead on another. It is also why the figure above is a consensus rather than a verdict — to see your own hardware, filter the runs below. Only pairs measured on more than one platform can be compared this way, so each new submission narrows what the consensus is guessing at.</p></div>
 
   
 
@@ -178,19 +178,19 @@
       <text x="282.56926186045575" y="14" class="axis mid floor-tag">1× = ffmpeg itself</text>
       <text x="433" y="168" class="axis mid caption">export time ÷ the same machine's ffmpeg transcode — 2× means twice as long, not twice as fast</text>
       <text x="120" y="47" class="strip-tool">cap</text>
-            <line x1="325.1803629669648" x2="574.2219220841587" y1="43" y2="43" class="strip-range"/><circle cx="325.1803629669648" cy="43" r="5.5"
+            <line x1="314.1888068511515" x2="574.2219220841587" y1="43" y2="43" class="strip-range"/><circle cx="314.1888068511515" cy="43" r="5.5"
                    fill="var(--s1)"
-                   stroke="var(--card)" stroke-width="1.5"><title>cap on Apple M1 (darwin): 1.283× the floor, 23.4s, 153.9 fps</title></circle><circle cx="574.2219220841587" cy="43" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>cap on Apple M1 (darwin): 1.21× the floor, 22.01s, 163.6 fps</title></circle><circle cx="574.2219220841587" cy="43" r="5.5"
                    fill="var(--s2)"
                    stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 7 5800X 8-Core Processor              (win32): 2.937× the floor, 22.97s, 156.7 fps</title></circle><text x="120" y="81" class="strip-tool">openscreen</text>
-            <line x1="326.5354863237089" x2="442.6243872181204" y1="77" y2="77" class="strip-range"/><circle cx="442.6243872181204" cy="77" r="5.5"
+            <line x1="326.5354863237089" x2="436.6016167437021" y1="77" y2="77" class="strip-range"/><circle cx="436.6016167437021" cy="77" r="5.5"
                    fill="var(--s1)"
-                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on Apple M1 (darwin): 2.063× the floor, 37.58s, 95.8 fps</title></circle><circle cx="326.5354863237089" cy="77" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on Apple M1 (darwin): 2.023× the floor, 36.8s, 97.8 fps</title></circle><circle cx="326.5354863237089" cy="77" r="5.5"
                    fill="var(--s2)"
                    stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 7 5800X 8-Core Processor              (win32): 1.292× the floor, 10.09s, 356.7 fps</title></circle><text x="120" y="115" class="strip-tool">recordly</text>
-            <line x1="525.2869119795105" x2="689.4074074074074" y1="111" y2="111" class="strip-range"/><circle cx="525.2869119795105" cy="111" r="5.5"
+            <line x1="527.394881645557" x2="689.4074074074074" y1="111" y2="111" class="strip-range"/><circle cx="527.394881645557" cy="111" r="5.5"
                    fill="var(--s1)"
-                   stroke="var(--card)" stroke-width="1.5"><title>recordly on Apple M1 (darwin): 2.612× the floor, 47.62s, 75.6 fps</title></circle><circle cx="689.4074074074074" cy="111" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>recordly on Apple M1 (darwin): 2.626× the floor, 47.74s, 75.4 fps</title></circle><circle cx="689.4074074074074" cy="111" r="5.5"
                    fill="var(--s2)"
                    stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 7 5800X 8-Core Processor              (win32): 3.702× the floor, 28.79s, 125.1 fps</title></circle>
     </svg></div>
@@ -226,12 +226,12 @@
       <td><strong>openscreen</strong> <span class="muted">1.10.0</span></td>
       <td>Apple M1</td>
       <td class="muted">darwin</td>
-      <td class="num"><strong>2.063×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">37.58 s</td>
-      <td class="num">95.8</td>
-      <td class="num">8.7</td>
-      <td class="num">721</td>
-      <td class="num">32%</td>
+      <td class="num"><strong>2.023×</strong> <span class="muted">ffmpeg</span></td>
+      <td class="num">36.8 s</td>
+      <td class="num">97.8</td>
+      <td class="num">8.54</td>
+      <td class="num">719</td>
+      <td class="num">81%</td>
       <td>full</td>
       <td class="muted">cli</td>
     </tr>
@@ -239,12 +239,12 @@
       <td><strong>cap</strong> <span class="muted">0.5.9</span></td>
       <td>Apple M1</td>
       <td class="muted">darwin</td>
-      <td class="num"><strong>1.283×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">23.4 s</td>
-      <td class="num">153.9</td>
-      <td class="num">26.33</td>
-      <td class="num">1562</td>
-      <td class="num">153%</td>
+      <td class="num"><strong>1.21×</strong> <span class="muted">ffmpeg</span></td>
+      <td class="num">22.01 s</td>
+      <td class="num">163.6</td>
+      <td class="num">24.39</td>
+      <td class="num">1485</td>
+      <td class="num">58%</td>
       <td>full</td>
       <td class="muted">cli</td>
     </tr>
@@ -252,12 +252,12 @@
       <td><strong>recordly</strong> <span class="muted">1.3.3</span></td>
       <td>Apple M1</td>
       <td class="muted">darwin</td>
-      <td class="num"><strong>2.612×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">47.62 s</td>
-      <td class="num">75.6</td>
-      <td class="num">88.01</td>
-      <td class="num">1368</td>
-      <td class="num">66%</td>
+      <td class="num"><strong>2.626×</strong> <span class="muted">ffmpeg</span></td>
+      <td class="num">47.74 s</td>
+      <td class="num">75.4</td>
+      <td class="num">90.61</td>
+      <td class="num">1232</td>
+      <td class="num">93%</td>
       <td>full</td>
       <td class="muted">cdp</td>
     </tr>
@@ -328,26 +328,26 @@
     <thead><tr><th>Tool</th><th>Cost</th><th>Submissions</th><th>Platforms</th><th>Observed range</th><th>Versions</th></tr></thead>
     <tbody><tr>
       <td><strong>openscreen-cli</strong></td>
-      <td class="num">1.48×</td>
+      <td class="num">1.617×</td>
       <td class="num">2</td>
       <td>darwin, win32</td>
-      <td class="num">1.292–2.063×</td>
+      <td class="num">1.292–2.023×</td>
       <td class="muted">1.10.0</td>
     </tr>
 <tr>
       <td><strong>cap</strong></td>
-      <td class="num">2.185×</td>
+      <td class="num">1.886×</td>
       <td class="num">2</td>
       <td>darwin, win32</td>
-      <td class="num">1.283–2.937×</td>
+      <td class="num">1.21–2.937×</td>
       <td class="muted">0.5.9</td>
     </tr>
 <tr>
       <td><strong>recordly</strong></td>
-      <td class="num">3.231×</td>
+      <td class="num">3.118×</td>
       <td class="num">2</td>
       <td>darwin, win32</td>
-      <td class="num">2.612–3.702×</td>
+      <td class="num">2.626–3.702×</td>
       <td class="muted">1.3.3</td>
     </tr></tbody>
   </table></div>
