@@ -150,19 +150,16 @@
         <div class="val">3.231×</div>
       </div>
 
-  <div class="note"><p class="lead"><strong>The machines do not fully agree.</strong> Where several measured the same pair, they differ by 45.61% at the median.</p><p class="fine">The worst pair is 137.29% — <code>openscreen</code> against <code>cap</code> on Apple M1. Disagreement of this size is not error: it is the ranking depending on the hardware. Only pairs measured on more than one machine can be checked this way, which is why more submissions make the figure stronger rather than noisier.</p></div>
+  <div class="note"><p class="lead"><strong>Which tool wins depends on the platform.</strong> Where a pair was measured on more than one, its ratio moves by 45.61% at the median.</p><p class="fine"><code>openscreen</code> takes 1.61× as long as <code>cap</code> on Apple M1 (macOS), and 0.44× as long on AMD Ryzen 7 5800X 8-Core Processor (Windows) — the two swap places. That is the expected behaviour of different media stacks, not a fault in the measurement: the encoders, the GPUs and the drivers underneath are not the same, and a tool built against one of them has no obligation to lead on another. It is also why the figure above is a consensus rather than a verdict — to see your own hardware, filter the runs below. Only pairs measured on more than one platform can be compared this way, so each new submission narrows what the consensus is guessing at.</p></div>
 
-  <div class="note warn"><p class="lead"><strong>A build here is unaccounted for.</strong> One or more submissions did not record which build they measured, so a line may be folding two builds into one without saying so.</p><p class="fine"><code>recordly</code> on 1.3.3, with 1 of 2 submissions reporting none.
-      Tools are measured as shipped rather than pinned, so a figure resting on several known
-      builds is expected as submissions accumulate. A missing version is not: it is a defect in
-      the submitting harness, and the fix is to re-measure rather than to assume.</p></div>
+  
 
   <h2>Every measurement</h2>
   <p class="muted" style="font-size:.95rem;margin:0 0 .6rem">One dot per measured leg, placed by
   what it cost against the floor beside it. Where one tool's dots straddle another's, the
   ranking is not a property of the tools — it depends on the machine. Hover a dot for the
   machine, the seconds and the frame rate.</p>
-  <div class="legend"><span class="key"><i style="background:var(--s1)"></i>darwin</span><span class="key"><i style="background:var(--s2)"></i>win32</span></div>
+  <div class="legend"><span class="key"><i style="background:var(--s1)"></i>macOS</span><span class="key"><i style="background:var(--s2)"></i>Windows</span></div>
   <div class="slope-wrap"><svg viewBox="0 0 760 174" class="strip" role="img"
         aria-label="Cost against the ffmpeg floor, one dot per measurement, grouped by tool">
       <line x1="282.56926186045575" x2="282.56926186045575" y1="20" y2="148"
@@ -252,7 +249,7 @@
       <td class="muted">cli</td>
     </tr>
 <tr data-machine="Apple M1" data-platform="darwin" data-tool="recordly">
-      <td><strong>recordly</strong> <span class="muted">unknown</span></td>
+      <td><strong>recordly</strong> <span class="muted">1.3.3</span></td>
       <td>Apple M1</td>
       <td class="muted">darwin</td>
       <td class="num"><strong>2.612×</strong> <span class="muted">ffmpeg</span></td>
