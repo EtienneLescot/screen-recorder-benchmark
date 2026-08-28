@@ -36,18 +36,21 @@
     }
     :root[data-theme="dark"] { --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --floor:#6f6d66; }
     .slope-wrap { overflow-x:auto; margin:.2rem 0 1.6rem; }
-    .slope { width:100%; min-width:640px; height:auto; display:block;
+    .strip { width:100%; min-width:600px; height:auto; display:block;
       font-family:"IBM Plex Mono", monospace; }
-    .slope .floor-line { stroke:var(--floor); stroke-width:1; stroke-dasharray:3 4; }
-    .slope .axis { fill:var(--muted); font-size:11px; }
-    .slope .axis.mid { text-anchor:middle; font-weight:600; fill:var(--ink); }
-    .slope .axis.end { text-anchor:end; }
-    .slope .axis.floor-tag { text-anchor:end; fill:var(--floor); font-size:10.5px; }
-    .slope .slope-label { font-size:11.5px; font-weight:600; }
-    .slope .slope-label.start { text-anchor:end; }
-    .slope .slope-label.end2 { text-anchor:start; }
-    .slope circle { transition:r .12s ease; }
-    .slope circle:hover { r:7; }
+    .strip .grid-line { stroke:var(--line); stroke-width:1; }
+    .strip .floor-line { stroke:var(--floor); stroke-width:1.5; stroke-dasharray:3 4; }
+    .strip .axis { fill:var(--muted); font-size:10.5px; }
+    .strip .axis.mid { text-anchor:middle; }
+    .strip .floor-tag { fill:var(--floor); font-weight:600; }
+    .strip .strip-tool { text-anchor:end; font-size:12px; font-weight:600; fill:var(--ink); }
+    .strip .strip-range { stroke:var(--line); stroke-width:6; stroke-linecap:round; }
+    .strip circle { transition:r .12s ease; }
+    .strip circle:hover { r:7.5; }
+    .legend { display:flex; gap:1rem; flex-wrap:wrap; margin:0 0 .5rem;
+      font-family:"IBM Plex Mono", monospace; font-size:.75rem; color:var(--muted); }
+    .legend .key { display:inline-flex; align-items:center; gap:.35rem; }
+    .legend i { width:10px; height:10px; border-radius:50%; display:inline-block; }
 
     .filters { display:flex; gap:1.1rem; flex-wrap:wrap; align-items:center; margin:0 0 1rem;
       font-family:"IBM Plex Mono", monospace; font-size:.8rem; }
@@ -103,29 +106,29 @@
 
   
 
-  <h2>Relative cost — lower is better</h2>
+  <h2>Export time against ffmpeg — lower is faster</h2>
   <p class="muted" style="font-size:.95rem;margin:0 0 1.2rem">Each tool's export time divided by
   a plain ffmpeg transcode measured on the same machine moments earlier. Seconds are not
   comparable across machines; this is.</p>
   <div class="row">
-        <div class="name">openscreen-cli</div>
+        <div class="name">openscreen</div>
         <div class="track"><div class="fill" style="width:45.8%"></div></div>
-        <div class="val">1.48×</div>
+        <div class="val">1.48× <span class="muted">ffmpeg</span></div>
       </div>
 <div class="row">
         <div class="name">cap</div>
         <div class="track"><div class="fill" style="width:67.6%"></div></div>
-        <div class="val">2.185×</div>
+        <div class="val">2.185× <span class="muted">ffmpeg</span></div>
       </div>
 <div class="row">
         <div class="name">recordly</div>
         <div class="track"><div class="fill" style="width:100.0%"></div></div>
-        <div class="val">3.231×</div>
+        <div class="val">3.231× <span class="muted">ffmpeg</span></div>
       </div>
 
   <div class="note"><strong>Consistency.</strong> Where several machines measured the same
       pair, they disagree by 45.61% at the median and 137.29%
-      at worst — <code>openscreen-cli</code> against <code>cap</code> on Apple M1.
+      at worst — <code>openscreen</code> against <code>cap</code> on Apple M1.
       Redundant paths are what makes that measurable; a single machine could not tell you.</div>
 
   <div class="note warn"><strong>Mixed versions.</strong>
@@ -133,34 +136,45 @@
       Tools are measured as shipped rather than pinned, so a figure can rest on more than one
       build as submissions accumulate.</div>
 
-  <h2>Where the ranking changes</h2>
-  <p class="muted" style="font-size:.95rem;margin:0 0 1rem">The same tools, measured against the
-  floor on each machine. Lines that cross are the point: the order is not a property of the
-  tools alone. A tool measured on one machine is a dot — it has no slope, and drawing one would
-  claim a comparison nobody made.</p>
-  <div class="slope-wrap"><svg viewBox="0 0 760 300" class="slope" role="img"
-        aria-label="Cost against the ffmpeg floor for each tool, on each machine">
-      <line x1="175.29999999999998" x2="688" y1="210.04568958863936" y2="210.04568958863936" class="floor-line"/>
-      <text x="698" y="203.04568958863936" class="axis floor-tag">1× — as fast as ffmpeg</text>
-      <text x="175.29999999999998" y="14" class="axis mid">AMD Ryzen 7 5800X 8-Core Processor             </text>
-             <line x1="175.29999999999998" x2="175.29999999999998" y1="34" y2="266" class="floor-line" opacity=".3"/><text x="688" y="14" class="axis mid">Apple M1</text>
-             <line x1="688" x2="688" y1="34" y2="266" class="floor-line" opacity=".3"/>
-      <polyline fill="none" stroke="var(--s1)" stroke-width="2"
-                   stroke-linejoin="round" points="175.29999999999998,101.66219032183378 688,194.2106197422243"/><circle cx="175.29999999999998" cy="101.66219032183378" r="5" fill="var(--s1)"
-                   stroke="var(--card)" stroke-width="2"><title>cap — AMD Ryzen 7 5800X 8-Core Processor             : 2.937× the floor</title></circle><circle cx="688" cy="194.2106197422243" r="5" fill="var(--s1)"
-                   stroke="var(--card)" stroke-width="2"><title>cap — Apple M1: 1.283× the floor</title></circle><text x="163.29999999999998" y="105.66219032183378"
-             class="slope-label start" fill="var(--s1)">cap 2.937×</text><text x="700" y="198.2106197422243"
-             class="slope-label end2" fill="var(--s1)">1.283×</text><polyline fill="none" stroke="var(--s2)" stroke-width="2"
-                   stroke-linejoin="round" points="175.29999999999998,193.70703094852203 688,150.56625762136298"/><circle cx="175.29999999999998" cy="193.70703094852203" r="5" fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="2"><title>openscreen-cli — AMD Ryzen 7 5800X 8-Core Processor             : 1.292× the floor</title></circle><circle cx="688" cy="150.56625762136298" r="5" fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="2"><title>openscreen-cli — Apple M1: 2.063× the floor</title></circle><text x="163.29999999999998" y="197.70703094852203"
-             class="slope-label start" fill="var(--s2)">openscreen-cli 1.292×</text><text x="700" y="154.56625762136298"
-             class="slope-label end2" fill="var(--s2)">2.063×</text><polyline fill="none" stroke="var(--s3)" stroke-width="2"
-                   stroke-linejoin="round" points="175.29999999999998,58.8571428571429 688,119.84734120552599"/><circle cx="175.29999999999998" cy="58.8571428571429" r="5" fill="var(--s3)"
-                   stroke="var(--card)" stroke-width="2"><title>recordly — AMD Ryzen 7 5800X 8-Core Processor             : 3.702× the floor</title></circle><circle cx="688" cy="119.84734120552599" r="5" fill="var(--s3)"
-                   stroke="var(--card)" stroke-width="2"><title>recordly — Apple M1: 2.612× the floor</title></circle><text x="163.29999999999998" y="62.8571428571429"
-             class="slope-label start" fill="var(--s3)">recordly 3.702×</text><text x="700" y="123.84734120552599"
-             class="slope-label end2" fill="var(--s3)">2.612×</text>
+  <h2>Every measurement</h2>
+  <p class="muted" style="font-size:.95rem;margin:0 0 .6rem">One dot per measured leg, placed by
+  what it cost against the floor beside it. Where one tool's dots straddle another's, the
+  ranking is not a property of the tools — it depends on the machine. Hover a dot for the
+  machine, the seconds and the frame rate.</p>
+  <div class="legend"><span class="key"><i style="background:var(--s1)"></i>darwin</span><span class="key"><i style="background:var(--s2)"></i>win32</span></div>
+  <div class="slope-wrap"><svg viewBox="0 0 760 174" class="strip" role="img"
+        aria-label="Cost against the ffmpeg floor, one dot per measurement, grouped by tool">
+      <line x1="282.56926186045575" x2="282.56926186045575" y1="20" y2="148"
+               class="floor-line"/>
+             <text x="282.56926186045575" y="148" class="axis mid">1×</text><line x1="357.8538927906837" x2="357.8538927906837" y1="20" y2="148"
+               class="grid-line"/>
+             <text x="357.8538927906837" y="148" class="axis mid">1.5×</text><line x1="433.13852372091156" x2="433.13852372091156" y1="20" y2="148"
+               class="grid-line"/>
+             <text x="433.13852372091156" y="148" class="axis mid">2×</text><line x1="508.4231546511395" x2="508.4231546511395" y1="20" y2="148"
+               class="grid-line"/>
+             <text x="508.4231546511395" y="148" class="axis mid">2.5×</text><line x1="583.7077855813674" x2="583.7077855813674" y1="20" y2="148"
+               class="grid-line"/>
+             <text x="583.7077855813674" y="148" class="axis mid">3×</text><line x1="658.9924165115953" x2="658.9924165115953" y1="20" y2="148"
+               class="grid-line"/>
+             <text x="658.9924165115953" y="148" class="axis mid">3.5×</text>
+      <text x="282.56926186045575" y="14" class="axis mid floor-tag">1× = ffmpeg itself</text>
+      <text x="433" y="168" class="axis mid caption">export time ÷ the same machine's ffmpeg transcode — 2× means twice as long, not twice as fast</text>
+      <text x="120" y="47" class="strip-tool">cap</text>
+            <line x1="325.1803629669648" x2="574.2219220841587" y1="43" y2="43" class="strip-range"/><circle cx="325.1803629669648" cy="43" r="5.5"
+                   fill="var(--s1)"
+                   stroke="var(--card)" stroke-width="1.5"><title>cap on Apple M1 (darwin): 1.283× the floor, 23.4s, 153.9 fps</title></circle><circle cx="574.2219220841587" cy="43" r="5.5"
+                   fill="var(--s2)"
+                   stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 7 5800X 8-Core Processor              (win32): 2.937× the floor, 22.97s, 156.7 fps</title></circle><text x="120" y="81" class="strip-tool">openscreen</text>
+            <line x1="326.5354863237089" x2="442.6243872181204" y1="77" y2="77" class="strip-range"/><circle cx="442.6243872181204" cy="77" r="5.5"
+                   fill="var(--s1)"
+                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on Apple M1 (darwin): 2.063× the floor, 37.58s, 95.8 fps</title></circle><circle cx="326.5354863237089" cy="77" r="5.5"
+                   fill="var(--s2)"
+                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 7 5800X 8-Core Processor              (win32): 1.292× the floor, 10.09s, 356.7 fps</title></circle><text x="120" y="115" class="strip-tool">recordly</text>
+            <line x1="525.2869119795105" x2="689.4074074074074" y1="111" y2="111" class="strip-range"/><circle cx="525.2869119795105" cy="111" r="5.5"
+                   fill="var(--s1)"
+                   stroke="var(--card)" stroke-width="1.5"><title>recordly on Apple M1 (darwin): 2.612× the floor, 47.62s, 75.6 fps</title></circle><circle cx="689.4074074074074" cy="111" r="5.5"
+                   fill="var(--s2)"
+                   stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 7 5800X 8-Core Processor              (win32): 3.702× the floor, 28.79s, 125.1 fps</title></circle>
     </svg></div>
 
   <h2>Every run</h2>
@@ -178,7 +192,7 @@
       <select id="f-platform"><option value="">all</option><option value="darwin">darwin</option><option value="win32">win32</option></select>
     </label>
     <label>Tool
-      <select id="f-tool"><option value="">all</option><option value="cap">cap</option><option value="openscreen-cli">openscreen-cli</option><option value="recordly">recordly</option></select>
+      <select id="f-tool"><option value="">all</option><option value="cap">cap</option><option value="openscreen-cli">openscreen</option><option value="recordly">recordly</option></select>
     </label>
     <span class="muted" id="f-count"></span>
   </div>
@@ -191,10 +205,10 @@
       <th class="num">Bg load</th><th>Fidelity</th><th>Driven</th>
     </tr></thead>
     <tbody><tr data-machine="Apple M1" data-platform="darwin" data-tool="openscreen-cli">
-      <td><strong>openscreen-cli</strong> <span class="muted">1.10.0</span></td>
+      <td><strong>openscreen</strong> <span class="muted">1.10.0</span></td>
       <td>Apple M1</td>
       <td class="muted">darwin</td>
-      <td class="num"><strong>2.063×</strong></td>
+      <td class="num"><strong>2.063×</strong> <span class="muted">ffmpeg</span></td>
       <td class="num">37.58 s</td>
       <td class="num">95.8</td>
       <td class="num">8.7</td>
@@ -207,7 +221,7 @@
       <td><strong>cap</strong> <span class="muted">0.5.9</span></td>
       <td>Apple M1</td>
       <td class="muted">darwin</td>
-      <td class="num"><strong>1.283×</strong></td>
+      <td class="num"><strong>1.283×</strong> <span class="muted">ffmpeg</span></td>
       <td class="num">23.4 s</td>
       <td class="num">153.9</td>
       <td class="num">26.33</td>
@@ -220,7 +234,7 @@
       <td><strong>recordly</strong> <span class="muted">unknown</span></td>
       <td>Apple M1</td>
       <td class="muted">darwin</td>
-      <td class="num"><strong>2.612×</strong></td>
+      <td class="num"><strong>2.612×</strong> <span class="muted">ffmpeg</span></td>
       <td class="num">47.62 s</td>
       <td class="num">75.6</td>
       <td class="num">88.01</td>
@@ -230,10 +244,10 @@
       <td class="muted">cdp</td>
     </tr>
 <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="openscreen-cli">
-      <td><strong>openscreen-cli</strong> <span class="muted">1.10.0</span></td>
+      <td><strong>openscreen</strong> <span class="muted">1.10.0</span></td>
       <td>AMD Ryzen 7 5800X 8-Core Processor             </td>
       <td class="muted">win32</td>
-      <td class="num"><strong>1.292×</strong></td>
+      <td class="num"><strong>1.292×</strong> <span class="muted">ffmpeg</span></td>
       <td class="num">10.09 s</td>
       <td class="num">356.7</td>
       <td class="num">4.5</td>
@@ -246,7 +260,7 @@
       <td><strong>cap</strong> <span class="muted">0.5.9</span></td>
       <td>AMD Ryzen 7 5800X 8-Core Processor             </td>
       <td class="muted">win32</td>
-      <td class="num"><strong>2.937×</strong></td>
+      <td class="num"><strong>2.937×</strong> <span class="muted">ffmpeg</span></td>
       <td class="num">22.97 s</td>
       <td class="num">156.7</td>
       <td class="num">41.84</td>
@@ -259,7 +273,7 @@
       <td><strong>recordly</strong> <span class="muted">1.3.3.0</span></td>
       <td>AMD Ryzen 7 5800X 8-Core Processor             </td>
       <td class="muted">win32</td>
-      <td class="num"><strong>3.702×</strong></td>
+      <td class="num"><strong>3.702×</strong> <span class="muted">ffmpeg</span></td>
       <td class="num">28.79 s</td>
       <td class="num">125.1</td>
       <td class="num">147.68</td>
