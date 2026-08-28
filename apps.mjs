@@ -210,7 +210,11 @@ export function installPlan(appIds) {
 		if (seen.has(target)) continue;
 		seen.add(target);
 		const spec = (APPS[target] ?? entry).install;
-		if (spec) plan.push({ id: target, ...spec });
+		// `app` is the benchmark's id for the entry; `id` stays whatever the install spec sets,
+		// because for a winget entry that is the package id installApp needs. The spread used to
+		// clobber the entry id silently — plan rows for Recordly came back as
+		// "Webadderall.Recordly", so anything looking the driver up by it found nothing.
+		if (spec) plan.push({ app: target, id: target, ...spec });
 	}
 	return plan;
 }

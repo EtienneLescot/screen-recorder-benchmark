@@ -142,7 +142,19 @@ async function cmdPreflight({ flags }) {
 	await cmdDoctor();
 
 	/* ---------------------------------------------------------------- downloads --------- */
-	const missing = plan.filter((m) => !existsSync(join("/Applications", m.appName)));
+	// Each driver is asked whether it is installed, rather than looking for a bundle in
+	// /Applications. That path does not exist on Windows, so preflight — the documented first
+	// command — told a machine with OpenScreen, Recordly and Cap already measuring on it to
+	// download 579 MB, "Cap.app" among them, from an Apple Silicon URL.
+	const installed = new Set();
+	for (const m of plan) {
+		try {
+			if ((await loadDriver(m.app)).detect().installed) installed.add(m.app);
+		} catch {
+			/* a driver that will not load is reported by doctor */
+		}
+	}
+	const missing = plan.filter((m) => !installed.has(m.app));
 	log("\nDownloads needed");
 	if (!missing.length) log("  (none — every app is already installed)");
 	for (const m of missing) {
@@ -154,8 +166,23 @@ async function cmdPreflight({ flags }) {
 	if (totalMB) log(`  total ≈ ${totalMB} MB  —  run \`bench.mjs install\` to fetch them`);
 
 	/* -------------------------------------------------------------- permissions --------- */
+	// Windows grants nothing here, and saying otherwise was actively misleading: this section
+	// used to tell a Windows machine that Accessibility was "NOT granted" and to fix it in
+	// System Settings → Privacy & Security, which does not exist there. What does decide whether
+	// a Windows run is trustworthy is whether something else is holding the hardware encoder.
 	log("\nPermissions");
-	if (!accessibilityGranted()) {
+	if (IS_WIN) {
+		log("  · Nothing to grant. UI Automation needs no permission, and the Electron entrants");
+		log("    are driven over CDP through a debugging port the drivers pass themselves.");
+		const rd = remoteDesktopActive();
+		if (rd.active) {
+			log("  ✗ A remote-desktop session is holding a hardware encoder — every export will be");
+			log("    slower and the ranking will move. Disconnect it before measuring.");
+		} else {
+			log("  ✓ No remote-desktop session is holding a hardware encoder.");
+		}
+		for (const r of rd.reasons ?? []) log(`     ${r}`);
+	} else if (!accessibilityGranted()) {
 		log("  ✗ Accessibility is NOT granted to the process running this script.");
 		log("    Without it System Events refuses every menu click and no GUI app can be driven.");
 		log("    Grant it in System Settings → Privacy & Security → Accessibility, then re-run.");
@@ -179,7 +206,11 @@ async function cmdPreflight({ flags }) {
 			/* a driver that will not load is reported by doctor */
 		}
 	}
-	const needPrompt = drivers.filter((d) => d.bundleId && d.appPath && existsSync(d.appPath));
+	// macOS only: there is no Apple Events consent on Windows, and asking for it printed three
+	// lines of "… unknown" against apps that were already driving fine.
+	const needPrompt = IS_WIN
+		? []
+		: drivers.filter((d) => d.bundleId && d.appPath && existsSync(d.appPath));
 	if (needPrompt.length) {
 		log(`\n  Provoking the Apple Events prompt for ${needPrompt.length} app(s).`);
 		log("  Each will raise a “… wants access to control …” dialog. Click Allow on every one —");
