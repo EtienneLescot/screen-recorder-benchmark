@@ -47,6 +47,19 @@
     .strip .strip-range { stroke:var(--line); stroke-width:6; stroke-linecap:round; }
     .strip circle { transition:r .12s ease; }
     .strip circle:hover { r:7.5; }
+    .plain { background:var(--card); border:1px solid var(--line); border-radius:8px;
+      padding:1.1rem 1.3rem; margin:0 0 2rem; }
+    .plain-q { margin:0 0 .8rem; font-size:1.05rem; }
+    .plain-list { list-style:none; margin:0 0 .9rem; padding:0; display:flex; gap:1.8rem; flex-wrap:wrap; }
+    .plain-list li { display:flex; flex-direction:column; gap:.15rem; }
+    .plain-tool { font-family:"IBM Plex Mono", monospace; font-size:.8rem; color:var(--muted); }
+    .plain-secs { font-size:1.9rem; font-weight:600; line-height:1; letter-spacing:-.02em; }
+    .plain-note { margin:0; font-size:.88rem; color:var(--muted); }
+    details.note > summary { cursor:pointer; list-style:none; }
+    details.note > summary::-webkit-details-marker { display:none; }
+    details.note > summary::after { content:" — why"; color:var(--accent); font-size:.82rem; }
+    details.note[open] > summary::after { content:" — hide"; }
+    details.note > p { margin:.6rem 0 0; }
     .legend { display:flex; gap:1rem; flex-wrap:wrap; margin:0 0 .5rem;
       font-family:"IBM Plex Mono", monospace; font-size:.75rem; color:var(--muted); }
     .legend .key { display:inline-flex; align-items:center; gap:.35rem; }
@@ -106,6 +119,19 @@
 
   
 
+  <div class="plain">
+      <p class="plain-q">A 60-second screen
+      demo — wallpaper, rounded corners, three zooms, a cursor and a webcam — exported on
+      <strong>AMD Ryzen 7 5800X 8-Core Processor             </strong>.</p>
+      <ul class="plain-list"><li><span class="plain-tool">openscreen</span>
+             <span class="plain-secs">10 s</span></li><li><span class="plain-tool">cap</span>
+             <span class="plain-secs">23 s</span></li><li><span class="plain-tool">recordly</span>
+             <span class="plain-secs">29 s</span></li></ul>
+      <p class="plain-note">Those seconds describe that machine and no other. Everything below
+      divides them by what a plain <code>ffmpeg</code> transcode cost on the same machine, which
+      is what lets one computer's result be compared with another's.</p>
+    </div>
+
   <h2>Export time against ffmpeg — lower is faster</h2>
   <p class="muted" style="font-size:.95rem;margin:0 0 1.2rem">Each tool's export time divided by
   a plain ffmpeg transcode measured on the same machine moments earlier. Seconds are not
@@ -126,12 +152,12 @@
         <div class="val">3.231× <span class="muted">ffmpeg</span></div>
       </div>
 
-  <div class="note"><strong>Consistency.</strong> Where several machines measured the same
+  <details class="note"><summary><strong>The machines do not fully agree.</strong> Where several measured the same pair, they differ by 45.61% at the median.</summary><p>Where several machines measured the same
       pair, they disagree by 45.61% at the median and 137.29%
       at worst — <code>openscreen</code> against <code>cap</code> on Apple M1.
-      Redundant paths are what makes that measurable; a single machine could not tell you.</div>
+      Redundant paths are what makes that measurable; a single machine could not tell you.</p></details>
 
-  <div class="note warn"><strong>Mixed versions.</strong>
+  <details class="note warn"><summary><strong>Mixed versions.</strong> A figure here rests on more than one build.</summary><p>
       <code>recordly</code> spans 2 builds (1.3.3.0, unknown).
       Tools are measured as shipped rather than pinned, so a figure can rest on more than one
       build as submissions accumulate.</div>
