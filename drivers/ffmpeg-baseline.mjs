@@ -49,8 +49,14 @@ export default {
 		}
 	},
 
-	async prepare() {
-		const enc = pickH264Encoder(resolveFfmpeg().ffmpeg);
+	async prepare(ctx) {
+		// ctx.floorEncoder lets the same driver stand in for both floors: the hardware one every
+		// cost is divided by, and the software companion that shows what the cores were doing at
+		// the same moment. Absent, it behaves exactly as before.
+		const enc = pickH264Encoder(resolveFfmpeg().ffmpeg, {
+			prefer: ctx?.floorEncoder ?? "hardware",
+		});
+		if (!enc) throw new Error("no libx264 in this ffmpeg build; the software floor needs one");
 		return {
 			// The floor deliberately applies nothing. Listing the two output features it *does*
 			// honour keeps the fidelity score honest rather than showing a bare zero.
@@ -64,12 +70,15 @@ export default {
 	},
 
 	outputPath(ctx) {
-		return join(ctx.outDir, `${this.id}-${ctx.scenario.id}-run${ctx.run.index}.mp4`);
+		// The two floors must not write to the same file: run indices restart per leg, so a
+		// software floor would silently overwrite the hardware one measured beside it.
+		const kind = ctx.floorEncoder === "software" ? "-sw" : "";
+		return join(ctx.outDir, `${this.id}${kind}-${ctx.scenario.id}-run${ctx.run.index}.mp4`);
 	},
 
 	async runExport(ctx) {
 		const { ffmpeg } = resolveFfmpeg();
-		const enc = pickH264Encoder(ffmpeg);
+		const enc = pickH264Encoder(ffmpeg, { prefer: ctx?.floorEncoder ?? "hardware" });
 		const out = this.outputPath(ctx);
 		const t = ctx.scenario.output;
 

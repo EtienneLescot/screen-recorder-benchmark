@@ -45,7 +45,7 @@ import {
 import { remoteDesktopActive } from "./lib/platform.mjs";
 import { fetchBundle, loadSources } from "./lib/publicSource.mjs";
 import { renderReport } from "./lib/report.mjs";
-import { preconditionCheck, runApp } from "./lib/runner.mjs";
+import { preconditionCheck, runApp, runOnce } from "./lib/runner.mjs";
 import { loadRoster, renderSite } from "./lib/site.mjs";
 import { prepareBundle } from "./lib/sourceBundle.mjs";
 import { newRunId, RunState } from "./lib/state.mjs";
@@ -564,38 +564,57 @@ async function cmdRun({ flags }) {
 		// machine, not the moment — and background load moves between legs. Measured here:
 		// OpenScreen's leg ran at 264% foreign CPU and Cap's at 194%, which is a difference
 		// between the apps that has nothing to do with the apps. One floor per leg removes it.
+		// A floor measured alongside *this* app, and now alongside each of its repetitions.
+		//
+		// One floor per leg normalised the machine and the leg, but not the moment inside it: a
+		// leg is four exports and several cooldowns, twenty minutes for a slow tool, and on a
+		// thermally unstable machine the last repetition is not divided by the same machine as
+		// the first. Two runs of this benchmark on one laptop disagreed by 22.9% on the pairwise
+		// ratios while each run's own floors looked stable. Same ffmpeg budget as before — the
+		// three-run median per leg becomes one run per repetition plus a warm-up.
+		let floorDriver = null;
+		let softwareFloor = null;
+		const floorCtx = (kind, index) => ({
+			workDir: WORK_DIR,
+			outDir,
+			scenario,
+			source: fixture,
+			assets,
+			log: () => undefined,
+			state: {},
+			run: { index },
+			floorEncoder: kind,
+			commit: () => undefined,
+		});
 		if (interleaveFloor && id !== "ffmpeg-baseline") {
 			try {
-				const floorDriver = await loadDriver("ffmpeg-baseline");
-				const floorRec = await runApp(
-					floorDriver,
-					{
-						workDir: WORK_DIR,
-						outDir,
-						scenario,
-						source: fixture,
-						assets,
-						log: () => undefined,
-						state: {},
-					},
-					// The same shape as the tools this divides: a discarded warm-up, then a median.
-					// Measured once and cold, the denominator of the headline number was the
-					// noisiest thing in the run — two legs of one run disagreed by 15 %, which
-					// moved a tool's published cost from 1.284× to 1.077× while the other tool,
-					// whose two floors happened to agree, stayed put to 0.4 %. And because an
-					// aggregate edge is log((exportA/floorA) / (exportB/floorB)), floors that
-					// disagree do not cancel — that noise goes straight into the ranking.
-					// Four short ffmpeg runs per leg, about 50 s, against a leg that already
-					// costs several minutes.
-					{ repetitions: 3, discardFirst: true, cooldownSec: 5, log: () => undefined },
-				);
-				const scored = (floorRec.runs ?? []).filter((r) => !r.warmup && r.ok);
-				const ms = median(scored.map((r) => r.exportMs).filter((x) => x != null));
-				const bg = median(scored.map((r) => r.foreignCpuPercent).filter((x) => x != null));
-				localFloor.set(id, { exportMs: ms, foreignCpuPercent: bg });
-				if (ms) log(`  local floor for ${id}: ${(ms / 1000).toFixed(2)}s at ${bg}% background`);
+				floorDriver = await loadDriver("ffmpeg-baseline");
+				// Discarded: the first encode after an idle gap is the cold one, and pairing it with
+				// the tool's warm-up would divide two different kinds of cold by each other.
+				await runOnce(floorDriver, floorCtx("hardware", 900));
+
+				// The CPU-side companion, once per leg. The hardware floor runs on the fixed-function
+				// encoder block, which barely throttles and is largely indifferent to CPU contention:
+				// measured here, background load doubled between two runs while the floor moved 1.1%
+				// and the export it was dividing moved 19%. So the hardware floor alone cannot say
+				// how much of a slowdown a shader-bound compositor actually saw. libx264 on the same
+				// clip is bound by the cores instead, and the two together bracket the tools rather
+				// than pretending one number describes both.
+				try {
+					const swRec = await runOnce(floorDriver, floorCtx("software", 901));
+					if (swRec.ok && swRec.exportMs != null) {
+						softwareFloor = {
+							exportMs: swRec.exportMs,
+							foreignCpuPercent: swRec.foreignCpuPercent ?? null,
+						};
+						log(`  software floor for ${id}: ${(swRec.exportMs / 1000).toFixed(2)}s (libx264)`);
+					}
+				} catch (e) {
+					log(`  software floor failed for ${id}: ${e.message?.slice(0, 120)}`);
+				}
 			} catch (e) {
 				log(`  local floor failed for ${id}: ${e.message?.slice(0, 120)}`);
+				floorDriver = null;
 			}
 		}
 
@@ -611,8 +630,23 @@ async function cmdRun({ flags }) {
 			paddingControl: calibrated,
 		};
 		let rec;
+		const paired = [];
 		try {
-			rec = await runApp(driver, baseCtx, { repetitions, discardFirst, cooldownSec, log });
+			rec = await runApp(driver, baseCtx, {
+				repetitions,
+				discardFirst,
+				cooldownSec,
+				log,
+				beforeEach: floorDriver
+					? async ({ index, warmup }) => {
+							const f = await runOnce(floorDriver, floorCtx("hardware", 910 + index));
+							if (!f.ok || f.exportMs == null) return null;
+							const out = { exportMs: f.exportMs, foreignCpuPercent: f.foreignCpuPercent ?? null };
+							if (!warmup) paired.push(out);
+							return out;
+						}
+					: null,
+			});
 		} catch (e) {
 			rec = {
 				app: id,
@@ -624,8 +658,21 @@ async function cmdRun({ flags }) {
 			log(`  ✗ ${driver.displayName}: ${e.message}`);
 		}
 		// Carry the local floor onto the result so the report can normalise per leg rather than
-		// against a number measured under different conditions.
+		// against a number measured under different conditions. It is now the median of the floors
+		// paired with the scoring repetitions rather than a single measurement taken before any of
+		// them, so the denominator ages with the numerator.
+		if (paired.length) {
+			const ms = median(paired.map((f) => f.exportMs));
+			const bg = median(paired.map((f) => f.foreignCpuPercent).filter((x) => x != null));
+			localFloor.set(id, { exportMs: ms, foreignCpuPercent: bg, paired: paired.length });
+			log(
+				`  local floor for ${id}: ${(ms / 1000).toFixed(2)}s at ${bg}% background (${paired.length} paired)`,
+			);
+		}
 		if (localFloor.has(id)) rec.localFloor = localFloor.get(id);
+		// Kept beside it rather than folded in: the two floors answer different questions, and
+		// averaging a fixed-function number with a core-bound one would describe neither.
+		if (softwareFloor) rec.softwareFloor = softwareFloor;
 		results.push(rec);
 		state.event("app-finished", rec);
 		state.writeResults({ ...header, finishedAt: null, results });
