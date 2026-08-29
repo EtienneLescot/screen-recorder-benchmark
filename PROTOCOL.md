@@ -84,6 +84,20 @@ The cursor and audio checks exist because both failures occur in practice: an ad
 configure a cursor track a tool then ignores, and a tool can emit a conforming AAC stream
 carrying digital silence. Neither is visible in metadata.
 
+**What the verifier does not check is the value.** Every test above asks whether an effect is
+*present* — a corner is rounded, a cursor was drawn, the recording is inset from the frame — not
+whether it is the one the scenario pinned. That gap is not hypothetical: Recordly rewrites a
+project with its own defaults when it opens it, so it exports a 12.5px corner radius where the
+scenario asks for 40, a cursor at 250% where it asks for 150, and no click effects at all — and
+scores full fidelity, because a rounded corner and a cursor are both there. Only padding is
+solved for a measured target, by `bench.mjs calibrate`, and only because two tools disagreeing
+on it changes how many source pixels each samples per frame.
+
+So a full fidelity score means *the scenario's features all appear*, not *the scenario was
+applied*. Closing that means measuring each effect against its pinned value the way padding
+already is, which is a larger change than adding a check: for most of these the pinned value is
+not recoverable from a single frame.
+
 ## 5. Conditions
 
 A run that measures a compromised machine measures nothing.

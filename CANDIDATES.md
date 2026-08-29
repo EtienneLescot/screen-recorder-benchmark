@@ -95,7 +95,7 @@ the answer on the machine in front of you.
 | OpenScreen | yes (openscreen-cli, openscreen-gui) | yes | — |
 | Screen Studio | yes (screen-studio) | **no** | export requires an activated licence — there is no trial export |
 | Cap | yes (cap) | yes | — |
-| Recordly | yes (recordly, recordly-cuda) | yes | — |
+| Recordly | yes (recordly, recordly-cuda) | **no** | exports the app's default scene rather than the pinned one — opening a project rewrites it with the app's normalised state, replacing corner radius (40 -> 12.5), padding, cursor size, smoothing, motion blur and click effects with defaults. The export succeeds and passes every pixel check, because the verifier tests that an effect is present, not that it matches the scenario |
 | FocuSee | yes (focusee) | **no** | every export raises a Premium upsell whose only actions are Buy Now and close — closing it cancels the export, on a 10s clip as on a 60s one. Import and the editor automate fine on both platforms; on Windows the import needs a real mouse event, not a UIA invoke |
 <!-- status:end -->
 
