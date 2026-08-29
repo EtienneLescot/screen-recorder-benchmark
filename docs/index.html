@@ -561,6 +561,7 @@
         <thead>
           <tr>
             <th>Tool</th><th>Machine</th><th>OS</th><th class="num">Cost</th>
+            <th class="num" title="the same clip through libx264 over the fixed-function encoder — how much a Cost owes to this machine's encoder rather than to the tool">sw/hw floor</th>
             <th class="num">Export s</th><th class="num">fps</th><th class="num">CPU·s</th>
             <th class="num">Cores</th><th class="num">RSS MiB</th><th class="num">Bg load</th>
             <th>Fidelity</th><th>Driven</th>
@@ -572,6 +573,7 @@
             <td class="nw" title="Apple M1 · Apple M1">Apple M1</td>
             <td class="dim">darwin</td>
             <td class="num"><strong>2.023×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">36.80 <span class="dim">±0.01</span></td>
             <td class="num">97.8</td>
             <td class="num">8.54</td>
@@ -586,6 +588,7 @@
             <td class="nw" title="Apple M1 · Apple M1">Apple M1</td>
             <td class="dim">darwin</td>
             <td class="num"><strong>1.210×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">22.01 <span class="dim">±0.03</span></td>
             <td class="num">163.6</td>
             <td class="num">24.39</td>
@@ -600,6 +603,7 @@
             <td class="nw" title="Apple M1 · Apple M1">Apple M1</td>
             <td class="dim">darwin</td>
             <td class="num"><strong>2.626×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">47.74 <span class="dim">±0.01</span></td>
             <td class="num">75.4</td>
             <td class="num">90.61</td>
@@ -614,6 +618,7 @@
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
             <td class="num"><strong>1.582×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">32.76 <span class="dim">±0.18</span></td>
             <td class="num">109.9</td>
             <td class="num">10.94</td>
@@ -628,6 +633,7 @@
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
             <td class="num"><strong>1.907×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">39.03 <span class="dim">±0.78</span></td>
             <td class="num">92.2</td>
             <td class="num">10.50</td>
@@ -642,6 +648,7 @@
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)">Ryzen 5 7520U</td>
             <td class="dim">linux</td>
             <td class="num"><strong>3.300×</strong></td>
+            <td class="num dim">1.60×</td>
             <td class="num nw">76.84 <span class="dim">±0.01</span></td>
             <td class="num">46.8</td>
             <td class="num">119.00</td>
@@ -656,6 +663,7 @@
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)">Ryzen 5 7520U</td>
             <td class="dim">linux</td>
             <td class="num"><strong>4.085×</strong></td>
+            <td class="num dim">2.03×</td>
             <td class="num nw">77.85 <span class="dim">±0.15</span></td>
             <td class="num">46.2</td>
             <td class="num">121.00</td>
@@ -670,6 +678,7 @@
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)">Ryzen 5 7520U</td>
             <td class="dim">linux</td>
             <td class="num"><strong>2.500×</strong></td>
+            <td class="num dim">1.62×</td>
             <td class="num nw">57.31 <span class="dim">±0.03</span></td>
             <td class="num">62.8</td>
             <td class="num">165.00</td>
@@ -684,6 +693,7 @@
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)">Ryzen 5 7520U</td>
             <td class="dim">linux</td>
             <td class="num"><strong>2.991×</strong></td>
+            <td class="num dim">1.95×</td>
             <td class="num nw">57.14 <span class="dim">±0.15</span></td>
             <td class="num">63.0</td>
             <td class="num">166.00</td>
@@ -698,6 +708,7 @@
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
             <td class="num"><strong>7.694×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">149.85 <span class="dim">±0.32</span></td>
             <td class="num">24.0</td>
             <td class="num">102.17</td>
@@ -712,6 +723,7 @@
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
             <td class="num"><strong>8.293×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">175.28 <span class="dim">±0.86</span></td>
             <td class="num">20.5</td>
             <td class="num">104.52</td>
@@ -726,6 +738,7 @@
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
             <td class="num"><strong>10.446×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">197.62 <span class="dim">±5.50</span></td>
             <td class="num">18.2</td>
             <td class="num">534.85</td>
@@ -740,6 +753,7 @@
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
             <td class="num"><strong>10.654×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">203.15 <span class="dim">±2.10</span></td>
             <td class="num">17.7</td>
             <td class="num">560.14</td>
@@ -754,6 +768,7 @@
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)">Ryzen 5 7520U</td>
             <td class="dim">linux</td>
             <td class="num"><strong>13.710×</strong></td>
+            <td class="num dim">1.58×</td>
             <td class="num nw">323.90 <span class="dim">±2.28</span></td>
             <td class="num">11.1</td>
             <td class="num">505.00</td>
@@ -768,6 +783,7 @@
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)">Ryzen 5 7520U</td>
             <td class="dim">linux</td>
             <td class="num"><strong>16.997×</strong></td>
+            <td class="num dim">1.96×</td>
             <td class="num nw">324.46 <span class="dim">±3.96</span></td>
             <td class="num">11.1</td>
             <td class="num">505.00</td>
@@ -782,6 +798,7 @@
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
             <td class="num"><strong>1.204×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">9.38</td>
             <td class="num">383.6</td>
             <td class="num">3.88</td>
@@ -796,6 +813,7 @@
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
             <td class="num"><strong>1.292×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">10.09 <span class="dim">±0.01</span></td>
             <td class="num">356.7</td>
             <td class="num">4.50</td>
@@ -810,6 +828,7 @@
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
             <td class="num"><strong>2.937×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">22.97 <span class="dim">±0.49</span></td>
             <td class="num">156.7</td>
             <td class="num">41.84</td>
@@ -824,6 +843,7 @@
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
             <td class="num"><strong>3.145×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">24.48 <span class="dim">±0.01</span></td>
             <td class="num">147.1</td>
             <td class="num">44.20</td>
@@ -838,6 +858,7 @@
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
             <td class="num"><strong>3.400×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">26.39 <span class="dim">±0.09</span></td>
             <td class="num">136.4</td>
             <td class="num">82.42</td>
@@ -852,6 +873,7 @@
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
             <td class="num"><strong>3.702×</strong></td>
+            <td class="num dim">—</td>
             <td class="num nw">28.79 <span class="dim">±0.01</span></td>
             <td class="num">125.1</td>
             <td class="num">147.68</td>
@@ -874,7 +896,11 @@
       either side, so a low figure means quieter fans and longer battery — not less work.</p>
       <p><strong>Bg load</strong> is everything running that was <em>not</em> the tool under test,
       with the tool's own processes subtracted. Where two rows on one machine differ sharply,
-      don't read their raw seconds against each other; Cost absorbs most of it.</p>
+      don't read their raw seconds against each other — and <strong>Cost does not repair it</strong>:
+      the floor runs on the fixed-function encoder block, which barely throttles and is largely
+      indifferent to CPU contention, while the compositing under test runs on cores and shaders,
+      which are not. Measured on one machine, background load doubled between two runs while the
+      floor moved 1.1% and the export it was dividing moved 19%.</p>
     </div>
   </section>
 
