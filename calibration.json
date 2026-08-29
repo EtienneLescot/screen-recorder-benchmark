@@ -1,5 +1,10 @@
 {
-	"generatedAt": "2026-08-25T11:39:37.984Z",
+	"generatedAt": "2026-08-28T16:32:18.402Z",
+	"machine": {
+		"chip": "AMD Ryzen 5 7520U with Radeon Graphics         ",
+		"osVersion": "10.0.26200",
+		"model": "ASUSTeK COMPUTER INC. Vivobook Go E1404FA_E1404FA"
+	},
 	"scenario": "full-demo",
 	"targetInsetPercent": 5,
 	"fixture": {
@@ -12,57 +17,57 @@
 			"seed": 20260825,
 			"sourceBitrateMbps": 12
 		},
-		"sha256": "574cd13f8e130381c7271a0e9b172f765089fbb99abc4f4548f29b4244b011e4"
+		"sha256": "c3540cabb6e41bf4102e68edaec0cd46133477b2eb0df6d96ec12b42c051a8d5"
 	},
 	"apps": {
 		"cap": {
 			"app": "cap",
 			"target": 5,
-			"paddingControl": 13.56,
+			"paddingControl": 13.32,
 			"achievedInsetPercent": 4.81,
 			"achievedBox": {
-				"left": 93,
+				"left": 92,
 				"top": 52,
-				"right": 1826,
+				"right": 1827,
 				"bottom": 1027,
-				"width": 1734,
+				"width": 1736,
 				"height": 976
 			},
 			"withinTolerance": true,
 			"probes": [
 				{
 					"control": 2.5,
-					"inset": 0.93,
+					"inset": 1.02,
 					"box": {
-						"left": 18,
-						"top": 10,
-						"right": 1901,
-						"bottom": 1069,
-						"width": 1884,
-						"height": 1060
+						"left": 19,
+						"top": 11,
+						"right": 1900,
+						"bottom": 1068,
+						"width": 1882,
+						"height": 1058
 					}
 				},
 				{
 					"control": 5,
-					"inset": 1.85,
+					"inset": 1.94,
 					"box": {
-						"left": 36,
-						"top": 20,
-						"right": 1883,
-						"bottom": 1059,
-						"width": 1848,
-						"height": 1040
+						"left": 37,
+						"top": 21,
+						"right": 1882,
+						"bottom": 1058,
+						"width": 1846,
+						"height": 1038
 					}
 				},
 				{
-					"control": 13.56,
+					"control": 13.32,
 					"inset": 4.81,
 					"box": {
-						"left": 93,
+						"left": 92,
 						"top": 52,
-						"right": 1826,
+						"right": 1827,
 						"bottom": 1027,
-						"width": 1734,
+						"width": 1736,
 						"height": 976
 					}
 				}
@@ -109,52 +114,46 @@
 				}
 			]
 		},
-		"openscreen-gui": {
-			"app": "openscreen-gui",
+		"recordly": {
+			"app": "recordly",
 			"target": 5,
-			"paddingControl": 25,
-			"achievedInsetPercent": 5,
+			"paddingControl": 10,
+			"achievedInsetPercent": 3.89,
 			"achievedBox": {
-				"left": 96,
-				"top": 54,
-				"right": 1823,
-				"bottom": 1025,
-				"width": 1728,
-				"height": 972
+				"left": 77,
+				"top": 43,
+				"right": 1842,
+				"bottom": 1037,
+				"width": 1766,
+				"height": 995
 			},
-			"withinTolerance": true,
+			"withinTolerance": false,
 			"probes": [
 				{
-					"control": 25,
-					"inset": 5,
+					"control": 10,
+					"inset": 3.89,
 					"box": {
-						"left": 96,
-						"top": 54,
-						"right": 1823,
-						"bottom": 1025,
-						"width": 1728,
-						"height": 972
+						"left": 77,
+						"top": 43,
+						"right": 1842,
+						"bottom": 1037,
+						"width": 1766,
+						"height": 995
 					}
 				},
 				{
-					"control": 50,
-					"inset": 10,
+					"control": 20,
+					"inset": 3.89,
 					"box": {
-						"left": 192,
-						"top": 108,
-						"right": 1727,
-						"bottom": 971,
-						"width": 1536,
-						"height": 864
+						"left": 77,
+						"top": 43,
+						"right": 1842,
+						"bottom": 1037,
+						"width": 1766,
+						"height": 995
 					}
 				}
-			],
-			"note": "Seeded from openscreen-cli: the GUI writes and reads the same EditorProjectData document and the same padding scale, so solving it twice would measure the same control through a slower interface."
+			]
 		}
-	},
-	"machine": {
-		"chip": "Apple M1",
-		"osVersion": "26.5",
-		"model": "Macmini9,1"
 	}
 }
