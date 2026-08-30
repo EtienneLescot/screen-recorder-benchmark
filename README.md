@@ -125,10 +125,12 @@ hardware and power state, installation, encoder selection — and the measuremen
 platform-independent, because two platforms that time things differently stop measuring the same
 thing.
 
-On Linux the roster is short, and that is a fact about the products rather than about the
-adapters: only OpenScreen and Recordly ship a Linux build at all. Both are installed from the
-vendors' AppImages, which are **extracted** rather than run in place — an AppImage needs libfuse2
-to self-mount, and Ubuntu has not shipped that by default since 22.04.
+On Linux the roster is shorter, and that is a fact about the products rather than about the
+adapters: OpenScreen, Cap and Recordly ship a Linux build; Screen Studio and FocuSee do not.
+Nothing is installed system-wide, because the harness takes no root — OpenScreen and Recordly
+come from the vendors' AppImages, **extracted** rather than run in place (an AppImage self-mounts
+through libfuse2, which Ubuntu has not shipped by default since 22.04), and Cap's `.deb` is
+unpacked with `dpkg-deb -x`.
 
 Two things there are not what they are elsewhere, and both are recorded in every run rather than
 assumed:
