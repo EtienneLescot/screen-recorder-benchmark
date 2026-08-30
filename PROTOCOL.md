@@ -84,19 +84,24 @@ The cursor and audio checks exist because both failures occur in practice: an ad
 configure a cursor track a tool then ignores, and a tool can emit a conforming AAC stream
 carrying digital silence. Neither is visible in metadata.
 
-**What the verifier does not check is the value.** Every test above asks whether an effect is
-*present* — a corner is rounded, a cursor was drawn, the recording is inset from the frame — not
-whether it is the one the scenario pinned. That gap is not hypothetical: Recordly rewrites a
-project with its own defaults when it opens it, so it exports a 12.5px corner radius where the
-scenario asks for 40, a cursor at 250% where it asks for 150, and no click effects at all — and
-scores full fidelity, because a rounded corner and a cursor are both there. Only padding is
-solved for a measured target, by `bench.mjs calibrate`, and only because two tools disagreeing
-on it changes how many source pixels each samples per frame.
+**Where the verifier checks a value, and where it only checks presence.** The output target is
+checked exactly — resolution, frame rate, codec and duration are compared against the pinned
+figures, and an export that misses any of them is a failure rather than a fast run. Padding is
+measured against a solved target too, by `bench.mjs calibrate`, because two tools disagreeing on
+it changes how many source pixels each samples per frame.
 
-So a full fidelity score means *the scenario's features all appear*, not *the scenario was
-applied*. Closing that means measuring each effect against its pinned value the way padding
-already is, which is a larger change than adding a check: for most of these the pinned value is
-not recoverable from a single frame.
+The *effect* controls are not. For those, every test above asks whether the effect is **present**
+— a corner is rounded, a cursor was drawn, a camera inset is in the corner — not whether it
+matches the value the scenario pinned; and two, motion blur and click effects, are not asserted
+at all. That gap is not hypothetical: Recordly rewrites a project with its own defaults when it
+opens it, so it exports a 12.5px corner radius where the scenario asks for 40, a cursor at 250%
+where it asks for 150, and no click effects — and still scores full fidelity, because a rounded
+corner and a cursor are both there.
+
+So a full fidelity score means *the output hits the target and the scenario's features all
+appear*, not *every effect was applied at the value asked for*. Closing that means measuring each
+effect against its pinned value the way padding already is, which is a larger change than adding
+a check: for most of these the pinned value is not recoverable from a single frame.
 
 ## 5. Conditions
 
