@@ -732,6 +732,29 @@ export default {
 			// Placing it is therefore the same operation `fileDialogTo` performs elsewhere, and it
 			// happens entirely after ctx.markComplete(), so it cannot move the measured number.
 			await placeStreamedExport(out, commitAt);
+
+			// Then put the application down, rather than leaving it holding the dialog.
+			//
+			// This is where the platforms genuinely differ, and it is not free. Elsewhere
+			// `fileDialogTo` answers the panel and the app settles back into an idle editor;
+			// here nothing answers it, so without this the process sits with a modal open, its
+			// toast still reading "Rendering your file", holding the export buffer — 2363 MiB of
+			// peak RSS — until the *next* repetition's launchAndOpen kills it.
+			//
+			// The paired floor for that next repetition is measured inside exactly that window,
+			// and it shows: Recordly's floors averaged 24.01s against 22.96s for Cap and 23.22s
+			// for OpenScreen in the same run, 4.6% slower than the quietest leg. That direction
+			// matters — a cost is an export divided by its floor, so a floor slowed by the
+			// tool's own abandoned instance makes that tool look *cheaper*. It is a bias in the
+			// tool's favour, not noise around it.
+			//
+			// The app is discarded after every repetition anyway, for reasons the relaunch
+			// comment above explains, so nothing is lost by discarding it now instead of in a
+			// minute. The sampler keeps the highest cumulative CPU it saw per pid, so a process
+			// killed here still contributes its full cost to cpuSeconds.
+			ctx.state.editor?.close?.();
+			ctx.state.cdp?.close?.();
+			killProcesses([PROC]);
 		} else {
 			try {
 				const dlg = await fileDialogTo(PROC, out, { timeoutMs: 120_000 });
