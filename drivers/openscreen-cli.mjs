@@ -13,7 +13,13 @@ import { spawn } from "node:child_process";
 import { existsSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { buildProject } from "../lib/openscreenProject.mjs";
-import { appVersion, IS_WIN, killProcesses, resolveAppPath } from "../lib/platform.mjs";
+import {
+	appVersion,
+	IS_MAC,
+	killProcesses,
+	LINUX_APP_ROOT,
+	resolveAppPath,
+} from "../lib/platform.mjs";
 
 export const OPENSCREEN = {
 	macPath: "/Applications/Openscreen.app",
@@ -22,14 +28,37 @@ export const OPENSCREEN = {
 		"%LOCALAPPDATA%\\Programs\\Openscreen\\Openscreen.exe",
 		"%LOCALAPPDATA%\\openscreen\\Openscreen.exe",
 	],
+	// The extracted AppImage tree, plus the two places a system package would put the same
+	// binary, so a machine that already had OpenScreen installed by other means is measured
+	// rather than made to download it again.
+	linuxPaths: [
+		`${LINUX_APP_ROOT}/Openscreen/openscreen`,
+		"/opt/Openscreen/openscreen",
+		"/usr/bin/openscreen",
+	],
 };
 
 /**
- * The CLI ships inside the normal application bundle on both platforms, so there is nothing
+ * The CLI ships inside the normal application bundle on every platform, so there is nothing
  * extra to install — only a different place to look.
  */
-const APP = IS_WIN ? resolveAppPath(OPENSCREEN) : "/Applications/Openscreen.app";
-const BIN = IS_WIN ? APP : `${APP}/Contents/MacOS/Openscreen`;
+const resolveApp = () => (IS_MAC ? "/Applications/Openscreen.app" : resolveAppPath(OPENSCREEN));
+/**
+ * macOS hides the executable inside the bundle; on Windows and Linux the resolved path already
+ * is the executable.
+ *
+ * Resolved on every call rather than once at import, for the same reason `resolveInstalledPath`
+ * exists: on the platforms where the path is discovered instead of fixed, importing happens
+ * before the installer has run, so a module-level constant is null for the rest of the process.
+ * `detect()` then reported "not installed" for an app that had just been installed — which
+ * `preflight` and `install` both hit, because they survey after installing in the same process.
+ */
+const bin = () => {
+	const app = resolveApp();
+	if (!app) return null;
+	return IS_MAC ? `${app}/Contents/MacOS/Openscreen` : app;
+};
+const APP = resolveApp();
 
 export default {
 	id: "openscreen-cli",
@@ -47,8 +76,7 @@ export default {
 	 * expected" for an app it had just installed correctly. This is the hook installApp already
 	 * looked for and nothing supplied.
 	 */
-	resolveInstalledPath: () =>
-		IS_WIN ? resolveAppPath(OPENSCREEN) : "/Applications/Openscreen.app",
+	resolveInstalledPath: () => resolveApp(),
 	bundleId: "com.etiennelescot.openscreen",
 	install: {
 		method: "dmg",
@@ -61,11 +89,12 @@ export default {
 	},
 
 	detect() {
-		if (!existsSync(BIN)) return { installed: false, version: null, path: null };
+		const b = bin();
+		if (!b || !existsSync(b)) return { installed: false, version: null, path: null };
 		// appVersion() already branches on platform; the inline `defaults` call this replaces
 		// left every Windows row without a version, which the report prints as "—".
-		const version = appVersion(APP);
-		return { installed: true, version, path: BIN };
+		const version = appVersion(resolveApp());
+		return { installed: true, version, path: b };
 	},
 
 	/**
@@ -125,8 +154,10 @@ export default {
 		if (existsSync(out)) rmSync(out);
 
 		const args = ["export", ctx.state.projectPath, "-o", out, "--quality", "good", "--json"];
+		const exe = bin();
+		if (!exe) throw new Error("OpenScreen is not installed");
 		return new Promise((resolve, reject) => {
-			const child = spawn(BIN, args, { stdio: ["ignore", "pipe", "pipe"] });
+			const child = spawn(exe, args, { stdio: ["ignore", "pipe", "pipe"] });
 			let committed = false;
 			let stderrTail = "";
 			let buf = "";

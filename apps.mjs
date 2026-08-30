@@ -39,6 +39,14 @@ export const APPS = {
 				appName: "Openscreen.exe",
 				approxMB: 233,
 			},
+			// The same release also publishes .deb, .rpm and .pacman. The AppImage is the only one
+			// of the four that installs without root and without picking a package manager, which
+			// is what an unattended benchmark on somebody else's machine needs.
+			linux: {
+				assetPattern: /Linux.*\.AppImage$/i,
+				appName: "Openscreen",
+				approxMB: 346,
+			},
 		},
 	},
 	"openscreen-gui": {
@@ -94,6 +102,17 @@ export const APPS = {
 				url: "https://github.com/webadderallorg/Recordly/releases/download/v1.3.3/Recordly-arm64.dmg",
 				appName: "Recordly.app",
 			},
+			// Resolved from the release feed rather than pinned like the dmg above: the vendor
+			// publishes the Linux build under a name with no version in it
+			// (Recordly-linux-x64.AppImage), so a pinned URL and a resolved one name the same file
+			// and only the resolved one records which release it was.
+			linux: {
+				method: "github-release",
+				repo: "webadderallorg/Recordly",
+				assetPattern: /linux.*\.AppImage$/i,
+				appName: "Recordly",
+				approxMB: 227,
+			},
 			licence: "AGPL-3.0 — free, no account or activation needed",
 			notes: [
 				"Official repository is webadderallorg/Recordly; a swarm of same-named forks exists, so pin the org.",
@@ -113,7 +132,12 @@ export const APPS = {
 	},
 	cap: {
 		roster: "Cap",
-		driver: "./drivers/cap.mjs",
+		// Named per platform rather than left as a bare path. A string here means "every platform",
+		// and that is a claim about the product, not about the adapter: `bench.mjs apps` on Linux
+		// listed Cap as merely "not installed", which invites installing something the vendor does
+		// not ship. roster.json has always said `"linux": "n/a"` — this is the same fact, in the
+		// one place the survey actually reads.
+		driver: { darwin: "./drivers/cap.mjs", win32: "./drivers/cap.mjs" },
 		default: true,
 		install: {
 			method: "dmg",

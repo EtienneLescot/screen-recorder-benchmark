@@ -1,5 +1,8 @@
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { installPlan } from "./apps.mjs";
+import { APPS, installPlan } from "./apps.mjs";
+import { loadRoster } from "./lib/site.mjs";
 
 /**
  * A vendor ships one product per platform, from different URLs, by different mechanisms. The
@@ -52,4 +55,62 @@ describe("installPlan describes the platform it is asked about", () => {
 	it("keeps a single-platform entry flat", () => {
 		expect(on("darwin", ["screen-studio"])["screen-studio"]).toMatchObject({ method: "page" });
 	});
+
+	it("gives Linux the AppImage, which is the only build that installs without root", () => {
+		expect(on("linux", ["openscreen-cli"])["openscreen-cli"]).toMatchObject({
+			method: "github-release",
+			appName: "Openscreen",
+		});
+		const p = on("linux", ["openscreen-cli"])["openscreen-cli"].assetPattern;
+		expect("Openscreen-Linux-1.10.0.AppImage").toMatch(p);
+		// The same release ships three packaged formats, and every one of them wants a root install.
+		for (const other of [
+			"Openscreen-Linux-1.10.0.deb",
+			"Openscreen-Linux-1.10.0.rpm",
+			"Openscreen-Linux-1.10.0.pacman",
+			"Openscreen.Setup.1.10.0.exe",
+		]) {
+			expect(other).not.toMatch(p);
+		}
+		expect(on("linux", ["recordly"]).recordly).toMatchObject({
+			method: "github-release",
+			repo: "webadderallorg/Recordly",
+		});
+		expect("Recordly-linux-x64.AppImage").toMatch(on("linux", ["recordly"]).recordly.assetPattern);
+		expect("Recordly-windows-x64.exe").not.toMatch(on("linux", ["recordly"]).recordly.assetPattern);
+	});
+});
+
+/**
+ * The registry and the roster describe the same membership from two directions, and only the
+ * roster was ever checked. An entry whose `driver` is a bare string claims every platform, which
+ * is a statement about the *product*: Cap carried one, so `bench.mjs apps` on Linux reported it
+ * as merely "not installed" — an invitation to install a build its vendor does not make — while
+ * roster.json had always said `"linux": "n/a"`. Nothing compared the two.
+ */
+describe("the registry does not claim a platform the roster denies", () => {
+	const roster = loadRoster(dirname(fileURLToPath(import.meta.url)));
+	const PLATFORMS = [
+		["darwin", "macos"],
+		["win32", "windows"],
+		["linux", "linux"],
+	];
+
+	for (const [id, entry] of Object.entries(APPS)) {
+		// `ffmpeg-baseline` is the unit rather than a candidate and carries no roster row.
+		if (!entry.roster) continue;
+		it(`${id} is only driven where ${entry.roster} exists`, () => {
+			const row = roster.find((t) => t.tool === entry.roster);
+			expect(row, `${id} names a roster tool that does not exist`).toBeDefined();
+			for (const [platform, key] of PLATFORMS) {
+				const driven = typeof entry.driver === "string" || !!entry.driver?.[platform];
+				if (row[key] === "n/a") {
+					expect(
+						driven,
+						`${id} declares a ${platform} driver but ${entry.roster} is n/a there`,
+					).toBe(false);
+				}
+			}
+		});
+	}
 });
