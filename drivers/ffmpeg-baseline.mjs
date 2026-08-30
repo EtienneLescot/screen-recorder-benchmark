@@ -82,15 +82,21 @@ export default {
 		const out = this.outputPath(ctx);
 		const t = ctx.scenario.output;
 
+		// A hardware encoder may need its device opened before the input and its frames uploaded at
+		// the end of the filter chain; on every other path both are empty and this is the same
+		// command line as before.
 		const args = [
 			"-hide_banner",
 			"-loglevel",
 			"error",
 			"-y",
+			...(enc.inputArgs ?? []),
 			"-i",
 			ctx.source.path,
 			"-vf",
-			`scale=${t.width}:${t.height}:flags=bicubic,format=yuv420p`,
+			[`scale=${t.width}:${t.height}:flags=bicubic`, "format=yuv420p", enc.filterSuffix]
+				.filter(Boolean)
+				.join(","),
 			"-r",
 			String(t.fps),
 			"-c:v",

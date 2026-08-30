@@ -22,8 +22,16 @@ import { existsSync, mkdirSync, rmSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { CdpSession, DOM_HELPERS, listTargets } from "../lib/cdp.mjs";
-import { sleep } from "../lib/measure.mjs";
-import { appVersion, IS_WIN, killProcesses, resolveAppPath } from "../lib/platform.mjs";
+import { sleep, waitForStableFile } from "../lib/measure.mjs";
+import {
+	appVersion,
+	IS_LINUX,
+	IS_MAC,
+	IS_WIN,
+	killProcesses,
+	LINUX_APP_ROOT,
+	resolveAppPath,
+} from "../lib/platform.mjs";
 import { buildProject, defaultPaddingControl } from "../lib/recordlyProject.mjs";
 import { fileDialogTo } from "../lib/ui.mjs";
 
@@ -33,12 +41,30 @@ export const RECORDLY = {
 		"%LOCALAPPDATA%\\Programs\\Recordly\\Recordly.exe",
 		"%ProgramFiles%\\Recordly\\Recordly.exe",
 	],
+	// The AppImage unpacks to a lowercase `recordly` binary beside its resources.
+	linuxPaths: [`${LINUX_APP_ROOT}/Recordly/recordly`, "/opt/Recordly/recordly"],
 };
 
-const APP = IS_WIN ? resolveAppPath(RECORDLY) : RECORDLY.macPath;
-const BIN = APP ? (IS_WIN ? APP : `${APP}/Contents/MacOS/Recordly`) : null;
+const resolveApp = () => (IS_MAC ? RECORDLY.macPath : resolveAppPath(RECORDLY));
+/** Resolved per call: on Windows and Linux the path is discovered, and install runs after import. */
+const bin = () => {
+	const app = resolveApp();
+	if (!app) return null;
+	return IS_MAC ? `${app}/Contents/MacOS/Recordly` : app;
+};
 const PORT = 9444;
 const PROC = "Recordly";
+
+/**
+ * Extra arguments this platform needs to launch the app at all.
+ *
+ * `--no-sandbox` is not a workaround invented here: it is the command line the vendor's own
+ * desktop entry ships (`Exec=AppRun --no-sandbox %U`). Chromium's sandbox needs a setuid helper,
+ * and an AppImage unpacked into a user directory cannot carry one — without this the app exits
+ * before it opens a debugging port, so the adapter would report "the editor never appeared"
+ * for something that is not an editor problem.
+ */
+const LAUNCH_ARGS = IS_LINUX ? ["--no-sandbox"] : [];
 
 const editorTarget = async () =>
 	(await listTargets(PORT)).find((t) => String(t.url).includes("windowType=editor"));
@@ -71,14 +97,87 @@ const anyPage = async () => (await listTargets(PORT)).find((t) => t.type === "pa
  * costing the audio.
  */
 function projectsRoot() {
-	return IS_WIN
-		? join(
-				process.env.APPDATA ?? join(homedir(), "AppData", "Roaming"),
-				"Recordly",
-				"recordings",
-				"Projects",
-			)
-		: join(homedir(), "Library", "Application Support", "Recordly", "recordings", "Projects");
+	if (IS_WIN) {
+		return join(
+			process.env.APPDATA ?? join(homedir(), "AppData", "Roaming"),
+			"Recordly",
+			"recordings",
+			"Projects",
+		);
+	}
+	// Electron's userData on Linux is XDG_CONFIG_HOME/<productName>, which is ~/.config/Recordly
+	// — not ~/Library/Application Support, and not the lowercase package name. `prepare` asserts
+	// this against the app's own getProjectsDirectory(), so a wrong guess fails loudly here
+	// rather than costing the audio sidecars silently.
+	if (IS_LINUX) {
+		return join(
+			process.env.XDG_CONFIG_HOME || join(homedir(), ".config"),
+			"Recordly",
+			"recordings",
+			"Projects",
+		);
+	}
+	return join(homedir(), "Library", "Application Support", "Recordly", "recordings", "Projects");
+}
+
+/**
+ * Move the export the app streamed to its own temporary file into the harness's output path.
+ *
+ * The Linux stand-in for answering the save dialog — see the call site for why no dialog can be
+ * driven on this platform. The app writes to `$TMPDIR/recordly-export-XXXXXX/…-final.mp4` and
+ * completes that file before it asks where to put it, so this is a placement, not a rescue: a
+ * partially written file would fail `waitForStableFile` here rather than be copied and verified.
+ *
+ * Scoped by mtime to the export that was just measured. Without that, a leftover temp from an
+ * earlier repetition — the app does not always clean them up — would be copied into this run's
+ * output and verified as if it were this run's work, which is the one failure mode that would
+ * produce a plausible wrong number instead of an error.
+ */
+async function placeStreamedExport(out, notBefore) {
+	const { copyFileSync, readdirSync, statSync } = await import("node:fs");
+	const tmp = process.env.TMPDIR || "/tmp";
+	const deadline = Date.now() + 120_000;
+	let found = null;
+	while (Date.now() < deadline && !found) {
+		const candidates = [];
+		for (const dir of readdirSync(tmp)) {
+			if (!/^recordly-export/i.test(dir)) continue;
+			let entries = [];
+			try {
+				entries = readdirSync(join(tmp, dir));
+			} catch {
+				continue;
+			}
+			for (const f of entries) {
+				if (!/-final\.mp4$/i.test(f)) continue;
+				const p = join(tmp, dir, f);
+				try {
+					const st = statSync(p);
+					// A second of slack: the app creates the file at the start of the stream, so its
+					// mtime is the last write, but its birth time can precede the click.
+					if (st.mtimeMs >= notBefore - 1000) candidates.push({ path: p, mtimeMs: st.mtimeMs });
+				} catch {
+					/* it may vanish under us as the app tidies up */
+				}
+			}
+		}
+		candidates.sort((a, b) => b.mtimeMs - a.mtimeMs);
+		found = candidates[0]?.path ?? null;
+		if (!found) await sleep(1000);
+	}
+	if (!found) {
+		throw new Error(
+			`the export announced its save step but left no streamed file in ${tmp}/recordly-export-*. ` +
+				"Either the app changed where it streams, or this build writes only through the dialog.",
+		);
+	}
+	const stable = await waitForStableFile(found, { timeoutMs: 120_000, stableMs: 2000 });
+	if (!stable.ok) throw new Error(`${found} never stopped growing (${stable.reason})`);
+	copyFileSync(found, out);
+	// Copied rather than renamed: /tmp is frequently a different filesystem from the work
+	// directory, where rename() fails with EXDEV, and leaving the original also lets a failed
+	// verification be investigated against exactly what the app produced.
+	return { path: out, streamedFrom: found, sizeBytes: stable.sizeBytes ?? null };
 }
 
 async function waitFor(find, { timeoutMs = 60_000, pollMs = 1500, label = "target" } = {}) {
@@ -116,7 +215,9 @@ async function launchAndOpen(ctx, built, useCuda, logPath) {
 	// with stdio "ignore" and was saying exactly what was wrong the whole time.
 	const { spawn } = await import("node:child_process");
 	const { appendFileSync } = await import("node:fs");
-	const child = spawn(BIN, [`--remote-debugging-port=${PORT}`], {
+	const exe = bin();
+	if (!exe) throw new Error("Recordly is not installed");
+	const child = spawn(exe, [...LAUNCH_ARGS, `--remote-debugging-port=${PORT}`], {
 		detached: true,
 		stdio: ["ignore", "pipe", "pipe"],
 	});
@@ -186,7 +287,7 @@ export default {
 	// and immune to the localisation that would break a name match.
 	automation: "cdp",
 	processName: PROC,
-	appPath: APP,
+	appPath: resolveApp(),
 	/**
 	 * Where the app is *now*, re-resolved on each call.
 	 *
@@ -195,7 +296,7 @@ export default {
 	 * expected" for an app it had just installed correctly. This is the hook installApp already
 	 * looked for and nothing supplied.
 	 */
-	resolveInstalledPath: () => (IS_WIN ? resolveAppPath(RECORDLY) : RECORDLY.macPath),
+	resolveInstalledPath: () => resolveApp(),
 	bundleId: "dev.recordly.app",
 	install: {
 		method: "winget",
@@ -211,8 +312,9 @@ export default {
 	useCuda: false,
 
 	detect() {
-		if (!BIN || !existsSync(BIN)) return { installed: false, version: null, path: null };
-		return { installed: true, version: appVersion(BIN), path: BIN };
+		const b = bin();
+		if (!b || !existsSync(b)) return { installed: false, version: null, path: null };
+		return { installed: true, version: appVersion(b), path: b };
 	},
 
 	defaultPaddingControl,
@@ -423,7 +525,22 @@ export default {
 		// Kept: pin() throws unless the control reads back as selected, so this is the label the
 		// app confirmed, not the one that was asked for. Recorded because "is it really on
 		// Lightning?" is the first thing anyone asks of a 0.96x-realtime number.
-		const pipelinePinned = await pin(["Lightning (Beta)", "Lightning"], "export pipeline");
+		//
+		// Which pipeline to ask for is a per-platform question, and pinning Lightning everywhere
+		// was wrong on Linux. The panel there offers the button and accepts the click — aria-pressed
+		// comes back true — and then the export refuses to start, raising the app's own dialog:
+		// "the available encoder path depends on WebCodecs support, GPU drivers, and the bundled
+		// FFmpeg encoders … check that the packaged FFmpeg build includes a compatible Breeze
+		// encoder path for Linux". So the control is real and the path behind it is not shipped.
+		//
+		// Legacy is the WebCodecs path, and WebCodecs is genuinely available in this build: the
+		// renderer reports `typeof VideoEncoder === "function"` and
+		// `VideoEncoder.isConfigSupported({codec:"avc1.640028",1920x1080@60})` resolves supported.
+		// That is the pipeline a user on this platform actually gets, so it is the one measured —
+		// and `pipeline` is recorded on every run, so a Linux row can never be read as a Lightning
+		// row.
+		const PIPELINE = IS_LINUX ? ["Legacy", "Héritage"] : ["Lightning (Beta)", "Lightning"];
+		const pipelinePinned = await pin(PIPELINE, "export pipeline");
 		// And the other one, to prove the panel is not showing both as selected.
 		const legacyStillOn = await pressed("Legacy");
 
@@ -598,15 +715,57 @@ export default {
 		if (lastSeen) ctx.observe("lastProgress", lastSeen);
 
 		const dialogAt = Date.now();
-		try {
-			const dlg = await fileDialogTo(PROC, out, { timeoutMs: 120_000 });
-			// Split, because the whole of it lands inside the export clock. `appearedMs` is
-			// mostly the app: it announces "opening save dialog" at about 72% and the window
-			// only shows once it has finished. What comes after is this harness — filling the
-			// field and finding the commit button, a PowerShell and UIA round trip each.
-			if (dlg?.timings) ctx.observe("saveDialogPhases", dlg.timings);
-		} catch (e) {
-			throw new Error(`could not point the save dialog at ${out}: ${e.message}`);
+		if (IS_LINUX) {
+			// No native dialog is driven here, because on this platform none can be.
+			//
+			// A GTK save dialog is not reachable by any of the mechanisms the other two platforms
+			// use: there is no AppleScript and no UI Automation, and under Wayland — which is what
+			// this app runs on, it selects ozone/wayland itself — an outside process cannot
+			// synthesise input into another client's window at all. xdotool sees only X11, and the
+			// virtual-keyboard protocols ydotool and wtype need are not implemented by GNOME's
+			// compositor. This is a property of the session, not a gap in effort.
+			//
+			// It does not have to be driven. The Legacy pipeline streams the export to its own
+			// temporary file and *finishes writing it before* announcing "opening save dialog" —
+			// verified here: h264 1920x1080@60, 3600 frames, 60.000 s, with its AAC track, sitting
+			// complete on disk while the dialog waits. The dialog only chooses where that file goes.
+			// Placing it is therefore the same operation `fileDialogTo` performs elsewhere, and it
+			// happens entirely after ctx.markComplete(), so it cannot move the measured number.
+			await placeStreamedExport(out, commitAt);
+
+			// Then put the application down, rather than leaving it holding the dialog.
+			//
+			// This is where the platforms genuinely differ, and it is not free. Elsewhere
+			// `fileDialogTo` answers the panel and the app settles back into an idle editor;
+			// here nothing answers it, so without this the process sits with a modal open, its
+			// toast still reading "Rendering your file", holding the export buffer — 2363 MiB of
+			// peak RSS — until the *next* repetition's launchAndOpen kills it.
+			//
+			// The paired floor for that next repetition is measured inside exactly that window,
+			// and it shows: Recordly's floors averaged 24.01s against 22.96s for Cap and 23.22s
+			// for OpenScreen in the same run, 4.6% slower than the quietest leg. That direction
+			// matters — a cost is an export divided by its floor, so a floor slowed by the
+			// tool's own abandoned instance makes that tool look *cheaper*. It is a bias in the
+			// tool's favour, not noise around it.
+			//
+			// The app is discarded after every repetition anyway, for reasons the relaunch
+			// comment above explains, so nothing is lost by discarding it now instead of in a
+			// minute. The sampler keeps the highest cumulative CPU it saw per pid, so a process
+			// killed here still contributes its full cost to cpuSeconds.
+			ctx.state.editor?.close?.();
+			ctx.state.cdp?.close?.();
+			killProcesses([PROC]);
+		} else {
+			try {
+				const dlg = await fileDialogTo(PROC, out, { timeoutMs: 120_000 });
+				// Split, because the whole of it lands inside the export clock. `appearedMs` is
+				// mostly the app: it announces "opening save dialog" at about 72% and the window
+				// only shows once it has finished. What comes after is this harness — filling the
+				// field and finding the commit button, a PowerShell and UIA round trip each.
+				if (dlg?.timings) ctx.observe("saveDialogPhases", dlg.timings);
+			} catch (e) {
+				throw new Error(`could not point the save dialog at ${out}: ${e.message}`);
+			}
 		}
 		ctx.observe("saveDialogMs", Date.now() - dialogAt);
 

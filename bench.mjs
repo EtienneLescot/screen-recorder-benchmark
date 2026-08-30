@@ -105,10 +105,16 @@ async function cmdDoctor() {
 		ff = { banner: `MISSING — ${e.message}`, source: null };
 	}
 	log("Machine");
+	// Only macOS splits performance from efficiency cores. Windows and Linux report physical cores
+	// and a null second figure, which this rendered as "8 cores (4P/nullE)" on every such machine.
+	const cores =
+		fp.efficiencyCores != null
+			? `${fp.cpuCount} cores (${fp.performanceCores}P/${fp.efficiencyCores}E)`
+			: `${fp.cpuCount} threads${fp.performanceCores ? ` (${fp.performanceCores} cores)` : ""}`;
+	log(`  ${fp.chip} · ${cores} · ${fp.memoryGiB} GiB`);
 	log(
-		`  ${fp.chip} · ${fp.cpuCount} cores (${fp.performanceCores}P/${fp.efficiencyCores}E) · ${fp.memoryGiB} GiB`,
+		`  ${fp.osProduct} ${fp.osVersion}${fp.osBuild ? ` (${fp.osBuild})` : ""} · node ${fp.nodeVersion}`,
 	);
-	log(`  ${fp.osProduct} ${fp.osVersion} (${fp.osBuild}) · node ${fp.nodeVersion}`);
 	for (const d of fp.displays) log(`  ${d}`);
 	log("\nPreconditions");
 	log(`  ${pre.ok ? "✓ ready" : `✗ ${pre.problems.join("; ")}`}`);
@@ -296,7 +302,16 @@ async function cmdInstall({ flags }) {
 			);
 			records.push(rec);
 			log(
-				`  ${rec.status} — ${rec.version ?? "?"} — gatekeeper: ${rec.codesign.accepted ? "accepted" : "REJECTED"}`,
+				// Tri-state: `null` means the platform has no OS-level signature check to fail, which
+				// is not the same as failing it. Printing "REJECTED" for every Linux install was a
+				// finding about the vendor where the truth was a fact about the platform.
+				`  ${rec.status} — ${rec.version ?? "?"} — signature: ${
+					rec.codesign.accepted == null
+						? "n/a on this platform"
+						: rec.codesign.accepted
+							? "accepted"
+							: "REJECTED"
+				}`,
 			);
 		} catch (e) {
 			records.push({ id: spec.id, status: "failed", error: e.message });
