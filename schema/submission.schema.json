@@ -112,6 +112,10 @@
 						"type": ["number", "null"],
 						"description": "The same clip encoded with libx264, bound by the cores rather than the fixed-function block the hardware floor uses. The two do not throttle together, so their ratio says how much a cost figure owes to this machine's encoder rather than to the tool."
 					},
+					"floorSpreadPercent": {
+						"type": ["number", "null"],
+						"description": "Widest disagreement, in percent, between the floors paired with this tool's scoring runs — the error bar on the denominator its cost was divided by. Absent on submissions made before per-repetition floor pairing."
+					},
 					"cpuSeconds": { "type": ["number", "null"] },
 					"peakRssMiB": { "type": ["number", "null"] },
 					"foreignCpuPercent": { "type": ["number", "null"] },

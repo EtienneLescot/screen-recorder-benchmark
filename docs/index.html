@@ -115,10 +115,10 @@
   in pixels and audio before it counts.</p>
 
   <div class="meta">
-    <span>5 submissions</span>
-    <span>15 ratios</span>
+    <span>6 submissions</span>
+    <span>18 ratios</span>
     <span>3 tools</span>
-    <span>data as of 2026-08-28</span>
+    <span>data as of 2026-08-30</span>
   </div>
 
   
@@ -132,93 +132,108 @@
   describe the machine they were measured on; this survives the trip to yours.</p>
   <div class="row floor-row">
       <div class="name">ffmpeg <span class="tag">the yardstick</span></div>
-      <div class="track"><div class="fill floor-fill" style="width:22.8%"></div></div>
+      <div class="track"><div class="fill floor-fill" style="width:18.4%"></div></div>
       <div class="val">1×</div>
     </div><div class="row">
         <div class="name">openscreen</div>
-        <div class="track"><div class="fill" style="width:36.1%"></div></div>
-        <div class="val">1.582×</div>
+        <div class="track"><div class="fill" style="width:34.6%"></div></div>
+        <div class="val">1.884×</div>
       </div>
 <div class="row">
         <div class="name">cap</div>
-        <div class="track"><div class="fill" style="width:71.1%"></div></div>
-        <div class="val">3.117×</div>
+        <div class="track"><div class="fill" style="width:55.8%"></div></div>
+        <div class="val">3.043×</div>
       </div>
 <div class="row">
         <div class="name">recordly</div>
         <div class="track"><div class="fill" style="width:100.0%"></div></div>
-        <div class="val">4.382×</div>
+        <div class="val">5.449×</div>
       </div>
 
-  <div class="note"><p class="lead"><strong>Which tool wins depends on the platform.</strong> Where a pair was measured on more than one, its ratio moves by 32.59% at the median.</p><p class="fine"><code>openscreen</code> takes 0.77× as long as <code>recordly</code> on Apple M1 (macOS), and 0.15× as long on AMD Ryzen 5 7520U with Radeon Graphics (Windows). That is the expected behaviour of different media stacks, not a fault in the measurement: the encoders, the GPUs and the drivers underneath are not the same, and a tool built against one of them has no obligation to lead on another. It is also why the figure above is a consensus rather than a verdict — to see your own hardware, filter the runs below. Only pairs measured on more than one platform can be compared this way, so each new submission narrows what the consensus is guessing at.</p></div>
+  <div class="note"><p class="lead"><strong>Which tool wins depends on the platform.</strong> Where a pair was measured on more than one, its ratio moves by 63.66% at the median.</p><p class="fine"><code>openscreen</code> takes 0.77× as long as <code>recordly</code> on Apple M1 (macOS), and 0.15× as long on AMD Ryzen 5 7520U with Radeon Graphics (Windows). That is the expected behaviour of different media stacks, not a fault in the measurement: the encoders, the GPUs and the drivers underneath are not the same, and a tool built against one of them has no obligation to lead on another. It is also why the figure above is a consensus rather than a verdict — to see your own hardware, filter the runs below. Only pairs measured on more than one platform can be compared this way, so each new submission narrows what the consensus is guessing at.</p></div>
 
-  
+  <div class="note warn"><p class="lead"><strong>Mixed versions.</strong> A figure here rests on more than one build.</p><p class="fine"><code>openscreen</code> on 1.10.0, 1.10.0-rc.4.
+      Tools are measured as shipped rather than pinned, so a figure resting on several known
+      builds is expected as submissions accumulate. A missing version is not: it is a defect in
+      the submitting harness, and the fix is to re-measure rather than to assume.</p></div>
 
   <h2>Every measurement</h2>
   <p class="muted" style="font-size:.95rem;margin:0 0 .6rem">One dot per measured leg, placed by
   what it cost against the floor beside it. Where one tool's dots straddle another's, the
   ranking is not a property of the tools — it depends on the machine. Hover a dot for the
   machine, the seconds and the frame rate.</p>
-  <div class="legend"><span class="key"><i style="background:var(--s1)"></i>macOS</span><span class="key"><i style="background:var(--s2)"></i>Windows</span></div>
+  <div class="legend"><span class="key"><i style="background:var(--s1)"></i>macOS</span><span class="key"><i style="background:var(--s3)"></i>Linux</span><span class="key"><i style="background:var(--s2)"></i>Windows</span></div>
   <div class="slope-wrap"><svg viewBox="0 0 760 174" class="strip" role="img"
         aria-label="Cost against the ffmpeg floor, one dot per measurement, grouped by tool">
-      <line x1="184.31907334404048" x2="184.31907334404048" y1="20" y2="148"
+      <line x1="172.7670158273537" x2="172.7670158273537" y1="20" y2="148"
                class="floor-line"/>
-             <text x="184.31907334404048" y="148" class="axis mid">1×</text><line x1="236.63814668808098" x2="236.63814668808098" y1="20" y2="148"
+             <text x="172.7670158273537" y="148" class="axis mid">1×</text><line x1="213.53403165470743" x2="213.53403165470743" y1="20" y2="148"
                class="grid-line"/>
-             <text x="236.63814668808098" y="148" class="axis mid">2×</text><line x1="288.9572200321214" x2="288.9572200321214" y1="20" y2="148"
+             <text x="213.53403165470743" y="148" class="axis mid">2×</text><line x1="254.30104748206116" x2="254.30104748206116" y1="20" y2="148"
                class="grid-line"/>
-             <text x="288.9572200321214" y="148" class="axis mid">3×</text><line x1="341.27629337616196" x2="341.27629337616196" y1="20" y2="148"
+             <text x="254.30104748206116" y="148" class="axis mid">3×</text><line x1="295.06806330941487" x2="295.06806330941487" y1="20" y2="148"
                class="grid-line"/>
-             <text x="341.27629337616196" y="148" class="axis mid">4×</text><line x1="393.5953667202025" x2="393.5953667202025" y1="20" y2="148"
+             <text x="295.06806330941487" y="148" class="axis mid">4×</text><line x1="335.8350791367686" x2="335.8350791367686" y1="20" y2="148"
                class="grid-line"/>
-             <text x="393.5953667202025" y="148" class="axis mid">5×</text><line x1="445.9144400642429" x2="445.9144400642429" y1="20" y2="148"
+             <text x="335.8350791367686" y="148" class="axis mid">5×</text><line x1="376.60209496412233" x2="376.60209496412233" y1="20" y2="148"
                class="grid-line"/>
-             <text x="445.9144400642429" y="148" class="axis mid">6×</text><line x1="498.23351340828344" x2="498.23351340828344" y1="20" y2="148"
+             <text x="376.60209496412233" y="148" class="axis mid">6×</text><line x1="417.36911079147603" x2="417.36911079147603" y1="20" y2="148"
                class="grid-line"/>
-             <text x="498.23351340828344" y="148" class="axis mid">7×</text><line x1="550.5525867523239" x2="550.5525867523239" y1="20" y2="148"
+             <text x="417.36911079147603" y="148" class="axis mid">7×</text><line x1="458.13612661882973" x2="458.13612661882973" y1="20" y2="148"
                class="grid-line"/>
-             <text x="550.5525867523239" y="148" class="axis mid">8×</text><line x1="602.8716600963644" x2="602.8716600963644" y1="20" y2="148"
+             <text x="458.13612661882973" y="148" class="axis mid">8×</text><line x1="498.9031424461835" x2="498.9031424461835" y1="20" y2="148"
                class="grid-line"/>
-             <text x="602.8716600963644" y="148" class="axis mid">9×</text><line x1="655.190733440405" x2="655.190733440405" y1="20" y2="148"
+             <text x="498.9031424461835" y="148" class="axis mid">9×</text><line x1="539.6701582735373" x2="539.6701582735373" y1="20" y2="148"
                class="grid-line"/>
-             <text x="655.190733440405" y="148" class="axis mid">10×</text><line x1="707.5098067844453" x2="707.5098067844453" y1="20" y2="148"
+             <text x="539.6701582735373" y="148" class="axis mid">10×</text><line x1="580.4371741008908" x2="580.4371741008908" y1="20" y2="148"
                class="grid-line"/>
-             <text x="707.5098067844453" y="148" class="axis mid">11×</text>
-      <text x="184.31907334404048" y="14" class="axis mid floor-tag">1× = ffmpeg itself</text>
+             <text x="580.4371741008908" y="148" class="axis mid">11×</text><line x1="621.2041899282447" x2="621.2041899282447" y1="20" y2="148"
+               class="grid-line"/>
+             <text x="621.2041899282447" y="148" class="axis mid">12×</text><line x1="661.9712057555984" x2="661.9712057555984" y1="20" y2="148"
+               class="grid-line"/>
+             <text x="661.9712057555984" y="148" class="axis mid">13×</text><line x1="702.7382215829521" x2="702.7382215829521" y1="20" y2="148"
+               class="grid-line"/>
+             <text x="702.7382215829521" y="148" class="axis mid">14×</text>
+      <text x="172.7670158273537" y="14" class="axis mid floor-tag">1× = ffmpeg itself</text>
       <text x="433" y="168" class="axis mid caption">export time ÷ the same machine's ffmpeg transcode — 2× means twice as long, not twice as fast</text>
       <text x="120" y="47" class="strip-tool">openscreen</text>
-            <line x1="194.99216430622477" x2="237.8414853749939" y1="43" y2="43" class="strip-range"/><circle cx="237.8414853749939" cy="43" r="5.5"
+            <line x1="181.0834870561339" x2="295.10883032524225" y1="43" y2="43" class="strip-range"/><circle cx="214.47167301873657" cy="43" r="5.5"
                    fill="var(--s1)"
-                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on Apple M1 (darwin): 2.023× the floor, 36.8s, 97.8 fps</title></circle><circle cx="214.76877403027206" cy="43" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on Apple M1 (darwin): 2.023× the floor, 36.8s, 97.8 fps</title></circle><circle cx="295.10883032524225" cy="43" r="5.5"
+                   fill="var(--s3)"
+                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 5 7520U with Radeon Graphics (linux): 4.001× the floor, 77.16s, 46.7 fps</title></circle><circle cx="196.49341903887358" cy="43" r="5.5"
                    fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 1.582× the floor, 32.76s, 109.9 fps</title></circle><circle cx="231.7724728670852" cy="43" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 1.582× the floor, 32.76s, 109.9 fps</title></circle><circle cx="209.74269918276354" cy="43" r="5.5"
                    fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 1.907× the floor, 39.03s, 92.2 fps</title></circle><circle cx="199.59624276050033" cy="43" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 1.907× the floor, 39.03s, 92.2 fps</title></circle><circle cx="184.670984448941" cy="43" r="5.5"
                    fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 7 5800X 8-Core Processor              (win32): 1.292× the floor, 10.09s, 356.7 fps</title></circle><circle cx="194.99216430622477" cy="43" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 7 5800X 8-Core Processor              (win32): 1.292× the floor, 10.09s, 356.7 fps</title></circle><circle cx="181.0834870561339" cy="43" r="5.5"
                    fill="var(--s2)"
                    stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 7 5800X 8-Core Processor              (win32): 1.204× the floor, 9.38s, 383.6 fps</title></circle><text x="120" y="81" class="strip-tool">cap</text>
-            <line x1="195.306078746289" x2="565.8820752421277" y1="77" y2="77" class="strip-range"/><circle cx="195.306078746289" cy="77" r="5.5"
+            <line x1="181.328089151098" x2="470.08086225624436" y1="77" y2="77" class="strip-range"/><circle cx="181.328089151098" cy="77" r="5.5"
                    fill="var(--s1)"
-                   stroke="var(--card)" stroke-width="1.5"><title>cap on Apple M1 (darwin): 1.21× the floor, 22.01s, 163.6 fps</title></circle><circle cx="565.8820752421277" cy="77" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>cap on Apple M1 (darwin): 1.21× the floor, 22.01s, 163.6 fps</title></circle><circle cx="254.58641659285263" cy="77" r="5.5"
+                   fill="var(--s3)"
+                   stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 5 7520U with Radeon Graphics (linux): 3.007× the floor, 57.34s, 62.8 fps</title></circle><circle cx="470.08086225624436" cy="77" r="5.5"
                    fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 8.293× the floor, 175.28s, 20.5 fps</title></circle><circle cx="534.5429503090475" cy="77" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 8.293× the floor, 175.28s, 20.5 fps</title></circle><circle cx="445.6614197756595" cy="77" r="5.5"
                    fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 7.694× the floor, 149.85s, 24 fps</title></circle><circle cx="285.66111841144686" cy="77" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 7.694× the floor, 149.85s, 24 fps</title></circle><circle cx="251.73272548493787" cy="77" r="5.5"
                    fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 7 5800X 8-Core Processor              (win32): 2.937× the floor, 22.97s, 156.7 fps</title></circle><circle cx="296.54348566700736" cy="77" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 7 5800X 8-Core Processor              (win32): 2.937× the floor, 22.97s, 156.7 fps</title></circle><circle cx="260.2122647770275" cy="77" r="5.5"
                    fill="var(--s2)"
                    stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 7 5800X 8-Core Processor              (win32): 3.145× the floor, 24.48s, 147.1 fps</title></circle><text x="120" y="115" class="strip-tool">recordly</text>
-            <line x1="269.3898866014503" x2="689.4074074074074" y1="111" y2="111" class="strip-range"/><circle cx="269.3898866014503" cy="111" r="5.5"
+            <line x1="239.05418356263084" x2="689.4074074074074" y1="111" y2="111" class="strip-range"/><circle cx="239.05418356263084" cy="111" r="5.5"
                    fill="var(--s1)"
                    stroke="var(--card)" stroke-width="1.5"><title>recordly on Apple M1 (darwin): 2.626× the floor, 47.74s, 75.4 fps</title></circle><circle cx="689.4074074074074" cy="111" r="5.5"
+                   fill="var(--s3)"
+                   stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 5 7520U with Radeon Graphics (linux): 13.673× the floor, 321.83s, 11.2 fps</title></circle><circle cx="566.3317866246265" cy="111" r="5.5"
                    fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 10.654× the floor, 203.15s, 17.7 fps</title></circle><circle cx="678.525040151847" cy="111" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 10.654× the floor, 203.15s, 17.7 fps</title></circle><circle cx="557.852247332537" cy="111" r="5.5"
                    fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 10.446× the floor, 197.62s, 18.2 fps</title></circle><circle cx="325.68520951963785" cy="111" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 10.446× the floor, 197.62s, 18.2 fps</title></circle><circle cx="282.91949259286343" cy="111" r="5.5"
                    fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 7 5800X 8-Core Processor              (win32): 3.702× the floor, 28.79s, 125.1 fps</title></circle><circle cx="309.8848493697377" cy="111" r="5.5"
+                   stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 7 5800X 8-Core Processor              (win32): 3.702× the floor, 28.79s, 125.1 fps</title></circle><circle cx="270.60785381300263" cy="111" r="5.5"
                    fill="var(--s2)"
                    stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 7 5800X 8-Core Processor              (win32): 3.4× the floor, 26.39s, 136.4 fps</title></circle>
     </svg></div>
@@ -232,10 +247,10 @@
 
   <div class="filters">
     <label>Machine
-      <select id="f-machine"><option value="">all</option><option value="AMD Ryzen 5 7520U with Radeon Graphics         ">AMD Ryzen 5 7520U with Radeon Graphics         </option><option value="AMD Ryzen 7 5800X 8-Core Processor             ">AMD Ryzen 7 5800X 8-Core Processor             </option><option value="Apple M1">Apple M1</option></select>
+      <select id="f-machine"><option value="">all</option><option value="AMD Ryzen 5 7520U with Radeon Graphics">AMD Ryzen 5 7520U with Radeon Graphics</option><option value="AMD Ryzen 5 7520U with Radeon Graphics         ">AMD Ryzen 5 7520U with Radeon Graphics         </option><option value="AMD Ryzen 7 5800X 8-Core Processor             ">AMD Ryzen 7 5800X 8-Core Processor             </option><option value="Apple M1">Apple M1</option></select>
     </label>
     <label>Platform
-      <select id="f-platform"><option value="">all</option><option value="darwin">darwin</option><option value="win32">win32</option></select>
+      <select id="f-platform"><option value="">all</option><option value="darwin">darwin</option><option value="linux">linux</option><option value="win32">win32</option></select>
     </label>
     <label>Tool
       <select id="f-tool"><option value="">all</option><option value="cap">cap</option><option value="openscreen-cli">openscreen</option><option value="recordly">recordly</option></select>
@@ -289,6 +304,48 @@
       <td class="num"><strong>1.9</strong></td>
       <td class="num">1232</td>
       <td class="num">93%</td>
+      <td>full</td>
+      <td class="muted">cdp</td>
+    </tr>
+<tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics" data-platform="linux" data-tool="openscreen-cli">
+      <td><strong>openscreen</strong> <span class="muted">1.10.0-rc.4</span></td>
+      <td>AMD Ryzen 5 7520U with Radeon Graphics</td>
+      <td class="muted">linux</td>
+      <td class="num"><strong>4.001×</strong> <span class="muted">ffmpeg</span></td>
+      <td class="num">77.16 s <span class="muted">±0.1</span></td>
+      <td class="num">46.7</td>
+      <td class="num">119</td>
+      <td class="num"><strong>1.54</strong></td>
+      <td class="num">971</td>
+      <td class="num">146%</td>
+      <td>full</td>
+      <td class="muted">cli</td>
+    </tr>
+<tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics" data-platform="linux" data-tool="cap">
+      <td><strong>cap</strong> <span class="muted">0.5.9</span></td>
+      <td>AMD Ryzen 5 7520U with Radeon Graphics</td>
+      <td class="muted">linux</td>
+      <td class="num"><strong>3.007×</strong> <span class="muted">ffmpeg</span></td>
+      <td class="num">57.34 s <span class="muted">±0.14</span></td>
+      <td class="num">62.8</td>
+      <td class="num">166</td>
+      <td class="num"><strong>2.9</strong></td>
+      <td class="num">1228</td>
+      <td class="num">149%</td>
+      <td>full</td>
+      <td class="muted">cli</td>
+    </tr>
+<tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics" data-platform="linux" data-tool="recordly">
+      <td><strong>recordly</strong> <span class="muted">1.3.3</span></td>
+      <td>AMD Ryzen 5 7520U with Radeon Graphics</td>
+      <td class="muted">linux</td>
+      <td class="num"><strong>13.673×</strong> <span class="muted">ffmpeg</span></td>
+      <td class="num">321.83 s <span class="muted">±0.28</span></td>
+      <td class="num">11.2</td>
+      <td class="num">506</td>
+      <td class="num"><strong>1.57</strong></td>
+      <td class="num">2359</td>
+      <td class="num">142%</td>
       <td>full</td>
       <td class="muted">cdp</td>
     </tr>
@@ -505,26 +562,26 @@
     <thead><tr><th>Tool</th><th>Cost</th><th>Submissions</th><th>Platforms</th><th>Observed range</th><th>Versions</th></tr></thead>
     <tbody><tr>
       <td><strong>openscreen-cli</strong></td>
-      <td class="num">1.582×</td>
-      <td class="num">5</td>
-      <td>darwin, win32</td>
-      <td class="num">1.204–2.023×</td>
-      <td class="muted">1.10.0</td>
+      <td class="num">1.884×</td>
+      <td class="num">6</td>
+      <td>darwin, linux, win32</td>
+      <td class="num">1.204–4.001×</td>
+      <td class="muted">1.10.0, 1.10.0-rc.4</td>
     </tr>
 <tr>
       <td><strong>cap</strong></td>
-      <td class="num">3.117×</td>
-      <td class="num">5</td>
-      <td>darwin, win32</td>
+      <td class="num">3.043×</td>
+      <td class="num">6</td>
+      <td>darwin, linux, win32</td>
       <td class="num">1.21–8.293×</td>
       <td class="muted">0.5.9</td>
     </tr>
 <tr>
       <td><strong>recordly</strong></td>
-      <td class="num">4.382×</td>
-      <td class="num">5</td>
-      <td>darwin, win32</td>
-      <td class="num">2.626–10.654×</td>
+      <td class="num">5.449×</td>
+      <td class="num">6</td>
+      <td>darwin, linux, win32</td>
+      <td class="num">2.626–13.673×</td>
       <td class="muted">1.3.3</td>
     </tr></tbody>
   </table></div>
