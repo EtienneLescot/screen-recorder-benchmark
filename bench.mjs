@@ -888,8 +888,21 @@ async function cmdSubmit({ flags }) {
 				.filter((d) => fs.existsSync(join(RESULTS_DIR, d, "results.json")))
 				.sort()
 		: [];
+	// `--run` with nothing after it parses as the boolean true, which then reached join() and
+	// came back as a TypeError stack naming node:path — a shell variable that expanded to
+	// nothing is the ordinary way to get here, and it should say so.
+	if (flags.run !== undefined && typeof flags.run !== "string") {
+		console.error("✗ --run needs a run id. Available:\n  " + (runs.join("\n  ") || "(none)"));
+		process.exitCode = 1;
+		return;
+	}
 	const runId = flags.run ?? runs[runs.length - 1];
 	if (!runId) return log("No runs to submit.");
+	if (!fs.existsSync(join(RESULTS_DIR, runId, "results.json"))) {
+		console.error(`✗ no run "${runId}". Available:\n  ` + (runs.join("\n  ") || "(none)"));
+		process.exitCode = 1;
+		return;
+	}
 	const doc = new RunState(join(RESULTS_DIR, runId), runId).readResults();
 	if (!doc) return log(`Run ${runId} has no results.json.`);
 
