@@ -39,6 +39,14 @@ export const APPS = {
 				appName: "Openscreen.exe",
 				approxMB: 233,
 			},
+			// The same release also publishes .deb, .rpm and .pacman. The AppImage is the only one
+			// of the four that installs without root and without picking a package manager, which
+			// is what an unattended benchmark on somebody else's machine needs.
+			linux: {
+				assetPattern: /Linux.*\.AppImage$/i,
+				appName: "Openscreen",
+				approxMB: 346,
+			},
 		},
 	},
 	"openscreen-gui": {
@@ -94,6 +102,17 @@ export const APPS = {
 				url: "https://github.com/webadderallorg/Recordly/releases/download/v1.3.3/Recordly-arm64.dmg",
 				appName: "Recordly.app",
 			},
+			// Resolved from the release feed rather than pinned like the dmg above: the vendor
+			// publishes the Linux build under a name with no version in it
+			// (Recordly-linux-x64.AppImage), so a pinned URL and a resolved one name the same file
+			// and only the resolved one records which release it was.
+			linux: {
+				method: "github-release",
+				repo: "webadderallorg/Recordly",
+				assetPattern: /linux.*\.AppImage$/i,
+				appName: "Recordly",
+				approxMB: 227,
+			},
 			licence: "AGPL-3.0 — free, no account or activation needed",
 			notes: [
 				"Official repository is webadderallorg/Recordly; a swarm of same-named forks exists, so pin the org.",
@@ -132,6 +151,15 @@ export const APPS = {
 				url: "https://cap.so/download/windows",
 				appName: "Cap.exe",
 				approxMB: 134,
+			},
+			// The vendor publishes exactly one Linux artefact — /download/linux resolves to
+			// `publicPlatform=deb-x86_64`, and there is no AppImage or rpm behind any other slug.
+			// It carries usr/bin/cap-cli, the same CLI the other two platforms are driven through.
+			linux: {
+				method: "deb",
+				url: "https://cap.so/download/linux",
+				appName: "Cap",
+				approxMB: 132,
 			},
 		},
 	},

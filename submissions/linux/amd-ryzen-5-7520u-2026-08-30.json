@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "submittedAt": "2026-08-30T11:15:58.817Z",
+  "submitter": {
+    "name": "Etienne Lescot"
+  },
+  "machine": {
+    "platform": "linux",
+    "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+    "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+    "cpuCount": 8,
+    "memoryGiB": 14.9,
+    "osVersion": "24.04",
+    "osBuild": ""
+  },
+  "conditions": {
+    "onACPower": true,
+    "maxForeignCpuPercent": 236.5,
+    "loadSpreadPercentagePoints": 4.1,
+    "driftRatio": 0.9688,
+    "floorSpreadPercent": 2.41,
+    "remoteDesktopActive": false
+  },
+  "scenario": {
+    "step": "S4",
+    "outputWidth": 1920,
+    "outputHeight": 1080,
+    "outputFps": 60,
+    "outputCodec": "h264"
+  },
+  "source": {
+    "kind": "public-bundle",
+    "bundle": "commons-upload",
+    "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+    "normalisedSha256": "502588cae0a8507c03ee964006be140543206f3c774ef06dcbf9fdc5f369d9f1",
+    "durationSec": 60.007,
+    "frames": 3600
+  },
+  "measurements": [
+    {
+      "tool": "openscreen-cli",
+      "version": "1.10.0",
+      "exportMs": 76844,
+      "madMs": 15,
+      "runs": 3,
+      "localFloorMs": 23288,
+      "softwareFloorMs": 37168,
+      "floorSpreadPercent": 1.58,
+      "cpuSeconds": 119,
+      "peakRssMiB": 996,
+      "foreignCpuPercent": 138.4,
+      "outputBytes": 15756465,
+      "outputMeanVolumeDb": -49.8,
+      "fidelity": 1,
+      "missing": [],
+      "contradicted": [],
+      "verified": true,
+      "automation": "cli"
+    },
+    {
+      "tool": "cap",
+      "version": "0.5.9",
+      "exportMs": 57309,
+      "madMs": 28,
+      "runs": 3,
+      "localFloorMs": 22921,
+      "softwareFloorMs": 37220,
+      "floorSpreadPercent": 2.41,
+      "cpuSeconds": 165,
+      "peakRssMiB": 1231.2,
+      "foreignCpuPercent": 142,
+      "outputBytes": 188479190,
+      "outputMeanVolumeDb": -49.8,
+      "fidelity": 1,
+      "missing": [],
+      "contradicted": [],
+      "verified": true,
+      "automation": "cli"
+    },
+    {
+      "tool": "recordly",
+      "version": "1.3.3",
+      "exportMs": 323902,
+      "madMs": 2283,
+      "runs": 3,
+      "localFloorMs": 23626,
+      "softwareFloorMs": 37267,
+      "floorSpreadPercent": 1.47,
+      "cpuSeconds": 505,
+      "peakRssMiB": 2403,
+      "foreignCpuPercent": 137.9,
+      "outputBytes": 29022641,
+      "outputMeanVolumeDb": -46.8,
+      "fidelity": 1,
+      "missing": [],
+      "contradicted": [],
+      "verified": true,
+      "automation": "cdp"
+    }
+  ],
+  "notes": [
+    "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+    "cap: zoom segments written: 3",
+    "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+    "recordly: CUDA export path: available=false, requested=false",
+    "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+    "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events."
+  ]
+}

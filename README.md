@@ -120,13 +120,27 @@ they measured the same footage. Attribution: [CREDITS.md](./CREDITS.md).
 
 ## Platforms
 
-macOS and Windows. `lib/platform.mjs` holds everything that differs — process sampling, hardware
-and power state, installation, encoder selection — and the measurement core is
+macOS, Windows and Linux. `lib/platform.mjs` holds everything that differs — process sampling,
+hardware and power state, installation, encoder selection — and the measurement core is
 platform-independent, because two platforms that time things differently stop measuring the same
 thing.
 
-The Windows adapters have **not been run yet**. Every lookup fails with the control names it did
-find attached, and `node bench.mjs discover <app>` dumps the real tree on the target machine.
+On Linux the roster is short, and that is a fact about the products rather than about the
+adapters: only OpenScreen and Recordly ship a Linux build at all. Both are installed from the
+vendors' AppImages, which are **extracted** rather than run in place — an AppImage needs libfuse2
+to self-mount, and Ubuntu has not shipped that by default since 22.04.
+
+Two things there are not what they are elsewhere, and both are recorded in every run rather than
+assumed:
+
+- **The floor encodes through VAAPI.** `h264_amf` is a Windows runtime, and a full ffmpeg build
+  advertises nvenc and qsv on hardware that cannot open either — so an AMD or Intel machine that
+  only tried those fell through to libx264 and measured a *software* floor, which is not
+  comparable to anyone else's.
+- **Recordly exports on its Legacy pipeline.** Its Lightning path is not shipped for Linux: the
+  panel offers the control and the export then refuses, naming the missing encoder path itself.
+  Legacy is WebCodecs, it is what a user on this platform gets, and every run records which
+  pipeline produced it.
 
 ## Layout
 
