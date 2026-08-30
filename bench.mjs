@@ -507,8 +507,8 @@ async function cmdRun({ flags }) {
 	// a bias attached to leg order, and it moved driftRatio to 1.202, which quarters the
 	// submission's weight.
 	//
-	// So: run the floor workload, discarding every result, until two consecutive samples agree.
-	// Costs about a minute against a run of many.
+	// So: run the floor workload continuously, discarding every result, until it stops changing.
+	// Costs a few minutes against a run of tens.
 	if (interleaveFloor) {
 		try {
 			const warmDriver = await loadDriver("ffmpeg-baseline");
@@ -521,43 +521,83 @@ async function cmdRun({ flags }) {
 				log: () => undefined,
 				state: {},
 			};
-			// Convergence alone is not enough, and the first version of this got it wrong: two
-			// back-to-back exports agree while the clock is still boosted, so it "settled" at 7.73 s
-			// — the boosted figure — and warmed nothing. Steady state needs sustained load for a
-			// while *and* a flat trend, so both are required: at least MIN_WARM_MS of continuous
-			// encoding, and three consecutive samples within tolerance.
-			const MIN_WARM_MS = 60_000;
-			const TOLERANCE = 0.03;
-			const MAX_PASSES = 15;
+			// Convergence alone is not enough, and two earlier versions of this got it wrong in
+			// two different ways.
+			//
+			// The first asked only that consecutive exports agree, which they do while the clock
+			// is still boosted: it "settled" at 7.73 s — the boosted figure — and warmed nothing.
+			// The second added a minimum duration and a third sample, and still settled on the
+			// boost peak, because *a small spread is satisfiable on the way down*. Measured on a
+			// Ryzen 5 7520U: the warm-up reported "23.06s cold -> 19.14s steady", the first two
+			// legs were then divided by ~19.1 s, and the third leg and the closing control both
+			// read ~23.5 s. Cap and OpenScreen came out 17 % more expensive than the same run
+			// made from a machine that was already warm; Recordly, whose leg fell past the boost
+			// window either way, was identical to within 0.6 %. A faster floor inflates every
+			// cost divided by it, so this is not noise — it is a bias attached to leg order, and
+			// it is the exact failure the whole block exists to prevent.
+			//
+			// So three things, each fixing one of those.
+			//
+			// The load is now continuous. Every pass used to be a full runApp, which verifies the
+			// output and inspects its pixels — minutes of CPU work between encodes, during which
+			// the encoder block is idle and cooling. A warm-up that lets the thing it is warming
+			// go idle between samples is not a warm-up; the export is driven directly instead,
+			// and nothing about the discarded result needs verifying.
+			//
+			// Settling requires a flat *trend*, not just a narrow window. Two halves of the
+			// window are compared, so a run of samples that agree closely while still descending
+			// is rejected — that is precisely the boost peak.
+			//
+			// And it is bounded by wall clock rather than a pass count, because what matters is
+			// how long the silicon has been under load, not how many times around the loop.
+			const MIN_WARM_MS = 180_000;
+			const MAX_WARM_MS = 600_000;
+			const WINDOW = 5;
+			const SPREAD_TOLERANCE = 0.03;
+			const TREND_TOLERANCE = 0.012;
+			warmCtx.run = { index: 899 };
+			warmCtx.floorEncoder = "hardware";
+			warmCtx.commit = () => undefined;
+			await warmDriver.prepare(warmCtx);
+
 			const samples = [];
 			const warmStart = Date.now();
 			let settled = false;
-			for (let pass = 0; pass < MAX_PASSES; pass++) {
-				const rec = await runApp(warmDriver, warmCtx, {
-					repetitions: 1,
-					discardFirst: false,
-					cooldownSec: 0,
-					log: () => undefined,
-				});
-				const ms = rec.runs?.[0]?.exportMs ?? null;
-				if (!ms) break;
-				samples.push(ms);
-				const elapsed = Date.now() - warmStart;
-				if (elapsed < MIN_WARM_MS || samples.length < 3) continue;
-				const last3 = samples.slice(-3);
-				if (Math.max(...last3) / Math.min(...last3) - 1 < TOLERANCE) {
-					settled = true;
-					break;
+			let trend = null;
+			while (Date.now() - warmStart < MAX_WARM_MS) {
+				const t0 = Date.now();
+				await warmDriver.runExport(warmCtx);
+				samples.push(Date.now() - t0);
+				if (Date.now() - warmStart < MIN_WARM_MS || samples.length < WINDOW) continue;
+				const w = samples.slice(-WINDOW);
+				const half = Math.floor(WINDOW / 2);
+				const mean = (xs) => xs.reduce((a, b) => a + b, 0) / xs.length;
+				trend = mean(w.slice(-half)) / mean(w.slice(0, half)) - 1;
+				if (Math.max(...w) / Math.min(...w) - 1 < SPREAD_TOLERANCE) {
+					if (Math.abs(trend) < TREND_TOLERANCE) {
+						settled = true;
+						break;
+					}
 				}
 			}
 			const last = samples.at(-1);
 			const first = samples[0];
+			const mins = ((Date.now() - warmStart) / 60_000).toFixed(1);
 			log(
 				settled
-					? `GPU warmed over ${samples.length} passes: ${(first / 1000).toFixed(2)}s cold -> ${(last / 1000).toFixed(2)}s steady\n`
-					: `GPU warm-up did not settle after ${samples.length} passes (${(first / 1000).toFixed(2)}s -> ${(last / 1000).toFixed(2)}s) — read driftRatio closely\n`,
+					? `GPU warmed over ${mins} min of continuous encoding (${samples.length} passes): ` +
+							`${(first / 1000).toFixed(2)}s cold -> ${(last / 1000).toFixed(2)}s steady ` +
+							`(trend ${(trend * 100).toFixed(1)}% across the last ${WINDOW})\n`
+					: `GPU warm-up did not settle in ${mins} min (${(first / 1000).toFixed(2)}s -> ${(last / 1000).toFixed(2)}s` +
+							`${trend == null ? "" : `, still trending ${(trend * 100).toFixed(1)}%`}) — read driftRatio closely\n`,
 			);
-			state.event("gpu-warmup", { samples, settledMs: last, settled });
+			state.event("gpu-warmup", {
+				samples,
+				settledMs: last,
+				settled,
+				trend,
+				elapsedMs: Date.now() - warmStart,
+			});
 		} catch (e) {
 			log(`GPU warm-up failed: ${e.message?.slice(0, 120)}\n`);
 		}
