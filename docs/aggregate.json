@@ -3,7 +3,7 @@
     {
       "tool": "openscreen-cli",
       "component": 0,
-      "relativeCost": 1.884,
+      "relativeCost": 1.861,
       "submissions": 6,
       "machines": [
         "Apple M1",
@@ -17,19 +17,18 @@
         "win32"
       ],
       "versions": [
-        "1.10.0",
-        "1.10.0-rc.4"
+        "1.10.0"
       ],
       "versionsUnreported": 0,
       "observedCostRange": [
         1.204,
-        4.001
+        3.3
       ]
     },
     {
       "tool": "cap",
       "component": 0,
-      "relativeCost": 3.043,
+      "relativeCost": 3.01,
       "submissions": 6,
       "machines": [
         "Apple M1",
@@ -54,7 +53,7 @@
     {
       "tool": "recordly",
       "component": 0,
-      "relativeCost": 5.449,
+      "relativeCost": 5.602,
       "submissions": 6,
       "machines": [
         "Apple M1",
@@ -73,7 +72,7 @@
       "versionsUnreported": 0,
       "observedCostRange": [
         2.626,
-        13.673
+        13.71
       ]
     }
   ],
@@ -108,7 +107,7 @@
     {
       "a": "openscreen-cli",
       "b": "cap",
-      "logRatio": 0.285624763,
+      "logRatio": 0.277435028,
       "weight": 1,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
       "platform": "linux",
@@ -117,7 +116,7 @@
     {
       "a": "openscreen-cli",
       "b": "recordly",
-      "logRatio": -1.229000449,
+      "logRatio": -1.424254014,
       "weight": 1,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
       "platform": "linux",
@@ -126,7 +125,7 @@
     {
       "a": "cap",
       "b": "recordly",
-      "logRatio": -1.514625212,
+      "logRatio": -1.701689042,
       "weight": 1,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
       "platform": "linux",
@@ -354,7 +353,7 @@
     {
       "sub": {
         "schemaVersion": 1,
-        "submittedAt": "2026-08-30T09:36:06.464Z",
+        "submittedAt": "2026-08-30T11:15:58.817Z",
         "submitter": {
           "name": "Etienne Lescot"
         },
@@ -369,10 +368,10 @@
         },
         "conditions": {
           "onACPower": true,
-          "maxForeignCpuPercent": 194.5,
-          "loadSpreadPercentagePoints": 7.2,
-          "driftRatio": 1.1987,
-          "floorSpreadPercent": 4.26,
+          "maxForeignCpuPercent": 236.5,
+          "loadSpreadPercentagePoints": 4.1,
+          "driftRatio": 0.9688,
+          "floorSpreadPercent": 2.41,
           "remoteDesktopActive": false
         },
         "scenario": {
@@ -393,16 +392,16 @@
         "measurements": [
           {
             "tool": "openscreen-cli",
-            "version": "1.10.0-rc.4",
-            "exportMs": 77163,
-            "madMs": 104,
+            "version": "1.10.0",
+            "exportMs": 76844,
+            "madMs": 15,
             "runs": 3,
-            "localFloorMs": 19288,
-            "softwareFloorMs": 37376,
-            "floorSpreadPercent": 1.8,
+            "localFloorMs": 23288,
+            "softwareFloorMs": 37168,
+            "floorSpreadPercent": 1.58,
             "cpuSeconds": 119,
-            "peakRssMiB": 970.7,
-            "foreignCpuPercent": 145.6,
+            "peakRssMiB": 996,
+            "foreignCpuPercent": 138.4,
             "outputBytes": 15756465,
             "outputMeanVolumeDb": -49.8,
             "fidelity": 1,
@@ -414,15 +413,15 @@
           {
             "tool": "cap",
             "version": "0.5.9",
-            "exportMs": 57339,
-            "madMs": 137,
+            "exportMs": 57309,
+            "madMs": 28,
             "runs": 3,
-            "localFloorMs": 19071,
-            "softwareFloorMs": 37085,
-            "floorSpreadPercent": 0.28,
-            "cpuSeconds": 166,
-            "peakRssMiB": 1228.4,
-            "foreignCpuPercent": 149,
+            "localFloorMs": 22921,
+            "softwareFloorMs": 37220,
+            "floorSpreadPercent": 2.41,
+            "cpuSeconds": 165,
+            "peakRssMiB": 1231.2,
+            "foreignCpuPercent": 142,
             "outputBytes": 188479190,
             "outputMeanVolumeDb": -49.8,
             "fidelity": 1,
@@ -434,15 +433,15 @@
           {
             "tool": "recordly",
             "version": "1.3.3",
-            "exportMs": 321826,
-            "madMs": 281,
+            "exportMs": 323902,
+            "madMs": 2283,
             "runs": 3,
-            "localFloorMs": 23537,
-            "softwareFloorMs": 37300,
-            "floorSpreadPercent": 4.26,
-            "cpuSeconds": 506,
-            "peakRssMiB": 2359.1,
-            "foreignCpuPercent": 141.8,
+            "localFloorMs": 23626,
+            "softwareFloorMs": 37267,
+            "floorSpreadPercent": 1.47,
+            "cpuSeconds": 505,
+            "peakRssMiB": 2403,
+            "foreignCpuPercent": 137.9,
             "outputBytes": 29022641,
             "outputMeanVolumeDb": -46.8,
             "fidelity": 1,
@@ -939,15 +938,15 @@
     "edges": 18,
     "redundantEdges": 16,
     "measurable": true,
-    "medianResidualPercent": 63.66,
-    "maxResidualPercent": 224.51,
+    "medianResidualPercent": 66.7,
+    "maxResidualPercent": 223.96,
     "byPlatform": {
       "sameGpuPairs": 6,
       "samePlatformPairs": 4,
       "crossPlatformPairs": 3,
       "sameGpuSpreadPercent": 15.72,
       "samePlatformSpreadPercent": 27.71,
-      "crossPlatformSpreadPercent": 257.37
+      "crossPlatformSpreadPercent": 307.38
     },
     "worst": {
       "a": "openscreen-cli",
@@ -968,15 +967,5 @@
       ]
     }
   },
-  "versionSpread": [
-    {
-      "tool": "openscreen-cli",
-      "versions": [
-        "1.10.0",
-        "1.10.0-rc.4"
-      ],
-      "unreported": 0,
-      "submissions": 6
-    }
-  ]
+  "versionSpread": []
 }
