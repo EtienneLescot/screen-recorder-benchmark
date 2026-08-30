@@ -1022,11 +1022,15 @@ async function cmdRoster() {
 async function cmdSite() {
 	const fs = await import("node:fs");
 	const subs = collectSubmissions(BENCH_ROOT);
-	const result = aggregate(subs, { step: "S4" });
+	const step = "S4";
+	const result = aggregate(subs, { step });
 	const html = renderSite(result, {
 		// The page filters and drills into individual runs, so it needs the submissions
 		// themselves rather than a count of them.
 		submissions: subs,
+		// The page re-solves the aggregate per scope — macOS alone, one GPU vendor alone — and a
+		// scoped figure is only comparable to the headline if it was cut at the same rung.
+		step,
 		// The newest submission, not the wall clock: the reader wants to know how fresh the
 		// data is, and a build stamp would also make CI's staleness check fail every day
 		// simply because the date moved on.

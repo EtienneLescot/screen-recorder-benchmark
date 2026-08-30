@@ -1,578 +1,953 @@
+<!doctype html>
+<html lang="en">
 <meta charset="utf-8">
 <title>Screen Recorder Export Benchmark</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="How long desktop screen-demo apps take to export the same edit, measured against a plain ffmpeg transcode on the same machine and verified in pixels and audio.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-  :root {
-    --bg:#fbfaf7; --ink:#1c1a17; --muted:#6f6a61; --line:#e2ddd3; --card:#fffefb;
-    --accent:#7a4b2a; --accent-soft:#efe3d6; --warn:#8a5a12; --ok:#3f6b46;
+  :root{
+    --paper:#faf9f6; --surface:#ffffff; --sunk:#f3f1ec;
+    --ink:#17171a; --ink-2:#5c5a55; --ink-3:#8b8880;
+    --line:#e3e0d8; --line-2:#cdc9bf;
+    --accent:#33547f; --accent-soft:#e7ecf3;
+    --warm:#8a6a3b; --warm-soft:#f2ece1;
+    --mono:"IBM Plex Mono", ui-monospace, monospace;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg:#14130f; --ink:#ece7dd; --muted:#9a9287; --line:#2b2822; --card:#1b1915;
-      --accent:#d99a63; --accent-soft:#3a2b1e; --warn:#e0a94a; --ok:#7fc08c;
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#101011; --surface:#191a1c; --sunk:#1e1f21;
+      --ink:#ecebe6; --ink-2:#9a9791; --ink-3:#6e6c67;
+      --line:#2a2b2d; --line-2:#3c3d40;
+      --accent:#8fabd6; --accent-soft:#1c2431;
+      --warm:#c9a273; --warm-soft:#2a2318;
     }
   }
-  :root[data-theme="dark"] {
-    --bg:#14130f; --ink:#ece7dd; --muted:#9a9287; --line:#2b2822; --card:#1b1915;
-    --accent:#d99a63; --accent-soft:#3a2b1e; --warn:#e0a94a; --ok:#7fc08c;
+  :root[data-theme="dark"]{
+    --paper:#101011; --surface:#191a1c; --sunk:#1e1f21;
+    --ink:#ecebe6; --ink-2:#9a9791; --ink-3:#6e6c67;
+    --line:#2a2b2d; --line-2:#3c3d40;
+    --accent:#8fabd6; --accent-soft:#1c2431;
+    --warm:#c9a273; --warm-soft:#2a2318;
   }
-  * { box-sizing: border-box; }
-  body { background:var(--bg); color:var(--ink); margin:0; padding:3rem 1.25rem 5rem;
-         font:400 17px/1.65 Newsreader, Georgia, serif; }
-  main { max-width: 60rem; margin: 0 auto; }
-  h1 { font-size:2.6rem; line-height:1.1; letter-spacing:-0.02em; margin:0 0 .6rem; font-weight:600; }
-  h2 { font-size:1.15rem; margin:3rem 0 .9rem; letter-spacing:.02em; text-transform:uppercase;
-       font-family:"IBM Plex Mono", ui-monospace, monospace; font-weight:600; color:var(--muted); }
-  .lede { font-size:1.2rem; color:var(--muted); margin:0 0 2.5rem; max-width:46rem; }
-  .meta { font-family:"IBM Plex Mono", monospace; font-size:.78rem; color:var(--muted);
-          border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-          padding:.7rem 0; margin:0 0 2.5rem; display:flex; gap:1.5rem; flex-wrap:wrap; }
-  :root { --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --floor:#8a8880; }
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) { --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --floor:#6f6d66; }
-    }
-    :root[data-theme="dark"] { --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --floor:#6f6d66; }
-    .slope-wrap { overflow-x:auto; margin:.2rem 0 1.6rem; }
-    .strip { width:100%; min-width:600px; height:auto; display:block;
-      font-family:"IBM Plex Mono", monospace; }
-    .strip .grid-line { stroke:var(--line); stroke-width:1; }
-    .strip .floor-line { stroke:var(--floor); stroke-width:1.5; stroke-dasharray:3 4; }
-    .strip .axis { fill:var(--muted); font-size:10.5px; }
-    .strip .axis.mid { text-anchor:middle; }
-    .strip .floor-tag { fill:var(--floor); font-weight:600; }
-    .strip .strip-tool { text-anchor:end; font-size:12px; font-weight:600; fill:var(--ink); }
-    .strip .strip-range { stroke:var(--line); stroke-width:6; stroke-linecap:round; }
-    .strip circle { transition:r .12s ease; }
-    .strip circle:hover { r:7.5; }
-    .plain { background:var(--card); border:1px solid var(--line); border-radius:8px;
-      padding:1.1rem 1.3rem; margin:0 0 2rem; }
-    .plain-q { margin:0 0 .8rem; font-size:1.05rem; }
-    .plain-list { list-style:none; margin:0 0 .9rem; padding:0; display:flex; gap:1.8rem; flex-wrap:wrap; }
-    .plain-list li { display:flex; flex-direction:column; gap:.15rem; }
-    .plain-tool { font-family:"IBM Plex Mono", monospace; font-size:.8rem; color:var(--muted); }
-    .plain-secs { font-size:1.9rem; font-weight:600; line-height:1; letter-spacing:-.02em; }
-    .plain-note { margin:0; font-size:.88rem; color:var(--muted); }
-    .row.floor-row .name, .row.floor-row .val { color:var(--muted); }
-    .row.floor-row .track { border-style:dashed; }
-    .row.floor-row .fill.floor-fill {
-      background:repeating-linear-gradient(45deg,var(--line) 0 4px,transparent 4px 8px); }
-    .row.floor-row { padding-bottom:.5rem; border-bottom:1px solid var(--line); margin-bottom:.6rem; }
-    .cites { margin:.6rem 0 0; padding-left:1.1rem; font-size:.85rem; color:var(--muted); }
-    .cites li { margin:.2rem 0; }
-    .note .lead { margin:0; font-size:1rem; }
-    .note .fine { margin:.45rem 0 0; font-size:.85rem; color:var(--muted); line-height:1.55; }
-    .legend { display:flex; gap:1rem; flex-wrap:wrap; margin:0 0 .5rem;
-      font-family:"IBM Plex Mono", monospace; font-size:.75rem; color:var(--muted); }
-    .legend .key { display:inline-flex; align-items:center; gap:.35rem; }
-    .legend i { width:10px; height:10px; border-radius:50%; display:inline-block; }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:400 17px/1.6 Newsreader,Georgia,serif;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:var(--accent);text-underline-offset:.18em;text-decoration-thickness:.06em}
+  a:hover{color:var(--ink)}
+  ::selection{background:var(--accent-soft);color:var(--ink)}
+  select,button{font:inherit;color:inherit}
+  code{font-family:var(--mono);font-size:.86em}
+  .page{max-width:78rem;margin:0 auto;padding:clamp(20px,4vw,48px) clamp(16px,4vw,44px) 96px}
 
-    .filters { display:flex; gap:1.1rem; flex-wrap:wrap; align-items:center; margin:0 0 1rem;
-      font-family:"IBM Plex Mono", monospace; font-size:.8rem; }
-    .filters label { display:flex; gap:.4rem; align-items:center; color:var(--muted); }
-    .filters select { font:inherit; background:var(--card); color:var(--ink);
-      border:1px solid var(--line); border-radius:4px; padding:.25rem .4rem; }
-    .row { display:grid; grid-template-columns:minmax(9rem,13rem) 1fr 3.6rem; gap:1rem;
-         align-items:center; margin:.45rem 0; }
-    @media (max-width:620px) {
-      /* The track is the data. Below this width the three-column grid leaves it about
-         thirty pixels, which reads as decoration rather than a measurement. */
-      .row { grid-template-columns:1fr auto; grid-template-areas:"name val" "bar bar"; gap:.35rem 1rem; }
-      .row > :nth-child(1) { grid-area:name; }
-      .row > :nth-child(2) { grid-area:bar; }
-      .row > :nth-child(3) { grid-area:val; text-align:right; }
-    }
-  .name { font-family:"IBM Plex Mono", monospace; font-size:.85rem; }
-  .tag { font-size:.62rem; background:var(--accent-soft); color:var(--accent); padding:.1rem .35rem;
-         border-radius:3px; margin-left:.4rem; vertical-align:middle; text-transform:uppercase; letter-spacing:.04em; }
-  .track { background:var(--card); border:1px solid var(--line); border-radius:3px; height:1.6rem; overflow:hidden; }
-  .fill { background:var(--accent); height:100%; }
-  .fill.thin { background:repeating-linear-gradient(45deg,var(--accent),var(--accent) 5px,var(--accent-soft) 5px,var(--accent-soft) 10px); }
-  .val { font-family:"IBM Plex Mono", monospace; font-size:.85rem; white-space:nowrap; text-align:right; font-variant-numeric:tabular-nums; }
-  .scroll { overflow-x:auto; border:1px solid var(--line); border-radius:4px; background:var(--card); }
-  table { border-collapse:collapse; width:100%; font-size:.86rem;
-          font-family:"IBM Plex Mono", monospace; }
-  th,td { padding:.5rem .7rem; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap; }
-  th { font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:600; }
-  tr:last-child td { border-bottom:0; }
-  td.num { font-variant-numeric:tabular-nums; }
-  .muted { color:var(--muted); }
-  .note { background:var(--card); border:1px solid var(--line); border-left:3px solid var(--accent);
-          padding:.9rem 1.1rem; margin:1.2rem 0; font-size:.95rem; }
-  .note.warn { border-left-color:var(--warn); }
-  a { color:var(--accent); }
-  code { font-family:"IBM Plex Mono", monospace; font-size:.85em; background:var(--card);
-         border:1px solid var(--line); padding:.05rem .3rem; border-radius:3px; }
-  footer { margin-top:4rem; padding-top:1.5rem; border-top:1px solid var(--line);
-           font-size:.85rem; color:var(--muted); }
+  .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;
+    flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px}
+  .brand{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-3);display:flex;gap:14px;flex-wrap:wrap;padding-top:6px}
+  .brand b{font-weight:400;color:var(--ink-2)}
+  .btn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    background:transparent;border:1px solid var(--line-2);border-radius:2px;padding:6px 10px;
+    cursor:pointer;color:var(--ink-2)}
+  .btn:hover{border-color:var(--ink-3);color:var(--ink)}
+
+  .hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:clamp(20px,3vw,48px);padding:clamp(18px,2.6vw,30px) 0 clamp(16px,2vw,26px);
+    border-bottom:1px solid var(--line)}
+  h1{margin:0 0 12px;font-weight:500;font-size:clamp(1.9rem,3.4vw,2.7rem);line-height:1.05;
+    letter-spacing:-.025em;text-wrap:balance}
+  .hero-lede{margin:0;font-size:clamp(1rem,1.2vw,1.08rem);line-height:1.5;color:var(--ink-2);
+    max-width:52ch;text-wrap:pretty}
+  .hero-side{display:flex;flex-direction:column;justify-content:flex-end;gap:10px}
+  /* Hairlines drawn by the cells, not by a coloured gap behind them: a row that does not fill
+     its last track would otherwise paint the leftover as one solid block of --line. */
+  .stats,.cards{background:var(--paper);border:1px solid var(--line);overflow:hidden}
+  .stats>div,.cards>div{box-shadow:1px 0 0 var(--line),0 1px 0 var(--line)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(84px,1fr))}
+  .stats div{padding:9px 12px}
+  .stats b{display:block;font-family:var(--mono);font-size:19px;font-weight:500;line-height:1;
+    letter-spacing:-.02em}
+  .stats span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-3);margin-top:6px}
+  .stamp{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--ink-3)}
+
+  section{padding:clamp(44px,6vw,72px) 0 0}
+  section.lead-section{padding-top:clamp(20px,2.8vw,30px)}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+    flex-wrap:wrap;margin-bottom:10px}
+  h2{margin:0;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink-3)}
+  .sec-note{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3)}
+  .prose{margin:0 0 30px;font-size:1rem;line-height:1.6;color:var(--ink-2);max-width:66ch;
+    text-wrap:pretty}
+  .prose strong{color:var(--ink);font-weight:600}
+  .mono-note{margin:14px 0 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;
+    line-height:1.6;color:var(--ink-3)}
+
+  .lead-line{margin:0 0 16px;font-size:clamp(1.15rem,1.9vw,1.5rem);line-height:1.3;
+    letter-spacing:-.015em;max-width:40ch;text-wrap:pretty}
+  .lead-line strong{font-weight:600}
+  .scopes{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:0 0 12px;
+    padding-top:6px;border-top:1px solid var(--line)}
+  .scope-group{display:flex;align-items:center;gap:10px}
+  .scope-group>span{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-3)}
+  .scope-btn{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    padding:6px 11px;border-radius:2px;cursor:pointer;background:transparent;
+    border:1px solid var(--line-2);color:var(--ink-3)}
+  .scope-btn:hover{border-color:var(--ink-3);color:var(--ink-2)}
+  .scope-btn[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);font-weight:600}
+  .scope-note{margin:0 0 18px;font-family:var(--mono);font-size:10.5px;line-height:1.6;
+    letter-spacing:.02em;color:var(--ink-3);max-width:84ch}
+
+  .aside{border:1px solid var(--line);border-left:2px solid var(--warm);background:var(--surface);
+    padding:18px 20px}
+  .aside p.lead{margin:0 0 8px;font-size:1.02rem;line-height:1.5}
+  .aside p.fine{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink-2);max-width:80ch;
+    text-wrap:pretty}
+  .aside.empty{padding:20px 22px}
+  .aside.empty p.lead{font-size:1.1rem;line-height:1.45;font-weight:600}
+  .aside.after{margin-top:26px}
+  .aside.before{margin:24px 0 0}
+
+  .chart{border-top:1px solid var(--ink)}
+  .chart-axis{position:relative;height:22px}
+  .chart-axis span{position:absolute;bottom:2px;font-family:var(--mono);font-size:10px;
+    letter-spacing:.08em;color:var(--ink-3);white-space:nowrap}
+  /* Narrow enough and the interior ticks land under the floor label. Floor and ceiling are the
+     two that have to survive; the rest are a convenience. */
+  @media (max-width:620px){.chart-axis .tick:not(.top){display:none}}
+  .rank-row{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:22px 0 24px;
+    border-bottom:1px solid var(--line)}
+  .rank-head{display:flex;align-items:baseline;gap:clamp(12px,2vw,26px);flex-wrap:wrap}
+  .rank-no{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.1em;
+    color:var(--ink-3);width:26px}
+  .rank-row h3{margin:0;font-size:clamp(1.6rem,2.6vw,2.1rem);font-weight:500;
+    letter-spacing:-.02em}
+  .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--warm);border:1px solid var(--warm);border-radius:2px;padding:3px 6px}
+  .rank-val{margin-left:auto;display:flex;align-items:baseline;gap:6px}
+  .rank-val b{font-family:var(--mono);font-size:clamp(2rem,4vw,3rem);font-weight:500;
+    line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  .rank-val span{font-family:var(--mono);font-size:16px;color:var(--ink-3)}
+  .rank-track{position:relative;height:12px;background:var(--sunk);border:1px solid var(--line)}
+  .rank-track i{position:absolute;left:0;top:0;bottom:0;background:var(--ink-2)}
+  .rank-track i.thin{background:repeating-linear-gradient(45deg,
+    var(--ink-2) 0 5px,var(--line-2) 5px 10px)}
+  .chart-foot{margin:0;padding:14px 0 0;font-family:var(--mono);font-size:10.5px;line-height:1.6;
+    letter-spacing:.02em;color:var(--ink-3)}
+
+  .tri{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:clamp(18px,3vw,40px);margin-top:30px;padding-top:26px;border-top:1px solid var(--line)}
+  .tri p{margin:0;font-size:.98rem;line-height:1.6;color:var(--ink-2);text-wrap:pretty}
+  .tri strong{color:var(--ink);font-weight:600}
+  .tri.tight{margin-top:22px;padding-top:0;border-top:0;gap:clamp(16px,3vw,36px)}
+  .tri.tight p{font-size:.9rem}
+
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;
+    color:var(--ink-2)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+  .strip-wrap{overflow-x:auto;padding-bottom:4px}
+  .strip{position:relative;min-width:640px}
+  .strip-grid{position:absolute;left:132px;right:0;top:0;bottom:26px;pointer-events:none}
+  .strip-grid i{position:absolute;top:0;bottom:0;width:1px;background:var(--line)}
+  .strip-grid i.floor{background:var(--line-2)}
+  .strip-head,.strip-foot{display:grid;grid-template-columns:132px 1fr;height:26px}
+  .strip-head>div:last-child,.strip-foot>div:last-child{position:relative;height:100%}
+  .floor-tag{position:absolute;top:2px;transform:translateX(7px);font-family:var(--mono);
+    font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
+    white-space:nowrap}
+  .strip-rows{border-bottom:1px solid var(--line)}
+  .strip-row{display:grid;grid-template-columns:132px 1fr;align-items:center;
+    border-top:1px solid var(--line)}
+  .strip-name{font-family:var(--mono);font-size:13px;font-weight:500;padding-right:16px;
+    text-align:right}
+  .strip-lane{position:relative;height:54px}
+  .strip-lane .rng{position:absolute;top:50%;height:3px;transform:translateY(-50%);
+    background:var(--line-2)}
+  .strip-lane .dot{position:absolute;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;
+    border-radius:50%;border:1.5px solid var(--paper)}
+  .strip-foot span{position:absolute;top:6px;transform:translateX(-50%);font-family:var(--mono);
+    font-size:10.5px;color:var(--ink-3)}
+
+  .filters{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:0 0 14px;
+    font-family:var(--mono);font-size:11.5px}
+  .filters label{display:flex;gap:8px;align-items:center;color:var(--ink-3);letter-spacing:.08em;
+    text-transform:uppercase;font-size:10px}
+  .filters select{font-family:var(--mono);font-size:11.5px;text-transform:none;letter-spacing:0;
+    color:var(--ink);background:var(--surface);border:1px solid var(--line-2);border-radius:2px;
+    padding:5px 7px}
+
+  .tw{overflow-x:auto;border-top:1px solid var(--ink)}
+  .tw.ruled{border-bottom:1px solid var(--line)}
+  table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:12px}
+  #runs{min-width:1000px}
+  .tw.narrow table{min-width:420px}
+  th{text-align:left;padding:10px 12px;font-size:9.5px;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--line);
+    white-space:nowrap}
+  td{padding:9px 12px;border-bottom:1px solid var(--line)}
+  th:first-child,td:first-child{padding-left:0}
+  th:last-child,td:last-child{padding-right:0}
+  th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+  th.mid,td.mid{text-align:center}
+  td strong{font-weight:600}
+  .dim{color:var(--ink-3)}
+  .nw{white-space:nowrap}
+  .mark{display:inline-block;width:7px;height:7px;background:var(--ink)}
+  .deg{color:var(--warm);font-size:10px;letter-spacing:.06em}
+  .cites{margin:12px 0 0;padding-left:1.1rem;font-size:.85rem;line-height:1.55;color:var(--ink-3)}
+  .cites strong{color:var(--ink-2);font-weight:600}
+
+  .duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:clamp(28px,4vw,56px)}
+  .duo .prose{margin:0 0 18px;font-size:.95rem;max-width:48ch}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:18px}
+  .cards>div{padding:20px 22px}
+  .cards h3{margin:0 0 10px;font-family:var(--mono);font-size:10px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+  .cards p{margin:0;font-size:.95rem;line-height:1.6;color:var(--ink-2);text-wrap:pretty}
+
+  .cta{margin-top:clamp(44px,6vw,72px);border:1px solid var(--line);background:var(--surface);
+    padding:clamp(24px,3vw,36px)}
+  .cta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:clamp(24px,4vw,48px);align-items:start}
+  .cta h2{margin-bottom:12px}
+  .cta-lead{margin:0 0 16px;font-size:1.15rem;line-height:1.45;letter-spacing:-.01em;
+    max-width:34ch;text-wrap:pretty}
+  .cmd{font-family:var(--mono);font-size:12.5px;background:var(--sunk);
+    border:1px solid var(--line);padding:10px 12px;overflow-x:auto;white-space:nowrap}
+  .steps{margin:0;padding:0;list-style:none;display:grid;gap:14px}
+  .steps li{display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:baseline}
+  .steps b{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-3)}
+  .steps span{font-size:.95rem;line-height:1.55;color:var(--ink-2)}
+
+  footer{margin-top:clamp(40px,5vw,64px);padding-top:18px;border-top:1px solid var(--line);
+    display:flex;gap:clamp(14px,3vw,32px);flex-wrap:wrap;align-items:baseline;
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+  footer .end{margin-left:auto}
 </style>
-<main>
-  <h1>How long does a demo take to export?</h1>
-  <p class="lede">The same recording, the same edit, the same stopwatch, across the desktop apps
-  that compete to turn screen captures into finished product demos — with every result verified
-  in pixels and audio before it counts.</p>
+<div class="page">
 
-  <div class="meta">
-    <span>5 submissions</span>
-    <span>15 ratios</span>
-    <span>3 tools</span>
-    <span>data as of 2026-08-28</span>
-  </div>
+  <header class="topbar">
+    <div class="brand">
+      <b>Screen Recorder Export Benchmark</b>
+      <span>Independent</span><span>Reproducible</span><span>Open data</span>
+    </div>
+    <button id="theme-btn" class="btn" type="button">Theme</button>
+  </header>
 
-  
-
-  <h2>Export time against ffmpeg — lower is faster</h2>
-  <p class="muted" style="font-size:.95rem;margin:0 0 1.2rem">Every tool is timed against the
-  same yardstick: re-encoding the identical clip with plain <code>ffmpeg</code>, on the same
-  machine, minutes apart. <strong>2× means it took twice as long as that</strong> — not twice as
-  fast. ffmpeg does no compositing at all, so a tool that paints a wallpaper, rounds the corners,
-  animates three zooms and mixes in a camera is expected to sit above 1×. Seconds would only
-  describe the machine they were measured on; this survives the trip to yours.</p>
-  <div class="row floor-row">
-      <div class="name">ffmpeg <span class="tag">the yardstick</span></div>
-      <div class="track"><div class="fill floor-fill" style="width:22.8%"></div></div>
-      <div class="val">1×</div>
-    </div><div class="row">
-        <div class="name">openscreen</div>
-        <div class="track"><div class="fill" style="width:36.1%"></div></div>
-        <div class="val">1.582×</div>
+  <section class="hero">
+    <div>
+      <h1>Which screen recorder exports fastest?</h1>
+      <p class="hero-lede">Same clip, same edit, same machine. We time each app's export, then
+      divide by what plain <code>ffmpeg</code> needs on that machine — so 1.58× means 58% longer than a raw re-encode, on any hardware.</p>
+    </div>
+    <div class="hero-side">
+      <div class="stats">
+        <div><b>5</b><span>Submissions</span></div>
+        <div><b>15</b><span>Runs</span></div>
+        <div><b>3</b><span>Tools timed</span></div>
+        <div><b>3</b><span>Machines</span></div>
+        <div><b>2</b><span>Platforms</span></div>
       </div>
-<div class="row">
-        <div class="name">cap</div>
-        <div class="track"><div class="fill" style="width:71.1%"></div></div>
-        <div class="val">3.117×</div>
+      <div class="stamp">Data as of 2026-08-28 · every export re-checked in pixels and
+      audio before it counts</div>
+    </div>
+  </section>
+
+  <section class="lead-section">
+    <div class="sec-head">
+      <h2>01 — Ranking</h2>
+      <span class="sec-note">Lower is faster</span>
+    </div>
+    <p class="lead-line" data-scope="all"><strong>openscreen</strong> exports fastest across every run measured so far.</p>
+    <p class="lead-line" data-scope="p-darwin" hidden><strong>cap</strong> exports fastest on macOS.</p>
+    <p class="lead-line" data-scope="p-win32" hidden><strong>openscreen</strong> exports fastest on Windows.</p>
+    <p class="lead-line" data-scope="p-linux" hidden>Nothing has been measured on Linux.</p>
+    <p class="lead-line" data-scope="g-amd" hidden><strong>openscreen</strong> exports fastest on AMD graphics.</p>
+    <p class="lead-line" data-scope="g-nvidia" hidden><strong>openscreen</strong> exports fastest on NVIDIA graphics.</p>
+
+    <div class="scopes">
+      <div class="scope-group"><button type="button" class="scope-btn" data-for="all" aria-pressed="true">All</button></div>
+      <div class="scope-group"><span>Platform</span><button type="button" class="scope-btn" data-for="p-darwin" aria-pressed="false">macOS</button></div>
+      <div class="scope-group"><button type="button" class="scope-btn" data-for="p-win32" aria-pressed="false">Windows</button></div>
+      <div class="scope-group"><button type="button" class="scope-btn" data-for="p-linux" aria-pressed="false">Linux</button></div>
+      <div class="scope-group"><span>GPU</span><button type="button" class="scope-btn" data-for="g-amd" aria-pressed="false">AMD</button></div>
+      <div class="scope-group"><button type="button" class="scope-btn" data-for="g-nvidia" aria-pressed="false">NVIDIA</button></div>
+    </div>
+
+    <div data-scope="all">
+      <p class="scope-note">All 15 runs — 3 tools, 3 machines, 2 platforms. Combined as a graph of ratios, so no tool is the denominator.</p>
+      <div class="chart">
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">5×</span><span class="tick" style="left:75.0%;transform:translateX(-50%)">4×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">3×</span><span class="tick" style="left:25.0%;transform:translateX(-50%)">2×</span></div>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">01</span>
+          <h3>openscreen</h3>
+          <div class="rank-val"><b>1.58</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:14.6%"></i></div>
+      </article>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">02</span>
+          <h3>cap</h3>
+          <div class="rank-val"><b>3.12</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:52.9%"></i></div>
+      </article>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">03</span>
+          <h3>recordly</h3>
+          <div class="rank-val"><b>4.38</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:84.5%"></i></div>
+      </article>
+      <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
+      on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
+    </div>
+    </div>
+    <div data-scope="p-darwin" hidden>
+      <p class="scope-note">Apple M1 — 3 runs, 3 tools. One machine is a data point, not a verdict.</p>
+      <div class="chart">
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">3×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">2×</span></div>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">01</span>
+          <h3>cap</h3>
+          <div class="rank-val"><b>1.21</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:10.5%"></i></div>
+      </article>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">02</span>
+          <h3>openscreen</h3>
+          <div class="rank-val"><b>2.02</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:51.2%"></i></div>
+      </article>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">03</span>
+          <h3>recordly</h3>
+          <div class="rank-val"><b>2.63</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:81.3%"></i></div>
+      </article>
+      <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
+      on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
+    </div>
+    </div>
+    <div data-scope="p-win32" hidden>
+      <p class="scope-note">Ryzen 5 7520U · Ryzen 7 5800X — 12 runs, 3 tools.</p>
+      <div class="chart">
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">7×</span><span class="tick" style="left:83.3%;transform:translateX(-50%)">6×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">5×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">4×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">3×</span><span class="tick" style="left:16.7%;transform:translateX(-50%)">2×</span></div>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">01</span>
+          <h3>openscreen</h3>
+          <div class="rank-val"><b>1.43</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:7.2%"></i></div>
+      </article>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">02</span>
+          <h3>cap</h3>
+          <div class="rank-val"><b>4.28</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:54.6%"></i></div>
+      </article>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">03</span>
+          <h3>recordly</h3>
+          <div class="rank-val"><b>5.17</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:69.4%"></i></div>
+      </article>
+      <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
+      on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
+    </div>
+    </div>
+    <div data-scope="p-linux" hidden>
+      <div class="aside empty">
+        <p class="lead">No Linux submissions yet.</p>
+        <p class="fine">The roster lists OpenScreen as a member on Linux, and Recordly as degraded there, but nothing has been measured on a Linux machine. This scope is empty by fact, not by omission.</p>
       </div>
-<div class="row">
-        <div class="name">recordly</div>
-        <div class="track"><div class="fill" style="width:100.0%"></div></div>
-        <div class="val">4.382×</div>
+    </div>
+    <div data-scope="g-amd" hidden>
+      <p class="scope-note">Ryzen 5 7520U — 6 runs, 3 tools. One machine is a data point, not a verdict.</p>
+      <div class="chart">
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">13×</span><span class="tick" style="left:83.3%;transform:translateX(-50%)">11×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">9×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">5×</span><span class="tick" style="left:16.7%;transform:translateX(-50%)">3×</span></div>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">01</span>
+          <h3>openscreen</h3>
+          <div class="rank-val"><b>1.67</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:5.5%"></i></div>
+      </article>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">02</span>
+          <h3>cap</h3>
+          <div class="rank-val"><b>8.08</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:59.0%"></i></div>
+      </article>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">03</span>
+          <h3>recordly</h3>
+          <div class="rank-val"><b>10.55</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:79.6%"></i></div>
+      </article>
+      <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
+      on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
+    </div>
+    </div>
+    <div data-scope="g-nvidia" hidden>
+      <p class="scope-note">Ryzen 7 5800X — 6 runs, 3 tools. One machine is a data point, not a verdict.</p>
+      <div class="chart">
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">4×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">3×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">2×</span></div>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">01</span>
+          <h3>openscreen</h3>
+          <div class="rank-val"><b>1.25</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:8.2%"></i></div>
+      </article>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">02</span>
+          <h3>cap</h3>
+          <div class="rank-val"><b>3.04</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:68.0%"></i></div>
+      </article>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">03</span>
+          <h3>recordly</h3>
+          <div class="rank-val"><b>3.55</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:84.9%"></i></div>
+      </article>
+      <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
+      on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
+    </div>
+    </div>
+
+    <div class="tri">
+      <p><strong>Read the ratio, not the seconds.</strong> 2× means the export took twice as long
+      as ffmpeg did on that machine — not twice as fast.</p>
+      <p><strong>The floor does no work.</strong> ffmpeg composites nothing, so every tool that
+      paints a wallpaper, rounds the corners and animates a zoom sits above 1×. The question is
+      how far above.</p>
+      <p><strong>No tool is the reference.</strong> Runs are combined as a graph of ratios, so the
+      standing recomposes as coverage grows.</p>
+    </div>
+
+    <div class="aside after">
+      <p class="lead"><strong>Which tool leads depends on the machine.</strong> Where a pair was
+      measured on more than one, its ratio moves by 32.59% at the median.</p>
+      <p class="fine"><code>openscreen</code> takes 0.77× as long as <code>recordly</code> on Apple M1, and 0.15× as long on Ryzen 5 7520U. Different encoders, GPUs and drivers — not a fault in the
+      measurement, and a tool built against one stack has no obligation to lead on another. It is
+      also why the figure above is a consensus rather than a verdict: use the scopes to see
+      hardware like yours. Only pairs measured on more than one platform can be compared this way,
+      so each new submission narrows what the consensus is guessing at.</p>
+    </div>
+
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>02 — Spread across machines</h2>
+      <div class="legend"><span><i style="background:var(--accent)"></i>macOS</span><span><i style="background:var(--warm)"></i>Windows</span></div>
+    </div>
+    <p class="prose">One dot per run. Where one tool's dots straddle another's, the machine
+    decides the order — not the tool. Hover a dot for the machine and the seconds.</p>
+    <div class="strip-wrap"><div class="strip">
+      <div class="strip-grid"><i class="floor" style="left:9.09%"></i><i style="left:18.18%"></i><i style="left:27.27%"></i><i style="left:36.36%"></i><i style="left:45.45%"></i><i style="left:54.55%"></i><i style="left:63.64%"></i><i style="left:72.73%"></i><i style="left:81.82%"></i><i style="left:90.91%"></i></div>
+      <div class="strip-head"><div></div><div><span class="floor-tag" style="left:9.09%">1× = ffmpeg itself</span></div></div>
+      <div class="strip-rows">
+        <div class="strip-row">
+          <div class="strip-name">openscreen</div>
+          <div class="strip-lane"><div class="rng" style="left:10.95%;width:7.45%"></div><div class="dot" style="left:18.39%;background:var(--accent)" title="Apple M1 (macOS) — 2.023× the floor, 36.8 s, 97.8 fps"></div><div class="dot" style="left:14.38%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.582× the floor, 32.76 s, 109.9 fps"></div><div class="dot" style="left:17.34%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.907× the floor, 39.03 s, 92.2 fps"></div><div class="dot" style="left:11.75%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.292× the floor, 10.09 s, 356.7 fps"></div><div class="dot" style="left:10.95%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.204× the floor, 9.38 s, 383.6 fps"></div></div>
+        </div>
+        <div class="strip-row">
+          <div class="strip-name">cap</div>
+          <div class="strip-lane"><div class="rng" style="left:11.00%;width:64.39%"></div><div class="dot" style="left:11.00%;background:var(--accent)" title="Apple M1 (macOS) — 1.21× the floor, 22.01 s, 163.6 fps"></div><div class="dot" style="left:75.39%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 8.293× the floor, 175.28 s, 20.5 fps"></div><div class="dot" style="left:69.95%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 7.694× the floor, 149.85 s, 24 fps"></div><div class="dot" style="left:26.70%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 2.937× the floor, 22.97 s, 156.7 fps"></div><div class="dot" style="left:28.59%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 3.145× the floor, 24.48 s, 147.1 fps"></div></div>
+        </div>
+        <div class="strip-row">
+          <div class="strip-name">recordly</div>
+          <div class="strip-lane"><div class="rng" style="left:23.87%;width:72.98%"></div><div class="dot" style="left:23.87%;background:var(--accent)" title="Apple M1 (macOS) — 2.626× the floor, 47.74 s, 75.4 fps"></div><div class="dot" style="left:96.85%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 10.654× the floor, 203.15 s, 17.7 fps"></div><div class="dot" style="left:94.96%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 10.446× the floor, 197.62 s, 18.2 fps"></div><div class="dot" style="left:33.65%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 3.702× the floor, 28.79 s, 125.1 fps"></div><div class="dot" style="left:30.91%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 3.4× the floor, 26.39 s, 136.4 fps"></div></div>
+        </div>
       </div>
+      <div class="strip-foot"><div></div><div><span style="left:9.09%">1×</span><span style="left:18.18%">2×</span><span style="left:27.27%">3×</span><span style="left:36.36%">4×</span><span style="left:45.45%">5×</span><span style="left:54.55%">6×</span><span style="left:63.64%">7×</span><span style="left:72.73%">8×</span><span style="left:81.82%">9×</span><span style="left:90.91%">10×</span></div></div>
+    </div></div>
+    <p class="mono-note">Export time ÷ the same machine's ffmpeg transcode. 2× means twice as long,
+    not twice as fast.</p>
+  </section>
 
-  <div class="note"><p class="lead"><strong>Which tool wins depends on the platform.</strong> Where a pair was measured on more than one, its ratio moves by 32.59% at the median.</p><p class="fine"><code>openscreen</code> takes 0.77× as long as <code>recordly</code> on Apple M1 (macOS), and 0.15× as long on AMD Ryzen 5 7520U with Radeon Graphics (Windows). That is the expected behaviour of different media stacks, not a fault in the measurement: the encoders, the GPUs and the drivers underneath are not the same, and a tool built against one of them has no obligation to lead on another. It is also why the figure above is a consensus rather than a verdict — to see your own hardware, filter the runs below. Only pairs measured on more than one platform can be compared this way, so each new submission narrows what the consensus is guessing at.</p></div>
+  <section>
+    <div class="sec-head">
+      <h2>03 — Every run</h2>
+      <span class="sec-note" id="f-count">15 runs</span>
+    </div>
+    <p class="prose">Every run, with the machine that produced it. <strong>Cost</strong> compares
+    across rows; seconds and frame rate don't — they describe one machine.</p>
 
-  
+    <div class="filters">
+      <label>Machine
+        <select id="f-machine"><option value="">all</option><option value="AMD Ryzen 5 7520U with Radeon Graphics         ">Ryzen 5 7520U</option><option value="AMD Ryzen 7 5800X 8-Core Processor             ">Ryzen 7 5800X</option><option value="Apple M1">Apple M1</option></select>
+      </label>
+      <label>Platform
+        <select id="f-platform"><option value="">all</option><option value="darwin">darwin</option><option value="win32">win32</option></select>
+      </label>
+      <label>Tool
+        <select id="f-tool"><option value="">all</option><option value="cap">cap</option><option value="openscreen-cli">openscreen</option><option value="recordly">recordly</option></select>
+      </label>
+    </div>
 
-  <h2>Every measurement</h2>
-  <p class="muted" style="font-size:.95rem;margin:0 0 .6rem">One dot per measured leg, placed by
-  what it cost against the floor beside it. Where one tool's dots straddle another's, the
-  ranking is not a property of the tools — it depends on the machine. Hover a dot for the
-  machine, the seconds and the frame rate.</p>
-  <div class="legend"><span class="key"><i style="background:var(--s1)"></i>macOS</span><span class="key"><i style="background:var(--s2)"></i>Windows</span></div>
-  <div class="slope-wrap"><svg viewBox="0 0 760 174" class="strip" role="img"
-        aria-label="Cost against the ffmpeg floor, one dot per measurement, grouped by tool">
-      <line x1="184.31907334404048" x2="184.31907334404048" y1="20" y2="148"
-               class="floor-line"/>
-             <text x="184.31907334404048" y="148" class="axis mid">1×</text><line x1="236.63814668808098" x2="236.63814668808098" y1="20" y2="148"
-               class="grid-line"/>
-             <text x="236.63814668808098" y="148" class="axis mid">2×</text><line x1="288.9572200321214" x2="288.9572200321214" y1="20" y2="148"
-               class="grid-line"/>
-             <text x="288.9572200321214" y="148" class="axis mid">3×</text><line x1="341.27629337616196" x2="341.27629337616196" y1="20" y2="148"
-               class="grid-line"/>
-             <text x="341.27629337616196" y="148" class="axis mid">4×</text><line x1="393.5953667202025" x2="393.5953667202025" y1="20" y2="148"
-               class="grid-line"/>
-             <text x="393.5953667202025" y="148" class="axis mid">5×</text><line x1="445.9144400642429" x2="445.9144400642429" y1="20" y2="148"
-               class="grid-line"/>
-             <text x="445.9144400642429" y="148" class="axis mid">6×</text><line x1="498.23351340828344" x2="498.23351340828344" y1="20" y2="148"
-               class="grid-line"/>
-             <text x="498.23351340828344" y="148" class="axis mid">7×</text><line x1="550.5525867523239" x2="550.5525867523239" y1="20" y2="148"
-               class="grid-line"/>
-             <text x="550.5525867523239" y="148" class="axis mid">8×</text><line x1="602.8716600963644" x2="602.8716600963644" y1="20" y2="148"
-               class="grid-line"/>
-             <text x="602.8716600963644" y="148" class="axis mid">9×</text><line x1="655.190733440405" x2="655.190733440405" y1="20" y2="148"
-               class="grid-line"/>
-             <text x="655.190733440405" y="148" class="axis mid">10×</text><line x1="707.5098067844453" x2="707.5098067844453" y1="20" y2="148"
-               class="grid-line"/>
-             <text x="707.5098067844453" y="148" class="axis mid">11×</text>
-      <text x="184.31907334404048" y="14" class="axis mid floor-tag">1× = ffmpeg itself</text>
-      <text x="433" y="168" class="axis mid caption">export time ÷ the same machine's ffmpeg transcode — 2× means twice as long, not twice as fast</text>
-      <text x="120" y="47" class="strip-tool">openscreen</text>
-            <line x1="194.99216430622477" x2="237.8414853749939" y1="43" y2="43" class="strip-range"/><circle cx="237.8414853749939" cy="43" r="5.5"
-                   fill="var(--s1)"
-                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on Apple M1 (darwin): 2.023× the floor, 36.8s, 97.8 fps</title></circle><circle cx="214.76877403027206" cy="43" r="5.5"
-                   fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 1.582× the floor, 32.76s, 109.9 fps</title></circle><circle cx="231.7724728670852" cy="43" r="5.5"
-                   fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 1.907× the floor, 39.03s, 92.2 fps</title></circle><circle cx="199.59624276050033" cy="43" r="5.5"
-                   fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 7 5800X 8-Core Processor              (win32): 1.292× the floor, 10.09s, 356.7 fps</title></circle><circle cx="194.99216430622477" cy="43" r="5.5"
-                   fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>openscreen on AMD Ryzen 7 5800X 8-Core Processor              (win32): 1.204× the floor, 9.38s, 383.6 fps</title></circle><text x="120" y="81" class="strip-tool">cap</text>
-            <line x1="195.306078746289" x2="565.8820752421277" y1="77" y2="77" class="strip-range"/><circle cx="195.306078746289" cy="77" r="5.5"
-                   fill="var(--s1)"
-                   stroke="var(--card)" stroke-width="1.5"><title>cap on Apple M1 (darwin): 1.21× the floor, 22.01s, 163.6 fps</title></circle><circle cx="565.8820752421277" cy="77" r="5.5"
-                   fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 8.293× the floor, 175.28s, 20.5 fps</title></circle><circle cx="534.5429503090475" cy="77" r="5.5"
-                   fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 7.694× the floor, 149.85s, 24 fps</title></circle><circle cx="285.66111841144686" cy="77" r="5.5"
-                   fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 7 5800X 8-Core Processor              (win32): 2.937× the floor, 22.97s, 156.7 fps</title></circle><circle cx="296.54348566700736" cy="77" r="5.5"
-                   fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>cap on AMD Ryzen 7 5800X 8-Core Processor              (win32): 3.145× the floor, 24.48s, 147.1 fps</title></circle><text x="120" y="115" class="strip-tool">recordly</text>
-            <line x1="269.3898866014503" x2="689.4074074074074" y1="111" y2="111" class="strip-range"/><circle cx="269.3898866014503" cy="111" r="5.5"
-                   fill="var(--s1)"
-                   stroke="var(--card)" stroke-width="1.5"><title>recordly on Apple M1 (darwin): 2.626× the floor, 47.74s, 75.4 fps</title></circle><circle cx="689.4074074074074" cy="111" r="5.5"
-                   fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 10.654× the floor, 203.15s, 17.7 fps</title></circle><circle cx="678.525040151847" cy="111" r="5.5"
-                   fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 5 7520U with Radeon Graphics          (win32): 10.446× the floor, 197.62s, 18.2 fps</title></circle><circle cx="325.68520951963785" cy="111" r="5.5"
-                   fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 7 5800X 8-Core Processor              (win32): 3.702× the floor, 28.79s, 125.1 fps</title></circle><circle cx="309.8848493697377" cy="111" r="5.5"
-                   fill="var(--s2)"
-                   stroke="var(--card)" stroke-width="1.5"><title>recordly on AMD Ryzen 7 5800X 8-Core Processor              (win32): 3.4× the floor, 26.39s, 136.4 fps</title></circle>
-    </svg></div>
+    <div class="tw ruled">
+      <table id="runs">
+        <thead>
+          <tr>
+            <th>Tool</th><th>Machine</th><th>OS</th><th class="num">Cost</th>
+            <th class="num">Export s</th><th class="num">fps</th><th class="num">CPU·s</th>
+            <th class="num">Cores</th><th class="num">RSS MiB</th><th class="num">Bg load</th>
+            <th>Fidelity</th><th>Driven</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-machine="Apple M1" data-platform="darwin" data-tool="openscreen-cli">
+            <td class="nw"><strong>openscreen</strong> <span class="dim">1.10.0</span></td>
+            <td class="nw" title="Apple M1 · Apple M1">Apple M1</td>
+            <td class="dim">darwin</td>
+            <td class="num"><strong>2.023×</strong></td>
+            <td class="num nw">36.80 <span class="dim">±0.01</span></td>
+            <td class="num">97.8</td>
+            <td class="num">8.54</td>
+            <td class="num"><strong>0.23</strong></td>
+            <td class="num">719</td>
+            <td class="num dim">81%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="Apple M1" data-platform="darwin" data-tool="cap">
+            <td class="nw"><strong>cap</strong> <span class="dim">0.5.9</span></td>
+            <td class="nw" title="Apple M1 · Apple M1">Apple M1</td>
+            <td class="dim">darwin</td>
+            <td class="num"><strong>1.210×</strong></td>
+            <td class="num nw">22.01 <span class="dim">±0.03</span></td>
+            <td class="num">163.6</td>
+            <td class="num">24.39</td>
+            <td class="num"><strong>1.11</strong></td>
+            <td class="num">1485</td>
+            <td class="num dim">58%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="Apple M1" data-platform="darwin" data-tool="recordly">
+            <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
+            <td class="nw" title="Apple M1 · Apple M1">Apple M1</td>
+            <td class="dim">darwin</td>
+            <td class="num"><strong>2.626×</strong></td>
+            <td class="num nw">47.74 <span class="dim">±0.01</span></td>
+            <td class="num">75.4</td>
+            <td class="num">90.61</td>
+            <td class="num"><strong>1.90</strong></td>
+            <td class="num">1232</td>
+            <td class="num dim">93%</td>
+            <td>full</td>
+            <td class="dim">cdp</td>
+          </tr>
+          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="openscreen-cli">
+            <td class="nw"><strong>openscreen</strong> <span class="dim">1.10.0</span></td>
+            <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>1.582×</strong></td>
+            <td class="num nw">32.76 <span class="dim">±0.18</span></td>
+            <td class="num">109.9</td>
+            <td class="num">10.94</td>
+            <td class="num"><strong>0.33</strong></td>
+            <td class="num">1004</td>
+            <td class="num dim">77%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="openscreen-cli">
+            <td class="nw"><strong>openscreen</strong> <span class="dim">1.10.0</span></td>
+            <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>1.907×</strong></td>
+            <td class="num nw">39.03 <span class="dim">±0.78</span></td>
+            <td class="num">92.2</td>
+            <td class="num">10.50</td>
+            <td class="num"><strong>0.27</strong></td>
+            <td class="num">984</td>
+            <td class="num dim">50%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="cap">
+            <td class="nw"><strong>cap</strong> <span class="dim">0.5.9</span></td>
+            <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>7.694×</strong></td>
+            <td class="num nw">149.85 <span class="dim">±0.32</span></td>
+            <td class="num">24.0</td>
+            <td class="num">102.17</td>
+            <td class="num"><strong>0.68</strong></td>
+            <td class="num">2395</td>
+            <td class="num dim">85%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="cap">
+            <td class="nw"><strong>cap</strong> <span class="dim">0.5.9</span></td>
+            <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>8.293×</strong></td>
+            <td class="num nw">175.28 <span class="dim">±0.86</span></td>
+            <td class="num">20.5</td>
+            <td class="num">104.52</td>
+            <td class="num"><strong>0.60</strong></td>
+            <td class="num">2377</td>
+            <td class="num dim">76%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="recordly">
+            <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
+            <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>10.446×</strong></td>
+            <td class="num nw">197.62 <span class="dim">±5.50</span></td>
+            <td class="num">18.2</td>
+            <td class="num">534.85</td>
+            <td class="num"><strong>2.71</strong></td>
+            <td class="num">2678</td>
+            <td class="num dim">33%</td>
+            <td>full</td>
+            <td class="dim">cdp</td>
+          </tr>
+          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="recordly">
+            <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
+            <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>10.654×</strong></td>
+            <td class="num nw">203.15 <span class="dim">±2.10</span></td>
+            <td class="num">17.7</td>
+            <td class="num">560.14</td>
+            <td class="num"><strong>2.76</strong></td>
+            <td class="num">2662</td>
+            <td class="num dim">45%</td>
+            <td>full</td>
+            <td class="dim">cdp</td>
+          </tr>
+          <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="openscreen-cli">
+            <td class="nw"><strong>openscreen</strong> <span class="dim">1.10.0</span></td>
+            <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>1.204×</strong></td>
+            <td class="num nw">9.38</td>
+            <td class="num">383.6</td>
+            <td class="num">3.88</td>
+            <td class="num"><strong>0.41</strong></td>
+            <td class="num">774</td>
+            <td class="num dim">69%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="openscreen-cli">
+            <td class="nw"><strong>openscreen</strong> <span class="dim">1.10.0</span></td>
+            <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>1.292×</strong></td>
+            <td class="num nw">10.09 <span class="dim">±0.01</span></td>
+            <td class="num">356.7</td>
+            <td class="num">4.50</td>
+            <td class="num"><strong>0.45</strong></td>
+            <td class="num">804</td>
+            <td class="num dim">69%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="cap">
+            <td class="nw"><strong>cap</strong> <span class="dim">0.5.9</span></td>
+            <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>2.937×</strong></td>
+            <td class="num nw">22.97 <span class="dim">±0.49</span></td>
+            <td class="num">156.7</td>
+            <td class="num">41.84</td>
+            <td class="num"><strong>1.82</strong></td>
+            <td class="num">1379</td>
+            <td class="num dim">96%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="cap">
+            <td class="nw"><strong>cap</strong> <span class="dim">0.5.9</span></td>
+            <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>3.145×</strong></td>
+            <td class="num nw">24.48 <span class="dim">±0.01</span></td>
+            <td class="num">147.1</td>
+            <td class="num">44.20</td>
+            <td class="num"><strong>1.81</strong></td>
+            <td class="num">1387</td>
+            <td class="num dim">128%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="recordly">
+            <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
+            <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>3.400×</strong></td>
+            <td class="num nw">26.39 <span class="dim">±0.09</span></td>
+            <td class="num">136.4</td>
+            <td class="num">82.42</td>
+            <td class="num"><strong>3.12</strong></td>
+            <td class="num">1606</td>
+            <td class="num dim">86%</td>
+            <td>full</td>
+            <td class="dim">cdp</td>
+          </tr>
+          <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="recordly">
+            <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3.0</span></td>
+            <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>3.702×</strong></td>
+            <td class="num nw">28.79 <span class="dim">±0.01</span></td>
+            <td class="num">125.1</td>
+            <td class="num">147.68</td>
+            <td class="num"><strong>5.13</strong></td>
+            <td class="num">1524</td>
+            <td class="num dim">48%</td>
+            <td>full</td>
+            <td class="dim">cdp</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <h2>Every run</h2>
-  <p class="muted" style="font-size:.95rem;margin:0 0 .9rem">One row per measured leg, with the
-  machine that produced it. <strong>Cost</strong> is that leg's own export divided by the floor
-  measured beside it, so it is comparable across every row here. Seconds and frames per second
-  are not — they describe one machine, and are shown because a reader comparing hardware wants
-  them.</p>
+    <div class="tri tight">
+      <p><strong>Export</strong> carries ± the median absolute deviation of that machine's own
+      scoring runs, so a re-run landing elsewhere can be read against the spread rather than
+      against a single number.</p>
+      <p><strong>Cores</strong> is CPU-seconds ÷ export time: how many cores the export kept busy.
+      It separates compositing on the GPU from compositing on the CPU. No GPU time is measured on
+      either side, so a low figure means quieter fans and longer battery — not less work.</p>
+      <p><strong>Bg load</strong> is everything running that was <em>not</em> the tool under test,
+      with the tool's own processes subtracted. Where two rows on one machine differ sharply,
+      don't read their raw seconds against each other; Cost absorbs most of it.</p>
+    </div>
+  </section>
 
-  <div class="filters">
-    <label>Machine
-      <select id="f-machine"><option value="">all</option><option value="AMD Ryzen 5 7520U with Radeon Graphics         ">AMD Ryzen 5 7520U with Radeon Graphics         </option><option value="AMD Ryzen 7 5800X 8-Core Processor             ">AMD Ryzen 7 5800X 8-Core Processor             </option><option value="Apple M1">Apple M1</option></select>
-    </label>
-    <label>Platform
-      <select id="f-platform"><option value="">all</option><option value="darwin">darwin</option><option value="win32">win32</option></select>
-    </label>
-    <label>Tool
-      <select id="f-tool"><option value="">all</option><option value="cap">cap</option><option value="openscreen-cli">openscreen</option><option value="recordly">recordly</option></select>
-    </label>
-    <span class="muted" id="f-count"></span>
-  </div>
+  <section class="duo">
+    <div>
+      <h2>04 — Per tool</h2>
+      <p class="prose">Cost, coverage and the range each tool has been seen inside.</p>
+      <div class="tw narrow">
+        <table>
+          <thead>
+            <tr>
+              <th>Tool</th><th class="num">Cost</th><th class="num">Runs</th><th>Platforms</th>
+              <th class="num">Range</th><th class="num">Versions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>openscreen-cli</strong></td>
+              <td class="num">1.582×</td>
+              <td class="num">5</td>
+              <td class="dim">macOS, Windows</td>
+              <td class="num nw">1.204–2.023×</td>
+              <td class="num dim">1.10.0</td>
+            </tr>
+            <tr>
+              <td><strong>cap</strong></td>
+              <td class="num">3.117×</td>
+              <td class="num">5</td>
+              <td class="dim">macOS, Windows</td>
+              <td class="num nw">1.21–8.293×</td>
+              <td class="num dim">0.5.9</td>
+            </tr>
+            <tr>
+              <td><strong>recordly</strong></td>
+              <td class="num">4.382×</td>
+              <td class="num">5</td>
+              <td class="dim">macOS, Windows</td>
+              <td class="num nw">2.626–10.654×</td>
+              <td class="num dim">1.3.3</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <h2>05 — Roster</h2>
+      <p class="prose">Who belongs here is decided by what a tool claims to do, not by whether an
+      adapter exists. An empty cell is a finding.</p>
+      <div class="tw narrow">
+        <table>
+          <thead>
+            <tr>
+              <th>Tool</th><th class="mid">macOS</th><th class="mid">Windows</th>
+              <th class="mid">Linux</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>OpenScreen</strong></td>
+              <td class="mid"><span class="mark" title="roster member"></span></td>
+              <td class="mid"><span class="mark" title="roster member"></span></td>
+              <td class="mid"><span class="mark" title="roster member"></span></td>
+            </tr>
+            <tr>
+              <td><strong>Screen Studio</strong></td>
+              <td class="mid"><span class="mark" title="roster member"></span></td>
+              <td class="mid"><span class="dim" title="the product does not exist on this platform">n/a</span></td>
+              <td class="mid"><span class="dim" title="the product does not exist on this platform">n/a</span></td>
+            </tr>
+            <tr>
+              <td><strong>Cap</strong></td>
+              <td class="mid"><span class="mark" title="roster member"></span></td>
+              <td class="mid"><span class="mark" title="roster member"></span></td>
+              <td class="mid"><span class="dim" title="the product does not exist on this platform">n/a</span></td>
+            </tr>
+            <tr>
+              <td><strong>Recordly</strong></td>
+              <td class="mid"><span class="mark" title="roster member"></span></td>
+              <td class="mid"><span class="mark" title="roster member"></span></td>
+              <td class="mid"><span class="deg" title="member, degraded on this platform">degraded</span></td>
+            </tr>
+            <tr>
+              <td><strong>FocuSee</strong></td>
+              <td class="mid"><span class="mark" title="roster member"></span></td>
+              <td class="mid"><span class="mark" title="roster member"></span></td>
+              <td class="mid"><span class="dim" title="the product does not exist on this platform">n/a</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="cites"><li><strong>Recordly</strong> on Linux — per the vendor&#39;s own documentation: the rendered cursor is lost, so S3 is n/a here</li></ul>
+    </div>
+  </section>
 
-  <div style="overflow-x:auto">
-  <table id="runs">
-    <thead><tr>
-      <th>Tool</th><th>Machine</th><th>OS</th><th class="num">Cost</th><th class="num">Export</th>
-      <th class="num">fps</th><th class="num">CPU·s</th><th class="num">cores</th><th class="num">RSS MiB</th>
-      <th class="num">Bg load</th><th>Fidelity</th><th>Driven</th>
-    </tr></thead>
-    <tbody><tr data-machine="Apple M1" data-platform="darwin" data-tool="openscreen-cli">
-      <td><strong>openscreen</strong> <span class="muted">1.10.0</span></td>
-      <td>Apple M1</td>
-      <td class="muted">darwin</td>
-      <td class="num"><strong>2.023×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">36.8 s <span class="muted">±0.01</span></td>
-      <td class="num">97.8</td>
-      <td class="num">8.54</td>
-      <td class="num"><strong>0.23</strong></td>
-      <td class="num">719</td>
-      <td class="num">81%</td>
-      <td>full</td>
-      <td class="muted">cli</td>
-    </tr>
-<tr data-machine="Apple M1" data-platform="darwin" data-tool="cap">
-      <td><strong>cap</strong> <span class="muted">0.5.9</span></td>
-      <td>Apple M1</td>
-      <td class="muted">darwin</td>
-      <td class="num"><strong>1.21×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">22.01 s <span class="muted">±0.03</span></td>
-      <td class="num">163.6</td>
-      <td class="num">24.39</td>
-      <td class="num"><strong>1.11</strong></td>
-      <td class="num">1485</td>
-      <td class="num">58%</td>
-      <td>full</td>
-      <td class="muted">cli</td>
-    </tr>
-<tr data-machine="Apple M1" data-platform="darwin" data-tool="recordly">
-      <td><strong>recordly</strong> <span class="muted">1.3.3</span></td>
-      <td>Apple M1</td>
-      <td class="muted">darwin</td>
-      <td class="num"><strong>2.626×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">47.74 s <span class="muted">±0.01</span></td>
-      <td class="num">75.4</td>
-      <td class="num">90.61</td>
-      <td class="num"><strong>1.9</strong></td>
-      <td class="num">1232</td>
-      <td class="num">93%</td>
-      <td>full</td>
-      <td class="muted">cdp</td>
-    </tr>
-<tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="cap">
-      <td><strong>cap</strong> <span class="muted">0.5.9</span></td>
-      <td>AMD Ryzen 5 7520U with Radeon Graphics         </td>
-      <td class="muted">win32</td>
-      <td class="num"><strong>8.293×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">175.28 s <span class="muted">±0.86</span></td>
-      <td class="num">20.5</td>
-      <td class="num">104.52</td>
-      <td class="num"><strong>0.6</strong></td>
-      <td class="num">2377</td>
-      <td class="num">76%</td>
-      <td>full</td>
-      <td class="muted">cli</td>
-    </tr>
-<tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="openscreen-cli">
-      <td><strong>openscreen</strong> <span class="muted">1.10.0</span></td>
-      <td>AMD Ryzen 5 7520U with Radeon Graphics         </td>
-      <td class="muted">win32</td>
-      <td class="num"><strong>1.582×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">32.76 s <span class="muted">±0.18</span></td>
-      <td class="num">109.9</td>
-      <td class="num">10.94</td>
-      <td class="num"><strong>0.33</strong></td>
-      <td class="num">1004</td>
-      <td class="num">77%</td>
-      <td>full</td>
-      <td class="muted">cli</td>
-    </tr>
-<tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="recordly">
-      <td><strong>recordly</strong> <span class="muted">1.3.3</span></td>
-      <td>AMD Ryzen 5 7520U with Radeon Graphics         </td>
-      <td class="muted">win32</td>
-      <td class="num"><strong>10.654×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">203.15 s <span class="muted">±2.1</span></td>
-      <td class="num">17.7</td>
-      <td class="num">560.14</td>
-      <td class="num"><strong>2.76</strong></td>
-      <td class="num">2662</td>
-      <td class="num">45%</td>
-      <td>full</td>
-      <td class="muted">cdp</td>
-    </tr>
-<tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="cap">
-      <td><strong>cap</strong> <span class="muted">0.5.9</span></td>
-      <td>AMD Ryzen 5 7520U with Radeon Graphics         </td>
-      <td class="muted">win32</td>
-      <td class="num"><strong>7.694×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">149.85 s <span class="muted">±0.32</span></td>
-      <td class="num">24</td>
-      <td class="num">102.17</td>
-      <td class="num"><strong>0.68</strong></td>
-      <td class="num">2395</td>
-      <td class="num">85%</td>
-      <td>full</td>
-      <td class="muted">cli</td>
-    </tr>
-<tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="openscreen-cli">
-      <td><strong>openscreen</strong> <span class="muted">1.10.0</span></td>
-      <td>AMD Ryzen 5 7520U with Radeon Graphics         </td>
-      <td class="muted">win32</td>
-      <td class="num"><strong>1.907×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">39.03 s <span class="muted">±0.78</span></td>
-      <td class="num">92.2</td>
-      <td class="num">10.5</td>
-      <td class="num"><strong>0.27</strong></td>
-      <td class="num">984</td>
-      <td class="num">50%</td>
-      <td>full</td>
-      <td class="muted">cli</td>
-    </tr>
-<tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="recordly">
-      <td><strong>recordly</strong> <span class="muted">1.3.3</span></td>
-      <td>AMD Ryzen 5 7520U with Radeon Graphics         </td>
-      <td class="muted">win32</td>
-      <td class="num"><strong>10.446×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">197.62 s <span class="muted">±5.5</span></td>
-      <td class="num">18.2</td>
-      <td class="num">534.85</td>
-      <td class="num"><strong>2.71</strong></td>
-      <td class="num">2678</td>
-      <td class="num">33%</td>
-      <td>full</td>
-      <td class="muted">cdp</td>
-    </tr>
-<tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="openscreen-cli">
-      <td><strong>openscreen</strong> <span class="muted">1.10.0</span></td>
-      <td>AMD Ryzen 7 5800X 8-Core Processor             </td>
-      <td class="muted">win32</td>
-      <td class="num"><strong>1.292×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">10.09 s <span class="muted">±0.01</span></td>
-      <td class="num">356.7</td>
-      <td class="num">4.5</td>
-      <td class="num"><strong>0.45</strong></td>
-      <td class="num">804</td>
-      <td class="num">69%</td>
-      <td>full</td>
-      <td class="muted">cli</td>
-    </tr>
-<tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="cap">
-      <td><strong>cap</strong> <span class="muted">0.5.9</span></td>
-      <td>AMD Ryzen 7 5800X 8-Core Processor             </td>
-      <td class="muted">win32</td>
-      <td class="num"><strong>2.937×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">22.97 s <span class="muted">±0.49</span></td>
-      <td class="num">156.7</td>
-      <td class="num">41.84</td>
-      <td class="num"><strong>1.82</strong></td>
-      <td class="num">1379</td>
-      <td class="num">96%</td>
-      <td>full</td>
-      <td class="muted">cli</td>
-    </tr>
-<tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="recordly">
-      <td><strong>recordly</strong> <span class="muted">1.3.3.0</span></td>
-      <td>AMD Ryzen 7 5800X 8-Core Processor             </td>
-      <td class="muted">win32</td>
-      <td class="num"><strong>3.702×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">28.79 s <span class="muted">±0.01</span></td>
-      <td class="num">125.1</td>
-      <td class="num">147.68</td>
-      <td class="num"><strong>5.13</strong></td>
-      <td class="num">1524</td>
-      <td class="num">48%</td>
-      <td>full</td>
-      <td class="muted">cdp</td>
-    </tr>
-<tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="openscreen-cli">
-      <td><strong>openscreen</strong> <span class="muted">1.10.0</span></td>
-      <td>AMD Ryzen 7 5800X 8-Core Processor             </td>
-      <td class="muted">win32</td>
-      <td class="num"><strong>1.204×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">9.38 s</td>
-      <td class="num">383.6</td>
-      <td class="num">3.88</td>
-      <td class="num"><strong>0.41</strong></td>
-      <td class="num">774</td>
-      <td class="num">69%</td>
-      <td>full</td>
-      <td class="muted">cli</td>
-    </tr>
-<tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="cap">
-      <td><strong>cap</strong> <span class="muted">0.5.9</span></td>
-      <td>AMD Ryzen 7 5800X 8-Core Processor             </td>
-      <td class="muted">win32</td>
-      <td class="num"><strong>3.145×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">24.48 s <span class="muted">±0.01</span></td>
-      <td class="num">147.1</td>
-      <td class="num">44.2</td>
-      <td class="num"><strong>1.81</strong></td>
-      <td class="num">1387</td>
-      <td class="num">128%</td>
-      <td>full</td>
-      <td class="muted">cli</td>
-    </tr>
-<tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="recordly">
-      <td><strong>recordly</strong> <span class="muted">1.3.3</span></td>
-      <td>AMD Ryzen 7 5800X 8-Core Processor             </td>
-      <td class="muted">win32</td>
-      <td class="num"><strong>3.4×</strong> <span class="muted">ffmpeg</span></td>
-      <td class="num">26.39 s <span class="muted">±0.09</span></td>
-      <td class="num">136.4</td>
-      <td class="num">82.42</td>
-      <td class="num"><strong>3.12</strong></td>
-      <td class="num">1606</td>
-      <td class="num">86%</td>
-      <td>full</td>
-      <td class="muted">cdp</td>
-    </tr></tbody>
-  </table>
-  </div>
+  <section>
+    <h2>06 — Method</h2>
+    <div class="cards">
+      <div>
+        <h3>One stopwatch</h3>
+        <p>One clock, from the instant the export is committed to the moment the last byte lands.
+        Every tool is timed on the same machine as its own ffmpeg floor, minutes apart.</p>
+      </div>
+      <div>
+        <h3>Verified output</h3>
+        <p>Every export is re-probed: resolution, frame rate and duration against target;
+        wallpaper, padding, corners, zooms, cursor and camera in the pixels; audio by loudness,
+        because a silent track passes any check that only asks whether audio exists.</p>
+      </div>
+      <div>
+        <h3>No denominator</h3>
+        <p>Runs are combined as a graph of ratios rather than averaged, so no tool is the
+        reference. A tool reports what it configured; the verifier decides what happened.</p>
+      </div>
+    </div>
+    <p class="mono-note"><a href="https://github.com/EtienneLescot/screen-recorder-benchmark/blob/main/PROTOCOL.md">Read the protocol in full →</a></p>
+  </section>
 
-  <p class="muted" style="max-width:70ch">
-    <strong>Export</strong> carries <code>±</code> the median absolute deviation of that machine's
-    own scoring runs, so a re-run landing elsewhere can be read against the spread rather than
-    against a single number.
-    <strong>cores</strong> is CPU-seconds ÷ export time: how many cores the export kept busy on
-    average. It is the column that separates compositing on the GPU from compositing on the CPU,
-    and it moves by an order of magnitude where the time ratio moves by a factor of three. Note
-    what it does not include — no GPU time is measured here, on either side — so a low figure
-    means less CPU work, which is quieter fans and longer battery, not less work.
-    <strong>Bg load</strong> is everything on the machine that was <em>not</em> the tool under
-    test, sampled during that tool's own leg with its own processes subtracted. Where two rows on
-    the same machine carry very different figures they were not measured under the same
-    conditions, and their raw seconds should not be read against each other; the per-leg floor in
-    <strong>Cost</strong> absorbs most of that, which is why Cost is the headline and seconds are
-    not.
-  </p>
-
-  <script>
-  (() => {
-    const rows = [...document.querySelectorAll("#runs tbody tr")];
-    const sel = (id) => document.getElementById(id);
-    const apply = () => {
-      const m = sel("f-machine").value, p = sel("f-platform").value, t = sel("f-tool").value;
-      let shown = 0;
-      for (const r of rows) {
-        const ok = (!m || r.dataset.machine === m) && (!p || r.dataset.platform === p) &&
-                   (!t || r.dataset.tool === t);
-        r.hidden = !ok;
-        if (ok) shown++;
-      }
-      sel("f-count").textContent = shown + " of " + rows.length + " runs";
-    };
-    for (const id of ["f-machine", "f-platform", "f-tool"]) sel(id).addEventListener("change", apply);
-    apply();
-  })();
-  </script>
-
-  <h2>Detail</h2>
-  <div class="scroll"><table>
-    <thead><tr><th>Tool</th><th>Cost</th><th>Submissions</th><th>Platforms</th><th>Observed range</th><th>Versions</th></tr></thead>
-    <tbody><tr>
-      <td><strong>openscreen-cli</strong></td>
-      <td class="num">1.582×</td>
-      <td class="num">5</td>
-      <td>darwin, win32</td>
-      <td class="num">1.204–2.023×</td>
-      <td class="muted">1.10.0</td>
-    </tr>
-<tr>
-      <td><strong>cap</strong></td>
-      <td class="num">3.117×</td>
-      <td class="num">5</td>
-      <td>darwin, win32</td>
-      <td class="num">1.21–8.293×</td>
-      <td class="muted">0.5.9</td>
-    </tr>
-<tr>
-      <td><strong>recordly</strong></td>
-      <td class="num">4.382×</td>
-      <td class="num">5</td>
-      <td>darwin, win32</td>
-      <td class="num">2.626–10.654×</td>
-      <td class="muted">1.3.3</td>
-    </tr></tbody>
-  </table></div>
-
-  <h2>Roster</h2>
-  <p class="muted" style="font-size:.95rem;margin:0 0 1.2rem">Membership is decided by
-  positioning, not by whether an adapter exists. An empty cell is a finding.</p>
-  <div class="scroll"><table>
-    <thead><tr><th>Tool</th><th>macOS</th><th>Windows</th><th>Linux</th></tr></thead>
-    <tbody><tr>
-      <td><strong>OpenScreen</strong></td>
-      <td><span title="roster member">✓</span></td><td><span title="roster member">✓</span></td><td><span title="roster member">✓</span></td>
-    </tr>
-<tr>
-      <td><strong>Screen Studio</strong></td>
-      <td><span title="roster member">✓</span></td><td><span class="muted" title="the product does not exist on this platform">n/a</span></td><td><span class="muted" title="the product does not exist on this platform">n/a</span></td>
-    </tr>
-<tr>
-      <td><strong>Cap</strong></td>
-      <td><span title="roster member">✓</span></td><td><span title="roster member">✓</span></td><td><span class="muted" title="the product does not exist on this platform">n/a</span></td>
-    </tr>
-<tr>
-      <td><strong>Recordly</strong></td>
-      <td><span title="roster member">✓</span></td><td><span title="roster member">✓</span></td><td><span title="member, degraded on this platform">degraded</span></td>
-    </tr>
-<tr>
-      <td><strong>FocuSee</strong></td>
-      <td><span title="roster member">✓</span></td><td><span title="roster member">✓</span></td><td><span class="muted" title="the product does not exist on this platform">n/a</span></td>
-    </tr></tbody>
-  </table>
-  <ul class="cites"><li><strong>Recordly</strong> on linux — per the vendor&#39;s own documentation: the rendered cursor is lost, so S3 is n/a here</li></ul></div>
-
-  <h2>Method</h2>
-  <div class="note">Each tool is timed by one shared stopwatch, from the instant its export is
-  committed to the moment the last byte lands. Every output is then re-probed and inspected —
-  resolution, frame rate and duration against the target; wallpaper, padding, corners, zooms,
-  cursor and camera in the pixels; audio by loudness, because a silent track passes any check
-  that only asks whether audio exists. A tool reports what it configured; the verifier decides
-  what happened.
-  <br><br>Submissions are combined as a graph of ratios rather than an average, so no tool is
-  the denominator and the ranking recomposes as submissions overlap.
-  <a href="https://github.com/EtienneLescot/screen-recorder-benchmark/blob/main/PROTOCOL.md">The protocol in full.</a></div>
+  <section class="cta">
+    <div class="cta-grid">
+      <div>
+        <h2>07 — Submit a run</h2>
+        <p class="cta-lead">Every new machine narrows the guess. Yours takes about twenty
+        minutes.</p>
+        <div class="cmd">node bench.mjs run --bundle commons-upload</div>
+      </div>
+      <ol class="steps">
+        <li><b>01</b><span>Clone the repo and install the adapters for the tools you own.</span></li>
+        <li><b>02</b><span>Run the bench on an idle machine. It measures its own ffmpeg floor
+        beside every leg.</span></li>
+        <li><b>03</b><span>Open a pull request with the produced JSON in <code>submissions/</code>.
+        Validation runs on the PR.</span></li>
+      </ol>
+    </div>
+  </section>
 
   <footer>
-    <a href="https://github.com/EtienneLescot/screen-recorder-benchmark">Source</a> ·
-    <a href="https://github.com/EtienneLescot/screen-recorder-benchmark/blob/main/PROTOCOL.md">Protocol</a> ·
-    <a href="https://github.com/EtienneLescot/screen-recorder-benchmark/blob/main/CANDIDATES.md">Roster &amp; adapter contract</a> ·
+    <a href="https://github.com/EtienneLescot/screen-recorder-benchmark">Source</a>
+    <a href="https://github.com/EtienneLescot/screen-recorder-benchmark/blob/main/PROTOCOL.md">Protocol</a>
+    <a href="https://github.com/EtienneLescot/screen-recorder-benchmark/blob/main/CANDIDATES.md">Roster &amp; adapter contract</a>
     <a href="https://github.com/EtienneLescot/screen-recorder-benchmark/blob/main/CREDITS.md">Footage credits</a>
-    <br>Run it yourself: <code>node bench.mjs run --bundle commons-upload</code>
+    <span class="end">MIT · data CC-BY · 2026-08-28</span>
   </footer>
-</main>
+</div>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  try {
+    const saved = localStorage.getItem("srb-theme");
+    if (saved) root.setAttribute("data-theme", saved);
+  } catch (e) {}
+  const themeBtn = document.getElementById("theme-btn");
+  if (themeBtn) themeBtn.addEventListener("click", () => {
+    const cur = root.getAttribute("data-theme");
+    const dark = cur ? cur === "dark"
+      : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = dark ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("srb-theme", next); } catch (e) {}
+  });
+
+  // Every scope is already in the page, solved at build time. Switching is a visibility flip,
+  // so the ranking a reader lands on never depends on arithmetic done in the browser.
+  const panels = [...document.querySelectorAll("[data-scope]")];
+  const scopeBtns = [...document.querySelectorAll(".scope-btn")];
+  for (const btn of scopeBtns) btn.addEventListener("click", () => {
+    for (const p of panels) p.hidden = p.dataset.scope !== btn.dataset.for;
+    for (const o of scopeBtns) o.setAttribute("aria-pressed", String(o === btn));
+  });
+
+  const rows = [...document.querySelectorAll("#runs tbody tr")];
+  const count = document.getElementById("f-count");
+  const ids = ["f-machine", "f-platform", "f-tool"];
+  const apply = () => {
+    const [m, p, t] = ids.map((id) => document.getElementById(id).value);
+    let shown = 0;
+    for (const r of rows) {
+      const ok = (!m || r.dataset.machine === m) && (!p || r.dataset.platform === p) &&
+                 (!t || r.dataset.tool === t);
+      r.hidden = !ok;
+      if (ok) shown++;
+    }
+    count.textContent = shown === rows.length
+      ? shown + (shown === 1 ? " run" : " runs")
+      : shown + " of " + rows.length + " runs";
+  };
+  if (rows.length && ids.every((id) => document.getElementById(id))) {
+    for (const id of ids) document.getElementById(id).addEventListener("change", apply);
+    apply();
+  }
+})();
+</script>
+</html>
