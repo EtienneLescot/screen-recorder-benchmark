@@ -7,10 +7,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<!-- Before the stylesheet, so a reader who chose light on a dark system does not watch the page
+     paint the wrong theme and correct itself on every load. -->
+<script>try{const t=localStorage.getItem("srb-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <style>
+  /* --ink-3 carries table headers, axis labels and the Bg-load column, all of it normal-size
+     text. The values the design system named — #8b8880 and #6e6c67 — measure 3.36:1 and 3.63:1
+     against their own ground, under the 4.5:1 WCAG AA threshold. These clear it on both paper
+     and surface while staying a clear third tier below --ink-2. */
   :root{
     --paper:#faf9f6; --surface:#ffffff; --sunk:#f3f1ec;
-    --ink:#17171a; --ink-2:#5c5a55; --ink-3:#8b8880;
+    --ink:#17171a; --ink-2:#5c5a55; --ink-3:#757269;
     --line:#e3e0d8; --line-2:#cdc9bf;
     --accent:#33547f; --accent-soft:#e7ecf3;
     --warm:#8a6a3b; --warm-soft:#f2ece1;
@@ -19,7 +26,7 @@
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
       --paper:#101011; --surface:#191a1c; --sunk:#1e1f21;
-      --ink:#ecebe6; --ink-2:#9a9791; --ink-3:#6e6c67;
+      --ink:#ecebe6; --ink-2:#9a9791; --ink-3:#858279;
       --line:#2a2b2d; --line-2:#3c3d40;
       --accent:#8fabd6; --accent-soft:#1c2431;
       --warm:#c9a273; --warm-soft:#2a2318;
@@ -27,7 +34,7 @@
   }
   :root[data-theme="dark"]{
     --paper:#101011; --surface:#191a1c; --sunk:#1e1f21;
-    --ink:#ecebe6; --ink-2:#9a9791; --ink-3:#6e6c67;
+    --ink:#ecebe6; --ink-2:#9a9791; --ink-3:#858279;
     --line:#2a2b2d; --line-2:#3c3d40;
     --accent:#8fabd6; --accent-soft:#1c2431;
     --warm:#c9a273; --warm-soft:#2a2318;
@@ -731,7 +738,7 @@
             <td class="dim">cdp</td>
           </tr>
           <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="recordly">
-            <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3.0</span></td>
+            <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
             <td class="num"><strong>3.702×</strong></td>
@@ -905,10 +912,6 @@
 <script>
 (() => {
   const root = document.documentElement;
-  try {
-    const saved = localStorage.getItem("srb-theme");
-    if (saved) root.setAttribute("data-theme", saved);
-  } catch (e) {}
   const themeBtn = document.getElementById("theme-btn");
   if (themeBtn) themeBtn.addEventListener("click", () => {
     const cur = root.getAttribute("data-theme");
