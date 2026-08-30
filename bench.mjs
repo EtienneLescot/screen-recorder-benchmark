@@ -469,6 +469,22 @@ async function cmdRun({ flags }) {
 	state.event("run-started", header);
 	state.writeStatus({ ...header, phase: "starting", completed: [], pending: apps });
 
+	// Say it before the measuring, not after.
+	//
+	// `submit` already refuses anything that is not a public bundle, but it can only say so once
+	// the run exists — an hour of exports on a machine that has been quietened for the purpose,
+	// rejected at the last step for a flag that had to be chosen at the first. The default is the
+	// generated fixture because that is right for development and CI; it is never right for a
+	// submission, and the run is the only place that fact is actionable.
+	if (header.fixture.kind !== "public-bundle") {
+		log(
+			`⚠ this run uses ${header.fixture.kind === "generated" ? "the generated fixture" : "a local recording"}, ` +
+				"which `submit` will reject: two machines cannot prove they measured the same footage.\n" +
+				"  For a submission, re-run with --bundle commons-upload. This run is still fine for " +
+				"development, for comparing this machine against itself, and for CI.\n",
+		);
+	}
+
 	log(
 		`run ${runId} · scenario "${scenario.id}" · ${repetitions}×${discardFirst ? " (+1 warm-up)" : ""}`,
 	);
@@ -491,8 +507,8 @@ async function cmdRun({ flags }) {
 	// a bias attached to leg order, and it moved driftRatio to 1.202, which quarters the
 	// submission's weight.
 	//
-	// So: run the floor workload, discarding every result, until two consecutive samples agree.
-	// Costs about a minute against a run of many.
+	// So: run the floor workload continuously, discarding every result, until it stops changing.
+	// Costs a few minutes against a run of tens.
 	if (interleaveFloor) {
 		try {
 			const warmDriver = await loadDriver("ffmpeg-baseline");
@@ -505,43 +521,83 @@ async function cmdRun({ flags }) {
 				log: () => undefined,
 				state: {},
 			};
-			// Convergence alone is not enough, and the first version of this got it wrong: two
-			// back-to-back exports agree while the clock is still boosted, so it "settled" at 7.73 s
-			// — the boosted figure — and warmed nothing. Steady state needs sustained load for a
-			// while *and* a flat trend, so both are required: at least MIN_WARM_MS of continuous
-			// encoding, and three consecutive samples within tolerance.
-			const MIN_WARM_MS = 60_000;
-			const TOLERANCE = 0.03;
-			const MAX_PASSES = 15;
+			// Convergence alone is not enough, and two earlier versions of this got it wrong in
+			// two different ways.
+			//
+			// The first asked only that consecutive exports agree, which they do while the clock
+			// is still boosted: it "settled" at 7.73 s — the boosted figure — and warmed nothing.
+			// The second added a minimum duration and a third sample, and still settled on the
+			// boost peak, because *a small spread is satisfiable on the way down*. Measured on a
+			// Ryzen 5 7520U: the warm-up reported "23.06s cold -> 19.14s steady", the first two
+			// legs were then divided by ~19.1 s, and the third leg and the closing control both
+			// read ~23.5 s. Cap and OpenScreen came out 17 % more expensive than the same run
+			// made from a machine that was already warm; Recordly, whose leg fell past the boost
+			// window either way, was identical to within 0.6 %. A faster floor inflates every
+			// cost divided by it, so this is not noise — it is a bias attached to leg order, and
+			// it is the exact failure the whole block exists to prevent.
+			//
+			// So three things, each fixing one of those.
+			//
+			// The load is now continuous. Every pass used to be a full runApp, which verifies the
+			// output and inspects its pixels — minutes of CPU work between encodes, during which
+			// the encoder block is idle and cooling. A warm-up that lets the thing it is warming
+			// go idle between samples is not a warm-up; the export is driven directly instead,
+			// and nothing about the discarded result needs verifying.
+			//
+			// Settling requires a flat *trend*, not just a narrow window. Two halves of the
+			// window are compared, so a run of samples that agree closely while still descending
+			// is rejected — that is precisely the boost peak.
+			//
+			// And it is bounded by wall clock rather than a pass count, because what matters is
+			// how long the silicon has been under load, not how many times around the loop.
+			const MIN_WARM_MS = 180_000;
+			const MAX_WARM_MS = 600_000;
+			const WINDOW = 5;
+			const SPREAD_TOLERANCE = 0.03;
+			const TREND_TOLERANCE = 0.012;
+			warmCtx.run = { index: 899 };
+			warmCtx.floorEncoder = "hardware";
+			warmCtx.commit = () => undefined;
+			await warmDriver.prepare(warmCtx);
+
 			const samples = [];
 			const warmStart = Date.now();
 			let settled = false;
-			for (let pass = 0; pass < MAX_PASSES; pass++) {
-				const rec = await runApp(warmDriver, warmCtx, {
-					repetitions: 1,
-					discardFirst: false,
-					cooldownSec: 0,
-					log: () => undefined,
-				});
-				const ms = rec.runs?.[0]?.exportMs ?? null;
-				if (!ms) break;
-				samples.push(ms);
-				const elapsed = Date.now() - warmStart;
-				if (elapsed < MIN_WARM_MS || samples.length < 3) continue;
-				const last3 = samples.slice(-3);
-				if (Math.max(...last3) / Math.min(...last3) - 1 < TOLERANCE) {
-					settled = true;
-					break;
+			let trend = null;
+			while (Date.now() - warmStart < MAX_WARM_MS) {
+				const t0 = Date.now();
+				await warmDriver.runExport(warmCtx);
+				samples.push(Date.now() - t0);
+				if (Date.now() - warmStart < MIN_WARM_MS || samples.length < WINDOW) continue;
+				const w = samples.slice(-WINDOW);
+				const half = Math.floor(WINDOW / 2);
+				const mean = (xs) => xs.reduce((a, b) => a + b, 0) / xs.length;
+				trend = mean(w.slice(-half)) / mean(w.slice(0, half)) - 1;
+				if (Math.max(...w) / Math.min(...w) - 1 < SPREAD_TOLERANCE) {
+					if (Math.abs(trend) < TREND_TOLERANCE) {
+						settled = true;
+						break;
+					}
 				}
 			}
 			const last = samples.at(-1);
 			const first = samples[0];
+			const mins = ((Date.now() - warmStart) / 60_000).toFixed(1);
 			log(
 				settled
-					? `GPU warmed over ${samples.length} passes: ${(first / 1000).toFixed(2)}s cold -> ${(last / 1000).toFixed(2)}s steady\n`
-					: `GPU warm-up did not settle after ${samples.length} passes (${(first / 1000).toFixed(2)}s -> ${(last / 1000).toFixed(2)}s) — read driftRatio closely\n`,
+					? `GPU warmed over ${mins} min of continuous encoding (${samples.length} passes): ` +
+							`${(first / 1000).toFixed(2)}s cold -> ${(last / 1000).toFixed(2)}s steady ` +
+							`(trend ${(trend * 100).toFixed(1)}% across the last ${WINDOW})\n`
+					: `GPU warm-up did not settle in ${mins} min (${(first / 1000).toFixed(2)}s -> ${(last / 1000).toFixed(2)}s` +
+							`${trend == null ? "" : `, still trending ${(trend * 100).toFixed(1)}%`}) — read driftRatio closely\n`,
 			);
-			state.event("gpu-warmup", { samples, settledMs: last, settled });
+			state.event("gpu-warmup", {
+				samples,
+				settledMs: last,
+				settled,
+				trend,
+				elapsedMs: Date.now() - warmStart,
+			});
 		} catch (e) {
 			log(`GPU warm-up failed: ${e.message?.slice(0, 120)}\n`);
 		}
@@ -604,9 +660,6 @@ async function cmdRun({ flags }) {
 		if (interleaveFloor && id !== "ffmpeg-baseline") {
 			try {
 				floorDriver = await loadDriver("ffmpeg-baseline");
-				// Discarded: the first encode after an idle gap is the cold one, and pairing it with
-				// the tool's warm-up would divide two different kinds of cold by each other.
-				await runOnce(floorDriver, floorCtx("hardware", 900));
 
 				// The CPU-side companion, once per leg. The hardware floor runs on the fixed-function
 				// encoder block, which barely throttles and is largely indifferent to CPU contention:
@@ -615,6 +668,13 @@ async function cmdRun({ flags }) {
 				// how much of a slowdown a shader-bound compositor actually saw. libx264 on the same
 				// clip is bound by the cores instead, and the two together bracket the tools rather
 				// than pretending one number describes both.
+				//
+				// It runs *before* the discarded hardware floor, not after, and the order is the
+				// whole point. This is thirty-seven seconds of libx264 during which the encoder
+				// block does nothing at all, so it is itself an idle gap — and it used to sit
+				// between the discard and the measurements the discard exists to protect. The
+				// discard absorbed a gap that had already passed and the first paired floor took
+				// the boost instead.
 				try {
 					const swRec = await runOnce(floorDriver, floorCtx("software", 901));
 					if (swRec.ok && swRec.exportMs != null) {
@@ -627,6 +687,19 @@ async function cmdRun({ flags }) {
 				} catch (e) {
 					log(`  software floor failed for ${id}: ${e.message?.slice(0, 120)}`);
 				}
+
+				// Discarded: the first encode after an idle gap is the cold one, and pairing it with
+				// the tool's warm-up would divide two different kinds of cold by each other.
+				//
+				// Measured, which is why it moved: on a Ryzen 5 7520U the encoder answers 19.06s
+				// after an idle window and 23.2s under sustained load, and with the discard placed
+				// ahead of the software floor the first leg's paired floors came out
+				// 19.07/19.06/23.26 — a 22% spread inside one leg, against 3-5% for the legs that
+				// began already loaded. The closing control showed the same shape from the same
+				// cause: 19.06/23.46/23.16. Nothing about the exports moved with it (0.21% across
+				// that leg), so it is the denominator alone, and a faster denominator inflates
+				// every cost divided by it.
+				await runOnce(floorDriver, floorCtx("hardware", 900));
 			} catch (e) {
 				log(`  local floor failed for ${id}: ${e.message?.slice(0, 120)}`);
 				floorDriver = null;
@@ -872,8 +945,21 @@ async function cmdSubmit({ flags }) {
 				.filter((d) => fs.existsSync(join(RESULTS_DIR, d, "results.json")))
 				.sort()
 		: [];
+	// `--run` with nothing after it parses as the boolean true, which then reached join() and
+	// came back as a TypeError stack naming node:path — a shell variable that expanded to
+	// nothing is the ordinary way to get here, and it should say so.
+	if (flags.run !== undefined && typeof flags.run !== "string") {
+		console.error("✗ --run needs a run id. Available:\n  " + (runs.join("\n  ") || "(none)"));
+		process.exitCode = 1;
+		return;
+	}
 	const runId = flags.run ?? runs[runs.length - 1];
 	if (!runId) return log("No runs to submit.");
+	if (!fs.existsSync(join(RESULTS_DIR, runId, "results.json"))) {
+		console.error(`✗ no run "${runId}". Available:\n  ` + (runs.join("\n  ") || "(none)"));
+		process.exitCode = 1;
+		return;
+	}
 	const doc = new RunState(join(RESULTS_DIR, runId), runId).readResults();
 	if (!doc) return log(`Run ${runId} has no results.json.`);
 
@@ -892,13 +978,32 @@ async function cmdSubmit({ flags }) {
 		);
 	}
 	const { weight, reasons } = submissionWeight(sub);
+
+	// Nothing is written when it would be rejected.
+	//
+	// The documented way to use this command is `submit --run <id> > submissions/<file>.json`, so
+	// stdout *is* the artefact. Printing the document and objecting on stderr therefore produced
+	// exactly the file the objection said was invalid, with the warning scrolling past in a
+	// terminal the redirect had already emptied of everything else. Refusing costs a contributor
+	// one message; the alternative costs a reviewer a pull request.
+	if (problems.length && !flags.force) {
+		console.error(
+			`✗ this run cannot be submitted:\n  - ${problems.join("\n  - ")}\n\n` +
+				"Nothing was written. Pass --force to emit it anyway (CI will still apply the same rules).",
+		);
+		process.exitCode = 1;
+		return;
+	}
+
 	if (flags.json === undefined) {
 		log(JSON.stringify(sub, null, 2));
 	} else {
 		log(JSON.stringify(sub));
 	}
 	if (problems.length) {
-		console.error(`\n⚠ this submission would be rejected:\n  - ${problems.join("\n  - ")}`);
+		console.error(
+			`\n⚠ emitted with --force, but this submission would be rejected:\n  - ${problems.join("\n  - ")}`,
+		);
 	}
 	if (weight < 1) {
 		console.error(`\n· it would be weighted ×${weight}: ${reasons.join("; ")}`);
@@ -911,8 +1016,22 @@ async function cmdAggregate({ flags }) {
 	if (!subs.length) return log(`No submissions found under ${join(BENCH_ROOT, "submissions")}.`);
 	const step = flags.step ?? null;
 	const result = aggregate(subs, { step });
-	if (flags.json) return log(JSON.stringify(result, null, 2));
+	// The same graph against the CPU-side floor. A cost is an export over a floor, and which
+	// floor decides what the number means: the encoder block is what makes a hardware-accelerated
+	// export comparable, the cores are what stays put when the encoder does not.
+	const software = aggregate(subs, { step, basis: "software" });
+	if (flags.json) return log(JSON.stringify({ ...result, softwareFloor: software }, null, 2));
 	log(renderAggregate(result, { step, submissions: subs.length }));
+	if (software.tools.length) {
+		log(
+			`\n${renderAggregate(software, { step, submissions: software.used.length, basis: "software" })}`,
+		);
+	} else {
+		log(
+			"\nAgainst the software floor: nothing to solve yet — it needs submissions carrying " +
+				"softwareFloorMs, which is everything measured since the paired floor landed.",
+		);
+	}
 }
 
 /** Regenerate the published page from the submissions in the repository. */
@@ -1039,6 +1158,19 @@ async function cmdSite() {
 	const subs = collectSubmissions(BENCH_ROOT);
 	const step = "S4";
 	const result = aggregate(subs, { step });
+	// The same graph solved against the CPU-side floor, published beside it in aggregate.json.
+	//
+	// A cost is an export divided by a floor, and the two floors answer different questions: the
+	// encoder block is what makes a hardware-accelerated export comparable, and the cores are what
+	// stays put when the encoder does not. On a part whose encoder has more than one sustained
+	// clock the difference is not academic — two runs an hour apart on one machine moved every
+	// hardware-floor cost by 19-27% while the software-floor costs moved 1-4% and the exports
+	// themselves agreed to 0.4%.
+	//
+	// Not rendered on the page yet. The results page was rebuilt around scoped rankings while this
+	// was in flight, and bolting a second column onto that is a presentation question worth
+	// answering deliberately rather than in a merge. The data is published either way.
+	const softwareResult = aggregate(subs, { step, basis: "software" });
 	const html = renderSite(result, {
 		// The page filters and drills into individual runs, so it needs the submissions
 		// themselves rather than a count of them.
@@ -1062,7 +1194,7 @@ async function cmdSite() {
 	fs.writeFileSync(out, `${html}\n`);
 	fs.writeFileSync(
 		join(BENCH_ROOT, "docs", "aggregate.json"),
-		`${JSON.stringify(result, null, 2)}\n`,
+		`${JSON.stringify({ ...result, softwareFloor: softwareResult }, null, 2)}\n`,
 	);
 	log(`${out}  (${subs.length} submission(s), ${result.tools.length} tool(s))`);
 }
