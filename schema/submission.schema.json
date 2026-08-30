@@ -46,7 +46,11 @@
 				},
 				"driftRatio": {
 					"type": "number",
-					"description": "Closing control divided by opening control. 1.00 means the machine did not change underneath the run."
+					"description": "Closing control divided by opening control. 1.00 means the machine did not change underneath the run. Recorded as a description of the machine over the run; the weighting reads floorSpreadPercent instead, because costs are divided by per-leg paired floors and so already absorb drift between legs."
+				},
+				"floorSpreadPercent": {
+					"type": ["number", "null"],
+					"description": "Widest disagreement, in percent, between the floors paired with a single tool's scoring runs — the error bar on the denominator each cost was actually divided by. Absent on submissions made before it was recorded."
 				},
 				"remoteDesktopActive": {
 					"type": ["boolean", "null"],
