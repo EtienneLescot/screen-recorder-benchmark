@@ -469,6 +469,22 @@ async function cmdRun({ flags }) {
 	state.event("run-started", header);
 	state.writeStatus({ ...header, phase: "starting", completed: [], pending: apps });
 
+	// Say it before the measuring, not after.
+	//
+	// `submit` already refuses anything that is not a public bundle, but it can only say so once
+	// the run exists — an hour of exports on a machine that has been quietened for the purpose,
+	// rejected at the last step for a flag that had to be chosen at the first. The default is the
+	// generated fixture because that is right for development and CI; it is never right for a
+	// submission, and the run is the only place that fact is actionable.
+	if (header.fixture.kind !== "public-bundle") {
+		log(
+			`⚠ this run uses ${header.fixture.kind === "generated" ? "the generated fixture" : "a local recording"}, ` +
+				"which `submit` will reject: two machines cannot prove they measured the same footage.\n" +
+				"  For a submission, re-run with --bundle commons-upload. This run is still fine for " +
+				"development, for comparing this machine against itself, and for CI.\n",
+		);
+	}
+
 	log(
 		`run ${runId} · scenario "${scenario.id}" · ${repetitions}×${discardFirst ? " (+1 warm-up)" : ""}`,
 	);
@@ -892,13 +908,32 @@ async function cmdSubmit({ flags }) {
 		);
 	}
 	const { weight, reasons } = submissionWeight(sub);
+
+	// Nothing is written when it would be rejected.
+	//
+	// The documented way to use this command is `submit --run <id> > submissions/<file>.json`, so
+	// stdout *is* the artefact. Printing the document and objecting on stderr therefore produced
+	// exactly the file the objection said was invalid, with the warning scrolling past in a
+	// terminal the redirect had already emptied of everything else. Refusing costs a contributor
+	// one message; the alternative costs a reviewer a pull request.
+	if (problems.length && !flags.force) {
+		console.error(
+			`✗ this run cannot be submitted:\n  - ${problems.join("\n  - ")}\n\n` +
+				"Nothing was written. Pass --force to emit it anyway (CI will still apply the same rules).",
+		);
+		process.exitCode = 1;
+		return;
+	}
+
 	if (flags.json === undefined) {
 		log(JSON.stringify(sub, null, 2));
 	} else {
 		log(JSON.stringify(sub));
 	}
 	if (problems.length) {
-		console.error(`\n⚠ this submission would be rejected:\n  - ${problems.join("\n  - ")}`);
+		console.error(
+			`\n⚠ emitted with --force, but this submission would be rejected:\n  - ${problems.join("\n  - ")}`,
+		);
 	}
 	if (weight < 1) {
 		console.error(`\n· it would be weighted ×${weight}: ${reasons.join("; ")}`);
