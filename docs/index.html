@@ -556,10 +556,11 @@
 
   <h2>Detail</h2>
   <div class="scroll"><table>
-    <thead><tr><th>Tool</th><th>Cost</th><th>Submissions</th><th>Platforms</th><th>Observed range</th><th>Versions</th></tr></thead>
+    <thead><tr><th>Tool</th><th class="num" title="in units of the fixed-function H.264 encoder">Cost (hw floor)</th><th class="num" title="in units of libx264 on the same clip — the cores rather than the encoder block">Cost (sw floor)</th><th>Submissions</th><th>Platforms</th><th>Observed range</th><th>Versions</th></tr></thead>
     <tbody><tr>
       <td><strong>openscreen-cli</strong></td>
       <td class="num">1.861×</td>
+      <td class="num">2.067×</td>
       <td class="num">6</td>
       <td>darwin, linux, win32</td>
       <td class="num">1.204–3.3×</td>
@@ -568,6 +569,7 @@
 <tr>
       <td><strong>cap</strong></td>
       <td class="num">3.01×</td>
+      <td class="num">1.54×</td>
       <td class="num">6</td>
       <td>darwin, linux, win32</td>
       <td class="num">1.21–8.293×</td>
@@ -576,6 +578,7 @@
 <tr>
       <td><strong>recordly</strong></td>
       <td class="num">5.602×</td>
+      <td class="num">8.691×</td>
       <td class="num">6</td>
       <td>darwin, linux, win32</td>
       <td class="num">2.626–13.71×</td>

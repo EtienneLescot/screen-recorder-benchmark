@@ -1016,8 +1016,22 @@ async function cmdAggregate({ flags }) {
 	if (!subs.length) return log(`No submissions found under ${join(BENCH_ROOT, "submissions")}.`);
 	const step = flags.step ?? null;
 	const result = aggregate(subs, { step });
-	if (flags.json) return log(JSON.stringify(result, null, 2));
+	// The same graph against the CPU-side floor. A cost is an export over a floor, and which
+	// floor decides what the number means: the encoder block is what makes a hardware-accelerated
+	// export comparable, the cores are what stays put when the encoder does not.
+	const software = aggregate(subs, { step, basis: "software" });
+	if (flags.json) return log(JSON.stringify({ ...result, softwareFloor: software }, null, 2));
 	log(renderAggregate(result, { step, submissions: subs.length }));
+	if (software.tools.length) {
+		log(
+			`\n${renderAggregate(software, { step, submissions: software.used.length, basis: "software" })}`,
+		);
+	} else {
+		log(
+			"\nAgainst the software floor: nothing to solve yet — it needs submissions carrying " +
+				"softwareFloorMs, which is everything measured since the paired floor landed.",
+		);
+	}
 }
 
 /** Regenerate the published page from the submissions in the repository. */
@@ -1143,7 +1157,19 @@ async function cmdSite() {
 	const fs = await import("node:fs");
 	const subs = collectSubmissions(BENCH_ROOT);
 	const result = aggregate(subs, { step: "S4" });
+	// The same graph solved against the CPU-side floor, published beside it.
+	//
+	// A cost is an export divided by a floor, and the two floors answer different questions: the
+	// encoder block is what makes a hardware-accelerated export comparable, and the cores are what
+	// stays put when the encoder does not. On a part whose encoder has more than one sustained
+	// clock the difference is not academic — two runs an hour apart on one machine moved every
+	// hardware-floor cost by 19-27% while the software-floor costs moved 1-4% and the exports
+	// themselves agreed to 0.4%.
+	const softwareResult = aggregate(subs, { step: "S4", basis: "software" });
 	const html = renderSite(result, {
+		// Solved against libx264 rather than the fixed-function block. Present only for
+		// submissions made since the paired floor landed, which is what carries softwareFloorMs.
+		softwareFloor: softwareResult,
 		// The page filters and drills into individual runs, so it needs the submissions
 		// themselves rather than a count of them.
 		submissions: subs,
@@ -1163,7 +1189,7 @@ async function cmdSite() {
 	fs.writeFileSync(out, `${html}\n`);
 	fs.writeFileSync(
 		join(BENCH_ROOT, "docs", "aggregate.json"),
-		`${JSON.stringify(result, null, 2)}\n`,
+		`${JSON.stringify({ ...result, softwareFloor: softwareResult }, null, 2)}\n`,
 	);
 	log(`${out}  (${subs.length} submission(s), ${result.tools.length} tool(s))`);
 }
