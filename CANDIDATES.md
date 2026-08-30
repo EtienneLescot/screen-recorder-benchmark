@@ -75,13 +75,13 @@ Not on Linux: Screen Studio, FocuSee.
 <!-- roster:end -->
 
 Each table is the size of the segment on its platform. Windows has four rows because four of these
-products ship there, not because a fifth is missing; Linux has two for the same reason. Reading a
+products ship there, not because a fifth is missing; Linux has three for the same reason. Reading a
 short table as incomplete coverage gets it backwards — the shortness is the finding.
 
 Two cells carry that result. **Screen Studio is `n/a` on Windows**, absent by construction from the
 platform with the most users, which is a fact about the product and not a tackle. And **Recordly is
-degraded on Linux**, by its own documentation, which costs it S3 there. A two-row Linux table with
-one incomplete row says more than any export time measured on it would.
+degraded on Linux**, by its own documentation, which costs it S3 there. A three-row Linux table with
+one qualified row says more than any export time measured on it would.
 
 ## Implementation status
 
