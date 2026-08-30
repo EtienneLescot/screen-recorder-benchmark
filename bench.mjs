@@ -660,9 +660,6 @@ async function cmdRun({ flags }) {
 		if (interleaveFloor && id !== "ffmpeg-baseline") {
 			try {
 				floorDriver = await loadDriver("ffmpeg-baseline");
-				// Discarded: the first encode after an idle gap is the cold one, and pairing it with
-				// the tool's warm-up would divide two different kinds of cold by each other.
-				await runOnce(floorDriver, floorCtx("hardware", 900));
 
 				// The CPU-side companion, once per leg. The hardware floor runs on the fixed-function
 				// encoder block, which barely throttles and is largely indifferent to CPU contention:
@@ -671,6 +668,13 @@ async function cmdRun({ flags }) {
 				// how much of a slowdown a shader-bound compositor actually saw. libx264 on the same
 				// clip is bound by the cores instead, and the two together bracket the tools rather
 				// than pretending one number describes both.
+				//
+				// It runs *before* the discarded hardware floor, not after, and the order is the
+				// whole point. This is thirty-seven seconds of libx264 during which the encoder
+				// block does nothing at all, so it is itself an idle gap — and it used to sit
+				// between the discard and the measurements the discard exists to protect. The
+				// discard absorbed a gap that had already passed and the first paired floor took
+				// the boost instead.
 				try {
 					const swRec = await runOnce(floorDriver, floorCtx("software", 901));
 					if (swRec.ok && swRec.exportMs != null) {
@@ -683,6 +687,19 @@ async function cmdRun({ flags }) {
 				} catch (e) {
 					log(`  software floor failed for ${id}: ${e.message?.slice(0, 120)}`);
 				}
+
+				// Discarded: the first encode after an idle gap is the cold one, and pairing it with
+				// the tool's warm-up would divide two different kinds of cold by each other.
+				//
+				// Measured, which is why it moved: on a Ryzen 5 7520U the encoder answers 19.06s
+				// after an idle window and 23.2s under sustained load, and with the discard placed
+				// ahead of the software floor the first leg's paired floors came out
+				// 19.07/19.06/23.26 — a 22% spread inside one leg, against 3-5% for the legs that
+				// began already loaded. The closing control showed the same shape from the same
+				// cause: 19.06/23.46/23.16. Nothing about the exports moved with it (0.21% across
+				// that leg), so it is the denominator alone, and a faster denominator inflates
+				// every cost divided by it.
+				await runOnce(floorDriver, floorCtx("hardware", 900));
 			} catch (e) {
 				log(`  local floor failed for ${id}: ${e.message?.slice(0, 120)}`);
 				floorDriver = null;
