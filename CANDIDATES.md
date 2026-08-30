@@ -62,14 +62,15 @@ roster are not carried.
 
 Not on Windows: Screen Studio.
 
-### Linux — 2
+### Linux — 3
 
 | Tool | Status |
 |---|---|
 | **OpenScreen** | ✓ |
+| **Cap** | ✓ |
 | **Recordly** | degraded — per the vendor's own documentation: the rendered cursor is lost, so S3 is n/a here |
 
-Not on Linux: Screen Studio, Cap, FocuSee.
+Not on Linux: Screen Studio, FocuSee.
 
 <!-- roster:end -->
 

@@ -132,12 +132,7 @@ export const APPS = {
 	},
 	cap: {
 		roster: "Cap",
-		// Named per platform rather than left as a bare path. A string here means "every platform",
-		// and that is a claim about the product, not about the adapter: `bench.mjs apps` on Linux
-		// listed Cap as merely "not installed", which invites installing something the vendor does
-		// not ship. roster.json has always said `"linux": "n/a"` — this is the same fact, in the
-		// one place the survey actually reads.
-		driver: { darwin: "./drivers/cap.mjs", win32: "./drivers/cap.mjs" },
+		driver: "./drivers/cap.mjs",
 		default: true,
 		install: {
 			method: "dmg",
@@ -156,6 +151,15 @@ export const APPS = {
 				url: "https://cap.so/download/windows",
 				appName: "Cap.exe",
 				approxMB: 134,
+			},
+			// The vendor publishes exactly one Linux artefact — /download/linux resolves to
+			// `publicPlatform=deb-x86_64`, and there is no AppImage or rpm behind any other slug.
+			// It carries usr/bin/cap-cli, the same CLI the other two platforms are driven through.
+			linux: {
+				method: "deb",
+				url: "https://cap.so/download/linux",
+				appName: "Cap",
+				approxMB: 132,
 			},
 		},
 	},

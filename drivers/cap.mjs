@@ -14,7 +14,15 @@ import { copyFileSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node
 import { join } from "node:path";
 import { convertCursorForCap, writeCapCursor } from "../lib/assets.mjs";
 import { resolveFfmpeg } from "../lib/env.mjs";
-import { appVersion, IS_WIN, killProcesses, resolveAppPath } from "../lib/platform.mjs";
+import {
+	appVersion,
+	IS_LINUX,
+	IS_MAC,
+	IS_WIN,
+	killProcesses,
+	LINUX_APP_ROOT,
+	resolveAppPath,
+} from "../lib/platform.mjs";
 
 export const CAP = {
 	macPath: "/Applications/Cap.app",
@@ -23,15 +31,40 @@ export const CAP = {
 		"%ProgramFiles%\\Cap\\Cap.exe",
 		"%LOCALAPPDATA%\\Cap\\Cap.exe",
 	],
+	// The .deb unpacks to a normal FHS tree, so the desktop binary is usr/bin/Cap whether the
+	// package was extracted here or installed system-wide by a user who already had it.
+	linuxPaths: [`${LINUX_APP_ROOT}/Cap/usr/bin/Cap`, "/usr/bin/Cap", "/opt/Cap/cap"],
 };
 
-const APP = IS_WIN ? resolveAppPath(CAP) : "/Applications/Cap.app";
-// The CLI sits beside the desktop binary on Windows and inside the bundle on macOS.
-const CLI = APP
-	? IS_WIN
-		? APP.replace(/Cap\.exe$/i, "cap-cli.exe")
-		: `${APP}/Contents/MacOS/cap-cli`
-	: null;
+const resolveApp = () => (IS_MAC ? "/Applications/Cap.app" : resolveAppPath(CAP));
+/**
+ * The CLI, which is what this adapter actually drives.
+ *
+ * It sits beside the desktop binary on Windows and Linux and inside the bundle on macOS.
+ * Resolved per call rather than at import, because on the two platforms where the path is
+ * discovered instead of fixed, importing happens before the installer has run.
+ */
+const cli = () => {
+	const app = resolveApp();
+	if (!app) return null;
+	if (IS_MAC) return `${app}/Contents/MacOS/cap-cli`;
+	if (IS_WIN) return app.replace(/Cap\.exe$/i, "cap-cli.exe");
+	return app.replace(/Cap$/, "cap-cli");
+};
+
+/**
+ * What a `.cap` project calls the machine that recorded it, and which cursor table it indexes.
+ *
+ * These are two different questions and Linux answers them differently, which is why they are
+ * two constants. `platform` is a plain tag on the recording. `CursorShape` is parsed as
+ * "kind|variant" and the binary carries exactly two parsers for it — "Failed to parse MacOS
+ * cursor variant" and "Failed to parse Windows cursor variant" — so there is no Linux cursor
+ * table to name. The shape only selects which bundled pointer sprite is drawn, and the scenario
+ * supplies its own telemetry either way, so the macOS arrow is the honest choice here rather
+ * than a value that would fail to parse.
+ */
+const PLATFORM_FIELD = IS_WIN ? "Windows" : IS_LINUX ? "Linux" : "MacOS";
+const CURSOR_SHAPE = IS_WIN ? "Windows|Arrow" : "MacOS|Arrow";
 
 /** #RRGGBB → the [r,g,b] triple Cap's colour background expects. */
 const rgb = (hex) => {
@@ -46,7 +79,7 @@ export default {
 	kind: "cli",
 	automation: "cli",
 	processName: "Cap",
-	appPath: APP,
+	appPath: resolveApp(),
 	/**
 	 * Where the app is *now*, re-resolved on each call.
 	 *
@@ -55,7 +88,7 @@ export default {
 	 * expected" for an app it had just installed correctly. This is the hook installApp already
 	 * looked for and nothing supplied.
 	 */
-	resolveInstalledPath: () => (IS_WIN ? resolveAppPath(CAP) : "/Applications/Cap.app"),
+	resolveInstalledPath: () => resolveApp(),
 	bundleId: "so.cap.desktop",
 	install: {
 		method: "dmg",
@@ -66,11 +99,12 @@ export default {
 	},
 
 	detect() {
-		if (!existsSync(CLI)) return { installed: false, version: null, path: null };
+		const bin = cli();
+		if (!bin || !existsSync(bin)) return { installed: false, version: null, path: null };
 		// appVersion() already branches on platform; the inline `defaults` call this replaces
 		// left every Windows row without a version, which the report prints as "—".
-		const version = appVersion(APP);
-		return { installed: true, version, path: CLI };
+		const version = appVersion(resolveApp());
+		return { installed: true, version, path: bin };
 	},
 
 	/** Cap's `background.padding` is 0-100 on its own scale; see `bench.mjs calibrate`. */
@@ -174,7 +208,7 @@ export default {
 			join(project, "recording-meta.json"),
 			`${JSON.stringify(
 				{
-					platform: IS_WIN ? "Windows" : "MacOS",
+					platform: PLATFORM_FIELD,
 					pretty_name: `openscreen-benchmark-${ctx.scenario.id}`,
 					segments: [
 						{
@@ -196,7 +230,7 @@ export default {
 										// names the document rather than the field.
 										imagePath: "content/cursor.png",
 										hotspot: { x: 0, y: 0 },
-										shape: IS_WIN ? "Windows|Arrow" : "MacOS|Arrow",
+										shape: CURSOR_SHAPE,
 									},
 								},
 							}
@@ -210,7 +244,7 @@ export default {
 		// Start from Cap's own defaults so nothing unset drifts between versions, then apply
 		// only what the scenario names.
 		const base = JSON.parse(
-			execFileSync(CLI, ["project", "config", "get", project], { encoding: "utf8" }),
+			execFileSync(cli(), ["project", "config", "get", project], { encoding: "utf8" }),
 		);
 		const duration = ctx.source.probe.durationSec;
 
@@ -277,7 +311,7 @@ export default {
 		// `config set` takes the whole document as one argv string and resets anything omitted,
 		// which is why the defaults were read first rather than a partial patch being sent.
 		execFileSync(
-			CLI,
+			cli(),
 			["project", "config", "set", project, "--settings-json", JSON.stringify(base)],
 			{
 				encoding: "utf8",
@@ -291,7 +325,7 @@ export default {
 		);
 
 		const verify = JSON.parse(
-			execFileSync(CLI, ["project", "config", "get", project], { encoding: "utf8" }),
+			execFileSync(cli(), ["project", "config", "get", project], { encoding: "utf8" }),
 		);
 		// Read back what Cap kept, not what was sent: `config set` silently resets anything it
 		// will not accept, and claiming a feature the app dropped is how a benchmark lies.
@@ -349,7 +383,7 @@ export default {
 		];
 
 		return new Promise((resolve, reject) => {
-			const child = spawn(CLI, args, { stdio: ["ignore", "pipe", "pipe"] });
+			const child = spawn(cli(), args, { stdio: ["ignore", "pipe", "pipe"] });
 			let committed = false;
 			let stderrTail = "";
 			let buf = "";
