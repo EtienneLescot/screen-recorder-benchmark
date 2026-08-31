@@ -7,9 +7,28 @@
 		"sources": "citation for a cell that is not ✓, keyed by platform — a reference, not a comment"
 	},
 	"tools": [
-		{ "tool": "OpenScreen", "macos": "✓", "windows": "✓", "linux": "✓" },
-		{ "tool": "Screen Studio", "macos": "✓", "windows": "n/a", "linux": "n/a" },
-		{ "tool": "Cap", "macos": "✓", "windows": "✓", "linux": "✓" },
+		{
+			"tool": "OpenScreen",
+			"macos": "✓",
+			"windows": "✓",
+			"linux": "✓"
+		},
+		{
+			"tool": "Screen Studio",
+			"macos": "✓",
+			"windows": "n/a",
+			"linux": "n/a",
+			"sources": {
+				"windows": "the vendor ships a macOS build only — there is no Windows product to measure",
+				"linux": "the vendor ships a macOS build only — there is no Linux product to measure"
+			}
+		},
+		{
+			"tool": "Cap",
+			"macos": "✓",
+			"windows": "✓",
+			"linux": "✓"
+		},
 		{
 			"tool": "Recordly",
 			"macos": "✓",
@@ -19,6 +38,14 @@
 				"linux": "per the vendor's own documentation: the rendered cursor is lost, so S3 is n/a here"
 			}
 		},
-		{ "tool": "FocuSee", "macos": "✓", "windows": "✓", "linux": "n/a" }
+		{
+			"tool": "FocuSee",
+			"macos": "✓",
+			"windows": "✓",
+			"linux": "n/a",
+			"sources": {
+				"linux": "the vendor ships macOS and Windows builds only — there is no Linux product to measure"
+			}
+		}
 	]
 }
