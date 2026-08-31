@@ -262,7 +262,7 @@
         <div><b>7</b><span>Submissions</span></div>
         <div><b>21</b><span>Runs</span></div>
         <div><b>3</b><span>Tools timed</span></div>
-        <div><b>4</b><span>Machines</span></div>
+        <div><b>3</b><span>Machines</span></div>
         <div><b>3</b><span>Platforms</span></div>
       </div>
       <div class="stamp">Data as of 2026-08-30 · every export re-checked in pixels and
@@ -275,12 +275,13 @@
       <h2>01 — Ranking</h2>
       <span class="sec-note">Lower is faster</span>
     </div>
-    <p class="lead-line" data-scope="all"><strong>openscreen</strong> exports fastest across every run measured so far.</p>
-    <p class="lead-line" data-scope="p-darwin" hidden><strong>cap</strong> exports fastest on macOS.</p>
-    <p class="lead-line" data-scope="p-win32" hidden><strong>openscreen</strong> exports fastest on Windows.</p>
-    <p class="lead-line" data-scope="p-linux" hidden><strong>cap</strong> exports fastest on Linux.</p>
-    <p class="lead-line" data-scope="g-amd" hidden><strong>openscreen</strong> exports fastest on AMD graphics.</p>
-    <p class="lead-line" data-scope="g-nvidia" hidden><strong>openscreen</strong> exports fastest on NVIDIA graphics.</p>
+    <p class="lead-line" data-scope="all"><strong>openscreen</strong> leads overall at 2.08×, but <strong>cap</strong> is faster on macOS and Linux.</p>
+    <p class="lead-line" data-scope="p-darwin" hidden><strong>cap</strong> leads on macOS at 1.21×.</p>
+    <p class="lead-line" data-scope="p-win32" hidden><strong>openscreen</strong> leads on Windows at 1.43×, and on both machines measured.</p>
+    <p class="lead-line" data-scope="p-linux" hidden><strong>cap</strong> leads on Linux at 2.73×.</p>
+    <p class="lead-line" data-scope="g-amd" hidden><strong>openscreen</strong> leads on AMD graphics at 2.58×, but <strong>cap</strong> is faster on Linux.</p>
+    <p class="lead-line" data-scope="g-nvidia" hidden><strong>openscreen</strong> leads on NVIDIA graphics at 1.25×.</p>
+    <p class="lead-line" data-scope="m-2" hidden><strong>openscreen</strong> leads on Ryzen 5 7520U under Windows at 1.67×.</p>
 
     <div class="scopes">
       <div class="scope-group"><button type="button" class="scope-btn" data-for="all" aria-pressed="true">All</button></div>
@@ -289,6 +290,7 @@
       <div class="scope-group"><button type="button" class="scope-btn" data-for="p-linux" aria-pressed="false">Linux</button></div>
       <div class="scope-group"><span>GPU</span><button type="button" class="scope-btn" data-for="g-amd" aria-pressed="false">AMD</button></div>
       <div class="scope-group"><button type="button" class="scope-btn" data-for="g-nvidia" aria-pressed="false">NVIDIA</button></div>
+      <div class="scope-group"><span>Machine</span><button type="button" class="scope-btn" data-for="m-2" aria-pressed="false">Ryzen 5 7520U (Windows)</button></div>
     </div>
 
     <div data-scope="all">
@@ -356,7 +358,7 @@
     </div>
     </div>
     <div data-scope="p-win32" hidden>
-      <p class="scope-note">Ryzen 5 7520U · Ryzen 7 5800X — 12 runs, 3 tools.</p>
+      <p class="scope-note">Ryzen 5 7520U (Windows) · Ryzen 7 5800X — 12 runs, 3 tools.</p>
       <div class="chart">
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">7×</span><span class="tick" style="left:83.3%;transform:translateX(-50%)">6×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">5×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">4×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">3×</span><span class="tick" style="left:16.7%;transform:translateX(-50%)">2×</span></div>
       <article class="rank-row">
@@ -388,7 +390,7 @@
     </div>
     </div>
     <div data-scope="p-linux" hidden>
-      <p class="scope-note">Ryzen 5 7520U — 6 runs, 3 tools. One machine is a data point, not a verdict.</p>
+      <p class="scope-note">Ryzen 5 7520U (Linux) — 6 runs, 3 tools. One machine is a data point, not a verdict.</p>
       <div class="chart">
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">18×</span><span class="tick" style="left:88.2%;transform:translateX(-50%)">16×</span><span class="tick" style="left:76.5%;transform:translateX(-50%)">14×</span><span class="tick" style="left:64.7%;transform:translateX(-50%)">12×</span><span class="tick" style="left:52.9%;transform:translateX(-50%)">10×</span><span class="tick" style="left:41.2%;transform:translateX(-50%)">8×</span><span class="tick" style="left:29.4%;transform:translateX(-50%)">6×</span><span class="tick" style="left:17.6%;transform:translateX(-50%)">4×</span></div>
       <article class="rank-row">
@@ -420,7 +422,7 @@
     </div>
     </div>
     <div data-scope="g-amd" hidden>
-      <p class="scope-note">Ryzen 5 7520U — 12 runs, 3 tools. One machine is a data point, not a verdict.</p>
+      <p class="scope-note">Ryzen 5 7520U (Linux) · Ryzen 5 7520U (Windows) — 12 runs, 3 tools. One machine under two operating systems, not two machines.</p>
       <div class="chart">
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">15×</span><span class="tick" style="left:85.7%;transform:translateX(-50%)">13×</span><span class="tick" style="left:71.4%;transform:translateX(-50%)">11×</span><span class="tick" style="left:57.1%;transform:translateX(-50%)">9×</span><span class="tick" style="left:42.9%;transform:translateX(-50%)">7×</span><span class="tick" style="left:28.6%;transform:translateX(-50%)">5×</span><span class="tick" style="left:14.3%;transform:translateX(-50%)">3×</span></div>
       <article class="rank-row">
@@ -478,6 +480,38 @@
           <div class="rank-val"><b>3.55</b><span>×</span></div>
         </div>
         <div class="rank-track"><i style="width:84.9%"></i></div>
+      </article>
+      <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
+      on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
+    </div>
+    </div>
+    <div data-scope="m-2" hidden>
+      <p class="scope-note">Ryzen 5 7520U (Windows) — 6 runs, 3 tools. One machine is a data point, not a verdict.</p>
+      <div class="chart">
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">13×</span><span class="tick" style="left:83.3%;transform:translateX(-50%)">11×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">9×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">5×</span><span class="tick" style="left:16.7%;transform:translateX(-50%)">3×</span></div>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">01</span>
+          <h3>openscreen</h3>
+          <div class="rank-val"><b>1.67</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:5.5%"></i></div>
+      </article>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">02</span>
+          <h3>cap</h3>
+          <div class="rank-val"><b>8.08</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:59.0%"></i></div>
+      </article>
+      <article class="rank-row">
+        <div class="rank-head">
+          <span class="rank-no">03</span>
+          <h3>recordly</h3>
+          <div class="rank-val"><b>10.55</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:79.6%"></i></div>
       </article>
       <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
       on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
@@ -546,7 +580,7 @@
 
     <div class="filters">
       <label>Machine
-        <select id="f-machine"><option value="">all</option><option value="AMD Ryzen 5 7520U with Radeon Graphics">Ryzen 5 7520U</option><option value="AMD Ryzen 5 7520U with Radeon Graphics         ">Ryzen 5 7520U</option><option value="AMD Ryzen 7 5800X 8-Core Processor             ">Ryzen 7 5800X</option><option value="Apple M1">Apple M1</option></select>
+        <select id="f-machine"><option value="">all</option><option value="Apple M1">Apple M1</option><option value="Ryzen 5 7520U">Ryzen 5 7520U</option><option value="Ryzen 7 5800X">Ryzen 7 5800X</option></select>
       </label>
       <label>Platform
         <select id="f-platform"><option value="">all</option><option value="darwin">darwin</option><option value="linux">linux</option><option value="win32">win32</option></select>
@@ -613,7 +647,7 @@
             <td>full</td>
             <td class="dim">cdp</td>
           </tr>
-          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="openscreen-cli">
+          <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="openscreen-cli">
             <td class="nw"><strong>openscreen</strong> <span class="dim">1.10.0</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
@@ -628,7 +662,7 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="openscreen-cli">
+          <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="openscreen-cli">
             <td class="nw"><strong>openscreen</strong> <span class="dim">1.10.0</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
@@ -643,7 +677,7 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics" data-platform="linux" data-tool="openscreen-cli">
+          <tr data-machine="Ryzen 5 7520U" data-platform="linux" data-tool="openscreen-cli">
             <td class="nw"><strong>openscreen</strong> <span class="dim">1.10.0</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)">Ryzen 5 7520U</td>
             <td class="dim">linux</td>
@@ -658,7 +692,7 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics" data-platform="linux" data-tool="openscreen-cli">
+          <tr data-machine="Ryzen 5 7520U" data-platform="linux" data-tool="openscreen-cli">
             <td class="nw"><strong>openscreen</strong> <span class="dim">1.10.0</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)">Ryzen 5 7520U</td>
             <td class="dim">linux</td>
@@ -673,7 +707,7 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics" data-platform="linux" data-tool="cap">
+          <tr data-machine="Ryzen 5 7520U" data-platform="linux" data-tool="cap">
             <td class="nw"><strong>cap</strong> <span class="dim">0.5.9</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)">Ryzen 5 7520U</td>
             <td class="dim">linux</td>
@@ -688,7 +722,7 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics" data-platform="linux" data-tool="cap">
+          <tr data-machine="Ryzen 5 7520U" data-platform="linux" data-tool="cap">
             <td class="nw"><strong>cap</strong> <span class="dim">0.5.9</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)">Ryzen 5 7520U</td>
             <td class="dim">linux</td>
@@ -703,7 +737,7 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="cap">
+          <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="cap">
             <td class="nw"><strong>cap</strong> <span class="dim">0.5.9</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
@@ -718,7 +752,7 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="cap">
+          <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="cap">
             <td class="nw"><strong>cap</strong> <span class="dim">0.5.9</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
@@ -733,7 +767,7 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="recordly">
+          <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="recordly">
             <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
@@ -748,7 +782,7 @@
             <td>full</td>
             <td class="dim">cdp</td>
           </tr>
-          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics         " data-platform="win32" data-tool="recordly">
+          <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="recordly">
             <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
@@ -763,7 +797,7 @@
             <td>full</td>
             <td class="dim">cdp</td>
           </tr>
-          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics" data-platform="linux" data-tool="recordly">
+          <tr data-machine="Ryzen 5 7520U" data-platform="linux" data-tool="recordly">
             <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)">Ryzen 5 7520U</td>
             <td class="dim">linux</td>
@@ -778,7 +812,7 @@
             <td>full</td>
             <td class="dim">cdp</td>
           </tr>
-          <tr data-machine="AMD Ryzen 5 7520U with Radeon Graphics" data-platform="linux" data-tool="recordly">
+          <tr data-machine="Ryzen 5 7520U" data-platform="linux" data-tool="recordly">
             <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)">Ryzen 5 7520U</td>
             <td class="dim">linux</td>
@@ -793,7 +827,7 @@
             <td>full</td>
             <td class="dim">cdp</td>
           </tr>
-          <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="openscreen-cli">
+          <tr data-machine="Ryzen 7 5800X" data-platform="win32" data-tool="openscreen-cli">
             <td class="nw"><strong>openscreen</strong> <span class="dim">1.10.0</span></td>
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
@@ -808,7 +842,7 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="openscreen-cli">
+          <tr data-machine="Ryzen 7 5800X" data-platform="win32" data-tool="openscreen-cli">
             <td class="nw"><strong>openscreen</strong> <span class="dim">1.10.0</span></td>
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
@@ -823,7 +857,7 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="cap">
+          <tr data-machine="Ryzen 7 5800X" data-platform="win32" data-tool="cap">
             <td class="nw"><strong>cap</strong> <span class="dim">0.5.9</span></td>
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
@@ -838,7 +872,7 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="cap">
+          <tr data-machine="Ryzen 7 5800X" data-platform="win32" data-tool="cap">
             <td class="nw"><strong>cap</strong> <span class="dim">0.5.9</span></td>
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
@@ -853,7 +887,7 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="recordly">
+          <tr data-machine="Ryzen 7 5800X" data-platform="win32" data-tool="recordly">
             <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
@@ -868,7 +902,7 @@
             <td>full</td>
             <td class="dim">cdp</td>
           </tr>
-          <tr data-machine="AMD Ryzen 7 5800X 8-Core Processor             " data-platform="win32" data-tool="recordly">
+          <tr data-machine="Ryzen 7 5800X" data-platform="win32" data-tool="recordly">
             <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
             <td class="nw" title="AMD Ryzen 7 5800X 8-Core Processor · NVIDIA GeForce RTX 4070 Ti">Ryzen 7 5800X</td>
             <td class="dim">win32</td>
@@ -894,6 +928,13 @@
       <p><strong>Cores</strong> is CPU-seconds ÷ export time: how many cores the export kept busy.
       It separates compositing on the GPU from compositing on the CPU. No GPU time is measured on
       either side, so a low figure means quieter fans and longer battery — not less work.</p>
+      <p><strong>How it was driven.</strong> <code>cdp</code> is driven through the app's own debugging port; <code>cli</code> is scripted headlessly. <code>recordly</code> is the
+      only entrant driven that way, and it also ranks last, so what the rung costs
+      it is measured rather than asserted. Everything the automation does to set up an export —
+      launching, loading the project, pinning the export settings — finishes before the clock
+      starts. What remains inside the window is a progress poll: one text read every 2 s, about
+      14 ms across a 28.7 s render, or 0.05% of the row. The CPU-seconds beside it are the app's
+      own renderer, not the harness.</p>
       <p><strong>Bg load</strong> is everything running that was <em>not</em> the tool under test,
       with the tool's own processes subtracted. Where two rows on one machine differ sharply,
       don't read their raw seconds against each other — and <strong>Cost does not repair it</strong>:
@@ -991,7 +1032,7 @@
           </tbody>
         </table>
       </div>
-      <ul class="cites"><li><strong>Recordly</strong> on Linux — per the vendor&#39;s own documentation: the rendered cursor is lost, so S3 is n/a here</li></ul>
+      <ul class="cites"><li><strong>Screen Studio</strong> on Windows — the vendor ships a macOS build only — there is no Windows product to measure</li><li><strong>Screen Studio</strong> on Linux — the vendor ships a macOS build only — there is no Linux product to measure</li><li><strong>Recordly</strong> on Linux — per the vendor&#39;s own documentation: the rendered cursor is lost, so S3 is n/a here</li><li><strong>FocuSee</strong> on Linux — the vendor ships macOS and Windows builds only — there is no Linux product to measure</li></ul>
     </div>
   </section>
 
