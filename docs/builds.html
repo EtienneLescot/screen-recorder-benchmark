@@ -99,6 +99,9 @@
   .scopes{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:0 0 12px;
     padding-top:6px;border-top:1px solid var(--line)}
   .scope-group{display:flex;align-items:center;gap:10px}
+  /* A rule before each heading. Without it the reset button sat flush against the word
+     Platform and read as part of that group, when it is what the whole bar returns to. */
+  .scope-group.group-start{border-left:1px solid var(--line);padding-left:16px}
   .scope-group>span{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
     text-transform:uppercase;color:var(--ink-3)}
   .scope-btn{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
