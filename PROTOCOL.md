@@ -131,7 +131,10 @@ A run that measures a compromised machine measures nothing.
   tool is handed a different amount of texture work, chosen by its own vendor, and shipping a
   smaller default is rewarded. Reproduce it with `scratch/wallpaper-ab.mjs`. Until the rule changes,
   read a gap under ~10% as within this bias rather than as a difference between the tools.
-- **Background load is recorded per tool**, excluding the tool being measured.
+- **Background load is recorded per tool**, excluding the tool being measured. Cost does not
+  divide it out: on one machine background load doubled between two runs while the floor moved
+  1.1% and the export it was dividing moved 19% — the fixed-function encoder block the floor uses
+  barely throttles, the cores and shaders the compositing uses do.
 - **Three scoring runs** after one discarded warm-up, 45 s of cooldown between them. The
   headline is the median with a median absolute deviation.
 

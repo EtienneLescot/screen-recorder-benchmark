@@ -304,7 +304,7 @@
     </div>
 
     <div data-scope="all">
-      <p class="scope-note">All 39 runs — 3 tools across 4 builds, 3 machines, 3 platforms. Combined as a graph of ratios, so no tool is the denominator.</p>
+      <p class="scope-note">All 39 runs — 3 tools across 4 builds, 3 machines, 3 platforms. Every machine combined.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">9×</span><span class="tick" style="left:75.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">5×</span><span class="tick" style="left:25.0%;transform:translateX(-50%)">3×</span></div>
@@ -337,7 +337,7 @@
     </div>
     </div>
     <div data-scope="p-darwin" hidden>
-      <p class="scope-note">Apple M1 — 9 runs, 3 tools across 4 builds. One machine is a data point, not a verdict.</p>
+      <p class="scope-note">Apple M1 — 9 runs, 3 tools across 4 builds. One machine, so nothing here is cross-checked.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">4×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">3×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">2×</span></div>
@@ -403,7 +403,7 @@
     </div>
     </div>
     <div data-scope="p-linux" hidden>
-      <p class="scope-note">Ryzen 5 7520U — 8 runs, 3 tools across 4 builds. One machine is a data point, not a verdict.</p>
+      <p class="scope-note">Ryzen 5 7520U — 8 runs, 3 tools across 4 builds. One machine, so nothing here is cross-checked.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">16×</span><span class="tick" style="left:86.7%;transform:translateX(-50%)">14×</span><span class="tick" style="left:73.3%;transform:translateX(-50%)">12×</span><span class="tick" style="left:60.0%;transform:translateX(-50%)">10×</span><span class="tick" style="left:46.7%;transform:translateX(-50%)">8×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">6×</span><span class="tick" style="left:20.0%;transform:translateX(-50%)">4×</span></div>
@@ -436,7 +436,7 @@
     </div>
     </div>
     <div data-scope="g-amd" hidden>
-      <p class="scope-note">Ryzen 5 7520U — 24 runs, 3 tools across 4 builds. One machine is a data point, not a verdict.</p>
+      <p class="scope-note">Ryzen 5 7520U — 24 runs, 3 tools across 4 builds. One machine, so nothing here is cross-checked.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">21×</span><span class="tick" style="left:90.0%;transform:translateX(-50%)">19×</span><span class="tick" style="left:80.0%;transform:translateX(-50%)">17×</span><span class="tick" style="left:70.0%;transform:translateX(-50%)">15×</span><span class="tick" style="left:60.0%;transform:translateX(-50%)">13×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">11×</span><span class="tick" style="left:40.0%;transform:translateX(-50%)">9×</span><span class="tick" style="left:30.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:20.0%;transform:translateX(-50%)">5×</span></div>
@@ -469,7 +469,7 @@
     </div>
     </div>
     <div data-scope="g-nvidia" hidden>
-      <p class="scope-note">Ryzen 7 5800X — 6 runs, 3 tools. One machine is a data point, not a verdict.</p>
+      <p class="scope-note">Ryzen 7 5800X — 6 runs, 3 tools. One machine, so nothing here is cross-checked.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">4×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">3×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">2×</span></div>
@@ -505,31 +505,28 @@
     <div class="tri">
       <p><strong>Read the ratio, not the seconds.</strong> 2× means the export took twice as long
       as ffmpeg did on that machine — not twice as fast.</p>
-      <p><strong>The floor does no work.</strong> ffmpeg composites nothing, so every tool that
-      paints a wallpaper, rounds the corners and animates a zoom sits above 1×. The question is
-      how far above.</p>
-      <p><strong>No tool is the reference.</strong> Runs are combined as a graph of ratios, so the
-      standing recomposes as coverage grows.</p>
+      <p><strong>ffmpeg is the 1×.</strong> It re-encodes the clip and composites nothing, so a
+      tool that paints a wallpaper, rounds the corners and animates a zoom sits above it.</p>
+      <p><strong>No tool is the reference.</strong> Machines are joined pair by pair, so no
+      submission has to contain any particular tool.</p>
     </div>
 
     <div class="aside after">
-      <p class="lead"><strong>Which tool leads depends on the machine.</strong> Where a pair was
-      measured on more than one, its ratio moves by 91.16% at the median.</p>
-      <p class="fine"><code>openscreen</code> takes 1.67× as long as <code>cap</code> on Apple M1, and 0.19× as long on Ryzen 5 7520U — the two swap places. Different encoders, GPUs and drivers — not a fault in the
-      measurement, and a tool built against one stack has no obligation to lead on another. It is
-      also why the figure above is a consensus rather than a verdict: use the scopes to see
-      hardware like yours. Only pairs measured on more than one platform can be compared this way,
-      so each new submission narrows what the consensus is guessing at.</p>
+      <p class="lead"><strong>The same pair does not give the same ratio on every machine.</strong>
+      Where a pair was measured on more than one, its ratio moves by 91.16% at
+      the median.</p>
+      <p class="fine"><code>openscreen</code> takes 1.67× as long as <code>cap</code> on Apple M1, and 0.19× as long on Ryzen 5 7520U — the two swap places. The chart above combines every machine at once; the buttons above it
+      rank one platform or one GPU vendor at a time. Only pairs measured on more than one machine
+      are counted in this figure.</p>
     </div>
 
     <div class="aside after">
       <p class="lead"><strong>1 older build is not shown here.</strong>
       Each row is the newest build of that tool anybody has measured; the ones it replaced are
-      still in the solve, still holding the graph together.</p>
-      <p class="fine">A version is a competitor, not a label — a release that got faster is the
-      thing being reported, so it gets its own row rather than being averaged with the release
-      before it. See <a href="builds.html">every build measured</a> to compare two releases of one
-      tool, or to pick a build per tool and read the ranking that follows from it.</p>
+      still in the solve.</p>
+      <p class="fine">Builds are ranked separately rather than averaged together.
+      <a href="builds.html">Every build measured</a> lists them all, and lets you pick one build
+      per tool.</p>
     </div>
   </section>
 
@@ -538,8 +535,8 @@
       <h2>02 — Spread across machines</h2>
       <div class="legend"><span><i style="background:var(--accent)"></i>macOS</span><span><i style="background:var(--ink-2)"></i>Linux</span><span><i style="background:var(--warm)"></i>Windows</span></div>
     </div>
-    <p class="prose">One dot per run. Where one tool's dots straddle another's, the machine
-    decides the order — not the tool. Hover a dot for the machine and the seconds.</p>
+    <p class="prose">One dot per run, placed at its ratio; colour is the platform. Hover a dot
+    for the machine and the seconds.</p>
     <div class="strip-wrap"><div class="strip">
       <div class="strip-grid"><i class="floor" style="left:5.56%"></i><i style="left:11.11%"></i><i style="left:16.67%"></i><i style="left:22.22%"></i><i style="left:27.78%"></i><i style="left:33.33%"></i><i style="left:38.89%"></i><i style="left:44.44%"></i><i style="left:50.00%"></i><i style="left:55.56%"></i><i style="left:61.11%"></i><i style="left:66.67%"></i><i style="left:72.22%"></i><i style="left:77.78%"></i><i style="left:83.33%"></i><i style="left:88.89%"></i><i style="left:94.44%"></i></div>
       <div class="strip-head"><div></div><div><span class="floor-tag" style="left:5.56%">1× = ffmpeg itself</span></div></div>
@@ -1186,18 +1183,15 @@
 
     <div class="tri tight">
       <p><strong>Export</strong> carries ± the median absolute deviation of that machine's own
-      scoring runs, so a re-run landing elsewhere can be read against the spread rather than
-      against a single number.</p>
+      scoring runs: the spread its own repeats landed in.</p>
       <p><strong>Cores</strong> is CPU-seconds ÷ export time: how many cores the export kept busy.
-      It separates compositing on the GPU from compositing on the CPU. No GPU time is measured on
-      either side, so a low figure means quieter fans and longer battery — not less work.</p>
+      No GPU time is measured, on either side of the ratio.</p>
       <p><strong>Bg load</strong> is everything running that was <em>not</em> the tool under test,
-      with the tool's own processes subtracted. Where two rows on one machine differ sharply,
-      don't read their raw seconds against each other — and <strong>Cost does not repair it</strong>:
-      the floor runs on the fixed-function encoder block, which barely throttles and is largely
-      indifferent to CPU contention, while the compositing under test runs on cores and shaders,
-      which are not. Measured on one machine, background load doubled between two runs while the
-      floor moved 1.1% and the export it was dividing moved 19%.</p>
+      with the tool's own processes subtracted. Where two rows on one machine differ sharply, their
+      seconds are not comparable — and <strong>Cost does not repair it</strong>: the floor runs on
+      the fixed-function encoder block, which barely throttles, while the compositing under test
+      runs on cores and shaders, which do. <a href="https://github.com/EtienneLescot/screen-recorder-benchmark/blob/main/PROTOCOL.md#5-conditions">How
+      far that goes, measured</a>.</p>
     </div>
   </section>
 
@@ -1257,8 +1251,8 @@
     </div>
     <div>
       <h2>05 — Roster</h2>
-      <p class="prose">Who belongs here is decided by what a tool claims to do, not by whether an
-      adapter exists. An empty cell is a finding.</p>
+      <p class="prose">Membership follows what a tool is built for, not whether an adapter
+      exists. A cell that is not a member says who says so.</p>
       <div class="tw narrow">
         <table>
           <thead>
@@ -1309,20 +1303,20 @@
     <h2>06 — Method</h2>
     <div class="cards">
       <div>
-        <h3>One stopwatch</h3>
-        <p>One clock, from the instant the export is committed to the moment the last byte lands.
-        Every tool is timed on the same machine as its own ffmpeg floor, minutes apart.</p>
+        <h3>Same clip, same edit</h3>
+        <p>Every tool is handed the same recording and asked for the same demo — wallpaper,
+        rounded corners, three zooms, a drawn cursor, a webcam inset — out at 1080p60 H.264.</p>
       </div>
       <div>
-        <h3>Verified output</h3>
-        <p>Every export is re-probed: resolution, frame rate and duration against target;
-        wallpaper, padding, corners, zooms, cursor and camera in the pixels; audio by loudness,
-        because a silent track passes any check that only asks whether audio exists.</p>
+        <h3>Only the export is timed</h3>
+        <p>The clock starts when the export is launched and stops when the file is finished.
+        Opening the app, loading the project and setting the presets happen before it.</p>
       </div>
       <div>
-        <h3>No denominator</h3>
-        <p>Runs are combined as a graph of ratios rather than averaged, so no tool is the
-        reference. A tool reports what it configured; the verifier decides what happened.</p>
+        <h3>Divided by ffmpeg, checked in the pixels</h3>
+        <p>The same machine re-encodes the same clip with plain ffmpeg, minutes apart: that run is
+        the 1×. Each export is then re-opened to confirm the size, the length, the effects and the
+        sound are really there.</p>
       </div>
     </div>
     <p class="mono-note"><a href="https://github.com/EtienneLescot/screen-recorder-benchmark/blob/main/PROTOCOL.md">Read the protocol in full →</a></p>
@@ -1332,8 +1326,8 @@
     <div class="cta-grid">
       <div>
         <h2>07 — Submit a run</h2>
-        <p class="cta-lead">Every new machine narrows the guess. Yours takes about twenty
-        minutes.</p>
+        <p class="cta-lead">Every new machine adds a hardware combination nobody has measured
+        yet. Yours takes about twenty minutes.</p>
         <div class="cmd">node bench.mjs run --bundle commons-upload</div>
       </div>
       <ol class="steps">
