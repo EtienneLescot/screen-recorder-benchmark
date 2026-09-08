@@ -1,12 +1,14 @@
-/**
- * The page's visual language, in one place.
- *
- * Set out in the design system that accompanies this file: one accent, hairlines rather than
- * shadows, numbers in a monospace with tabular figures, and no colour that means anything
- * except the platform a number came from. Ranking is never colour-coded — bar length carries
- * the comparison, so a reader who cannot separate the two hues loses nothing but the platform.
- */
-export const STYLE = `
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Every build measured — Screen Recorder Export Benchmark</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Every build of every screen-demo app measured by the benchmark, ranked against a plain ffmpeg transcode, with a per-build filter.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script>try{const t=localStorage.getItem("srb-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<style>
   /* --ink-3 carries table headers, axis labels and the Bg-load column, all of it normal-size
      text. The values the design system named — #8b8880 and #6e6c67 — measure 3.36:1 and 3.63:1
      against their own ground, under the 4.5:1 WCAG AA threshold. These clear it on both paper
@@ -245,4 +247,124 @@ export const STYLE = `
     display:flex;gap:clamp(14px,3vw,32px);flex-wrap:wrap;align-items:baseline;
     font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
   footer .end{margin-left:auto}
-`;
+</style>
+<div class="page">
+
+  <header class="topbar">
+    <div class="brand">
+      <b>Screen Recorder Export Benchmark</b>
+      <span>Every build</span>
+    </div>
+    <button id="theme-btn" class="btn" type="button">Theme</button>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>Every build measured</h1>
+      <p class="hero-lede">A version is a competitor here, not a label: each build is its own node
+      in the same solve, so a release and the release before it are ranked against each other
+      rather than averaged together. openscreen has been measured on more than one build, so its releases can be read against each other.</p>
+    </div>
+  </section>
+
+  <section class="lead-section">
+    <div class="sec-head">
+      <h2>01 — Builds</h2>
+      <span class="sec-note">Lower is faster</span>
+    </div>
+    <p class="prose">Untick a build to take it off the chart. Nothing is re-solved when you do —
+    every figure below comes from one solve over every edge, so two builds compare the same way
+    whether or not a third is on screen.</p>
+    <div class="scopes">
+      <fieldset class="pick">
+        <legend>cap</legend>
+        <label><input type="checkbox" data-node="cap@0.5.9" checked> 0.5.9</label>
+      </fieldset>
+      <fieldset class="pick">
+        <legend>openscreen</legend>
+        <label><input type="checkbox" data-node="openscreen-cli@1.11.0-rc" checked> 1.11.0-rc</label>
+        <label><input type="checkbox" data-node="openscreen-cli@1.10.0" checked> 1.10.0</label>
+      </fieldset>
+      <fieldset class="pick">
+        <legend>recordly</legend>
+        <label><input type="checkbox" data-node="recordly@1.3.3" checked> 1.3.3</label>
+      </fieldset>
+    </div>
+    <div class="chart">
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">9×</span><span class="tick" style="left:75.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">5×</span><span class="tick" style="left:25.0%;transform:translateX(-50%)">3×</span></div>
+      <article class="rank-row" data-node="openscreen-cli@1.10.0">
+        <div class="rank-head">
+          <span class="rank-no">01</span>
+          <h3>openscreen</h3> <span class="dim">1.10.0</span>
+          <div class="rank-val"><b>2.02</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:12.8%"></i></div>
+      </article>
+      <article class="rank-row" data-node="openscreen-cli@1.11.0-rc">
+        <div class="rank-head">
+          <span class="rank-no">02</span>
+          <h3>openscreen</h3> <span class="dim">1.11.0-rc</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
+          <div class="rank-val"><b>2.38</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i class="thin" style="width:17.2%"></i></div>
+      </article>
+      <article class="rank-row" data-node="cap@0.5.9">
+        <div class="rank-head">
+          <span class="rank-no">03</span>
+          <h3>cap</h3> <span class="dim">0.5.9</span>
+          <div class="rank-val"><b>2.86</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:23.2%"></i></div>
+      </article>
+      <article class="rank-row" data-node="recordly@1.3.3">
+        <div class="rank-head">
+          <span class="rank-no">04</span>
+          <h3>recordly</h3> <span class="dim">1.3.3</span>
+          <div class="rank-val"><b>6.44</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:68.0%"></i></div>
+      </article>
+      <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
+      on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
+    </div>
+  </section>
+
+  <footer>
+    <a href="index.html">Ranking</a>
+    <a href="https://github.com/EtienneLescot/screen-recorder-benchmark">Source</a>
+    <a href="https://github.com/EtienneLescot/screen-recorder-benchmark/blob/main/PROTOCOL.md">Protocol</a>
+    <span class="end">MIT · data CC-BY · 2026-09-08</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const themeBtn = document.getElementById("theme-btn");
+  if (themeBtn) themeBtn.addEventListener("click", () => {
+    const cur = root.getAttribute("data-theme");
+    const dark = cur ? cur === "dark"
+      : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = dark ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("srb-theme", next); } catch (e) {}
+  });
+
+  const boxes = [...document.querySelectorAll(".pick input")];
+  const rows = [...document.querySelectorAll(".rank-row")];
+  const apply = () => {
+    const on = new Set(boxes.filter((b) => b.checked).map((b) => b.dataset.node));
+    let rank = 0;
+    for (const r of rows) {
+      const show = on.has(r.dataset.node);
+      r.hidden = !show;
+      // Renumbered over the visible rows only: a chart reading 01, 03, 04 would invite the
+      // missing number to be read as a hidden competitor rather than as one the reader removed.
+      if (show) r.querySelector(".rank-no").textContent = String(++rank).padStart(2, "0");
+    }
+  };
+  for (const b of boxes) b.addEventListener("change", apply);
+  apply();
+})();
+</script>
+</html>
