@@ -132,6 +132,12 @@
   .aside.before{margin:24px 0 0}
 
   .chart{border-top:1px solid var(--ink)}
+  /* Said on the chart, not in a caption: the bars rank a cost, and a reader who assumes longer
+     is stronger reads the whole figure backwards. Loud enough to be caught before the bars are. */
+  .chart .better{display:inline-block;margin:12px 0 10px;padding:5px 9px;font-family:var(--mono);
+    font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);
+    border:1px solid var(--ink);border-radius:2px}
+  @media (max-width:620px){.chart .better{font-size:11px;letter-spacing:.06em}}
   .chart-axis{position:relative;height:22px}
   .chart-axis span{position:absolute;bottom:2px;font-family:var(--mono);font-size:10px;
     letter-spacing:.08em;color:var(--ink-3);white-space:nowrap}
@@ -273,7 +279,7 @@
   <section class="lead-section">
     <div class="sec-head">
       <h2>01 — Builds</h2>
-      <span class="sec-note">Lower is faster</span>
+      <span class="sec-note">Ratio to ffmpeg</span>
     </div>
     <p class="prose">Untick a build to take it off the chart. Nothing is re-solved when you do —
     every figure below comes from one solve over every edge, so two builds compare the same way
@@ -294,6 +300,7 @@
       </fieldset>
     </div>
     <div class="chart">
+      <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">9×</span><span class="tick" style="left:75.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">5×</span><span class="tick" style="left:25.0%;transform:translateX(-50%)">3×</span></div>
       <article class="rank-row" data-node="openscreen-cli@1.11.0-rc">
         <div class="rank-head">
