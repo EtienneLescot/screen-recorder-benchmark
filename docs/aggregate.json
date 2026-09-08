@@ -1,12 +1,36 @@
 {
   "tools": [
     {
+      "node": "openscreen-cli@1.11.0-rc",
+      "tool": "openscreen-cli",
+      "build": "1.11.0-rc",
+      "prerelease": true,
+      "component": 0,
+      "relativeCost": 1.675,
+      "submissions": 2,
+      "machines": [
+        "Apple M1",
+        "AMD Ryzen 5 7520U with Radeon Graphics"
+      ],
+      "platforms": [
+        "darwin",
+        "linux"
+      ],
+      "versions": [
+        "1.11.0-rc.1"
+      ],
+      "observedCostRange": [
+        1.043,
+        1.124
+      ]
+    },
+    {
       "node": "openscreen-cli@1.10.0",
       "tool": "openscreen-cli",
       "build": "1.10.0",
       "prerelease": false,
       "component": 0,
-      "relativeCost": 2.023,
+      "relativeCost": 1.907,
       "submissions": 7,
       "machines": [
         "Apple M1",
@@ -28,35 +52,13 @@
       ]
     },
     {
-      "node": "openscreen-cli@1.11.0-rc",
-      "tool": "openscreen-cli",
-      "build": "1.11.0-rc",
-      "prerelease": true,
-      "component": 0,
-      "relativeCost": 2.377,
-      "submissions": 1,
-      "machines": [
-        "Apple M1"
-      ],
-      "platforms": [
-        "darwin"
-      ],
-      "versions": [
-        "1.11.0-rc.1"
-      ],
-      "observedCostRange": [
-        1.043,
-        1.043
-      ]
-    },
-    {
       "node": "cap@0.5.9",
       "tool": "cap",
       "build": "0.5.9",
       "prerelease": false,
       "component": 0,
-      "relativeCost": 2.859,
-      "submissions": 8,
+      "relativeCost": 2.694,
+      "submissions": 9,
       "machines": [
         "Apple M1",
         "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -82,7 +84,7 @@
       "build": "1.3.3",
       "prerelease": false,
       "component": 0,
-      "relativeCost": 6.438,
+      "relativeCost": 6.068,
       "submissions": 7,
       "machines": [
         "Apple M1",
@@ -190,6 +192,15 @@
       "a": "cap@0.5.9",
       "b": "recordly@1.3.3",
       "logRatio": -1.737438177,
+      "weight": 1,
+      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+      "platform": "linux",
+      "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
+    },
+    {
+      "a": "openscreen-cli@1.11.0-rc",
+      "b": "cap@0.5.9",
+      "logRatio": -0.765656701,
       "weight": 1,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
       "platform": "linux",
@@ -769,6 +780,105 @@
     {
       "sub": {
         "schemaVersion": 1,
+        "submittedAt": "2026-09-08T13:42:19.962Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "linux",
+          "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+          "cpuCount": 8,
+          "memoryGiB": 14.9,
+          "osVersion": "24.04",
+          "osBuild": ""
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 50,
+          "loadSpreadPercentagePoints": 0.4,
+          "driftRatio": 0.9998,
+          "floorSpreadPercent": 3.98,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "502588cae0a8507c03ee964006be140543206f3c774ef06dcbf9fdc5f369d9f1",
+          "durationSec": 60.007,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "openscreen-cli",
+            "version": "1.11.0-rc.1",
+            "exportMs": 27271,
+            "madMs": 22,
+            "runs": 3,
+            "localFloorMs": 24273,
+            "softwareFloorMs": 37504,
+            "floorSpreadPercent": 2.44,
+            "cpuSeconds": 69,
+            "peakRssMiB": 967.7,
+            "foreignCpuPercent": 46.8,
+            "outputBytes": 53038691,
+            "outputMeanVolumeDb": -49.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "cap",
+            "version": "0.5.9",
+            "exportMs": 57025,
+            "madMs": 2,
+            "runs": 3,
+            "localFloorMs": 23603,
+            "softwareFloorMs": 37611,
+            "floorSpreadPercent": 3.98,
+            "cpuSeconds": 166,
+            "peakRssMiB": 1232.4,
+            "foreignCpuPercent": 47.2,
+            "outputBytes": 188479190,
+            "outputMeanVolumeDb": -49.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          }
+        ],
+        "notes": [
+          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "cap: zoom segments written: 3",
+          "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
+        ],
+        "_path": "submissions/linux/amd-ryzen-5-7520u-2026-09-08.json"
+      },
+      "weight": 1,
+      "reasons": [],
+      "tools": [
+        "openscreen-cli",
+        "cap"
+      ],
+      "nodes": [
+        "openscreen-cli@1.11.0-rc",
+        "cap@0.5.9"
+      ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
         "submittedAt": "2026-08-28T18:09:13.263Z",
         "submitter": {
           "name": "Etienne Lescot"
@@ -1253,18 +1363,18 @@
     ]
   ],
   "consistency": {
-    "edges": 22,
-    "redundantEdges": 19,
+    "edges": 23,
+    "redundantEdges": 20,
     "measurable": true,
-    "medianResidualPercent": 81.76,
+    "medianResidualPercent": 78.68,
     "maxResidualPercent": 270.98,
     "byPlatform": {
       "sameGpuPairs": 9,
       "samePlatformPairs": 7,
-      "crossPlatformPairs": 3,
+      "crossPlatformPairs": 4,
       "sameGpuSpreadPercent": 5.69,
       "samePlatformSpreadPercent": 14.88,
-      "crossPlatformSpreadPercent": 307.38
+      "crossPlatformSpreadPercent": 261.26
     },
     "worst": {
       "a": "cap@0.5.9",
@@ -1290,13 +1400,35 @@
   "softwareFloor": {
     "tools": [
       {
+        "node": "openscreen-cli@1.11.0-rc",
+        "tool": "openscreen-cli",
+        "build": "1.11.0-rc",
+        "prerelease": true,
+        "component": 0,
+        "relativeCost": 0.737,
+        "submissions": 1,
+        "machines": [
+          "AMD Ryzen 5 7520U with Radeon Graphics"
+        ],
+        "platforms": [
+          "linux"
+        ],
+        "versions": [
+          "1.11.0-rc.1"
+        ],
+        "observedCostRange": [
+          0.727,
+          0.727
+        ]
+      },
+      {
         "node": "cap@0.5.9",
         "tool": "cap",
         "build": "0.5.9",
         "prerelease": false,
         "component": 0,
-        "relativeCost": 1.537,
-        "submissions": 2,
+        "relativeCost": 1.536,
+        "submissions": 3,
         "machines": [
           "AMD Ryzen 5 7520U with Radeon Graphics"
         ],
@@ -1307,7 +1439,7 @@
           "0.5.9"
         ],
         "observedCostRange": [
-          1.535,
+          1.516,
           1.54
         ]
       },
@@ -1317,7 +1449,7 @@
         "build": "1.10.0",
         "prerelease": false,
         "component": 0,
-        "relativeCost": 2.04,
+        "relativeCost": 2.039,
         "submissions": 2,
         "machines": [
           "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -1339,7 +1471,7 @@
         "build": "1.3.3",
         "prerelease": false,
         "component": 0,
-        "relativeCost": 8.688,
+        "relativeCost": 8.679,
         "submissions": 2,
         "machines": [
           "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -1406,6 +1538,15 @@
         "a": "cap@0.5.9",
         "b": "recordly@1.3.3",
         "logRatio": -1.732844901,
+        "weight": 1,
+        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+        "platform": "linux",
+        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
+      },
+      {
+        "a": "openscreen-cli@1.11.0-rc",
+        "b": "cap@0.5.9",
+        "logRatio": -0.734816935,
         "weight": 1,
         "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
         "platform": "linux",
@@ -1659,6 +1800,105 @@
           "openscreen-cli@1.10.0",
           "cap@0.5.9",
           "recordly@1.3.3"
+        ]
+      },
+      {
+        "sub": {
+          "schemaVersion": 1,
+          "submittedAt": "2026-09-08T13:42:19.962Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "linux",
+            "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+            "cpuCount": 8,
+            "memoryGiB": 14.9,
+            "osVersion": "24.04",
+            "osBuild": ""
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 50,
+            "loadSpreadPercentagePoints": 0.4,
+            "driftRatio": 0.9998,
+            "floorSpreadPercent": 3.98,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "502588cae0a8507c03ee964006be140543206f3c774ef06dcbf9fdc5f369d9f1",
+            "durationSec": 60.007,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "openscreen-cli",
+              "version": "1.11.0-rc.1",
+              "exportMs": 27271,
+              "madMs": 22,
+              "runs": 3,
+              "localFloorMs": 24273,
+              "softwareFloorMs": 37504,
+              "floorSpreadPercent": 2.44,
+              "cpuSeconds": 69,
+              "peakRssMiB": 967.7,
+              "foreignCpuPercent": 46.8,
+              "outputBytes": 53038691,
+              "outputMeanVolumeDb": -49.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            },
+            {
+              "tool": "cap",
+              "version": "0.5.9",
+              "exportMs": 57025,
+              "madMs": 2,
+              "runs": 3,
+              "localFloorMs": 23603,
+              "softwareFloorMs": 37611,
+              "floorSpreadPercent": 3.98,
+              "cpuSeconds": 166,
+              "peakRssMiB": 1232.4,
+              "foreignCpuPercent": 47.2,
+              "outputBytes": 188479190,
+              "outputMeanVolumeDb": -49.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            }
+          ],
+          "notes": [
+            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "cap: zoom segments written: 3",
+            "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
+          ],
+          "_path": "submissions/linux/amd-ryzen-5-7520u-2026-09-08.json"
+        },
+        "weight": 1,
+        "reasons": [],
+        "tools": [
+          "openscreen-cli",
+          "cap"
+        ],
+        "nodes": [
+          "openscreen-cli@1.11.0-rc",
+          "cap@0.5.9"
         ]
       }
     ],
@@ -2289,11 +2529,12 @@
       [
         "cap@0.5.9",
         "openscreen-cli@1.10.0",
+        "openscreen-cli@1.11.0-rc",
         "recordly@1.3.3"
       ]
     ],
     "consistency": {
-      "edges": 6,
+      "edges": 7,
       "redundantEdges": 4,
       "measurable": true,
       "medianResidualPercent": 1.17,
