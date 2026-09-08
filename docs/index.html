@@ -134,6 +134,12 @@
   .aside.before{margin:24px 0 0}
 
   .chart{border-top:1px solid var(--ink)}
+  /* Said on the chart, not in a caption: the bars rank a cost, and a reader who assumes longer
+     is stronger reads the whole figure backwards. Loud enough to be caught before the bars are. */
+  .chart .better{display:inline-block;margin:12px 0 10px;padding:5px 9px;font-family:var(--mono);
+    font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);
+    border:1px solid var(--ink);border-radius:2px}
+  @media (max-width:620px){.chart .better{font-size:11px;letter-spacing:.06em}}
   .chart-axis{position:relative;height:22px}
   .chart-axis span{position:absolute;bottom:2px;font-family:var(--mono);font-size:10px;
     letter-spacing:.08em;color:var(--ink-3);white-space:nowrap}
@@ -286,7 +292,7 @@
   <section class="lead-section">
     <div class="sec-head">
       <h2>01 — Ranking</h2>
-      <span class="sec-note">Lower is faster</span>
+      <span class="sec-note">Ratio to ffmpeg</span>
     </div>
     <div class="scopes">
       <div class="scope-group"><button type="button" class="scope-btn" data-for="all" aria-pressed="true">All</button></div>
@@ -300,6 +306,7 @@
     <div data-scope="all">
       <p class="scope-note">All 39 runs — 3 tools across 4 builds, 3 machines, 3 platforms. Combined as a graph of ratios, so no tool is the denominator.</p>
       <div class="chart">
+      <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">9×</span><span class="tick" style="left:75.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">5×</span><span class="tick" style="left:25.0%;transform:translateX(-50%)">3×</span></div>
       <article class="rank-row" data-node="openscreen-cli@1.11.0-rc">
         <div class="rank-head">
@@ -332,6 +339,7 @@
     <div data-scope="p-darwin" hidden>
       <p class="scope-note">Apple M1 — 9 runs, 3 tools across 4 builds. One machine is a data point, not a verdict.</p>
       <div class="chart">
+      <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">4×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">3×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">2×</span></div>
       <article class="rank-row" data-node="openscreen-cli@1.11.0-rc">
         <div class="rank-head">
@@ -364,6 +372,7 @@
     <div data-scope="p-win32" hidden>
       <p class="scope-note">Ryzen 5 7520U · Ryzen 7 5800X — 22 runs, 3 tools across 4 builds.</p>
       <div class="chart">
+      <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">11×</span><span class="tick" style="left:80.0%;transform:translateX(-50%)">9×</span><span class="tick" style="left:60.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:40.0%;transform:translateX(-50%)">5×</span><span class="tick" style="left:20.0%;transform:translateX(-50%)">3×</span></div>
       <article class="rank-row" data-node="openscreen-cli@1.11.0-rc">
         <div class="rank-head">
@@ -396,6 +405,7 @@
     <div data-scope="p-linux" hidden>
       <p class="scope-note">Ryzen 5 7520U — 8 runs, 3 tools across 4 builds. One machine is a data point, not a verdict.</p>
       <div class="chart">
+      <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">16×</span><span class="tick" style="left:86.7%;transform:translateX(-50%)">14×</span><span class="tick" style="left:73.3%;transform:translateX(-50%)">12×</span><span class="tick" style="left:60.0%;transform:translateX(-50%)">10×</span><span class="tick" style="left:46.7%;transform:translateX(-50%)">8×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">6×</span><span class="tick" style="left:20.0%;transform:translateX(-50%)">4×</span></div>
       <article class="rank-row" data-node="openscreen-cli@1.11.0-rc">
         <div class="rank-head">
@@ -428,6 +438,7 @@
     <div data-scope="g-amd" hidden>
       <p class="scope-note">Ryzen 5 7520U — 24 runs, 3 tools across 4 builds. One machine is a data point, not a verdict.</p>
       <div class="chart">
+      <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">21×</span><span class="tick" style="left:90.0%;transform:translateX(-50%)">19×</span><span class="tick" style="left:80.0%;transform:translateX(-50%)">17×</span><span class="tick" style="left:70.0%;transform:translateX(-50%)">15×</span><span class="tick" style="left:60.0%;transform:translateX(-50%)">13×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">11×</span><span class="tick" style="left:40.0%;transform:translateX(-50%)">9×</span><span class="tick" style="left:30.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:20.0%;transform:translateX(-50%)">5×</span></div>
       <article class="rank-row" data-node="openscreen-cli@1.11.0-rc">
         <div class="rank-head">
@@ -460,6 +471,7 @@
     <div data-scope="g-nvidia" hidden>
       <p class="scope-note">Ryzen 7 5800X — 6 runs, 3 tools. One machine is a data point, not a verdict.</p>
       <div class="chart">
+      <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">4×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">3×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">2×</span></div>
       <article class="rank-row" data-node="openscreen-cli@1.10.0">
         <div class="rank-head">
