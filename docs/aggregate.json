@@ -1,10 +1,13 @@
 {
   "tools": [
     {
+      "node": "openscreen-cli@1.10.0",
       "tool": "openscreen-cli",
+      "build": "1.10.0",
+      "prerelease": false,
       "component": 0,
       "relativeCost": 2.023,
-      "submissions": 8,
+      "submissions": 7,
       "machines": [
         "Apple M1",
         "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -17,19 +20,42 @@
         "win32"
       ],
       "versions": [
-        "1.10.0",
-        "1.11.0-rc.1"
+        "1.10.0"
       ],
-      "versionsUnreported": 0,
       "observedCostRange": [
-        1.043,
+        1.204,
         4.085
       ]
     },
     {
-      "tool": "cap",
+      "node": "openscreen-cli@1.11.0-rc",
+      "tool": "openscreen-cli",
+      "build": "1.11.0-rc",
+      "prerelease": true,
       "component": 0,
-      "relativeCost": 2.812,
+      "relativeCost": 2.377,
+      "submissions": 1,
+      "machines": [
+        "Apple M1"
+      ],
+      "platforms": [
+        "darwin"
+      ],
+      "versions": [
+        "1.11.0-rc.1"
+      ],
+      "observedCostRange": [
+        1.043,
+        1.043
+      ]
+    },
+    {
+      "node": "cap@0.5.9",
+      "tool": "cap",
+      "build": "0.5.9",
+      "prerelease": false,
+      "component": 0,
+      "relativeCost": 2.859,
       "submissions": 8,
       "machines": [
         "Apple M1",
@@ -45,16 +71,18 @@
       "versions": [
         "0.5.9"
       ],
-      "versionsUnreported": 0,
       "observedCostRange": [
         1.21,
         8.293
       ]
     },
     {
+      "node": "recordly@1.3.3",
       "tool": "recordly",
+      "build": "1.3.3",
+      "prerelease": false,
       "component": 0,
-      "relativeCost": 6.386,
+      "relativeCost": 6.438,
       "submissions": 7,
       "machines": [
         "Apple M1",
@@ -70,7 +98,6 @@
       "versions": [
         "1.3.3"
       ],
-      "versionsUnreported": 0,
       "observedCostRange": [
         2.626,
         16.997
@@ -79,8 +106,8 @@
   ],
   "edges": [
     {
-      "a": "openscreen-cli",
-      "b": "cap",
+      "a": "openscreen-cli@1.10.0",
+      "b": "cap@0.5.9",
       "logRatio": 0.513735322,
       "weight": 1,
       "machine": "Apple M1",
@@ -88,8 +115,8 @@
       "gpu": "Apple M1"
     },
     {
-      "a": "openscreen-cli",
-      "b": "recordly",
+      "a": "openscreen-cli@1.10.0",
+      "b": "recordly@1.3.3",
       "logRatio": -0.260725172,
       "weight": 1,
       "machine": "Apple M1",
@@ -97,8 +124,8 @@
       "gpu": "Apple M1"
     },
     {
-      "a": "cap",
-      "b": "recordly",
+      "a": "cap@0.5.9",
+      "b": "recordly@1.3.3",
       "logRatio": -0.774460494,
       "weight": 1,
       "machine": "Apple M1",
@@ -106,8 +133,8 @@
       "gpu": "Apple M1"
     },
     {
-      "a": "openscreen-cli",
-      "b": "cap",
+      "a": "openscreen-cli@1.11.0-rc",
+      "b": "cap@0.5.9",
       "logRatio": -0.18439984,
       "weight": 1,
       "machine": "Apple M1",
@@ -115,8 +142,8 @@
       "gpu": "Apple M1"
     },
     {
-      "a": "openscreen-cli",
-      "b": "cap",
+      "a": "openscreen-cli@1.10.0",
+      "b": "cap@0.5.9",
       "logRatio": 0.277435028,
       "weight": 1,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -124,8 +151,8 @@
       "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
     },
     {
-      "a": "openscreen-cli",
-      "b": "recordly",
+      "a": "openscreen-cli@1.10.0",
+      "b": "recordly@1.3.3",
       "logRatio": -1.424254014,
       "weight": 1,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -133,8 +160,8 @@
       "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
     },
     {
-      "a": "cap",
-      "b": "recordly",
+      "a": "cap@0.5.9",
+      "b": "recordly@1.3.3",
       "logRatio": -1.701689042,
       "weight": 1,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -142,8 +169,8 @@
       "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
     },
     {
-      "a": "openscreen-cli",
-      "b": "cap",
+      "a": "openscreen-cli@1.10.0",
+      "b": "cap@0.5.9",
       "logRatio": 0.311726343,
       "weight": 1,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -151,8 +178,8 @@
       "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
     },
     {
-      "a": "openscreen-cli",
-      "b": "recordly",
+      "a": "openscreen-cli@1.10.0",
+      "b": "recordly@1.3.3",
       "logRatio": -1.425711834,
       "weight": 1,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -160,8 +187,8 @@
       "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
     },
     {
-      "a": "cap",
-      "b": "recordly",
+      "a": "cap@0.5.9",
+      "b": "recordly@1.3.3",
       "logRatio": -1.737438177,
       "weight": 1,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -169,8 +196,8 @@
       "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
     },
     {
-      "a": "cap",
-      "b": "openscreen-cli",
+      "a": "cap@0.5.9",
+      "b": "openscreen-cli@1.10.0",
       "logRatio": 1.656523957,
       "weight": 0.6,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics         ",
@@ -178,8 +205,8 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "cap",
-      "b": "recordly",
+      "a": "cap@0.5.9",
+      "b": "recordly@1.3.3",
       "logRatio": -0.250509231,
       "weight": 0.6,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics         ",
@@ -187,8 +214,8 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "openscreen-cli",
-      "b": "recordly",
+      "a": "openscreen-cli@1.10.0",
+      "b": "recordly@1.3.3",
       "logRatio": -1.907033188,
       "weight": 0.6,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics         ",
@@ -196,8 +223,8 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "cap",
-      "b": "openscreen-cli",
+      "a": "cap@0.5.9",
+      "b": "openscreen-cli@1.10.0",
       "logRatio": 1.39495074,
       "weight": 0.25,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics         ",
@@ -205,8 +232,8 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "cap",
-      "b": "recordly",
+      "a": "cap@0.5.9",
+      "b": "recordly@1.3.3",
       "logRatio": -0.305823347,
       "weight": 0.25,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics         ",
@@ -214,8 +241,8 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "openscreen-cli",
-      "b": "recordly",
+      "a": "openscreen-cli@1.10.0",
+      "b": "recordly@1.3.3",
       "logRatio": -1.700774087,
       "weight": 0.25,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics         ",
@@ -223,8 +250,8 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "openscreen-cli",
-      "b": "cap",
+      "a": "openscreen-cli@1.10.0",
+      "b": "cap@0.5.9",
       "logRatio": -0.821492271,
       "weight": 1,
       "machine": "AMD Ryzen 7 5800X 8-Core Processor             ",
@@ -232,8 +259,8 @@
       "gpu": "NVIDIA GeForce RTX 4070 Ti"
     },
     {
-      "a": "openscreen-cli",
-      "b": "recordly",
+      "a": "openscreen-cli@1.10.0",
+      "b": "recordly@1.3.3",
       "logRatio": -1.053050582,
       "weight": 1,
       "machine": "AMD Ryzen 7 5800X 8-Core Processor             ",
@@ -241,8 +268,8 @@
       "gpu": "NVIDIA GeForce RTX 4070 Ti"
     },
     {
-      "a": "cap",
-      "b": "recordly",
+      "a": "cap@0.5.9",
+      "b": "recordly@1.3.3",
       "logRatio": -0.231558312,
       "weight": 1,
       "machine": "AMD Ryzen 7 5800X 8-Core Processor             ",
@@ -250,8 +277,8 @@
       "gpu": "NVIDIA GeForce RTX 4070 Ti"
     },
     {
-      "a": "openscreen-cli",
-      "b": "cap",
+      "a": "openscreen-cli@1.10.0",
+      "b": "cap@0.5.9",
       "logRatio": -0.960196613,
       "weight": 1,
       "machine": "AMD Ryzen 7 5800X 8-Core Processor             ",
@@ -259,8 +286,8 @@
       "gpu": "NVIDIA GeForce RTX 4070 Ti"
     },
     {
-      "a": "openscreen-cli",
-      "b": "recordly",
+      "a": "openscreen-cli@1.10.0",
+      "b": "recordly@1.3.3",
       "logRatio": -1.03839479,
       "weight": 1,
       "machine": "AMD Ryzen 7 5800X 8-Core Processor             ",
@@ -268,8 +295,8 @@
       "gpu": "NVIDIA GeForce RTX 4070 Ti"
     },
     {
-      "a": "cap",
-      "b": "recordly",
+      "a": "cap@0.5.9",
+      "b": "recordly@1.3.3",
       "logRatio": -0.078198177,
       "weight": 1,
       "machine": "AMD Ryzen 7 5800X 8-Core Processor             ",
@@ -385,6 +412,11 @@
         "openscreen-cli",
         "cap",
         "recordly"
+      ],
+      "nodes": [
+        "openscreen-cli@1.10.0",
+        "cap@0.5.9",
+        "recordly@1.3.3"
       ]
     },
     {
@@ -480,6 +512,10 @@
       "tools": [
         "openscreen-cli",
         "cap"
+      ],
+      "nodes": [
+        "openscreen-cli@1.11.0-rc",
+        "cap@0.5.9"
       ]
     },
     {
@@ -599,6 +635,11 @@
         "openscreen-cli",
         "cap",
         "recordly"
+      ],
+      "nodes": [
+        "openscreen-cli@1.10.0",
+        "cap@0.5.9",
+        "recordly@1.3.3"
       ]
     },
     {
@@ -718,6 +759,11 @@
         "openscreen-cli",
         "cap",
         "recordly"
+      ],
+      "nodes": [
+        "openscreen-cli@1.10.0",
+        "cap@0.5.9",
+        "recordly@1.3.3"
       ]
     },
     {
@@ -832,6 +878,11 @@
         "cap",
         "openscreen-cli",
         "recordly"
+      ],
+      "nodes": [
+        "cap@0.5.9",
+        "openscreen-cli@1.10.0",
+        "recordly@1.3.3"
       ]
     },
     {
@@ -946,6 +997,11 @@
         "cap",
         "openscreen-cli",
         "recordly"
+      ],
+      "nodes": [
+        "cap@0.5.9",
+        "openscreen-cli@1.10.0",
+        "recordly@1.3.3"
       ]
     },
     {
@@ -1060,6 +1116,11 @@
         "openscreen-cli",
         "cap",
         "recordly"
+      ],
+      "nodes": [
+        "openscreen-cli@1.10.0",
+        "cap@0.5.9",
+        "recordly@1.3.3"
       ]
     },
     {
@@ -1174,34 +1235,40 @@
         "openscreen-cli",
         "cap",
         "recordly"
+      ],
+      "nodes": [
+        "openscreen-cli@1.10.0",
+        "cap@0.5.9",
+        "recordly@1.3.3"
       ]
     }
   ],
   "skipped": [],
   "components": [
     [
-      "cap",
-      "openscreen-cli",
-      "recordly"
+      "cap@0.5.9",
+      "openscreen-cli@1.10.0",
+      "openscreen-cli@1.11.0-rc",
+      "recordly@1.3.3"
     ]
   ],
   "consistency": {
     "edges": 22,
-    "redundantEdges": 20,
+    "redundantEdges": 19,
     "measurable": true,
-    "medianResidualPercent": 81.77,
-    "maxResidualPercent": 277.15,
+    "medianResidualPercent": 81.76,
+    "maxResidualPercent": 270.98,
     "byPlatform": {
-      "sameGpuPairs": 10,
-      "samePlatformPairs": 8,
+      "sameGpuPairs": 9,
+      "samePlatformPairs": 7,
       "crossPlatformPairs": 3,
-      "sameGpuSpreadPercent": 10.19,
-      "samePlatformSpreadPercent": 20.1,
-      "crossPlatformSpreadPercent": 227.21
+      "sameGpuSpreadPercent": 5.69,
+      "samePlatformSpreadPercent": 14.88,
+      "crossPlatformSpreadPercent": 307.38
     },
     "worst": {
-      "a": "cap",
-      "b": "recordly",
+      "a": "cap@0.5.9",
+      "b": "recordly@1.3.3",
       "spreadPercent": 425.53,
       "inverts": false,
       "ends": [
@@ -1218,21 +1285,15 @@
       ]
     }
   },
-  "versionSpread": [
-    {
-      "tool": "openscreen-cli",
-      "versions": [
-        "1.10.0",
-        "1.11.0-rc.1"
-      ],
-      "unreported": 0,
-      "submissions": 8
-    }
-  ],
+  "buildSpread": [],
+  "unplaceable": [],
   "softwareFloor": {
     "tools": [
       {
+        "node": "cap@0.5.9",
         "tool": "cap",
+        "build": "0.5.9",
+        "prerelease": false,
         "component": 0,
         "relativeCost": 1.537,
         "submissions": 2,
@@ -1245,14 +1306,16 @@
         "versions": [
           "0.5.9"
         ],
-        "versionsUnreported": 0,
         "observedCostRange": [
           1.535,
           1.54
         ]
       },
       {
+        "node": "openscreen-cli@1.10.0",
         "tool": "openscreen-cli",
+        "build": "1.10.0",
+        "prerelease": false,
         "component": 0,
         "relativeCost": 2.04,
         "submissions": 2,
@@ -1265,14 +1328,16 @@
         "versions": [
           "1.10.0"
         ],
-        "versionsUnreported": 0,
         "observedCostRange": [
           2.014,
           2.067
         ]
       },
       {
+        "node": "recordly@1.3.3",
         "tool": "recordly",
+        "build": "1.3.3",
+        "prerelease": false,
         "component": 0,
         "relativeCost": 8.688,
         "submissions": 2,
@@ -1285,7 +1350,6 @@
         "versions": [
           "1.3.3"
         ],
-        "versionsUnreported": 0,
         "observedCostRange": [
           8.684,
           8.691
@@ -1294,8 +1358,8 @@
     ],
     "edges": [
       {
-        "a": "openscreen-cli",
-        "b": "cap",
+        "a": "openscreen-cli@1.10.0",
+        "b": "cap@0.5.9",
         "logRatio": 0.294717789,
         "weight": 1,
         "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -1303,8 +1367,8 @@
         "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
       },
       {
-        "a": "openscreen-cli",
-        "b": "recordly",
+        "a": "openscreen-cli@1.10.0",
+        "b": "recordly@1.3.3",
         "logRatio": -1.436003568,
         "weight": 1,
         "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -1312,8 +1376,8 @@
         "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
       },
       {
-        "a": "cap",
-        "b": "recordly",
+        "a": "cap@0.5.9",
+        "b": "recordly@1.3.3",
         "logRatio": -1.730721356,
         "weight": 1,
         "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -1321,8 +1385,8 @@
         "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
       },
       {
-        "a": "openscreen-cli",
-        "b": "cap",
+        "a": "openscreen-cli@1.10.0",
+        "b": "cap@0.5.9",
         "logRatio": 0.271355866,
         "weight": 1,
         "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -1330,8 +1394,8 @@
         "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
       },
       {
-        "a": "openscreen-cli",
-        "b": "recordly",
+        "a": "openscreen-cli@1.10.0",
+        "b": "recordly@1.3.3",
         "logRatio": -1.461489035,
         "weight": 1,
         "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -1339,8 +1403,8 @@
         "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
       },
       {
-        "a": "cap",
-        "b": "recordly",
+        "a": "cap@0.5.9",
+        "b": "recordly@1.3.3",
         "logRatio": -1.732844901,
         "weight": 1,
         "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -1466,6 +1530,11 @@
           "openscreen-cli",
           "cap",
           "recordly"
+        ],
+        "nodes": [
+          "openscreen-cli@1.10.0",
+          "cap@0.5.9",
+          "recordly@1.3.3"
         ]
       },
       {
@@ -1585,6 +1654,11 @@
           "openscreen-cli",
           "cap",
           "recordly"
+        ],
+        "nodes": [
+          "openscreen-cli@1.10.0",
+          "cap@0.5.9",
+          "recordly@1.3.3"
         ]
       }
     ],
@@ -2213,9 +2287,9 @@
     ],
     "components": [
       [
-        "cap",
-        "openscreen-cli",
-        "recordly"
+        "cap@0.5.9",
+        "openscreen-cli@1.10.0",
+        "recordly@1.3.3"
       ]
     ],
     "consistency": {
@@ -2233,8 +2307,8 @@
         "crossPlatformSpreadPercent": null
       },
       "worst": {
-        "a": "openscreen-cli",
-        "b": "recordly",
+        "a": "openscreen-cli@1.10.0",
+        "b": "recordly@1.3.3",
         "spreadPercent": 2.58,
         "inverts": false,
         "ends": [
@@ -2251,6 +2325,7 @@
         ]
       }
     },
-    "versionSpread": []
+    "buildSpread": [],
+    "unplaceable": []
   }
 }
