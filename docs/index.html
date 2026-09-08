@@ -130,7 +130,6 @@
     text-wrap:pretty}
   .aside.empty{padding:20px 22px}
   .aside.empty p.lead{font-size:1.1rem;line-height:1.45;font-weight:600}
-  .aside.after{margin-top:26px}
   .aside.before{margin:24px 0 0}
 
   .chart{border-top:1px solid var(--ink)}
@@ -510,24 +509,8 @@
       <p><strong>No tool is the reference.</strong> Machines are joined pair by pair, so no
       submission has to contain any particular tool.</p>
     </div>
-
-    <div class="aside after">
-      <p class="lead"><strong>The same pair does not give the same ratio on every machine.</strong>
-      Where a pair was measured on more than one, its ratio moves by 91.16% at
-      the median.</p>
-      <p class="fine"><code>openscreen</code> takes 1.67× as long as <code>cap</code> on Apple M1, and 0.19× as long on Ryzen 5 7520U — the two swap places. The chart above combines every machine at once; the buttons above it
-      rank one platform or one GPU vendor at a time. Only pairs measured on more than one machine
-      are counted in this figure.</p>
-    </div>
-
-    <div class="aside after">
-      <p class="lead"><strong>1 older build is not shown here.</strong>
-      Each row is the newest build of that tool anybody has measured; the ones it replaced are
-      still in the solve.</p>
-      <p class="fine">Builds are ranked separately rather than averaged together.
-      <a href="builds.html">Every build measured</a> lists them all, and lets you pick one build
-      per tool.</p>
-    </div>
+    <p class="mono-note">Cross-check: where a pair was measured on more than one machine, its ratio moves by 91.16% at the median — widest: openscreen against cap, 1.67× on Apple M1 and 0.19× on Ryzen 5 7520U.</p>
+    <p class="mono-note">1 older build not shown: each row is the newest build measured, and the ones it replaced are still in the solve. <a href="builds.html">Every build measured →</a></p>
   </section>
 
   <section>
