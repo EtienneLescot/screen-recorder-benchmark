@@ -10,11 +10,11 @@ export default {
   displayName: "Screen Studio",
   vendor: "Screen Studio",
   kind: "gui",                  // "cli" | "gui" | "reference"
-  automation: "menu",           // "cli" | "menu" | "menu+coords" | "none"
+  automation: "cdp+menu",       // "cli" | "menu" | "cdp+menu" | "menu+coords" | "none"
   processName: "Screen Studio", // as System Events sees it
   appPath: "/Applications/Screen Studio.app",
-  bundleId: "studio.screen.app",
-  install: { method: "dmg", url, appName, approxMB, licence, notes },
+  bundleId: "com.timpler.screenstudio",
+  install: { method: "page", page, assetPattern, appName, approxMB, licence, notes },
 
   detect(),                     // -> { installed, version, path }
   async prepare(ctx),           // import the source, apply the scenario, park in the editor
@@ -89,6 +89,37 @@ capture-excluded window is absent from screenshots, and can be absent from the W
 "I took a screenshot and there was no window" says nothing at all. Diagnose over CDP or the
 accessibility tree, which do not care about capture exclusion, and never conclude an app is broken
 from a picture of an empty desktop.
+
+What *does* see them is `Page.captureScreenshot` over CDP: it renders the page rather than reading
+the display, so exclusion does not apply. Screen Studio's editor and its activation window both
+came out in full that way while `screencapture` saw an empty desktop behind them. Useful for
+diagnosing a driver — not for verifying an export, which is decided by the file.
+
+### The window you found is not necessarily the window you want
+
+An Electron app publishes one CDP target per window, and the useful ones are not always the ones
+with the recognisable URL. Screen Studio's *editor* — the window with the whole UI in it — is an
+`about:blank` target with no bridge on `window`, while the target carrying the bundle's
+`index.html` renders nothing at all and has the app's IPC bridge. A driver that takes "the first
+page target" gets one job right and the other silently wrong.
+
+Match a target on what it *is*: evaluate a probe in each one and test the answer — its visible
+text for a UI window, the presence of the bridge for an IPC one.
+
+### An icon inside a button defeats exact text matching
+
+Where the UI draws its icons as font glyphs, they land in `innerText` alongside the label: Screen
+Studio's Export button reads as `"\u{100203}\nExport"`, every glyph sitting in Unicode plane 16.
+`{ exact: true }` therefore matches nothing anywhere in the app, with "not found" as the only
+symptom — which reads exactly like a missing control. Match on substrings, and strip
+`[\u{100000}-\u{10FFFD}]` before putting any of that text in a result.
+
+### A paywall can be a window of its own
+
+An upsell or activation wall does not have to appear in the DOM you are driving. Screen Studio
+opens a separate `activation-window` BrowserWindow, so a driver watching the editor's `innerText`
+for "Activate" waits out its timeout and then reports the wrong cause. Enumerate the targets after
+any action that can be refused, and read the refusal from wherever it actually appeared.
 
 ### A CDP target existing is not the same as its renderer running
 

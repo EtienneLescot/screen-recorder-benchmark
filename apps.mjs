@@ -63,7 +63,11 @@ export const APPS = {
 	},
 	"screen-studio": {
 		roster: "Screen Studio",
-		blocker: "export requires an activated licence — there is no trial export",
+		// Everything up to the export button is automated and verified: the project is built,
+		// opened, and read back through the app's own `project.loadProject` with all ten
+		// scenario features applied. What stops there is the export itself.
+		blocker:
+			"export requires an activated licence — there is no trial export and no watermark path. Pressing Export on an unactivated install opens an “Activate Screen Studio” window asking for the email behind a licence key or subscription, and choosing Export from the app's own command menu ends at the same window. Import, the editor and every scenario feature automate fine",
 		// Off by default: export is licence-gated, so an unactivated machine would only ever
 		// record a failure. Enable it explicitly once a licence is activated.
 		// macOS only, and export is licence-gated even there.
@@ -77,9 +81,14 @@ export const APPS = {
 			assetPattern: /https:\/\/screenstudioassets\.com\/releases\/[^"' ]*Apple%20Silicon\.dmg/,
 			appName: "Screen Studio.app",
 			approxMB: 349,
-			licence: "commercial — trial exports carry a watermark (which does not change render time)",
+			// Said plainly because the earlier wording here — "trial exports carry a watermark
+			// (which does not change render time)" — described a product this one is not, and it
+			// is the difference between a row that can be measured and one that cannot. 3.7.5-4595
+			// contains no "trial" or "watermark" string at all.
+			licence: "commercial — a licence is REQUIRED to export; there is no trial export",
 			notes: [
 				"No CLI and no scripting dictionary; only screen-studio://record-* deeplinks exist, none for export.",
+				"The editor is capture-excluded and publishes no accessibility tree, so it is driven over CDP — see drivers/screen-studio.mjs.",
 			],
 		},
 	},
