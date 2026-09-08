@@ -97,7 +97,7 @@ the answer on the machine in front of you.
 | Screen Studio | yes (screen-studio) | **no** | export requires an activated licence — there is no trial export |
 | Cap | yes (cap) | yes | — |
 | Recordly | yes (recordly, recordly-cuda) | **no** | exports the app's default scene rather than the pinned one — opening a project rewrites it with the app's normalised state, replacing corner radius (40 -> 12.5), padding, cursor size, smoothing, motion blur and click effects with defaults. The export succeeds and passes every pixel check, because the verifier tests that an effect is present, not that it matches the scenario |
-| FocuSee | yes (focusee) | **no** | every export raises a Premium upsell whose only actions are Buy Now and close — closing it cancels the export, on a 10s clip as on a 60s one. Import and the editor automate fine on both platforms; on Windows the import needs a real mouse event, not a UIA invoke |
+| FocuSee | yes (focusee) | **no** | every export raises a Premium upsell whose only actions are Buy Now and close — closing it cancels the export, on a 10s clip as on a 60s one. On Windows that upsell is now the only thing missing: the adapter writes the scenario into a .focusee project — zooms, cursor telemetry, webcam and audio channels included — opens it in FocuSeeEditor.exe, and the editor reports every channel live before the export dialog is pinned to MP4/1080p/60. On macOS the same wall stands in front of a driver that can only reach the canvas |
 <!-- status:end -->
 
 `ffmpeg (re-encode floor)` is not a candidate. It is the unit, and carries no roster entry.

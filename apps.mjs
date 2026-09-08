@@ -192,7 +192,7 @@ export const APPS = {
 	focusee: {
 		roster: "FocuSee",
 		blocker:
-			"every export raises a Premium upsell whose only actions are Buy Now and close — closing it cancels the export, on a 10s clip as on a 60s one. Import and the editor automate fine on both platforms; on Windows the import needs a real mouse event, not a UIA invoke",
+			"every export raises a Premium upsell whose only actions are Buy Now and close — closing it cancels the export, on a 10s clip as on a 60s one. On Windows that upsell is now the only thing missing: the adapter writes the scenario into a .focusee project — zooms, cursor telemetry, webcam and audio channels included — opens it in FocuSeeEditor.exe, and the editor reports every channel live before the export dialog is pinned to MP4/1080p/60. On macOS the same wall stands in front of a driver that can only reach the canvas",
 		driver: { darwin: "./drivers/focusee.mjs", win32: "./drivers/focusee-win.mjs" },
 		// On macOS the export is gated behind a purchase in 2.4.1 (see drivers/focusee.mjs); on
 		// Windows the vendor ships the real application rather than a downloader stub, so it is
@@ -203,8 +203,18 @@ export const APPS = {
 			url: "https://focusee.imobie.com/go/download.php?product=fs",
 			appName: "FocuSee.app",
 			approxMB: 5,
-			licence: "commercial — trial exports are watermarked",
+			// Not "watermarked": there is no watermarked trial export to be had. Pressing Export
+			// without a licence raises the Premium panel and writes nothing at all.
+			licence: "commercial — export requires a licence; there is no trial export",
 			notes: ["The vendor ships a GUI installer stub; run it once during preflight."],
+			// Windows gets the real application from a different URL, and it installs unattended.
+			win32: {
+				method: "installer",
+				url: "https://focusee.imobie-resource.com/product/focusee-en-v2-setup.exe",
+				appName: "FocuSee",
+				approxMB: 120,
+				silentArgs: ["/S"],
+			},
 		},
 	},
 	"ffmpeg-baseline": {
