@@ -1,8 +1,8 @@
 {
-	"generatedAt": "2026-08-28T16:32:18.402Z",
+	"generatedAt": "2026-09-08T14:12:50.060Z",
 	"machine": {
-		"chip": "AMD Ryzen 5 7520U with Radeon Graphics         ",
-		"osVersion": "10.0.26200",
+		"chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+		"osVersion": "24.04",
 		"model": "ASUSTeK COMPUTER INC. Vivobook Go E1404FA_E1404FA"
 	},
 	"scenario": "full-demo",
@@ -17,62 +17,9 @@
 			"seed": 20260825,
 			"sourceBitrateMbps": 12
 		},
-		"sha256": "c3540cabb6e41bf4102e68edaec0cd46133477b2eb0df6d96ec12b42c051a8d5"
+		"sha256": "2c4771aa614d27e12986e5e3b29ed9228e4f6ee9692c598cbf74565f7729ad46"
 	},
 	"apps": {
-		"cap": {
-			"app": "cap",
-			"target": 5,
-			"paddingControl": 13.32,
-			"achievedInsetPercent": 4.81,
-			"achievedBox": {
-				"left": 92,
-				"top": 52,
-				"right": 1827,
-				"bottom": 1027,
-				"width": 1736,
-				"height": 976
-			},
-			"withinTolerance": true,
-			"probes": [
-				{
-					"control": 2.5,
-					"inset": 1.02,
-					"box": {
-						"left": 19,
-						"top": 11,
-						"right": 1900,
-						"bottom": 1068,
-						"width": 1882,
-						"height": 1058
-					}
-				},
-				{
-					"control": 5,
-					"inset": 1.94,
-					"box": {
-						"left": 37,
-						"top": 21,
-						"right": 1882,
-						"bottom": 1058,
-						"width": 1846,
-						"height": 1038
-					}
-				},
-				{
-					"control": 13.32,
-					"inset": 4.81,
-					"box": {
-						"left": 92,
-						"top": 52,
-						"right": 1827,
-						"bottom": 1027,
-						"width": 1736,
-						"height": 976
-					}
-				}
-			]
-		},
 		"openscreen-cli": {
 			"app": "openscreen-cli",
 			"target": 5,
@@ -114,6 +61,71 @@
 				}
 			]
 		},
+		"cap": {
+			"app": "cap",
+			"target": 5,
+			"paddingControl": 13.88,
+			"achievedInsetPercent": 5,
+			"achievedBox": {
+				"left": 96,
+				"top": 54,
+				"right": 1823,
+				"bottom": 1025,
+				"width": 1728,
+				"height": 972
+			},
+			"withinTolerance": true,
+			"probes": [
+				{
+					"control": 2.5,
+					"inset": 0.93,
+					"box": {
+						"left": 19,
+						"top": 10,
+						"right": 1900,
+						"bottom": 1069,
+						"width": 1882,
+						"height": 1060
+					}
+				},
+				{
+					"control": 5,
+					"inset": 1.94,
+					"box": {
+						"left": 37,
+						"top": 21,
+						"right": 1882,
+						"bottom": 1058,
+						"width": 1846,
+						"height": 1038
+					}
+				},
+				{
+					"control": 12.57,
+					"inset": 4.55,
+					"box": {
+						"left": 89,
+						"top": 49,
+						"right": 1830,
+						"bottom": 1028,
+						"width": 1742,
+						"height": 980
+					}
+				},
+				{
+					"control": 13.88,
+					"inset": 5,
+					"box": {
+						"left": 96,
+						"top": 54,
+						"right": 1823,
+						"bottom": 1025,
+						"width": 1728,
+						"height": 972
+					}
+				}
+			]
+		},
 		"recordly": {
 			"app": "recordly",
 			"target": 5,
@@ -122,9 +134,9 @@
 			"achievedBox": {
 				"left": 77,
 				"top": 43,
-				"right": 1842,
+				"right": 1843,
 				"bottom": 1037,
-				"width": 1766,
+				"width": 1767,
 				"height": 995
 			},
 			"withinTolerance": false,
@@ -135,9 +147,9 @@
 					"box": {
 						"left": 77,
 						"top": 43,
-						"right": 1842,
+						"right": 1843,
 						"bottom": 1037,
-						"width": 1766,
+						"width": 1767,
 						"height": 995
 					}
 				},
@@ -147,9 +159,9 @@
 					"box": {
 						"left": 77,
 						"top": 43,
-						"right": 1842,
+						"right": 1843,
 						"bottom": 1037,
-						"width": 1766,
+						"width": 1767,
 						"height": 995
 					}
 				}
