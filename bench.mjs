@@ -46,7 +46,7 @@ import { remoteDesktopActive } from "./lib/platform.mjs";
 import { fetchBundle, loadSources } from "./lib/publicSource.mjs";
 import { renderReport } from "./lib/report.mjs";
 import { preconditionCheck, runApp, runOnce } from "./lib/runner.mjs";
-import { loadRoster, renderSite } from "./lib/site.mjs";
+import { loadRoster, renderBuilds, renderSite } from "./lib/site.mjs";
 import { prepareBundle } from "./lib/sourceBundle.mjs";
 import { newRunId, RunState } from "./lib/state.mjs";
 import { buildSubmission, collectSubmissions, renderAggregate } from "./lib/submission.mjs";
@@ -288,6 +288,27 @@ async function cmdInstall({ flags }) {
 	const plan = installPlan(apps);
 	const cacheDir = join(WORK_DIR, "installers");
 	const records = [];
+	// `--version` names one release instead of taking the vendor's current one — the way to
+	// measure a build that `/releases/latest` will not return, such as a release candidate.
+	// Refused for more than one app, because a tag belongs to a repository and applying one
+	// string to several vendors would install whatever each happened to have under that name.
+	// It also implies --force: the pin exists to replace whatever is on the machine, and the
+	// already-installed short-circuit would otherwise leave the old build in place and report
+	// success.
+	if (typeof flags.version === "string") {
+		const pinnable = plan.filter((s) => s.method === "github-release");
+		if (plan.length !== 1 || pinnable.length !== 1) {
+			log(
+				`--version pins one release, so it needs exactly one app resolved from a release feed; ` +
+					`--apps ${apps.join(",")} plans ${plan.length} install(s), ${pinnable.length} of them pinnable.`,
+			);
+			process.exitCode = 1;
+			return;
+		}
+		pinnable[0].version = flags.version;
+		flags.force = true;
+		log(`pinned ${pinnable[0].app} to ${flags.version} (forcing reinstall)\n`);
+	}
 	for (const spec of plan) {
 		log(`${spec.appName}`);
 		try {
@@ -1192,6 +1213,19 @@ async function cmdSite() {
 	const out = join(BENCH_ROOT, "docs", "index.html");
 	fs.mkdirSync(join(BENCH_ROOT, "docs"), { recursive: true });
 	fs.writeFileSync(out, `${html}\n`);
+	// The builds page carries what the ranking deliberately leaves out: every build of every
+	// tool, and the filter that lets a reader pick the ones they actually have installed.
+	fs.writeFileSync(
+		join(BENCH_ROOT, "docs", "builds.html"),
+		`${renderBuilds(result, {
+			generatedAt:
+				subs
+					.map((s) => s.submittedAt ?? "")
+					.sort()
+					.at(-1)
+					?.slice(0, 10) ?? "no data",
+		})}\n`,
+	);
 	fs.writeFileSync(
 		join(BENCH_ROOT, "docs", "aggregate.json"),
 		`${JSON.stringify({ ...result, softwareFloor: softwareResult }, null, 2)}\n`,
@@ -1421,6 +1455,8 @@ function cmdHelp() {
   apps                      what this machine can measure, and why anything is unavailable
   preflight [--launch]      the single interactive gate: what will be downloaded, what to grant
   install   [--apps a,b] [--force]
+            [--version TAG]  install one named release (e.g. v1.11.0-rc.1) instead of the
+                             vendor's current one; one app at a time, implies --force
   calibrate [--apps a,b]    solve each app's padding control so they composite the same rect
   fixture   [--force] [--duration s] [--fps n]
   fetch-source <bundle> [--force]   download + verify + normalise public footage
