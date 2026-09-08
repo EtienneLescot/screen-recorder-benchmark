@@ -21,6 +21,7 @@ import {
 	calibrateApp,
 	calibrationFixture,
 	loadCalibration,
+	sameMachine,
 	saveCalibration,
 } from "./lib/calibrate.mjs";
 import {
@@ -402,10 +403,7 @@ async function cmdRun({ flags }) {
 	const calibration = loadCalibration();
 	if (calibration.machine) {
 		const here = machineFingerprint();
-		if (
-			calibration.machine.chip !== here.chip ||
-			calibration.machine.osVersion !== here.osVersion
-		) {
+		if (!sameMachine(calibration.machine, here)) {
 			log(
 				`⚠ benchmark/calibration.json was solved on ${calibration.machine.chip} / ${calibration.machine.osVersion}, ` +
 					`not this machine. Re-run \`bench.mjs calibrate\` — app versions differ between machines and ` +
