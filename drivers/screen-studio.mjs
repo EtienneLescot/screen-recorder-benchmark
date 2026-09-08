@@ -60,9 +60,12 @@ import { join } from "node:path";
 import { CdpSession, DOM_HELPERS, listTargets } from "../lib/cdp.mjs";
 import { sleep } from "../lib/measure.mjs";
 import { appVersion } from "../lib/platform.mjs";
-import { buildProject, defaultPaddingControl } from "../lib/screenStudioProject.mjs";
-import { fileDialogTo } from "../lib/ui.mjs";
-import { appIsRunning, quitApp } from "../lib/uiScript.mjs";
+import {
+	aspectRatioFor,
+	buildProject,
+	defaultPaddingControl,
+} from "../lib/screenStudioProject.mjs";
+import { appIsRunning, osa, quitApp } from "../lib/uiScript.mjs";
 
 const APP = "/Applications/Screen Studio.app";
 const BIN = `${APP}/Contents/MacOS/Screen Studio`;
@@ -256,7 +259,17 @@ export default {
 		const c = loaded.config ?? {};
 		const e = ctx.scenario.effects;
 
-		const applied = ["targetResolution", "targetFps"];
+		// `targetFps` is chosen in the export menu and asserted there; `targetResolution` needs
+		// the composition's aspect pinned as well, because the app derives the output frame from
+		// the composition unless it is told not to — see lib/screenStudioProject.mjs.
+		const wantAspect = aspectRatioFor(ctx.scenario.output);
+		const applied = ["targetFps"];
+		if (
+			c.defaultOutputAspectRatio?.x === wantAspect.x &&
+			c.defaultOutputAspectRatio?.y === wantAspect.y
+		) {
+			applied.push("targetResolution");
+		}
 		if (c.backgroundType === "system" && c.backgroundSystemName) applied.push("background");
 		if (c.backgroundPaddingRatio > 0) applied.push("padding");
 		if (c.windowBorderRadius > 0) applied.push("cornerRadius");
@@ -339,6 +352,11 @@ export default {
 		const s = ctx.state.cdp;
 		const out = this.outputPath(ctx);
 		if (existsSync(out)) rmSync(out);
+		// This app renders frames into a temporary directory and muxes at the end, so the output
+		// path stays absent for the whole export and then appears finished. The runner's default
+		// four-minute "it never appeared" guard is written for tools that grow their output as
+		// they go, and it fails a Screen Studio export that is simply still rendering.
+		ctx.appearTimeoutMs = 30 * 60 * 1000;
 
 		// The gate the app itself reads. Asking it directly costs one IPC round trip and gives a
 		// precise answer; pressing Export first would only produce the same answer as a modal.
@@ -389,31 +407,153 @@ export default {
 						"to it.",
 				);
 			}
-			await sleep(600);
-			if (step.expect) {
-				const placeholder = await s.eval(
-					`JSON.stringify([...document.querySelectorAll("input")].map((i) => i.placeholder))`,
+			// The next level is *waited for*, not slept past. A fixed delay is how this leg failed
+			// the first time it ran against a licensed install: the menu had not re-rendered
+			// within 600 ms, so the assertion below read the level above's question and the leg
+			// died on a step that was in fact correct. Polling costs nothing when the menu is
+			// quick — it usually answers on the first look — and survives a machine that is busy.
+			if (!step.expect) continue;
+			const asked = await this.waitForPlaceholder(s, step.expect);
+			if (!asked.ok) {
+				throw new Error(
+					`after “${step.label}” the command menu asked ${asked.seen} rather than ${step.expect} — ` +
+						"refusing to answer a question it was not asked",
 				);
-				if (!step.expect.test(placeholder)) {
-					throw new Error(
-						`after “${step.label}” the command menu asked ${placeholder} rather than ${step.expect} — ` +
-							"refusing to answer a question it was not asked",
-					);
-				}
 			}
 		}
 
-		// The save panel comes *before* the render, not after it: the exporter asks "Where to save
-		// new recording export?" and only then initialises. So the clock starts once the panel is
-		// answered — anything earlier would be timing a modal dialog and the typing into it.
+		// The app refuses a second export while one is still open, and says so in a toast rather
+		// than by any other means. Read it now: the alternative is a minute spent waiting for a
+		// save panel that was never going to appear, and a leg whose remaining repetitions all
+		// fail for a reason nothing reports.
+		const refusal = await s.eval(
+			`(document.body.innerText.match(/Cannot start export[^\\n]*/) || [""])[0]`,
+		);
+		if (refusal) throw new Error(`Screen Studio refused the export: ${refusal}`);
+
+		// The save panel comes *before* the render, not after it: the exporter raises "Where to
+		// save new recording export?" and only then initialises. So the clock starts once the
+		// panel is answered — anything earlier would be timing a modal dialog and the driver's own
+		// typing into it.
 		//
-		// `fileDialogTo` rather than the panel helpers directly, because it owns the rule that
-		// bit the OpenScreen adapter: the AppKit save panel appends the format's extension
-		// itself, so a typed "…run0.mp4" comes back as "…run0.mp4.mp4" and the runner then waits
-		// out its timeout on a path nothing will ever write. It answers a replace-confirmation on
-		// the way out too, which is sub-second and lands just inside the measured interval.
-		await fileDialogTo(this.processName, out, { timeoutMs: 60_000 });
+		// Its appearance is also the only cheap proof that the export really began, which is why
+		// it is required rather than assumed. Measured, the sheet is up within a second.
+		if (!(await this.waitForSavePanel())) {
+			throw new Error(
+				"Screen Studio never raised its save panel, so the export never started — the command " +
+					"menu accepted every step and then did nothing with them.",
+			);
+		}
+		await this.answerSavePanel(out);
 		ctx.commit();
+	},
+
+	/**
+	 * Answer the export's save panel by setting its field and pressing its button.
+	 *
+	 * Not `lib/ui.mjs`'s `fileDialogTo`, and the reason is worth keeping. That helper drives the
+	 * panel the way a person would — ⇧⌘G, type the folder, ⌘A, type the name, Return — and here
+	 * that **cancelled the export**: the app then held a half-started export and refused every
+	 * later one in the session with "Cannot start export, there is already an export in progress",
+	 * so one missed keystroke cost a whole leg rather than one repetition. Its sheet detection
+	 * does not match this app either: it looks at `window 1`, and Screen Studio's panel hangs off
+	 * the project window, which is not window 1.
+	 *
+	 * The panel itself is ordinary AppKit — a splitter group holding the name field and buttons
+	 * named Cancel and Save — so it is driven by name instead, with the value read back before
+	 * the button is pressed.
+	 *
+	 * The folder and the name are set separately, and that is not fussiness. Writing the whole
+	 * absolute path into the name field looks like it works — the field reads back exactly what
+	 * was written and the export runs to completion — but AppKit treats it as a *filename*, so
+	 * 62 MB of finished export landed beside its intended folder as
+	 * `:Users:m1:…:screen-studio-full-demo-run0.mp4`, with every "/" stored as ":". Meanwhile the
+	 * runner sat watching the path it asked for and recorded the run as "output never appeared".
+	 * A correct export, filed under a name nobody asked for, is the most expensive kind of failure
+	 * here: it costs the render *and* tells you nothing about why.
+	 */
+	async answerSavePanel(absolutePath) {
+		const dir = absolutePath.replace(/\/[^/]+$/, "");
+		const name = absolutePath.split("/").pop();
+		const typed = osa(`tell application "System Events" to tell process "${this.processName}"
+			repeat with w in windows
+				if (count of sheets of w) > 0 then
+					set sh to sheet 1 of w
+					-- ⇧⌘G raises the panel's own "Go to folder" sheet; its field takes the folder,
+					-- and Return commits it. Only the shortcut is a keystroke: both values are set
+					-- through the accessibility API, so nothing depends on where focus happens to be.
+					keystroke "g" using {command down, shift down}
+					delay 0.8
+					if (count of sheets of sh) > 0 then
+						set value of text field 1 of sheet 1 of sh to ${JSON.stringify(dir)}
+						delay 0.5
+						key code 36
+						delay 1.2
+					end if
+					set sg to splitter group 1 of sh
+					set value of text field 1 of sg to ${JSON.stringify(name)}
+					delay 0.4
+					set v to value of text field 1 of sg
+					click button "Save" of sg
+					return v
+				end if
+			end repeat
+			return ""
+		end tell`);
+		if (typed !== name) {
+			throw new Error(
+				`Screen Studio's save panel took “${typed}” rather than “${name}” — the export would ` +
+					"have been written somewhere the runner is not watching",
+			);
+		}
+		// A replace-confirmation appears as a sheet on the panel when the path already exists.
+		// The runner deletes the output first, so this is belt and braces.
+		try {
+			osa(`tell application "System Events" to tell process "${this.processName}"
+				repeat with w in windows
+					repeat with sh in sheets of w
+						if exists button "Replace" of sheet 1 of sh then click button "Replace" of sheet 1 of sh
+					end repeat
+				end repeat
+			end tell`);
+		} catch {
+			/* the common case: no alert */
+		}
+	},
+
+	/** Poll the command menu's filter field until it is asking the expected question. */
+	async waitForPlaceholder(session, expect, { timeoutMs = 15_000, pollMs = 250 } = {}) {
+		const t0 = Date.now();
+		let seen = "[]";
+		while (Date.now() - t0 < timeoutMs) {
+			seen = await session.eval(
+				`JSON.stringify([...document.querySelectorAll("input")].map((i) => i.placeholder))`,
+			);
+			if (expect.test(seen)) return { ok: true, seen };
+			await sleep(pollMs);
+		}
+		return { ok: false, seen };
+	},
+
+	/** The export's own save sheet, on whichever window the project is in. */
+	async waitForSavePanel({ timeoutMs = 60_000, pollMs = 500 } = {}) {
+		const t0 = Date.now();
+		while (Date.now() - t0 < timeoutMs) {
+			try {
+				const n = osa(`tell application "System Events" to tell process "${this.processName}"
+					set n to 0
+					repeat with w in windows
+						set n to n + (count of sheets of w)
+					end repeat
+					return n
+				end tell`);
+				if (Number(n) > 0) return true;
+			} catch {
+				/* System Events can be busy; ask again */
+			}
+			await sleep(pollMs);
+		}
+		return false;
 	},
 
 	/** The ⌘ button in the editor's toolbar; the menu it opens filters by visible text. */
