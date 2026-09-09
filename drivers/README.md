@@ -129,6 +129,35 @@ Studio's Export button reads as `"\u{100203}\nExport"`, every glyph sitting in U
 symptom — which reads exactly like a missing control. Match on substrings, and strip
 `[\u{100000}-\u{10FFFD}]` before putting any of that text in a result.
 
+### The editor loading a project does not mean the compositor can render it
+
+A hand-written project is checked twice by the app, and only the first check is cheap to see. The
+editor's loader is forgiving: Screen Studio opened a project whose camera channel had no
+`videoSize`, showed the camera panel with the right size and roundness, and answered every
+read-back correctly. The *compositor* then read `session.webcam.videoSize.width` and threw. What
+that looked like from outside was an export that started, ran for a few seconds, and stopped: no
+file, no dialog, no toast, and — because the app now held a half-started export — every later
+export in that session refused with "Cannot start export, there is already an export in progress".
+One repetition's silent failure became the whole leg's.
+
+So: a project that opens is not a project that renders, an adapter cannot be finished against a
+tool it has never seen export, and **the renderer's console is where the answer is**. Attach to
+every target with `Runtime.enable` and `Log.enable` before pressing export; the exception names
+the missing field in one line.
+
+### A save panel is not always on window 1, and a blind one can cancel the export
+
+`lib/ui.mjs`'s `fileDialogTo` drives a macOS save panel the way a person does — ⇧⌘G, type the
+folder, ⌘A, type the name, Return — and waits for `sheet 1 of window 1` first. Both halves failed
+here: Screen Studio's panel hangs off the project window, which is not window 1, so the wait fell
+through to its timeout and typed regardless; and the typing landed somewhere that dismissed the
+panel, which the app reads as "user cancelled export" and leaves wedged as above.
+
+The panel itself is ordinary AppKit even when the app's own windows are not — a splitter group
+holding the name field and buttons named Cancel and Save. Set the field, read it back, click the
+button by name. An absolute path in the name field is resolved by NSSavePanel, so no folder
+navigation is needed and there is no extension to double up.
+
 ### A paywall can be a window of its own
 
 An upsell or activation wall does not have to appear in the DOM you are driving. Screen Studio

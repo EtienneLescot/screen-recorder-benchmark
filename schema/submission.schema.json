@@ -98,7 +98,7 @@
 				"properties": {
 					"tool": {
 						"type": "string",
-						"description": "Registry id, e.g. \"cap\", \"openscreen-cli\"."
+						"description": "Registry id, e.g. \"cap\", \"openscreen\"."
 					},
 					"version": { "type": "string" },
 					"exportMs": { "type": "number", "description": "Median of the scoring runs." },

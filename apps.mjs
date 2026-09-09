@@ -21,9 +21,9 @@
  * `bench.mjs refresh-urls` re-resolves them and prints the diff.
  */
 export const APPS = {
-	"openscreen-cli": {
+	openscreen: {
 		roster: "OpenScreen",
-		driver: "./drivers/openscreen-cli.mjs",
+		driver: "./drivers/openscreen.mjs",
 		default: true,
 		install: {
 			method: "github-release",
@@ -48,18 +48,6 @@ export const APPS = {
 				approxMB: 346,
 			},
 		},
-	},
-	"openscreen-gui": {
-		roster: "OpenScreen",
-		// macOS only for now, and said so here rather than discovered at runtime. The adapter
-		// reaches the editor over CDP on either platform, but the two native surfaces on the path —
-		// the File menu and the save panel — go through System Events. On Windows the leg died
-		// with "spawnSync /usr/bin/osascript ENOENT" after `bench.mjs apps` had called it ready,
-		// because readiness only ever checked that the binary existed. Porting it means replacing
-		// those two steps with lib/uiWindows.mjs, the way drivers/recordly.mjs uses fileDialogTo.
-		driver: { darwin: "./drivers/openscreen-gui.mjs" },
-		default: true,
-		sharesInstallWith: "openscreen-cli",
 	},
 	"screen-studio": {
 		roster: "Screen Studio",

@@ -15,7 +15,7 @@ import { copyFileSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { wallpaperDataUri } from "../lib/assets.mjs";
 
-const PROJ = "/Users/m1/openscreen-export-benchmark/projects/openscreen-cli";
+const PROJ = "/Users/m1/openscreen-export-benchmark/projects/openscreen";
 const OUT = "/Users/m1/openscreen-export-benchmark/out/ab";
 const BIN = "/Applications/Openscreen.app/Contents/MacOS/Openscreen";
 const WALL = "/Users/m1/openscreen-export-benchmark/fixture/ide-1080p60-60s.wallpaper.jpg";

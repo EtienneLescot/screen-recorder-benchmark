@@ -38,7 +38,7 @@
   },
   "measurements": [
     {
-      "tool": "openscreen-cli",
+      "tool": "openscreen",
       "version": "1.11.0-rc.1",
       "exportMs": 30629,
       "madMs": 119,
@@ -79,7 +79,7 @@
     }
   ],
   "notes": [
-    "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+    "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
     "cap: zoom segments written: 3",
     "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
   ]

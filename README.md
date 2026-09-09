@@ -30,7 +30,7 @@ anything:
 
 ```
 tool                  status        version         driven by
-openscreen-cli        ready         1.10.0-rc.3     cli
+openscreen        ready         1.10.0-rc.3     cli
 cap                   ready         0.5.9           cli
 screen-studio         blocked       3.7.5-4595      cdp+menu
                       ↳ export requires an activated licence — there is no trial export
@@ -40,7 +40,7 @@ ffmpeg-baseline       ready         8.1.2           cli
 Then pick any set:
 
 ```bash
-node bench.mjs run --bundle commons-upload --apps cap,openscreen-cli
+node bench.mjs run --bundle commons-upload --apps cap,openscreen
 ```
 
 `ffmpeg-baseline` is added automatically and is not a competitor — it is the unit everything
