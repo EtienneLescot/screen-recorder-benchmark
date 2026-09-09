@@ -1,0 +1,37 @@
+What the FocuSee adapter's completion poll cost the leg it was measuring.
+
+Machine: AMD Ryzen 5 7520U (4 physical cores), win32, 2026-09-09.
+Target process: `claude` (Electron) — a stand-in for FocuSeeEditor, and a lower bound:
+its window yields 528-530 rows where the editor hits the 1200 cap, so the editor's
+walk and its O(n^2) `$rows +=` accumulation are both larger than what is measured here.
+
+  node scratch/uia-poll-cost.mjs claude 8      # describeApp, as the adapter called it
+  median: wall 2176 ms, cpu 1.39 s
+  cadence: one poll per 2676 ms (500 ms sleep + the blocking spawn)
+  sustained load while polling: 52% of one core
+
+  node scratch/uia-probe-cost.mjs claude 8     # FindFirst on the three AutomationIds
+  median: wall 1129 ms, cpu 0.80 s
+  cadence: one poll per 1629 ms
+  sustained load while polling: 49% of one core
+
+The second number is the reason the fix is a cadence and not a cheaper query. Asking the
+provider directly instead of walking 4000 elements client-side halves the CPU per call —
+and changes the load by 3 points, because it also halves the wall time and so polls more
+often. The cost is not the query. It is powershell.exe starting and loading the UIA
+assemblies, paid twice a second, and no rewriting of the query avoids it.
+
+Why the cadence is free: the adapter reports completion through ctx.observeComplete, which
+lib/runner.mjs (search: observeComplete) records as a skew and explicitly does not use as
+the stop — waitForStableFile owns the stopwatch, off the output's own mtime. Slowing the
+poll moves waitedMs, never exportMs. Run 20260909T111251Z recorded
+`completionSignal: "file-mtime"` with `appFileCompletionSkewMs: 5411`, so the filesystem
+was already deciding every FocuSee timing published to date.
+
+Why it mattered: `foreignCpuPercent` is total system load minus the app under test
+(lib/measure.mjs, sampleForeignLoad), so the adapter's own powershell children counted as
+background load against FocuSee — and against no CLI adapter, which poll nothing. Run
+20260909T193656Z measured 162.5% background on the FocuSee leg against 88% on the
+OpenScreen leg, a 74.5-point gap that weighted the submission at x0.099.
+
+At 6000 ms the same poll holds ~17% of a core.
