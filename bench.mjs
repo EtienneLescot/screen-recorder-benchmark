@@ -726,6 +726,22 @@ async function cmdRun({ flags }) {
 		}
 
 		const calibrated = calibration.apps?.[id]?.paddingControl ?? null;
+		// A calibration file that covers this machine but not this app is the quiet failure, and
+		// it is the one that costs a whole run: the driver falls back to its documented default,
+		// composites a different rectangle from the tools beside it, and every export still
+		// verifies. It happened to `openscreen-cli` -> `openscreen`: the solve stayed under the
+		// old id, the run took the default, and OpenScreen inset 10% against FocuSee's 5%. So it
+		// is said out loud before the exports rather than found in the pixels afterwards, and it
+		// travels on the record so a submission carries which padding it actually used.
+		const padded = typeof driver.defaultPaddingControl === "function";
+		if (padded && calibrated == null && Object.keys(calibration.apps ?? {}).length) {
+			log(
+				`  ⚠ no padding solve for "${id}" in benchmark/calibration.json, which has ` +
+					`${Object.keys(calibration.apps).join(", ")}. It will composite its documented default ` +
+					`instead of the solved value, so its rectangle need not match the tools beside it — ` +
+					`run \`bench.mjs calibrate --apps ${id}\`, or check that the id has not been renamed.`,
+			);
+		}
 		const baseCtx = {
 			workDir: WORK_DIR,
 			outDir,
@@ -776,6 +792,12 @@ async function cmdRun({ flags }) {
 				`  local floor for ${id}: ${(ms / 1000).toFixed(2)}s at ${bg}% background (${paired.length} paired)`,
 			);
 		}
+		// Which padding the leg actually used, beside the number it produced.
+		if (padded)
+			rec.paddingControl = {
+				value: calibrated,
+				source: calibrated == null ? "driver-default" : "calibrated",
+			};
 		if (localFloor.has(id)) rec.localFloor = localFloor.get(id);
 		// Kept beside it rather than folded in: the two floors answer different questions, and
 		// averaging a fixed-function number with a core-bound one would describe neither.
