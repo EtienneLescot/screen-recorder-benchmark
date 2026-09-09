@@ -1,9 +1,9 @@
 {
-	"generatedAt": "2026-08-28T16:32:18.402Z",
+	"generatedAt": "2026-09-09T06:50:33.335Z",
 	"machine": {
-		"chip": "AMD Ryzen 5 7520U with Radeon Graphics         ",
-		"osVersion": "10.0.26200",
-		"model": "ASUSTeK COMPUTER INC. Vivobook Go E1404FA_E1404FA"
+		"chip": "Apple M1",
+		"osVersion": "26.5",
+		"model": "Macmini9,1"
 	},
 	"scenario": "full-demo",
 	"targetInsetPercent": 5,
@@ -17,57 +17,57 @@
 			"seed": 20260825,
 			"sourceBitrateMbps": 12
 		},
-		"sha256": "c3540cabb6e41bf4102e68edaec0cd46133477b2eb0df6d96ec12b42c051a8d5"
+		"sha256": "574cd13f8e130381c7271a0e9b172f765089fbb99abc4f4548f29b4244b011e4"
 	},
 	"apps": {
-		"cap": {
-			"app": "cap",
+		"screen-studio": {
+			"app": "screen-studio",
 			"target": 5,
-			"paddingControl": 13.32,
+			"paddingControl": 3.8,
 			"achievedInsetPercent": 4.81,
 			"achievedBox": {
-				"left": 92,
+				"left": 91,
 				"top": 52,
-				"right": 1827,
+				"right": 1825,
 				"bottom": 1027,
-				"width": 1736,
+				"width": 1735,
 				"height": 976
 			},
 			"withinTolerance": true,
 			"probes": [
 				{
-					"control": 2.5,
-					"inset": 1.02,
-					"box": {
-						"left": 19,
-						"top": 11,
-						"right": 1900,
-						"bottom": 1068,
-						"width": 1882,
-						"height": 1058
-					}
-				},
-				{
 					"control": 5,
-					"inset": 1.94,
+					"inset": 6.11,
 					"box": {
-						"left": 37,
-						"top": 21,
-						"right": 1882,
-						"bottom": 1058,
-						"width": 1846,
-						"height": 1038
+						"left": 115,
+						"top": 66,
+						"right": 1801,
+						"bottom": 1013,
+						"width": 1687,
+						"height": 948
 					}
 				},
 				{
-					"control": 13.32,
+					"control": 10,
+					"inset": 10.74,
+					"box": {
+						"left": 209,
+						"top": 117,
+						"right": 1711,
+						"bottom": 963,
+						"width": 1503,
+						"height": 847
+					}
+				},
+				{
+					"control": 3.8,
 					"inset": 4.81,
 					"box": {
-						"left": 92,
+						"left": 91,
 						"top": 52,
-						"right": 1827,
+						"right": 1825,
 						"bottom": 1027,
-						"width": 1736,
+						"width": 1735,
 						"height": 976
 					}
 				}
@@ -110,47 +110,6 @@
 						"bottom": 971,
 						"width": 1536,
 						"height": 864
-					}
-				}
-			]
-		},
-		"recordly": {
-			"app": "recordly",
-			"target": 5,
-			"paddingControl": 10,
-			"achievedInsetPercent": 3.89,
-			"achievedBox": {
-				"left": 77,
-				"top": 43,
-				"right": 1842,
-				"bottom": 1037,
-				"width": 1766,
-				"height": 995
-			},
-			"withinTolerance": false,
-			"probes": [
-				{
-					"control": 10,
-					"inset": 3.89,
-					"box": {
-						"left": 77,
-						"top": 43,
-						"right": 1842,
-						"bottom": 1037,
-						"width": 1766,
-						"height": 995
-					}
-				},
-				{
-					"control": 20,
-					"inset": 3.89,
-					"box": {
-						"left": 77,
-						"top": 43,
-						"right": 1842,
-						"bottom": 1037,
-						"width": 1766,
-						"height": 995
 					}
 				}
 			]
