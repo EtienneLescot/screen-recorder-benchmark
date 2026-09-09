@@ -491,13 +491,25 @@ export default {
 		}
 		ctx.commit();
 
-		// FocuSee's success overlay is the app's own completion signal. Waiting a fixed 12 seconds
-		// here before letting the runner inspect the file used to add that delay to every timing
-		// whenever the render itself completed sooner. Poll both terminal overlays instead and give
-		// the runner the exact instant FocuSee says it is done; the filesystem is still required to
-		// confirm that an output exists and has stabilised.
-		for (let i = 0; i < 600; i++) {
-			await sleep(500);
+		// FocuSee's success overlay is the app's own completion signal, and this poll watches for
+		// it and for the paywall that replaces it. What it is *not* is the stopwatch: this driver
+		// reports through ctx.observeComplete, which lib/runner.mjs records as a skew and
+		// explicitly does not use as the stop — waitForStableFile owns that, off the output's own
+		// mtime. So the cadence cannot move exportMs by a millisecond. It only moves waitedMs.
+		//
+		// It moved something else. Each poll is a fresh powershell.exe that scans every top-level
+		// window on the desktop and walks the editor's UIA tree, measured on this machine at 1.39
+		// core-seconds a call — and the call is synchronous, so 500 ms of sleep meant one poll
+		// every 2.7 s holding ~52% of a core for the entire export. The adapter was manufacturing
+		// background load on the leg it was measuring, and on no other leg: the CLI adapters poll
+		// nothing. That is most of the 75-point load gap between FocuSee and OpenScreen that
+		// weighted run 20260909T193656Z at ×0.099.
+		//
+		// Six seconds costs nothing measurable and drops it to ~17%. The paywall still surfaces
+		// within one poll, which is instant against a four-minute render.
+		const deadline = Date.now() + 30 * 60_000;
+		while (Date.now() < deadline) {
+			await sleep(6000);
 			const editor = rows(EDITOR, 1200);
 			if (editor.some((r) => r.id === "BuyBtn" || r.id === "Title1")) {
 				throw new Error(
