@@ -83,6 +83,7 @@
     "focusee: timeline: / 01:00.00, zooms 1.6x 2.2x 1.8x",
     "focusee: telemetry: 3600 moves, 16 clicks",
     "focusee: padding=5/25, roundness=20/20 (FocuSee's own slider units — the scenario's 40px has no conversion into that range and is clamped), shadow=0.2",
-    "focusee: the app took every channel the project declares"
+    "focusee: the app took every channel the project declares",
+    "focusee: caveat — its export carries 30.0s of sound in a 60.05s file. 2.3.5 halves the 48kHz mono sidecar on the 44.1kHz stereo export at matching loudness, which the loudness-only check could not see. This row predates the stereo staging and the audio-duration check."
   ]
 }
