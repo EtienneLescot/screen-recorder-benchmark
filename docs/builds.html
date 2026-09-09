@@ -160,6 +160,10 @@
   .rank-track i{position:absolute;left:0;top:0;bottom:0;background:var(--ink-2)}
   .rank-track i.thin{background:repeating-linear-gradient(45deg,
     var(--ink-2) 0 5px,var(--line-2) 5px 10px)}
+  /* The seam between two disconnected solves. Warm, like every other caveat on the page,
+     and mono so it reads as apparatus rather than as another ranked row. */
+  .rank-split{margin:0;padding:18px 0 6px;font-family:var(--mono);font-size:10.5px;
+    line-height:1.6;letter-spacing:.02em;color:var(--warm);max-width:70ch}
   .chart-foot{margin:0;padding:14px 0 0;font-family:var(--mono);font-size:10.5px;line-height:1.6;
     letter-spacing:.02em;color:var(--ink-3)}
 
@@ -342,7 +346,7 @@
       <article class="rank-row" data-node="screen-studio@3.7.5-4595">
         <div class="rank-head">
           <span class="rank-no">05</span>
-          <h3>screen-studio</h3> <span class="dim">3.7.5-4595</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
+          <h3>screen-studio</h3> <span class="dim">3.7.5-4595</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span><span class="tag" title="measured 4.681× in its only run — the figure shown is where the graph places this build against the tools it was measured beside, and so carries the level of machines it never ran on">above its run</span>
           <div class="rank-val"><b>5.70</b><span>×</span></div>
         </div>
         <div class="rank-track"><i class="thin" style="width:78.3%"></i></div>
