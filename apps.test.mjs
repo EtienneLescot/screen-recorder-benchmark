@@ -28,12 +28,12 @@ describe("installPlan describes the platform it is asked about", () => {
 
 	/** The release publishes a .exe.blockmap beside the installer; it must not match first. */
 	it("picks the Windows installer out of a release that also ships macOS and Linux builds", () => {
-		const p = on("win32", ["openscreen-cli"])["openscreen-cli"];
+		const p = on("win32", ["openscreen"])["openscreen"];
 		expect("Openscreen.Setup.1.10.0.exe").toMatch(p.assetPattern);
 		expect("Openscreen.Setup.1.10.0.exe.blockmap").not.toMatch(p.assetPattern);
 		expect("Openscreen-macOS-Apple-Silicon-1.10.0.dmg").not.toMatch(p.assetPattern);
 		expect("Openscreen-macOS-Apple-Silicon-1.10.0.dmg").toMatch(
-			on("darwin", ["openscreen-cli"])["openscreen-cli"].assetPattern,
+			on("darwin", ["openscreen"])["openscreen"].assetPattern,
 		);
 	});
 
@@ -57,11 +57,11 @@ describe("installPlan describes the platform it is asked about", () => {
 	});
 
 	it("gives Linux the AppImage, which is the only build that installs without root", () => {
-		expect(on("linux", ["openscreen-cli"])["openscreen-cli"]).toMatchObject({
+		expect(on("linux", ["openscreen"])["openscreen"]).toMatchObject({
 			method: "github-release",
 			appName: "Openscreen",
 		});
-		const p = on("linux", ["openscreen-cli"])["openscreen-cli"].assetPattern;
+		const p = on("linux", ["openscreen"])["openscreen"].assetPattern;
 		expect("Openscreen-Linux-1.10.0.AppImage").toMatch(p);
 		// The same release ships three packaged formats, and every one of them wants a root install.
 		for (const other of [

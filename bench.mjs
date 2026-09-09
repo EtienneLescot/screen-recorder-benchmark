@@ -791,7 +791,7 @@ async function cmdRun({ flags }) {
 	// the opening and closing controls agree, the ordering did not matter; if they do not, the
 	// report says by how much.
 	// Not gated on ffmpeg-baseline being in --apps. It is the unit, not a competitor, and the
-	// README tells contributors to run `--apps cap,openscreen-cli` — which never put it in the
+	// README tells contributors to run `--apps cap,openscreen` — which never put it in the
 	// list, so the control never fired, driftRatio stayed null, and the schema rejected the
 	// submission that the documented command produced.
 	if (!flags["no-control"] && results.length > 1) {

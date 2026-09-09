@@ -56,7 +56,7 @@ node bench.mjs status --json
   "runId": "nightly",
   "phase": "running",
   "current": { "app": "camtasia", "index": 3, "of": 6 },
-  "completed": ["ffmpeg-baseline", "openscreen-cli"],
+  "completed": ["ffmpeg-baseline", "openscreen"],
   "pending": ["kap", "cap"]
 }
 ```

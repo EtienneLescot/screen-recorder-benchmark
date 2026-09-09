@@ -58,7 +58,7 @@
       "automation": "cdp+menu"
     },
     {
-      "tool": "openscreen-cli",
+      "tool": "openscreen",
       "version": "1.11.0-rc.1",
       "exportMs": 18902,
       "madMs": 30,
@@ -85,6 +85,6 @@
     "screen-studio: panels — screen: Background · Wallpaper · Gradient · Color · Image · Wallpaper · macOS · Spring · Sunset · Radiant · Energy · Iridescent · Midnight · Glassmorphism · Raycast · Pick random wallpaper · Background blur · Padding · 3.8% · Reset · Rounded corners · 40 · Reset · Ins",
     "screen-studio: panels — cursor: Cursor size · 3.0× · Reset · Cursor style · Always use pointer cursor · Don't change cursor, even if selecting text, etc. · Hide cursor if not moving · Loop cursor position · Near the end of the video, cursor will move back to its initial position · Hide curso",
     "screen-studio: panels — camera: · Dynamic camera layout · Camera position · Camera size · 25% · Reset · Roundness · 25% · Reset · Shape · Square · Horizontal · Vertical · Original · Mirror horizontally · Hide camera · Camera size during zoom ·",
-    "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60."
+    "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60."
   ]
 }

@@ -5,9 +5,12 @@
  * project is written as JSON rather than built in the editor, so the scenario is exact and
  * byte-reproducible — see lib/openscreenProject.mjs.
  *
- * Because this path skips the UI entirely it is *not* directly comparable to Screen Studio's
- * or a UI-driven tool's numbers; `openscreen-gui` exists for that comparison, and the report keeps
- * two rows apart.
+ * Because this path skips the UI entirely it is *not* directly comparable to Screen Studio's or
+ * a UI-driven tool's numbers. That difference is recorded per run in the "Driven" column rather
+ * than in the tool's name: a second adapter used to sit beside this one, driving the same
+ * product through its editor so the two could be ranked apart, and it never produced a single
+ * measurement. Two competitors named for one product is confusion, not disclosure — how a run
+ * was driven belongs on the run.
  */
 import { spawn } from "node:child_process";
 import { existsSync, rmSync } from "node:fs";
@@ -61,7 +64,7 @@ const bin = () => {
 const APP = resolveApp();
 
 export default {
-	id: "openscreen-cli",
+	id: "openscreen",
 	displayName: "OpenScreen (CLI)",
 	vendor: "OpenScreen",
 	kind: "cli",
@@ -107,7 +110,7 @@ export default {
 	},
 
 	async prepare(ctx) {
-		const outDir = join(ctx.workDir, "projects", "openscreen-cli");
+		const outDir = join(ctx.workDir, "projects", "openscreen");
 		const { projectPath } = buildProject({
 			sourcePath: ctx.source.path,
 			scenario: ctx.scenario,

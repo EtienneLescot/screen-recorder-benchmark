@@ -2,7 +2,7 @@
  * Recordly (recordly.dev) — Electron and PixiJS, the third open-source entrant.
  *
  * No CLI and no headless export, so this is a GUI-class adapter and its row is not comparable
- * to `openscreen-cli`'s. What it does have is `window.electronAPI`: a contextBridge over
+ * to `openscreen`'s. What it does have is `window.electronAPI`: a contextBridge over
  * `ipcRenderer.invoke` with 147 methods, reachable once the app is launched with
  * `--remote-debugging-port`. That is the app's own API rather than control-name archaeology,
  * which matters here more than usual — Recordly's interface is localised, and on the machine

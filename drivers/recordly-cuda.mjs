@@ -5,8 +5,10 @@
  * export settings as a switch labelled "NVIDIA CUDA" with an "Experimental" badge, defaulting
  * to false, so a fresh install exports without it and that is what the default row measures.
  * But it is a discoverable product feature rather than an internal flag, which makes the other
- * side of the switch worth measuring too — the way `openscreen-cli` and `openscreen-gui` are
- * kept apart rather than merged.
+ * side of the switch worth measuring too. Not every split earns a row: OpenScreen's CLI and GUI
+ * adapters were one product driven two ways and were merged, because both reach the same export
+ * backend and the choice does not move the clock. This switch does move it, which is the whole
+ * reason for the row.
  *
  * Everything else is the base adapter. The only difference is the state the export panel's
  * switch is set to; the export action is identical, and the app still chooses its own backend.

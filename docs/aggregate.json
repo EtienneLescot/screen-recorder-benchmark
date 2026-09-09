@@ -23,8 +23,8 @@
       ]
     },
     {
-      "node": "openscreen-cli@1.11.0-rc",
-      "tool": "openscreen-cli",
+      "node": "openscreen@1.11.0-rc",
+      "tool": "openscreen",
       "build": "1.11.0-rc",
       "prerelease": true,
       "component": 0,
@@ -49,8 +49,8 @@
       ]
     },
     {
-      "node": "openscreen-cli@1.10.0",
-      "tool": "openscreen-cli",
+      "node": "openscreen@1.10.0",
+      "tool": "openscreen",
       "build": "1.10.0",
       "prerelease": false,
       "component": 0,
@@ -151,7 +151,7 @@
   ],
   "edges": [
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "cap@0.5.9",
       "logRatio": 0.513735322,
       "weight": 1,
@@ -160,7 +160,7 @@
       "gpu": "Apple M1"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "recordly@1.3.3",
       "logRatio": -0.260725172,
       "weight": 1,
@@ -178,7 +178,7 @@
       "gpu": "Apple M1"
     },
     {
-      "a": "openscreen-cli@1.11.0-rc",
+      "a": "openscreen@1.11.0-rc",
       "b": "cap@0.5.9",
       "logRatio": -0.18439984,
       "weight": 1,
@@ -187,7 +187,7 @@
       "gpu": "Apple M1"
     },
     {
-      "a": "openscreen-cli@1.11.0-rc",
+      "a": "openscreen@1.11.0-rc",
       "b": "cap@0.5.9",
       "logRatio": -0.174823687,
       "weight": 1,
@@ -196,7 +196,7 @@
       "gpu": "Apple M1"
     },
     {
-      "a": "openscreen-cli@1.11.0-rc",
+      "a": "openscreen@1.11.0-rc",
       "b": "cap@0.5.9",
       "logRatio": -0.16650116,
       "weight": 1,
@@ -206,7 +206,7 @@
     },
     {
       "a": "screen-studio@3.7.5-4595",
-      "b": "openscreen-cli@1.11.0-rc",
+      "b": "openscreen@1.11.0-rc",
       "logRatio": 1.507396956,
       "weight": 1,
       "machine": "Apple M1",
@@ -214,7 +214,7 @@
       "gpu": "Apple M1"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "cap@0.5.9",
       "logRatio": 0.277435028,
       "weight": 1,
@@ -223,7 +223,7 @@
       "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "recordly@1.3.3",
       "logRatio": -1.424254014,
       "weight": 1,
@@ -241,7 +241,7 @@
       "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "cap@0.5.9",
       "logRatio": 0.311726343,
       "weight": 1,
@@ -250,7 +250,7 @@
       "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "recordly@1.3.3",
       "logRatio": -1.425711834,
       "weight": 1,
@@ -268,7 +268,7 @@
       "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
     },
     {
-      "a": "openscreen-cli@1.11.0-rc",
+      "a": "openscreen@1.11.0-rc",
       "b": "cap@0.5.9",
       "logRatio": -0.765656701,
       "weight": 1,
@@ -278,7 +278,7 @@
     },
     {
       "a": "cap@0.5.9",
-      "b": "openscreen-cli@1.10.0",
+      "b": "openscreen@1.10.0",
       "logRatio": 1.656523957,
       "weight": 0.6,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -295,7 +295,7 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "recordly@1.3.3",
       "logRatio": -1.907033188,
       "weight": 0.6,
@@ -305,7 +305,7 @@
     },
     {
       "a": "cap@0.5.9",
-      "b": "openscreen-cli@1.10.0",
+      "b": "openscreen@1.10.0",
       "logRatio": 1.39495074,
       "weight": 0.25,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -322,7 +322,7 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "recordly@1.3.3",
       "logRatio": -1.700774087,
       "weight": 0.25,
@@ -331,7 +331,7 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "openscreen-cli@1.11.0-rc",
+      "a": "openscreen@1.11.0-rc",
       "b": "cap@0.5.9",
       "logRatio": -1.733784349,
       "weight": 0.875,
@@ -340,7 +340,7 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "openscreen-cli@1.11.0-rc",
+      "a": "openscreen@1.11.0-rc",
       "b": "cap@0.5.9",
       "logRatio": -1.563043276,
       "weight": 0.11,
@@ -349,7 +349,7 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "openscreen-cli@1.11.0-rc",
+      "a": "openscreen@1.11.0-rc",
       "b": "cap@0.5.9",
       "logRatio": -1.800382567,
       "weight": 1,
@@ -358,7 +358,7 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "cap@0.5.9",
       "logRatio": -1.534038186,
       "weight": 0.05,
@@ -367,7 +367,7 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "cap@0.5.9",
       "logRatio": -1.666383687,
       "weight": 1,
@@ -376,7 +376,7 @@
       "gpu": "AMD Radeon(TM) Graphics"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "cap@0.5.9",
       "logRatio": -0.821492271,
       "weight": 1,
@@ -385,7 +385,7 @@
       "gpu": "NVIDIA GeForce RTX 4070 Ti"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "recordly@1.3.3",
       "logRatio": -1.053050582,
       "weight": 1,
@@ -403,7 +403,7 @@
       "gpu": "NVIDIA GeForce RTX 4070 Ti"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "cap@0.5.9",
       "logRatio": -0.960196613,
       "weight": 1,
@@ -412,7 +412,7 @@
       "gpu": "NVIDIA GeForce RTX 4070 Ti"
     },
     {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "recordly@1.3.3",
       "logRatio": -1.03839479,
       "weight": 1,
@@ -430,7 +430,7 @@
       "gpu": "NVIDIA GeForce RTX 4070 Ti"
     },
     {
-      "a": "openscreen-cli@1.11.0-rc",
+      "a": "openscreen@1.11.0-rc",
       "b": "focusee@2.3.5",
       "logRatio": 0.097416691,
       "weight": 0.36,
@@ -439,7 +439,7 @@
       "gpu": "NVIDIA GeForce RTX 4070 Ti"
     },
     {
-      "a": "openscreen-cli@1.11.0-rc",
+      "a": "openscreen@1.11.0-rc",
       "b": "focusee@2.3.5",
       "logRatio": 0.07043148,
       "weight": 0.5,
@@ -486,7 +486,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.10.0",
             "exportMs": 36797,
             "madMs": 5,
@@ -541,7 +541,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
           "recordly: CUDA export path: available=false, requested=false",
@@ -553,12 +553,12 @@
       "weight": 1,
       "reasons": [],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap",
         "recordly"
       ],
       "nodes": [
-        "openscreen-cli@1.10.0",
+        "openscreen@1.10.0",
         "cap@0.5.9",
         "recordly@1.3.3"
       ]
@@ -604,7 +604,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.11.0-rc.1",
             "exportMs": 19030,
             "madMs": 34,
@@ -645,7 +645,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
         ],
@@ -654,11 +654,11 @@
       "weight": 1,
       "reasons": [],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap"
       ],
       "nodes": [
-        "openscreen-cli@1.11.0-rc",
+        "openscreen@1.11.0-rc",
         "cap@0.5.9"
       ]
     },
@@ -703,7 +703,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.11.0-rc.1",
             "exportMs": 18900,
             "madMs": 7,
@@ -744,7 +744,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
         ],
@@ -753,11 +753,11 @@
       "weight": 1,
       "reasons": [],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap"
       ],
       "nodes": [
-        "openscreen-cli@1.11.0-rc",
+        "openscreen@1.11.0-rc",
         "cap@0.5.9"
       ]
     },
@@ -802,7 +802,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.11.0-rc.1",
             "exportMs": 18915,
             "madMs": 8,
@@ -843,7 +843,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
         ],
@@ -852,11 +852,11 @@
       "weight": 1,
       "reasons": [],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap"
       ],
       "nodes": [
-        "openscreen-cli@1.11.0-rc",
+        "openscreen@1.11.0-rc",
         "cap@0.5.9"
       ]
     },
@@ -921,7 +921,7 @@
             "automation": "cdp+menu"
           },
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.11.0-rc.1",
             "exportMs": 18902,
             "madMs": 30,
@@ -948,7 +948,7 @@
           "screen-studio: panels — screen: Background · Wallpaper · Gradient · Color · Image · Wallpaper · macOS · Spring · Sunset · Radiant · Energy · Iridescent · Midnight · Glassmorphism · Raycast · Pick random wallpaper · Background blur · Padding · 3.8% · Reset · Rounded corners · 40 · Reset · Ins",
           "screen-studio: panels — cursor: Cursor size · 3.0× · Reset · Cursor style · Always use pointer cursor · Don't change cursor, even if selecting text, etc. · Hide cursor if not moving · Loop cursor position · Near the end of the video, cursor will move back to its initial position · Hide curso",
           "screen-studio: panels — camera: · Dynamic camera layout · Camera position · Camera size · 25% · Reset · Roundness · 25% · Reset · Shape · Square · Horizontal · Vertical · Original · Mirror horizontally · Hide camera · Camera size during zoom ·",
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60."
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60."
         ],
         "_path": "submissions/darwin/apple-m1-2026-09-09.json"
       },
@@ -956,11 +956,11 @@
       "reasons": [],
       "tools": [
         "screen-studio",
-        "openscreen-cli"
+        "openscreen"
       ],
       "nodes": [
         "screen-studio@3.7.5-4595",
-        "openscreen-cli@1.11.0-rc"
+        "openscreen@1.11.0-rc"
       ]
     },
     {
@@ -1004,7 +1004,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.10.0",
             "exportMs": 76844,
             "madMs": 15,
@@ -1065,7 +1065,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
           "recordly: CUDA export path: available=false, requested=false",
@@ -1077,12 +1077,12 @@
       "weight": 1,
       "reasons": [],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap",
         "recordly"
       ],
       "nodes": [
-        "openscreen-cli@1.10.0",
+        "openscreen@1.10.0",
         "cap@0.5.9",
         "recordly@1.3.3"
       ]
@@ -1128,7 +1128,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.10.0",
             "exportMs": 77846,
             "madMs": 150,
@@ -1189,7 +1189,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
           "recordly: CUDA export path: available=false, requested=false",
@@ -1201,12 +1201,12 @@
       "weight": 1,
       "reasons": [],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap",
         "recordly"
       ],
       "nodes": [
-        "openscreen-cli@1.10.0",
+        "openscreen@1.10.0",
         "cap@0.5.9",
         "recordly@1.3.3"
       ]
@@ -1252,7 +1252,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.11.0-rc.1",
             "exportMs": 27271,
             "madMs": 22,
@@ -1293,7 +1293,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
         ],
@@ -1302,11 +1302,11 @@
       "weight": 1,
       "reasons": [],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap"
       ],
       "nodes": [
-        "openscreen-cli@1.11.0-rc",
+        "openscreen@1.11.0-rc",
         "cap@0.5.9"
       ]
     },
@@ -1368,7 +1368,7 @@
             "automation": "cli"
           },
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.10.0",
             "exportMs": 32759,
             "madMs": 183,
@@ -1407,7 +1407,7 @@
         "notes": [
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "recordly: CUDA export path: available=false, requested=false",
           "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
           "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events."
@@ -1420,12 +1420,12 @@
       ],
       "tools": [
         "cap",
-        "openscreen-cli",
+        "openscreen",
         "recordly"
       ],
       "nodes": [
         "cap@0.5.9",
-        "openscreen-cli@1.10.0",
+        "openscreen@1.10.0",
         "recordly@1.3.3"
       ]
     },
@@ -1487,7 +1487,7 @@
             "automation": "cli"
           },
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.10.0",
             "exportMs": 39026,
             "madMs": 780,
@@ -1526,7 +1526,7 @@
         "notes": [
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "recordly: CUDA export path: available=false, requested=false",
           "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
           "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events."
@@ -1539,12 +1539,12 @@
       ],
       "tools": [
         "cap",
-        "openscreen-cli",
+        "openscreen",
         "recordly"
       ],
       "nodes": [
         "cap@0.5.9",
-        "openscreen-cli@1.10.0",
+        "openscreen@1.10.0",
         "recordly@1.3.3"
       ]
     },
@@ -1589,7 +1589,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.11.0-rc.1",
             "exportMs": 30629,
             "madMs": 119,
@@ -1630,7 +1630,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
         ],
@@ -1641,11 +1641,11 @@
         "ratios carry 2.1% relative uncertainty"
       ],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap"
       ],
       "nodes": [
-        "openscreen-cli@1.11.0-rc",
+        "openscreen@1.11.0-rc",
         "cap@0.5.9"
       ]
     },
@@ -1690,7 +1690,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.11.0-rc.1",
             "exportMs": 34928,
             "madMs": 205,
@@ -1731,7 +1731,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
         ],
@@ -1742,11 +1742,11 @@
         "ratios carry 6.0% relative uncertainty"
       ],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap"
       ],
       "nodes": [
-        "openscreen-cli@1.11.0-rc",
+        "openscreen@1.11.0-rc",
         "cap@0.5.9"
       ]
     },
@@ -1791,7 +1791,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.11.0-rc.1",
             "exportMs": 30727,
             "madMs": 58,
@@ -1832,7 +1832,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
         ],
@@ -1841,11 +1841,11 @@
       "weight": 1,
       "reasons": [],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap"
       ],
       "nodes": [
-        "openscreen-cli@1.11.0-rc",
+        "openscreen@1.11.0-rc",
         "cap@0.5.9"
       ]
     },
@@ -1890,7 +1890,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.10.0",
             "exportMs": 38555,
             "madMs": 88,
@@ -1931,7 +1931,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
         ],
@@ -1942,11 +1942,11 @@
         "ratios carry 9.0% relative uncertainty"
       ],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap"
       ],
       "nodes": [
-        "openscreen-cli@1.10.0",
+        "openscreen@1.10.0",
         "cap@0.5.9"
       ]
     },
@@ -1991,7 +1991,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.10.0",
             "exportMs": 35744,
             "madMs": 354,
@@ -2032,7 +2032,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
         ],
@@ -2041,11 +2041,11 @@
       "weight": 1,
       "reasons": [],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap"
       ],
       "nodes": [
-        "openscreen-cli@1.10.0",
+        "openscreen@1.10.0",
         "cap@0.5.9"
       ]
     },
@@ -2089,7 +2089,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.10.0",
             "exportMs": 10093,
             "madMs": 6,
@@ -2144,7 +2144,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
           "recordly: CUDA export path: available=true, requested=false",
@@ -2158,12 +2158,12 @@
       "weight": 1,
       "reasons": [],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap",
         "recordly"
       ],
       "nodes": [
-        "openscreen-cli@1.10.0",
+        "openscreen@1.10.0",
         "cap@0.5.9",
         "recordly@1.3.3"
       ]
@@ -2208,7 +2208,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.10.0",
             "exportMs": 9385,
             "madMs": 4,
@@ -2263,7 +2263,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "cap: zoom segments written: 3",
           "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
           "recordly: CUDA export path: available=true, requested=false",
@@ -2277,12 +2277,12 @@
       "weight": 1,
       "reasons": [],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "cap",
         "recordly"
       ],
       "nodes": [
-        "openscreen-cli@1.10.0",
+        "openscreen@1.10.0",
         "cap@0.5.9",
         "recordly@1.3.3"
       ]
@@ -2328,7 +2328,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.11.0-rc.1",
             "exportMs": 9752,
             "madMs": 297,
@@ -2369,7 +2369,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "focusee: timeline: / 01:00.00, zooms 1.6x 2.2x 1.8x",
           "focusee: telemetry: 3600 moves, 16 clicks",
           "focusee: padding=5/25, roundness=20/20 (FocuSee's own slider units — the scenario's 40px has no conversion into that range and is clamped), shadow=0.2",
@@ -2383,11 +2383,11 @@
         "ratios carry 3.3% relative uncertainty"
       ],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "focusee"
       ],
       "nodes": [
-        "openscreen-cli@1.11.0-rc",
+        "openscreen@1.11.0-rc",
         "focusee@2.3.5"
       ]
     },
@@ -2432,7 +2432,7 @@
         },
         "measurements": [
           {
-            "tool": "openscreen-cli",
+            "tool": "openscreen",
             "version": "1.11.0-rc.1",
             "exportMs": 9371,
             "madMs": 17,
@@ -2473,7 +2473,7 @@
           }
         ],
         "notes": [
-          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
           "focusee: timeline: / 01:00.00, zooms 1.6x 2.2x 1.8x",
           "focusee: telemetry: 3600 moves, 16 clicks",
           "focusee: padding=5/25, roundness=20/20 (FocuSee's own slider units — the scenario's 40px has no conversion into that range and is clamped), shadow=0.2",
@@ -2487,11 +2487,11 @@
         "background load differed by 91 points between tools"
       ],
       "tools": [
-        "openscreen-cli",
+        "openscreen",
         "focusee"
       ],
       "nodes": [
-        "openscreen-cli@1.11.0-rc",
+        "openscreen@1.11.0-rc",
         "focusee@2.3.5"
       ]
     }
@@ -2501,8 +2501,8 @@
     [
       "cap@0.5.9",
       "focusee@2.3.5",
-      "openscreen-cli@1.10.0",
-      "openscreen-cli@1.11.0-rc",
+      "openscreen@1.10.0",
+      "openscreen@1.11.0-rc",
       "recordly@1.3.3",
       "screen-studio@3.7.5-4595"
     ]
@@ -2522,7 +2522,7 @@
       "crossPlatformSpreadPercent": 356.65
     },
     "worst": {
-      "a": "openscreen-cli@1.10.0",
+      "a": "openscreen@1.10.0",
       "b": "cap@0.5.9",
       "spreadPercent": 784.74,
       "inverts": true,
@@ -2567,8 +2567,8 @@
         ]
       },
       {
-        "node": "openscreen-cli@1.11.0-rc",
-        "tool": "openscreen-cli",
+        "node": "openscreen@1.11.0-rc",
+        "tool": "openscreen",
         "build": "1.11.0-rc",
         "prerelease": true,
         "component": 0,
@@ -2593,8 +2593,8 @@
         ]
       },
       {
-        "node": "openscreen-cli@1.10.0",
-        "tool": "openscreen-cli",
+        "node": "openscreen@1.10.0",
+        "tool": "openscreen",
         "build": "1.10.0",
         "prerelease": false,
         "component": 0,
@@ -2686,7 +2686,7 @@
     "edges": [
       {
         "a": "screen-studio@3.7.5-4595",
-        "b": "openscreen-cli@1.11.0-rc",
+        "b": "openscreen@1.11.0-rc",
         "logRatio": 1.528718935,
         "weight": 1,
         "machine": "Apple M1",
@@ -2694,7 +2694,7 @@
         "gpu": "Apple M1"
       },
       {
-        "a": "openscreen-cli@1.10.0",
+        "a": "openscreen@1.10.0",
         "b": "cap@0.5.9",
         "logRatio": 0.294717789,
         "weight": 1,
@@ -2703,7 +2703,7 @@
         "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
       },
       {
-        "a": "openscreen-cli@1.10.0",
+        "a": "openscreen@1.10.0",
         "b": "recordly@1.3.3",
         "logRatio": -1.436003568,
         "weight": 1,
@@ -2721,7 +2721,7 @@
         "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
       },
       {
-        "a": "openscreen-cli@1.10.0",
+        "a": "openscreen@1.10.0",
         "b": "cap@0.5.9",
         "logRatio": 0.271355866,
         "weight": 1,
@@ -2730,7 +2730,7 @@
         "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
       },
       {
-        "a": "openscreen-cli@1.10.0",
+        "a": "openscreen@1.10.0",
         "b": "recordly@1.3.3",
         "logRatio": -1.461489035,
         "weight": 1,
@@ -2748,7 +2748,7 @@
         "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
       },
       {
-        "a": "openscreen-cli@1.11.0-rc",
+        "a": "openscreen@1.11.0-rc",
         "b": "cap@0.5.9",
         "logRatio": -0.734816935,
         "weight": 1,
@@ -2757,7 +2757,7 @@
         "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
       },
       {
-        "a": "openscreen-cli@1.11.0-rc",
+        "a": "openscreen@1.11.0-rc",
         "b": "cap@0.5.9",
         "logRatio": -1.707430235,
         "weight": 0.875,
@@ -2766,7 +2766,7 @@
         "gpu": "AMD Radeon(TM) Graphics"
       },
       {
-        "a": "openscreen-cli@1.11.0-rc",
+        "a": "openscreen@1.11.0-rc",
         "b": "cap@0.5.9",
         "logRatio": -1.658750682,
         "weight": 0.11,
@@ -2775,7 +2775,7 @@
         "gpu": "AMD Radeon(TM) Graphics"
       },
       {
-        "a": "openscreen-cli@1.11.0-rc",
+        "a": "openscreen@1.11.0-rc",
         "b": "cap@0.5.9",
         "logRatio": -1.796384157,
         "weight": 1,
@@ -2784,7 +2784,7 @@
         "gpu": "AMD Radeon(TM) Graphics"
       },
       {
-        "a": "openscreen-cli@1.10.0",
+        "a": "openscreen@1.10.0",
         "b": "cap@0.5.9",
         "logRatio": -1.464353909,
         "weight": 0.05,
@@ -2793,7 +2793,7 @@
         "gpu": "AMD Radeon(TM) Graphics"
       },
       {
-        "a": "openscreen-cli@1.10.0",
+        "a": "openscreen@1.10.0",
         "b": "cap@0.5.9",
         "logRatio": -1.676747032,
         "weight": 1,
@@ -2802,7 +2802,7 @@
         "gpu": "AMD Radeon(TM) Graphics"
       },
       {
-        "a": "openscreen-cli@1.11.0-rc",
+        "a": "openscreen@1.11.0-rc",
         "b": "focusee@2.3.5",
         "logRatio": 0.164557004,
         "weight": 0.36,
@@ -2811,7 +2811,7 @@
         "gpu": "NVIDIA GeForce RTX 4070 Ti"
       },
       {
-        "a": "openscreen-cli@1.11.0-rc",
+        "a": "openscreen@1.11.0-rc",
         "b": "focusee@2.3.5",
         "logRatio": 0.074070143,
         "weight": 0.5,
@@ -2882,7 +2882,7 @@
               "automation": "cdp+menu"
             },
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.11.0-rc.1",
               "exportMs": 18902,
               "madMs": 30,
@@ -2909,7 +2909,7 @@
             "screen-studio: panels — screen: Background · Wallpaper · Gradient · Color · Image · Wallpaper · macOS · Spring · Sunset · Radiant · Energy · Iridescent · Midnight · Glassmorphism · Raycast · Pick random wallpaper · Background blur · Padding · 3.8% · Reset · Rounded corners · 40 · Reset · Ins",
             "screen-studio: panels — cursor: Cursor size · 3.0× · Reset · Cursor style · Always use pointer cursor · Don't change cursor, even if selecting text, etc. · Hide cursor if not moving · Loop cursor position · Near the end of the video, cursor will move back to its initial position · Hide curso",
             "screen-studio: panels — camera: · Dynamic camera layout · Camera position · Camera size · 25% · Reset · Roundness · 25% · Reset · Shape · Square · Horizontal · Vertical · Original · Mirror horizontally · Hide camera · Camera size during zoom ·",
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60."
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60."
           ],
           "_path": "submissions/darwin/apple-m1-2026-09-09.json"
         },
@@ -2917,11 +2917,11 @@
         "reasons": [],
         "tools": [
           "screen-studio",
-          "openscreen-cli"
+          "openscreen"
         ],
         "nodes": [
           "screen-studio@3.7.5-4595",
-          "openscreen-cli@1.11.0-rc"
+          "openscreen@1.11.0-rc"
         ]
       },
       {
@@ -2965,7 +2965,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.10.0",
               "exportMs": 76844,
               "madMs": 15,
@@ -3026,7 +3026,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
             "recordly: CUDA export path: available=false, requested=false",
@@ -3038,12 +3038,12 @@
         "weight": 1,
         "reasons": [],
         "tools": [
-          "openscreen-cli",
+          "openscreen",
           "cap",
           "recordly"
         ],
         "nodes": [
-          "openscreen-cli@1.10.0",
+          "openscreen@1.10.0",
           "cap@0.5.9",
           "recordly@1.3.3"
         ]
@@ -3089,7 +3089,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.10.0",
               "exportMs": 77846,
               "madMs": 150,
@@ -3150,7 +3150,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
             "recordly: CUDA export path: available=false, requested=false",
@@ -3162,12 +3162,12 @@
         "weight": 1,
         "reasons": [],
         "tools": [
-          "openscreen-cli",
+          "openscreen",
           "cap",
           "recordly"
         ],
         "nodes": [
-          "openscreen-cli@1.10.0",
+          "openscreen@1.10.0",
           "cap@0.5.9",
           "recordly@1.3.3"
         ]
@@ -3213,7 +3213,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.11.0-rc.1",
               "exportMs": 27271,
               "madMs": 22,
@@ -3254,7 +3254,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
           ],
@@ -3263,11 +3263,11 @@
         "weight": 1,
         "reasons": [],
         "tools": [
-          "openscreen-cli",
+          "openscreen",
           "cap"
         ],
         "nodes": [
-          "openscreen-cli@1.11.0-rc",
+          "openscreen@1.11.0-rc",
           "cap@0.5.9"
         ]
       },
@@ -3312,7 +3312,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.11.0-rc.1",
               "exportMs": 30629,
               "madMs": 119,
@@ -3353,7 +3353,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
           ],
@@ -3364,11 +3364,11 @@
           "ratios carry 2.1% relative uncertainty"
         ],
         "tools": [
-          "openscreen-cli",
+          "openscreen",
           "cap"
         ],
         "nodes": [
-          "openscreen-cli@1.11.0-rc",
+          "openscreen@1.11.0-rc",
           "cap@0.5.9"
         ]
       },
@@ -3413,7 +3413,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.11.0-rc.1",
               "exportMs": 34928,
               "madMs": 205,
@@ -3454,7 +3454,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
           ],
@@ -3465,11 +3465,11 @@
           "ratios carry 6.0% relative uncertainty"
         ],
         "tools": [
-          "openscreen-cli",
+          "openscreen",
           "cap"
         ],
         "nodes": [
-          "openscreen-cli@1.11.0-rc",
+          "openscreen@1.11.0-rc",
           "cap@0.5.9"
         ]
       },
@@ -3514,7 +3514,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.11.0-rc.1",
               "exportMs": 30727,
               "madMs": 58,
@@ -3555,7 +3555,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
           ],
@@ -3564,11 +3564,11 @@
         "weight": 1,
         "reasons": [],
         "tools": [
-          "openscreen-cli",
+          "openscreen",
           "cap"
         ],
         "nodes": [
-          "openscreen-cli@1.11.0-rc",
+          "openscreen@1.11.0-rc",
           "cap@0.5.9"
         ]
       },
@@ -3613,7 +3613,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.10.0",
               "exportMs": 38555,
               "madMs": 88,
@@ -3654,7 +3654,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
           ],
@@ -3665,11 +3665,11 @@
           "ratios carry 9.0% relative uncertainty"
         ],
         "tools": [
-          "openscreen-cli",
+          "openscreen",
           "cap"
         ],
         "nodes": [
-          "openscreen-cli@1.10.0",
+          "openscreen@1.10.0",
           "cap@0.5.9"
         ]
       },
@@ -3714,7 +3714,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.10.0",
               "exportMs": 35744,
               "madMs": 354,
@@ -3755,7 +3755,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
           ],
@@ -3764,11 +3764,11 @@
         "weight": 1,
         "reasons": [],
         "tools": [
-          "openscreen-cli",
+          "openscreen",
           "cap"
         ],
         "nodes": [
-          "openscreen-cli@1.10.0",
+          "openscreen@1.10.0",
           "cap@0.5.9"
         ]
       },
@@ -3813,7 +3813,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.11.0-rc.1",
               "exportMs": 9752,
               "madMs": 297,
@@ -3854,7 +3854,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "focusee: timeline: / 01:00.00, zooms 1.6x 2.2x 1.8x",
             "focusee: telemetry: 3600 moves, 16 clicks",
             "focusee: padding=5/25, roundness=20/20 (FocuSee's own slider units — the scenario's 40px has no conversion into that range and is clamped), shadow=0.2",
@@ -3868,11 +3868,11 @@
           "ratios carry 3.3% relative uncertainty"
         ],
         "tools": [
-          "openscreen-cli",
+          "openscreen",
           "focusee"
         ],
         "nodes": [
-          "openscreen-cli@1.11.0-rc",
+          "openscreen@1.11.0-rc",
           "focusee@2.3.5"
         ]
       },
@@ -3917,7 +3917,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.11.0-rc.1",
               "exportMs": 9371,
               "madMs": 17,
@@ -3958,7 +3958,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "focusee: timeline: / 01:00.00, zooms 1.6x 2.2x 1.8x",
             "focusee: telemetry: 3600 moves, 16 clicks",
             "focusee: padding=5/25, roundness=20/20 (FocuSee's own slider units — the scenario's 40px has no conversion into that range and is clamped), shadow=0.2",
@@ -3972,11 +3972,11 @@
           "background load differed by 91 points between tools"
         ],
         "tools": [
-          "openscreen-cli",
+          "openscreen",
           "focusee"
         ],
         "nodes": [
-          "openscreen-cli@1.11.0-rc",
+          "openscreen@1.11.0-rc",
           "focusee@2.3.5"
         ]
       }
@@ -4019,7 +4019,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.10.0",
               "exportMs": 36797,
               "madMs": 5,
@@ -4074,7 +4074,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
             "recordly: CUDA export path: available=false, requested=false",
@@ -4126,7 +4126,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.11.0-rc.1",
               "exportMs": 19030,
               "madMs": 34,
@@ -4167,7 +4167,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
           ],
@@ -4216,7 +4216,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.11.0-rc.1",
               "exportMs": 18900,
               "madMs": 7,
@@ -4257,7 +4257,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
           ],
@@ -4306,7 +4306,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.11.0-rc.1",
               "exportMs": 18915,
               "madMs": 8,
@@ -4347,7 +4347,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
           ],
@@ -4413,7 +4413,7 @@
               "automation": "cli"
             },
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.10.0",
               "exportMs": 32759,
               "madMs": 183,
@@ -4452,7 +4452,7 @@
           "notes": [
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "recordly: CUDA export path: available=false, requested=false",
             "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
             "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events."
@@ -4519,7 +4519,7 @@
               "automation": "cli"
             },
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.10.0",
               "exportMs": 39026,
               "madMs": 780,
@@ -4558,7 +4558,7 @@
           "notes": [
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "recordly: CUDA export path: available=false, requested=false",
             "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
             "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events."
@@ -4607,7 +4607,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.10.0",
               "exportMs": 10093,
               "madMs": 6,
@@ -4662,7 +4662,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
             "recordly: CUDA export path: available=true, requested=false",
@@ -4715,7 +4715,7 @@
           },
           "measurements": [
             {
-              "tool": "openscreen-cli",
+              "tool": "openscreen",
               "version": "1.10.0",
               "exportMs": 9385,
               "madMs": 4,
@@ -4770,7 +4770,7 @@
             }
           ],
           "notes": [
-            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
             "cap: zoom segments written: 3",
             "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
             "recordly: CUDA export path: available=true, requested=false",
@@ -4788,8 +4788,8 @@
       [
         "cap@0.5.9",
         "focusee@2.3.5",
-        "openscreen-cli@1.10.0",
-        "openscreen-cli@1.11.0-rc",
+        "openscreen@1.10.0",
+        "openscreen@1.11.0-rc",
         "recordly@1.3.3",
         "screen-studio@3.7.5-4595"
       ]
@@ -4809,7 +4809,7 @@
         "crossPlatformSpreadPercent": 310.87
       },
       "worst": {
-        "a": "openscreen-cli@1.10.0",
+        "a": "openscreen@1.10.0",
         "b": "cap@0.5.9",
         "spreadPercent": 618.12,
         "inverts": true,

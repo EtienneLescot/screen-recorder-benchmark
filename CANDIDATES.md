@@ -93,7 +93,7 @@ the answer on the machine in front of you.
 
 | Tool | Adapter | Measured | Blocker |
 |---|---|---|---|
-| OpenScreen | yes (openscreen-cli, openscreen-gui) | yes | — |
+| OpenScreen | yes (openscreen) | yes | — |
 | Screen Studio | yes (screen-studio) | **no** | export requires an activated licence — there is no trial export and no watermark path. Pressing Export on an unactivated install opens an “Activate Screen Studio” window asking for the email behind a licence key or subscription, and choosing Export from the app's own command menu ends at the same window. Import, the editor and every scenario feature automate fine |
 | Cap | yes (cap) | yes | — |
 | Recordly | yes (recordly, recordly-cuda) | **no** | exports the app's default scene rather than the pinned one — opening a project rewrites it with the app's normalised state, replacing corner radius (40 -> 12.5), padding, cursor size, smoothing, motion blur and click effects with defaults. The export succeeds and passes every pixel check, because the verifier tests that an effect is present, not that it matches the scenario |

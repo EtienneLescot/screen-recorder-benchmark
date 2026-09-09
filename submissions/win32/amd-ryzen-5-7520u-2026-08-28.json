@@ -55,7 +55,7 @@
       "automation": "cli"
     },
     {
-      "tool": "openscreen-cli",
+      "tool": "openscreen",
       "version": "1.10.0",
       "exportMs": 32759,
       "madMs": 183,
@@ -94,7 +94,7 @@
   "notes": [
     "cap: zoom segments written: 3",
     "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
-    "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+    "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
     "recordly: CUDA export path: available=false, requested=false",
     "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
     "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events."
