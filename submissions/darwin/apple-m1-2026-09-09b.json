@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "submittedAt": "2026-09-09T15:52:54.935Z",
+  "submitter": {
+    "name": "Etienne Lescot"
+  },
+  "machine": {
+    "platform": "darwin",
+    "chip": "Apple M1",
+    "gpu": "Apple M1",
+    "cpuCount": 8,
+    "memoryGiB": 8,
+    "osVersion": "26.5",
+    "osBuild": "25F71"
+  },
+  "conditions": {
+    "onACPower": true,
+    "maxForeignCpuPercent": 152.9,
+    "loadSpreadPercentagePoints": 54.6,
+    "driftRatio": 0.999,
+    "floorSpreadPercent": 0.26,
+    "remoteDesktopActive": false
+  },
+  "scenario": {
+    "step": "S4",
+    "outputWidth": 1920,
+    "outputHeight": 1080,
+    "outputFps": 60,
+    "outputCodec": "h264"
+  },
+  "source": {
+    "kind": "public-bundle",
+    "bundle": "commons-upload",
+    "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+    "normalisedSha256": "c407c71ad0de9c89533abe2d66918657f76f4e9474d86241efc8e03e5d779c66",
+    "durationSec": 60,
+    "frames": 3600
+  },
+  "measurements": [
+    {
+      "tool": "openscreen",
+      "version": "1.11.0-rc.1",
+      "exportMs": 18863,
+      "madMs": 16,
+      "runs": 3,
+      "localFloorMs": 18204,
+      "softwareFloorMs": 23615,
+      "floorSpreadPercent": 0.26,
+      "cpuSeconds": 28.31,
+      "peakRssMiB": 785.8,
+      "foreignCpuPercent": 63.8,
+      "outputBytes": 59241474,
+      "outputMeanVolumeDb": -49.8,
+      "fidelity": 1,
+      "missing": [],
+      "contradicted": [],
+      "verified": true,
+      "automation": "cli"
+    },
+    {
+      "tool": "focusee",
+      "version": "2.4.1",
+      "exportMs": 16967,
+      "madMs": 4,
+      "runs": 3,
+      "localFloorMs": 18182,
+      "softwareFloorMs": 23767,
+      "floorSpreadPercent": 0.04,
+      "cpuSeconds": 34.85,
+      "peakRssMiB": 444.9,
+      "foreignCpuPercent": 118.4,
+      "outputBytes": 123165873,
+      "outputMeanVolumeDb": -49.8,
+      "fidelity": 1,
+      "missing": [],
+      "contradicted": [],
+      "verified": true,
+      "automation": "ax+project"
+    }
+  ],
+  "notes": [
+    "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+    "focusee: timeline: 01:00.00, Clip 1m0s  1X, zooms Zoom 1,8X — the tracks scrolled off the timeline are not published, so this counts what is on screen",
+    "focusee: editor reads back padding 5, roundness 20, shadow 20",
+    "focusee: telemetry: 3600 moves, 16 clicks; panels live — cursor true, camera true, audio true",
+    "focusee: padding=5/25, roundness=20/20 in FocuSee's own slider units, the same clamp the Windows adapter uses so both platforms composite one rectangle; the scenario's 40px has no published conversion into that range",
+    "focusee: the app took every channel the project declares",
+    "focusee: no update prompt"
+  ]
+}
