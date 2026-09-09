@@ -5,6 +5,20 @@
  * answers the question the app-to-app numbers cannot: how much of an export is unavoidable
  * encoding work on this machine, and how much is the app's own pipeline. Every app's time
  * should be read as a multiple of this.
+ *
+ * Two things about it are worth knowing before reading a ratio, both measured rather than
+ * assumed (scratch/floor-bitrate-ab.mjs, and its result file beside it):
+ *
+ *   · **Its bitrate barely matters.** The rate below is a 20 Mb/s ceiling, and the tools it is
+ *     divided into encode anywhere from 8 to 16 Mb/s. Running this same command at 8, 12, 16 and
+ *     20 Mb/s moves it by 1.8% end to end — less than the 5.7% by which same-platform runs
+ *     already disagree — so a per-tool floor matched on bitrate would buy noise. The output size
+ *     travels in every submission for the reader who wants it.
+ *   · **It is ~70% encoder and ~30% decode, and its filters are free** (5.4s of an 18.2s floor is
+ *     decoding; the scaler no-ops when in and out are both 1920x1080). So this is a floor on an
+ *     *ordinary re-encode*, not on what is physically necessary: a tool that keeps its frames on
+ *     the GPU between compositing and encoding can come in under it, and on an Apple M1 FocuSee
+ *     does. A cost below 1.0x is that, not an error.
  */
 import { spawn } from "node:child_process";
 import { join } from "node:path";

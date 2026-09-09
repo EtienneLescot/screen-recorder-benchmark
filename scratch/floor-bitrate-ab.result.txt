@@ -1,0 +1,37 @@
+node scratch/floor-bitrate-ab.mjs — Apple M1 (Macmini9,1), macOS 26.5, h264_videotoolbox
+source: sources/commons-upload/screen.mp4 (1920x1080, 60 fps, 60 s)
+2026-09-09, alternating order per round, a remote-desktop session live throughout
+
+rate     median   all
+ 8 Mb/s  17.91s   17.94 17.90 17.91
+12 Mb/s  18.07s   18.09 18.07 18.07
+16 Mb/s  18.21s   18.21 18.22 18.20
+20 Mb/s  18.23s   18.23 18.23 18.23
+
+8 -> 20 Mb/s moves the floor by 1.8%, monotonically: more bits to write, slightly
+slower. Within a rate the spread is under 40 ms.
+
+Where the floor's time actually goes, same source, same command minus its parts:
+
+  decode only                5.4s
+  decode + scale + format    5.4s   (the scaler no-ops: in and out are 1920x1080)
+  the floor, whole          18.2s
+
+So the floor is ~70% encoder and ~30% decode, and its filter chain is free.
+
+Why this was measured: on 2026-09-09 FocuSee exported in 16.95 s against a paired
+floor of 18.19 s — below the thing it is divided by — while writing 123 MB where
+OpenScreen wrote 60 MB for the same sixty seconds. The obvious suspicion was that
+the floor's 20 Mb/s ceiling made it an unfair denominator for a tool encoding at
+16.4 and another at 8.0. It is not: matching each tool's bitrate would move its
+denominator by under 2%, against the 12% that separates the two tools and the
+5.7% by which same-platform runs already disagree in the published aggregate.
+
+What is left is the pipeline, not the rate. The floor decodes with ffmpeg, hands
+CPU frames to VideoToolbox and encodes; a tool that keeps its frames on the GPU
+between compositing and encoding can beat that, and FocuSee does. That is a fact
+about what the floor measures — an ordinary re-encode on this machine — rather
+than an anomaly to be corrected, and a denominator that isolated compositing
+would have to change the pipeline, not the bitrate. Which would invalidate every
+published ratio, so it belongs beside the existing floors the way the software
+floor was added, never in place of them.
