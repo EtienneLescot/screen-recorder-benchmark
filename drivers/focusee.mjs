@@ -687,12 +687,23 @@ export default {
 		if (configure) ctx.observe("exportConfigure", configure);
 
 		// "Export end" is FocuSee's own completion signal: it audits the stop, and the filesystem
-		// is still what stops the clock. Nothing here waits on it beyond the render itself.
+		// is still what stops the clock. Waiting for it must never outlive the render, so the
+		// file's own stillness ends the wait too — a build that renames that log line would
+		// otherwise hold the leg open for as long as this loop runs.
 		if (started) {
+			let lastSize = -1;
+			let lastGrowth = Date.now();
 			for (let i = 0; i < 2400; i++) {
 				if (/Export end/.test(logSince(cursor))) {
 					ctx.observeComplete();
 					return;
+				}
+				const size = existsSync(out) ? statSync(out).size : -1;
+				if (size > lastSize) {
+					lastSize = size;
+					lastGrowth = Date.now();
+				} else if (lastSize > 0 && Date.now() - lastGrowth > 10_000) {
+					return; // written and still: the runner's own watcher decides from here
 				}
 				await sleep(500);
 			}
