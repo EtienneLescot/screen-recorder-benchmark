@@ -405,6 +405,9 @@ export default {
 						committed = true;
 						ctx.commit();
 					}
+					// The CLI's own completion event. Observation only: the filesystem stays the
+					// stopwatch stop and the runner records the skew between the two.
+					if (ev.type === "Completed") ctx.observeComplete?.();
 					if (ev.type === "Error") stderrTail += `\n${ev.error}`;
 				}
 			});

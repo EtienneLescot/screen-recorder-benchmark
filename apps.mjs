@@ -63,7 +63,11 @@ export const APPS = {
 	},
 	"screen-studio": {
 		roster: "Screen Studio",
-		blocker: "export requires an activated licence — there is no trial export",
+		// Everything up to the export button is automated and verified: the project is built,
+		// opened, and read back through the app's own `project.loadProject` with all ten
+		// scenario features applied. What stops there is the export itself.
+		blocker:
+			"export requires an activated licence — there is no trial export and no watermark path. Pressing Export on an unactivated install opens an “Activate Screen Studio” window asking for the email behind a licence key or subscription, and choosing Export from the app's own command menu ends at the same window. Import, the editor and every scenario feature automate fine",
 		// Off by default: export is licence-gated, so an unactivated machine would only ever
 		// record a failure. Enable it explicitly once a licence is activated.
 		// macOS only, and export is licence-gated even there.
@@ -77,9 +81,14 @@ export const APPS = {
 			assetPattern: /https:\/\/screenstudioassets\.com\/releases\/[^"' ]*Apple%20Silicon\.dmg/,
 			appName: "Screen Studio.app",
 			approxMB: 349,
-			licence: "commercial — trial exports carry a watermark (which does not change render time)",
+			// Said plainly because the earlier wording here — "trial exports carry a watermark
+			// (which does not change render time)" — described a product this one is not, and it
+			// is the difference between a row that can be measured and one that cannot. 3.7.5-4595
+			// contains no "trial" or "watermark" string at all.
+			licence: "commercial — a licence is REQUIRED to export; there is no trial export",
 			notes: [
 				"No CLI and no scripting dictionary; only screen-studio://record-* deeplinks exist, none for export.",
+				"The editor is capture-excluded and publishes no accessibility tree, so it is driven over CDP — see drivers/screen-studio.mjs.",
 			],
 		},
 	},
@@ -192,7 +201,9 @@ export const APPS = {
 	focusee: {
 		roster: "FocuSee",
 		blocker:
-			"every export raises a Premium upsell whose only actions are Buy Now and close — closing it cancels the export, on a 10s clip as on a 60s one, and the app's own log ends the attempt at “Export free has exported: 1” with nothing written. Everything before that is automated on macOS: the import, the scenario (written into the project package, which FocuSee reads back), and the export dialog with format, resolution and frame rate pinned and re-read. On Windows the import needs a real mouse event, not a UIA invoke",
+			process.platform === "darwin"
+				? "export requires an activated licence — there is no trial export, and the macOS driver can only reach the canvas"
+				: null,
 		driver: { darwin: "./drivers/focusee.mjs", win32: "./drivers/focusee-win.mjs" },
 		// On macOS the export is gated behind a purchase in 2.4.1 (see drivers/focusee.mjs); on
 		// Windows the vendor ships the real application rather than a downloader stub, so it is
@@ -203,14 +214,18 @@ export const APPS = {
 			url: "https://focusee.imobie.com/go/download.php?product=fs",
 			appName: "FocuSee.app",
 			approxMB: 5,
-			// The upsell sells "export without watermark", which reads as though a watermarked
-			// trial export existed. On macOS 2.4.1 it does not: the free tier is one export,
-			// ever, and every attempt after it is refused outright.
-			licence: "commercial — the free tier allows one export, ever; after that export is refused",
-			notes: [
-				"The vendor ships a GUI installer stub; run it once during preflight.",
-				"On macOS the download is that stub; on Windows the same page serves the real application.",
-			],
+			// Not "watermarked": there is no watermarked trial export to be had. Pressing Export
+			// without a licence raises the Premium panel and writes nothing at all.
+			licence: "commercial — export requires a licence; there is no trial export",
+			notes: ["The vendor ships a GUI installer stub; run it once during preflight."],
+			// Windows gets the real application from a different URL, and it installs unattended.
+			win32: {
+				method: "installer",
+				url: "https://focusee.imobie-resource.com/product/focusee-en-v2-setup.exe",
+				appName: "FocuSee",
+				approxMB: 120,
+				silentArgs: ["/S"],
+			},
 		},
 	},
 	"ffmpeg-baseline": {

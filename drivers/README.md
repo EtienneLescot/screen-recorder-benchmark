@@ -10,11 +10,11 @@ export default {
   displayName: "Screen Studio",
   vendor: "Screen Studio",
   kind: "gui",                  // "cli" | "gui" | "reference"
-  automation: "menu",           // "cli" | "menu" | "menu+coords" | "none"
+  automation: "cdp+menu",       // "cli" | "menu" | "cdp+menu" | "menu+coords" | "none"
   processName: "Screen Studio", // as System Events sees it
   appPath: "/Applications/Screen Studio.app",
-  bundleId: "studio.screen.app",
-  install: { method: "dmg", url, appName, approxMB, licence, notes },
+  bundleId: "com.timpler.screenstudio",
+  install: { method: "page", page, assetPattern, appName, approxMB, licence, notes },
 
   detect(),                     // -> { installed, version, path }
   async prepare(ctx),           // import the source, apply the scenario, park in the editor
@@ -34,9 +34,24 @@ before `commit()` (launching the app, importing the clip, setting presets) is wa
 reported separately; anything after it counts.
 
 **Completion is decided by the filesystem, not by the app.** The harness watches the output
-path until it stops growing (`waitForStableFile`), so an app that shows 100% before it has
-finished muxing gets no credit for it. A driver's `runExport` may return as soon as the export
-is committed; it does not have to detect the end itself.
+path until it stops growing (`waitForStableFile`) and stops the clock at the file's final mtime,
+not at the later observation that its stability window elapsed. An app that shows 100% before it
+has finished muxing gets no credit for it. A driver's `runExport` may return as soon as the export
+is committed; it does not have to detect the end itself. When an app also exposes an explicit
+success event, call `ctx.observeComplete()` so the result records its skew from the filesystem;
+that signal audits the stop but does not replace it.
+
+### Completion audit backlog
+
+Every driver on every supported platform must be reviewed for fixed sleeps after `ctx.commit()`,
+progress percentages treated as completion, output copies whose time leaks into the measurement,
+and files that may finish before `waitForStableFile` begins. For each GUI driver, add an app-level
+completion observation where one exists and verify its recorded skew against final file mtime.
+Generic Escape keystrokes must not dismiss post-export UI: target a control anchored inside the
+specific modal and verify that the modal disappeared, because Escape may instead cancel the export,
+close the editor, or be intercepted by the automation harness.
+The audit covers OpenScreen CLI/GUI, Screen Studio, Recordly (including CUDA), Cap and FocuSee on
+macOS, Windows and Linux wherever their adapters are supported.
 
 ## The automation ladder
 
@@ -89,6 +104,37 @@ capture-excluded window is absent from screenshots, and can be absent from the W
 "I took a screenshot and there was no window" says nothing at all. Diagnose over CDP or the
 accessibility tree, which do not care about capture exclusion, and never conclude an app is broken
 from a picture of an empty desktop.
+
+What *does* see them is `Page.captureScreenshot` over CDP: it renders the page rather than reading
+the display, so exclusion does not apply. Screen Studio's editor and its activation window both
+came out in full that way while `screencapture` saw an empty desktop behind them. Useful for
+diagnosing a driver — not for verifying an export, which is decided by the file.
+
+### The window you found is not necessarily the window you want
+
+An Electron app publishes one CDP target per window, and the useful ones are not always the ones
+with the recognisable URL. Screen Studio's *editor* — the window with the whole UI in it — is an
+`about:blank` target with no bridge on `window`, while the target carrying the bundle's
+`index.html` renders nothing at all and has the app's IPC bridge. A driver that takes "the first
+page target" gets one job right and the other silently wrong.
+
+Match a target on what it *is*: evaluate a probe in each one and test the answer — its visible
+text for a UI window, the presence of the bridge for an IPC one.
+
+### An icon inside a button defeats exact text matching
+
+Where the UI draws its icons as font glyphs, they land in `innerText` alongside the label: Screen
+Studio's Export button reads as `"\u{100203}\nExport"`, every glyph sitting in Unicode plane 16.
+`{ exact: true }` therefore matches nothing anywhere in the app, with "not found" as the only
+symptom — which reads exactly like a missing control. Match on substrings, and strip
+`[\u{100000}-\u{10FFFD}]` before putting any of that text in a result.
+
+### A paywall can be a window of its own
+
+An upsell or activation wall does not have to appear in the DOM you are driving. Screen Studio
+opens a separate `activation-window` BrowserWindow, so a driver watching the editor's `innerText`
+for "Activate" waits out its timeout and then reports the wrong cause. Enumerate the targets after
+any action that can be refused, and read the refusal from wherever it actually appeared.
 
 ### A CDP target existing is not the same as its renderer running
 

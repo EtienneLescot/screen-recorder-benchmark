@@ -260,7 +260,11 @@ async function launchAndOpen(ctx, built, useCuda, logPath) {
 		throw new Error(`openProjectFileAtPath refused: ${opened.error ?? "no reason given"}`);
 	}
 
-	await call("window.electronAPI.switchToEditor()");
+	// Fire-and-forget: switchToEditor tears down the renderer that called it, so awaiting
+	// its promise hangs the leg — never route it through `call` (see README trap).
+	await s
+		.eval("window.electronAPI.switchToEditor(); 'switching'", { awaitPromise: false })
+		.catch(() => null);
 	const ed = await waitFor(editorTarget, { label: "the editor window" });
 	const es = new CdpSession(ed.webSocketDebuggerUrl);
 	await es.open();
@@ -700,6 +704,8 @@ export default {
 				// filesystem's answer, so it can never inflate a result — it can only stop
 				// charging the encoder for the operator.
 				ctx.markComplete();
+				// Audit the early stop: the runner records this instant's skew vs the file mtime.
+				ctx.observeComplete();
 				break;
 			}
 			await sleep(2000);
