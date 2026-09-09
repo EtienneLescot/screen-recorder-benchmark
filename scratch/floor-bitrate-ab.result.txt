@@ -35,3 +35,47 @@ than an anomaly to be corrected, and a denominator that isolated compositing
 would have to change the pipeline, not the bitrate. Which would invalidate every
 published ratio, so it belongs beside the existing floors the way the software
 floor was added, never in place of them.
+
+--------------------------------------------------------------------------------
+Follow-up, same machine and source: if not the bitrate, then what?
+
+  decode software, encode hw (the floor)   18.25s
+  decode hardware, encode hw               18.26s     videotoolbox hwaccel
+  decode hardware, frames never leave GPU  18.24s     hwaccel_output_format
+  decode software only                      5.36s
+  decode hardware only                     17.42s     slower than software, alone
+
+So the decode path is not it either: however the frames arrive, the floor lands on
+18.2s. The encoder is the wall.
+
+How high is that wall? One ffmpeg against two and three at once:
+
+  1 encode in parallel   18.24s                    197 frames/s in total
+  2 encodes in parallel  36.34 / 36.35             198 frames/s in total
+  3 encodes in parallel  54.48 / 54.51 / 54.46     198 frames/s in total
+
+Throughput does not move with more processes, so ~198 fps at 1080p is a system
+limit, not ffmpeg leaving the block idle.
+
+What does move it is the rate-control mode, which the floor also chooses:
+
+  ABR 20M (the floor)          18.22s   198 fps
+  ABR 20M + realtime           19.48s   185 fps
+  ABR 20M + prio_speed         18.22s   198 fps
+  ABR 16M + realtime + speed   19.35s   186 fps
+  constant quality q=55        17.59s   205 fps
+
+FocuSee's own leg, for the same 3600 frames, is 16.95s — 212 fps, above every
+row here. It is not writing fewer frames (3600 in all three outputs, High 4.0,
+no B-frames, 1920x1080), and not a cheaper picture: 16.29 Mb/s of video against
+the floor's 11.38 and OpenScreen's 7.87.
+
+So the floor is not a floor on the silicon. It is a floor on one ffmpeg
+configuration — ABR at a fixed rate, CPU-side yuv420p frames — and that
+configuration sits about 7% off what the same encoder block does when a native
+pipeline drives it. A tool coming in under 1.0x has beaten *an ordinary
+re-encode*, which is exactly what this row claims to be and all it claims to be.
+
+Left deliberately unchanged. The rate is what makes the floor reproducible across
+machines where a constant-quality index is not, and every published ratio is
+against this configuration.

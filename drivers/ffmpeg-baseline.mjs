@@ -14,11 +14,17 @@
  *     20 Mb/s moves it by 1.8% end to end — less than the 5.7% by which same-platform runs
  *     already disagree — so a per-tool floor matched on bitrate would buy noise. The output size
  *     travels in every submission for the reader who wants it.
- *   · **It is ~70% encoder and ~30% decode, and its filters are free** (5.4s of an 18.2s floor is
- *     decoding; the scaler no-ops when in and out are both 1920x1080). So this is a floor on an
- *     *ordinary re-encode*, not on what is physically necessary: a tool that keeps its frames on
- *     the GPU between compositing and encoding can come in under it, and on an Apple M1 FocuSee
- *     does. A cost below 1.0x is that, not an error.
+ *   · **The encoder is the wall, and this configuration is not the fastest way to reach it.**
+ *     Hardware decoding changes nothing (18.26s against 18.25s), and running two or three of
+ *     these at once still totals ~198 fps, so the block is saturated rather than idling. But the
+ *     rate-control *mode* moves it: constant quality reaches 205 fps where this ABR path reaches
+ *     198. So the row is a floor on one ffmpeg configuration — ABR at a fixed rate, CPU-side
+ *     yuv420p frames — not on the silicon, and a tool driving the same encoder natively can come
+ *     in under it. On an Apple M1 FocuSee does, at 212 fps, writing more bits than the floor for
+ *     the same 3600 frames. A cost below 1.0x is that, not an error.
+ *
+ * The configuration stays as it is: a fixed bitrate is what makes this reproducible on a machine
+ * whose constant-quality index means something else, and every published ratio is against it.
  */
 import { spawn } from "node:child_process";
 import { join } from "node:path";
