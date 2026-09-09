@@ -124,6 +124,27 @@ translated label makes a click report success against the wrong control, and the
 down a path nobody chose. Where the app offers a fast path and a legacy one, measure the **default**
 — that is the shipped product — and keep any opt-in path as its own row, never averaged in.
 
+Pinning through the app's own preferences works, and needs care about *how* they are stored:
+FocuSee keeps `AppConfiger.exportGlobalConfigure` as JSON inside an **NSData** value, so writing it
+as a string is ignored silently and the sheet comes up on the last run's settings — a leg that had
+been 60 fps came back at 30, which is half the frames and half the work. The read-back is cheap
+because that sheet names each axis on the control itself (`MP4`, `Original (1920 * 1080)`, `60FPS`),
+and it belongs before the commit on every repetition, not once per leg.
+
+### The best rung is often not on the ladder
+
+Two of the tools here keep the whole composition in a plain-JSON document — Screen Studio's
+`project.json`, FocuSee's `configure.focuseeproj` inside the `.focusee` package — and read it back
+when the project is reopened. Writing the scenario into that file beats every rung of the ladder
+above: it survives a renamed control, a translated build and a moved window, and it reaches values
+whose sliders publish no setter at all. FocuSee's padding, roundness, shadow, motion blur and zoom
+tracks are all set that way; not one of them is clicked.
+
+The check is the same one the rest of this file asks for, though, because the app may not keep what
+it was given: reopen the project and read the values back off the app's own interface. Recordly
+keeps a JSON project too and rewrites it with its own defaults on open, which is exactly why its
+exports are not the scenario's.
+
 ### The bridge's promises do not all resolve
 
 Some methods on an app's own bridge are fire-and-forget by design: Recordly's `switchToEditor`

@@ -30,6 +30,13 @@
  *     before driving this app for real.
  *
  * Unmapped: everything after the import — the editor, the scenario controls, and the export.
+ *
+ * Worth doing before mapping any of it by hand: on macOS none of the scenario is clicked at all.
+ * A `.focusee` project is a package holding a plain-JSON `configure.focuseeproj`, FocuSee reads
+ * back what is written into it, and drivers/focusee.mjs sets padding, roundness, shadow, motion
+ * blur, the pointer track and the zooms that way — including the zooms this file says cannot be
+ * reached. The project format is the app's, not the platform's, so the same route very probably
+ * exists here; check it before writing UIA lookups for controls that need not be touched.
  */
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, rmSync } from "node:fs";

@@ -192,7 +192,7 @@ export const APPS = {
 	focusee: {
 		roster: "FocuSee",
 		blocker:
-			"every export raises a Premium upsell whose only actions are Buy Now and close — closing it cancels the export, on a 10s clip as on a 60s one. Import and the editor automate fine on both platforms; on Windows the import needs a real mouse event, not a UIA invoke",
+			"every export raises a Premium upsell whose only actions are Buy Now and close — closing it cancels the export, on a 10s clip as on a 60s one, and the app's own log ends the attempt at “Export free has exported: 1” with nothing written. Everything before that is automated on macOS: the import, the scenario (written into the project package, which FocuSee reads back), and the export dialog with format, resolution and frame rate pinned and re-read. On Windows the import needs a real mouse event, not a UIA invoke",
 		driver: { darwin: "./drivers/focusee.mjs", win32: "./drivers/focusee-win.mjs" },
 		// On macOS the export is gated behind a purchase in 2.4.1 (see drivers/focusee.mjs); on
 		// Windows the vendor ships the real application rather than a downloader stub, so it is
@@ -203,8 +203,14 @@ export const APPS = {
 			url: "https://focusee.imobie.com/go/download.php?product=fs",
 			appName: "FocuSee.app",
 			approxMB: 5,
-			licence: "commercial — trial exports are watermarked",
-			notes: ["The vendor ships a GUI installer stub; run it once during preflight."],
+			// The upsell sells "export without watermark", which reads as though a watermarked
+			// trial export existed. On macOS 2.4.1 it does not: the free tier is one export,
+			// ever, and every attempt after it is refused outright.
+			licence: "commercial — the free tier allows one export, ever; after that export is refused",
+			notes: [
+				"The vendor ships a GUI installer stub; run it once during preflight.",
+				"On macOS the download is that stub; on Windows the same page serves the real application.",
+			],
 		},
 	},
 	"ffmpeg-baseline": {
