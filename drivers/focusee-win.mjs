@@ -46,8 +46,8 @@
  *     on 30FPS, so a run that trusted the defaults would have measured half the scenario's
  *     frame rate.
  *
- * The block that remains is commercial, and it is the same one the macOS build has: pressing
- * Export raises a "FocuSee Premium" panel whose only action is `BuyBtn`, and no file is written.
+ * Export requires an activated licence. On an unlicensed machine it raises a "FocuSee Premium"
+ * panel whose only action is `BuyBtn`, and no file is written; `runExport` detects that at runtime.
  * The driver pins every axis, commits, and then fails with that named — so an activated machine
  * needs no code change, only the licence. What cannot be checked until then is the only thing
  * this adapter asserts without pixels: the editor reports the cursor, camera and audio channels
@@ -259,6 +259,7 @@ foreach ($wn in (EditorWindows)) {
     if ($c.ControlType.ProgrammaticName -match 'Button' -and -not $c.Name -and -not $c.AutomationId) { $prev = $e }
   }
 }
+
 'ERR the export dialog has no save-to path'
 `,
 		{ timeoutMs: 90_000 },
@@ -267,8 +268,39 @@ foreach ($wn in (EditorWindows)) {
 	return out.slice(3);
 }
 
-/** Is the licence wall up? It is drawn into the editor window, not a window of its own. */
-const premiumWallUp = () => rows(EDITOR, 1500).some((r) => r.id === "BuyBtn" || r.id === "Title1");
+/** Close the export-success overlay, whose close button has neither a name nor an id. */
+function dismissSuccessPanel() {
+	const out = powershell(
+		`${UIA}
+$bySuccess = New-Object System.Windows.Automation.PropertyCondition(
+  [System.Windows.Automation.AutomationElement]::AutomationIdProperty, 'SuccessTitle')
+foreach ($wn in (EditorWindows)) {
+  $title = $wn.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $bySuccess)
+  if ($title -eq $null) { continue }
+  $dialog = $cw.GetParent($title)
+  if ($dialog -eq $null) { 'ERR success title has no dialog'; exit }
+  foreach ($button in $dialog.FindAll([System.Windows.Automation.TreeScope]::Children,
+      (New-Object System.Windows.Automation.PropertyCondition(
+        [System.Windows.Automation.AutomationElement]::ControlTypeProperty,
+        [System.Windows.Automation.ControlType]::Button)))) {
+    if ($button.Current.Name -or $button.Current.AutomationId) { continue }
+    $ip = $null
+    if ($button.TryGetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern, [ref]$ip)) {
+      $ip.Invoke()
+      'OK closed'
+      exit
+    }
+  }
+  'ERR success dialog has no close button'
+  exit
+}
+'OK absent'
+`,
+		{ timeoutMs: 90_000 },
+	).trim();
+	if (!out.startsWith("OK")) throw new Error(`FocuSee: ${out.replace(/^ERR /, "")}`);
+	return out === "OK closed";
+}
 
 export default {
 	id: "focusee",
@@ -410,6 +442,13 @@ export default {
 
 		activateApp(EDITOR);
 		await sleep(800);
+		// FocuSee leaves a success overlay over the editor after every export. Its close button has
+		// neither a name nor an id, so anchor it on the overlay's SuccessTitle instead of using Escape
+		// (which can close the editor itself).
+		for (let i = 0; i < 4 && dismissSuccessPanel(); i++) await sleep(500);
+		if (rows(EDITOR, 1200).some((r) => r.id === "SuccessTitle")) {
+			throw new Error("FocuSee: the previous export's success panel could not be dismissed");
+		}
 		// By id: the crop tool's *name* is "Export", and it comes first in the tree.
 		if (!clickControl(EDITOR, "Export", { byId: true }).ok) {
 			throw new Error("FocuSee: the editor has no Export button (AutomationId `Export`)");
@@ -452,18 +491,27 @@ export default {
 		}
 		ctx.commit();
 
-		// The licence wall, if there is one. It is drawn over the editor rather than opened as a
-		// window, and it cancels the export: nothing is written while it is up.
-		for (let i = 0; i < 4; i++) {
-			await sleep(3000);
-			if (premiumWallUp()) {
+		// FocuSee's success overlay is the app's own completion signal. Waiting a fixed 12 seconds
+		// here before letting the runner inspect the file used to add that delay to every timing
+		// whenever the render itself completed sooner. Poll both terminal overlays instead and give
+		// the runner the exact instant FocuSee says it is done; the filesystem is still required to
+		// confirm that an output exists and has stabilised.
+		for (let i = 0; i < 600; i++) {
+			await sleep(500);
+			const editor = rows(EDITOR, 1200);
+			if (editor.some((r) => r.id === "BuyBtn" || r.id === "Title1")) {
 				throw new Error(
 					"FocuSee raised its “FocuSee Premium” panel instead of exporting — its only action is " +
 						"Buy Now, and dismissing it cancels the render. Nothing else in this adapter is blocked: " +
 						"activate a licence and the same run measures.",
 				);
 			}
+			if (editor.some((r) => r.id === "SuccessTitle")) {
+				ctx.observeComplete();
+				return;
+			}
 		}
+		throw new Error("FocuSee: export completion never signalled");
 	},
 
 	async cleanup() {

@@ -59,13 +59,13 @@ import { activateApp, appIsRunning, jxa, launchApp, osa, quitApp } from "../lib/
 const APP = "/Applications/FocuSee.app";
 const PROC = "FocuSee";
 
-/** Read every static-text value in FocuSee's edit window — how its state is inspected. */
-function editorText() {
+/** Read every static-text/button value in the given window — how its state is inspected. */
+function windowText(name = "edit") {
 	return JSON.parse(
 		jxa(`
 			const se = Application("System Events");
 			const p = se.processes["${PROC}"];
-			const win = p.windows().find(w => { try { return w.name() === "edit"; } catch (e) { return false; } });
+			const only = ${JSON.stringify(name)};
 			function txt(el, d) {
 				if (d > 10) return [];
 				let out = [];
@@ -79,10 +79,30 @@ function editorText() {
 				try { for (const k of el.uiElements()) out = out.concat(txt(k, d + 1)); } catch (e) {}
 				return out;
 			}
-			JSON.stringify(win ? txt(win, 0) : []);
+			let out = [];
+			for (const w of p.windows()) {
+				let take = !only;
+				if (only) { try { take = w.name() === only; } catch (e) { take = false; } }
+				if (take) { try { out = out.concat(txt(w, 0)); } catch (e) {} }
+			}
+			JSON.stringify(out);
 		`),
 	);
 }
+
+/** Read every static-text value in FocuSee's edit window — how its state is inspected. */
+function editorText() {
+	return windowText("edit");
+}
+
+/** The upsell sheet, wherever the app puts it (dialog, sheet, separate window). */
+function premiumText() {
+	return windowText(null).join(" · ");
+}
+
+const PREMIUM_ERROR =
+	"FocuSee raised its “FocuSee Premium” panel instead of exporting — its only actions are " +
+	"Buy Now and dismissing it cancels the render. Activate a licence and the same run measures.";
 
 export default {
 	id: "focusee",
@@ -241,6 +261,29 @@ export default {
 			throw new Error(`FocuSee: no Export button. Present: ${(clicked.seen ?? []).join(", ")}`);
 		await sleep(3000);
 
+		// The export dialog carries Format / Resolution / Frame Rate, and those persist
+		// between runs — the Windows twin came up on 30FPS against a 60FPS scenario.
+		// Nothing here pins them (the dialog's controls are not mapped), so read them
+		// back and refuse a run that contradicts the target rather than measure it.
+		// The upsell is checked first: its sheet advertises "60fps" itself.
+		const flat = premiumText();
+		if (/premium/i.test(flat) && /buy now/i.test(flat)) throw new Error(PREMIUM_ERROR);
+		if (/format/i.test(flat)) {
+			const t = ctx.scenario.output;
+			ctx.observe?.("exportDialog", flat.slice(0, 600));
+			if (/\b30\s*fps\b/i.test(flat) || !new RegExp(`${t.fps}\\s*fps`, "i").test(flat)) {
+				throw new Error(
+					`FocuSee export dialog is not on the scenario's frame rate (${t.fps}FPS). ` +
+						`Dialog reads: ${flat.slice(0, 300)}`,
+				);
+			}
+			if (!/mp4/i.test(flat) || !/1080|original/i.test(flat)) {
+				throw new Error(
+					`FocuSee export dialog is not on MP4/1080p. Dialog reads: ${flat.slice(0, 300)}`,
+				);
+			}
+		}
+
 		const dir = out.replace(/\/[^/]+$/, "");
 		const stem = out
 			.split("/")
@@ -260,6 +303,18 @@ export default {
 			key code 36
 		end tell`);
 		ctx.commit();
+
+		// The upsell can also arrive after the save panel is answered: fail fast with its
+		// name instead of sitting out the runner's 4-minute appear timeout. A file landing
+		// means a real export is writing, so stop polling then; otherwise the filesystem
+		// still decides, exactly as without this loop. There is no success signal to
+		// observe — the licensed path has never been seen — so no observeComplete().
+		for (let i = 0; i < 30; i++) {
+			await sleep(1000);
+			if (existsSync(out)) break;
+			const seen = premiumText();
+			if (/premium/i.test(seen) && /buy now/i.test(seen)) throw new Error(PREMIUM_ERROR);
+		}
 	},
 
 	async cleanup() {

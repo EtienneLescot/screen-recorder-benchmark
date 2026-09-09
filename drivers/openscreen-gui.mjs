@@ -261,18 +261,29 @@ export default {
 		ctx.commit();
 
 		// Answer a replace-confirmation if one appears, then let the runner's file watcher decide
-		// when the render is done.
-		await sleep(1200);
-		try {
-			osa(`tell application "System Events" to tell process "${this.processName}"
-				repeat with w in windows
-					try
-						if exists (button "Replace" of sheet 1 of w) then click button "Replace" of sheet 1 of w
-					end try
-				end repeat
-			end tell`);
-		} catch {
-			/* the common case: no alert */
+		// when the render is done. No fixed sleep first: the output path was deleted above, so the
+		// sheet is the rare exception, and the wait used to sit inside the measured window on every
+		// run. Anchored on the Replace button itself (never Escape, which would cancel the export),
+		// and re-checked while one was answered so a lingering sheet is verified gone.
+		const replaceAlert = () => {
+			try {
+				return osa(`tell application "System Events" to tell process "${this.processName}"
+					repeat with w in windows
+						try
+							if exists (button "Replace" of sheet 1 of w) then
+								click button "Replace" of sheet 1 of w
+								return "replaced"
+							end if
+						end try
+					end repeat
+					return "absent"
+				end tell`);
+			} catch {
+				return "absent"; // the common case: no alert
+			}
+		};
+		for (let i = 0; i < 3 && replaceAlert() === "replaced"; i++) {
+			/* answered one — loop to verify none remains */
 		}
 	},
 

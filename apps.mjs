@@ -201,7 +201,9 @@ export const APPS = {
 	focusee: {
 		roster: "FocuSee",
 		blocker:
-			"every export raises a Premium upsell whose only actions are Buy Now and close — closing it cancels the export, on a 10s clip as on a 60s one. On Windows that upsell is now the only thing missing: the adapter writes the scenario into a .focusee project — zooms, cursor telemetry, webcam and audio channels included — opens it in FocuSeeEditor.exe, and the editor reports every channel live before the export dialog is pinned to MP4/1080p/60. On macOS the same wall stands in front of a driver that can only reach the canvas",
+			process.platform === "darwin"
+				? "export requires an activated licence — there is no trial export, and the macOS driver can only reach the canvas"
+				: null,
 		driver: { darwin: "./drivers/focusee.mjs", win32: "./drivers/focusee-win.mjs" },
 		// On macOS the export is gated behind a purchase in 2.4.1 (see drivers/focusee.mjs); on
 		// Windows the vendor ships the real application rather than a downloader stub, so it is

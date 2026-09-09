@@ -34,9 +34,24 @@ before `commit()` (launching the app, importing the clip, setting presets) is wa
 reported separately; anything after it counts.
 
 **Completion is decided by the filesystem, not by the app.** The harness watches the output
-path until it stops growing (`waitForStableFile`), so an app that shows 100% before it has
-finished muxing gets no credit for it. A driver's `runExport` may return as soon as the export
-is committed; it does not have to detect the end itself.
+path until it stops growing (`waitForStableFile`) and stops the clock at the file's final mtime,
+not at the later observation that its stability window elapsed. An app that shows 100% before it
+has finished muxing gets no credit for it. A driver's `runExport` may return as soon as the export
+is committed; it does not have to detect the end itself. When an app also exposes an explicit
+success event, call `ctx.observeComplete()` so the result records its skew from the filesystem;
+that signal audits the stop but does not replace it.
+
+### Completion audit backlog
+
+Every driver on every supported platform must be reviewed for fixed sleeps after `ctx.commit()`,
+progress percentages treated as completion, output copies whose time leaks into the measurement,
+and files that may finish before `waitForStableFile` begins. For each GUI driver, add an app-level
+completion observation where one exists and verify its recorded skew against final file mtime.
+Generic Escape keystrokes must not dismiss post-export UI: target a control anchored inside the
+specific modal and verify that the modal disappeared, because Escape may instead cancel the export,
+close the editor, or be intercepted by the automation harness.
+The audit covers OpenScreen CLI/GUI, Screen Studio, Recordly (including CUDA), Cap and FocuSee on
+macOS, Windows and Linux wherever their adapters are supported.
 
 ## The automation ladder
 
