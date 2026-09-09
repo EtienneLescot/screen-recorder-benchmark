@@ -1,5 +1,5 @@
 /**
- * FocuSee on macOS — the Windows adapter's twin, stopping at the same place.
+ * FocuSee on macOS — the Windows adapter's twin, and on a licensed machine it measures.
  *
  * **The scenario is written into the project, not clicked into the editor**, for the reason
  * drivers/focusee-win.mjs gives and one more that belongs to this build: FocuSee's macOS sliders
@@ -34,26 +34,42 @@
  *   row is located by its label and pressed with a real CGEvent. Same lesson as the import drop
  *   zone, in a second place.
  *
- * Export is licence-gated here as it is on Windows, and this build says so in its log before it
- * says so on screen:
+ * Export is licence-gated here as it is on Windows, and this build announces the outcome in its
+ * log before it shows anything on screen. Licensed:
  *
- *     Export choose export configer: F:MP4;Res:original;Rate:60FPS;T:1m0s;…
- *     Export free has exported: 1          ← the free tier's one export, already spent
- *     --------- UserRightsManager Export End ---------
- *
- * against the one successful export this machine has on record:
- *
- *     Export free has exported: 0
+ *     Export vip has exported: 3
  *     Export start...
  *     Export end
- *     Export success count: 1
+ *     Export success count: 4
+ *
+ * Refused, which is what an unlicensed install — or a licensed one with no device slot — gets:
+ *
+ *     Export free has exported: 1
+ *     --------- UserRightsManager Export End ---------
  *
  * So the driver watches the log rather than the screen: `Export start...` means the render is
  * under way and the runner's stopwatch owns the rest, `Export end` is the app's own completion
- * signal (`ctx.observeComplete`, audited against the file and never replacing it), and a refusal
- * is confirmed against the "FocuSee Premium" sheet whose only action is Buy Now. A walk of the
- * editor window costs a second or two of the machine that is meanwhile supposed to be encoding, so
- * it is asked only once the log has something to confirm.
+ * signal (`ctx.observeComplete`, audited against the file and never replacing it — it lands about
+ * a tenth of a second after the last byte on this machine), and a refusal is confirmed against the
+ * "FocuSee Premium" sheet whose only action is Buy Now. A walk of the editor window costs a second
+ * or two of the machine that is meanwhile supposed to be encoding, so it is asked only once the
+ * log has something to confirm.
+ *
+ * Three things about a licensed run, each of which cost a leg before it was named:
+ *
+ * · **The export name has to be typed, not assigned.** Setting the sheet's `AXTextField` value
+ *   changes what the field shows, and reads back as the new name, and the export still lands on
+ *   the name the sheet opened with — the project's. Assigned, the file came out
+ *   `focusee-full-demo.mp4`; typed with real keystrokes, `typed-name-run7.mp4`. The read-back is
+ *   therefore not proof, and the output path is checked after the render as well.
+ * · **The success panel refuses the next export in silence.** When a render finishes FocuSee opens
+ *   "Video exported successfully!" in a window of its own, and while it is up the following export
+ *   does nothing at all: the sheet opens, the name takes, Export writes nothing and logs nothing.
+ *   It cost three of four repetitions in the first measured leg, each landing as "output never
+ *   appeared" four minutes later. It is closed by its own close control before and after a run.
+ * · **The pinned folder must exist before the app reads it.** Given a `Save to` that is not there,
+ *   FocuSee falls back to ~/Documents/FocuSee without saying so, and the run looks like an export
+ *   that never happened.
  *
  * Two things take the front on launch and both are answered by name: the update prompt, and — the
  * one worth writing down — "You've reached the maximum number of devices that can be activated for
@@ -73,7 +89,14 @@ import { resolveFfmpeg } from "../lib/env.mjs";
 import { writeFocuseeProject } from "../lib/focuseeProject.mjs";
 import { hidClick } from "../lib/hidClick.mjs";
 import { sleep } from "../lib/measure.mjs";
-import { activateApp, appIsRunning, jxa, osa, quitApp } from "../lib/uiScript.mjs";
+import {
+	activateApp,
+	appIsRunning,
+	escapeAppleScript,
+	jxa,
+	osa,
+	quitApp,
+} from "../lib/uiScript.mjs";
 
 const APP = "/Applications/FocuSee.app";
 const PROC = "FocuSee";
@@ -269,13 +292,34 @@ function sheetSettings() {
 	};
 }
 
-/** The name field is a real AXTextField, so the output name needs no save panel at all. */
+/**
+ * Name the output.
+ *
+ * The field is a real AXTextField and it needs no save panel — but assigning its `value` is not
+ * enough, and the way it fails is the expensive kind: the field *shows* the new name, reads back
+ * as the new name, and the export still lands on the one the sheet opened with, which is the
+ * project's. Only real keystrokes reach whatever the field is bound to. Proven by exporting
+ * twice: assigned, the file came out `focusee-full-demo.mp4`; typed, `typed-name-run7.mp4`.
+ */
 function setSheetName(stem) {
-	return ax(`
+	const focused = ax(`
 		proc.frontmost = true;
 		const field = firstIn(sheetOf(editWindow()), el => role(el) === "AXTextField");
-		if (!field) JSON.stringify(null);
-		else { field.value = ${JSON.stringify(stem)}; delay(0.4); JSON.stringify(String(field.value())); }
+		if (!field) JSON.stringify(false);
+		else { field.focused = true; delay(0.3); JSON.stringify(true); }
+	`);
+	if (!focused) return null;
+	osa(`tell application "System Events" to tell process "${PROC}"
+		set frontmost to true
+		keystroke "a" using {command down}
+		delay 0.3
+		keystroke "${escapeAppleScript(stem)}"
+		delay 0.3
+		key code 48
+	end tell`);
+	return ax(`
+		const field = firstIn(sheetOf(editWindow()), el => role(el) === "AXTextField");
+		JSON.stringify(field ? String(field.value()) : null);
 	`);
 }
 
@@ -327,6 +371,30 @@ function premiumWall() {
 			const text = labelsIn(sheet).map(p => p[1]).join(" · ");
 			JSON.stringify(/FocuSee Premium|Buy Now|Upgrade to remove/i.test(text) ? text.slice(0, 400) : null);
 		}
+	`);
+}
+
+/**
+ * Close the panel FocuSee opens when an export finishes.
+ *
+ * "Video exported successfully!", with Open Folder and Share, in a window of its own — and while
+ * it is up the *next* export is refused in silence: the sheet opens, the name takes, pressing
+ * Export writes nothing and logs nothing at all. It cost three of four repetitions in the first
+ * measured leg on this machine, each one landing as "output never appeared" four minutes later.
+ */
+function dismissExportSuccess() {
+	return ax(`
+		let closed = false;
+		for (const w of windows()) {
+			const text = labelsIn(w).map(p => p[1]).join(" · ");
+			if (!/exported successfully/i.test(text)) continue;
+			const closer = firstIn(w, el => {
+				try { return role(el) === "AXButton" && el.description() === "close button"; } catch (e) { return false; }
+			});
+			if (closer) { closer.click(); closed = true; }
+			break;
+		}
+		JSON.stringify(closed);
 	`);
 }
 
@@ -561,6 +629,7 @@ export default {
 
 		activateApp(PROC);
 		dismissBlockingAlerts();
+		dismissExportSuccess();
 		dismissSheet();
 		await sleep(600);
 
@@ -643,7 +712,8 @@ export default {
 		ctx.commit();
 
 		// From here the app is either rendering or refusing, and it says which in its log first.
-		const deadline = Date.now() + 45_000;
+		const startedAt = Date.now();
+		const deadline = startedAt + 45_000;
 		let refusedAt = null;
 		let configure = null;
 		let started = false;
@@ -696,6 +766,9 @@ export default {
 			for (let i = 0; i < 2400; i++) {
 				if (/Export end/.test(logSince(cursor))) {
 					ctx.observeComplete();
+					// Leave the app ready for the next repetition rather than behind its own
+					// success panel, which silently refuses the export after it.
+					dismissExportSuccess();
 					return;
 				}
 				const size = existsSync(out) ? statSync(out).size : -1;
@@ -707,6 +780,22 @@ export default {
 				}
 				await sleep(500);
 			}
+		}
+
+		// A render that ran and left nothing at the expected path means the name did not take —
+		// say which file it wrote instead, rather than leaving the runner to report an absence
+		// four minutes later.
+		if (started && !existsSync(out)) {
+			const others = readdirSync(ctx.outDir)
+				.filter((f) => f.endsWith(".mp4"))
+				.map((f) => ({ f, m: statSync(join(ctx.outDir, f)).mtimeMs }))
+				.filter((x) => x.m >= startedAt)
+				.sort((a, b) => b.m - a.m);
+			throw new Error(
+				`FocuSee rendered, but nothing is at ${out}. Written since the commit: ` +
+					`${others.map((x) => x.f).join(", ") || "nothing in this folder"}. The export name is ` +
+					"typed into the sheet's field; a build that ignores it exports under the project's name.",
+			);
 		}
 	},
 
