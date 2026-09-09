@@ -73,8 +73,8 @@
 				}
 			]
 		},
-		"openscreen-cli": {
-			"app": "openscreen-cli",
+		"openscreen": {
+			"app": "openscreen",
 			"target": 5,
 			"paddingControl": 25,
 			"achievedInsetPercent": 5,
