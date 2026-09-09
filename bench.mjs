@@ -515,7 +515,10 @@ async function cmdRun({ flags }) {
 	if (prior.length) log(`appending to ${prior.length} existing app result(s) in ${runId}\n`);
 	const results = prior.filter((r) => !apps.includes(r.app));
 	const localFloor = new Map();
-	const interleaveFloor = !flags["no-local-floor"] && apps.length > 1;
+	// Gated on there being something to divide, not on how many tools are being measured. A
+	// one-tool run is still a measurement — it just cannot be submitted — and without a floor
+	// its seconds compare the machine to itself and nothing else.
+	const interleaveFloor = !flags["no-local-floor"] && apps.some((a) => a !== "ffmpeg-baseline");
 	// Bring the GPU to its steady clock before anything is measured.
 	//
 	// An NVIDIA card boosts while it is cool and settles lower under sustained load, and the
