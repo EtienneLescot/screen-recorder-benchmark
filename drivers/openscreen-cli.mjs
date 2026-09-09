@@ -183,7 +183,12 @@ export default {
 						ctx.commit();
 					}
 					if (ev.event === "progress") ctx.progress?.(ev.percentage);
-					if (ev.event === "done") ctx.state.reportedOutput = ev.outputPath;
+					// The CLI's own completion event. Observation only: the filesystem stays the
+					// stopwatch stop and the runner records the skew between the two.
+					if (ev.event === "done") {
+						ctx.observeComplete?.();
+						ctx.state.reportedOutput = ev.outputPath;
+					}
 				}
 			});
 			child.stderr.on("data", (d) => {
