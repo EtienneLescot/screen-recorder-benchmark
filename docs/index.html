@@ -272,14 +272,14 @@
     <div>
       <h1>Which screen recorder exports fastest?</h1>
       <p class="hero-lede">Same clip, same edit, same machine. We time each app's export, then
-      divide by what plain <code>ffmpeg</code> needs on that machine — so 1.22× means 22% longer than a raw re-encode, on any hardware.</p>
+      divide by what plain <code>ffmpeg</code> needs on that machine — so 1.16× means 16% longer than a raw re-encode, on any hardware.</p>
     </div>
     <div class="hero-side">
       <div class="stats">
-        <div><b>18</b><span>Submissions</span></div>
-        <div><b>43</b><span>Runs</span></div>
-        <div><b>4</b><span>Tools timed</span></div>
-        <div><b>5</b><span>Builds</span></div>
+        <div><b>19</b><span>Submissions</span></div>
+        <div><b>45</b><span>Runs</span></div>
+        <div><b>5</b><span>Tools timed</span></div>
+        <div><b>6</b><span>Builds</span></div>
         <div><b>3</b><span>Machines</span></div>
         <div><b>3</b><span>Platforms</span></div>
       </div>
@@ -303,7 +303,7 @@
     </div>
 
     <div data-scope="all">
-      <p class="scope-note">All 43 runs — 4 tools across 5 builds, 3 machines, 3 platforms. Every machine combined.</p>
+      <p class="scope-note">All 45 runs — 5 tools across 6 builds, 3 machines, 3 platforms. Every machine combined.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">7×</span><span class="tick" style="left:83.3%;transform:translateX(-50%)">6×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">5×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">4×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">3×</span><span class="tick" style="left:16.7%;transform:translateX(-50%)">2×</span></div>
@@ -311,50 +311,58 @@
         <div class="rank-head">
           <span class="rank-no">01</span>
           <h3>focusee</h3> <span class="dim">2.3.5</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
-          <div class="rank-val"><b>1.22</b><span>×</span></div>
+          <div class="rank-val"><b>1.16</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i class="thin" style="width:3.6%"></i></div>
+        <div class="rank-track"><i class="thin" style="width:2.7%"></i></div>
       </article>
       <article class="rank-row" data-node="openscreen-cli@1.11.0-rc">
         <div class="rank-head">
           <span class="rank-no">02</span>
           <h3>openscreen</h3> <span class="dim">1.11.0-rc</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span>
-          <div class="rank-val"><b>1.32</b><span>×</span></div>
+          <div class="rank-val"><b>1.26</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:5.3%"></i></div>
+        <div class="rank-track"><i style="width:4.4%"></i></div>
       </article>
       <article class="rank-row" data-node="cap@0.5.9">
         <div class="rank-head">
           <span class="rank-no">03</span>
           <h3>cap</h3> <span class="dim">0.5.9</span>
-          <div class="rank-val"><b>2.94</b><span>×</span></div>
+          <div class="rank-val"><b>2.81</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:32.3%"></i></div>
+        <div class="rank-track"><i style="width:30.1%"></i></div>
+      </article>
+      <article class="rank-row" data-node="screen-studio@3.7.5-4595">
+        <div class="rank-head">
+          <span class="rank-no">04</span>
+          <h3>screen-studio</h3> <span class="dim">3.7.5-4595</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
+          <div class="rank-val"><b>5.70</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i class="thin" style="width:78.3%"></i></div>
       </article>
       <article class="rank-row" data-node="recordly@1.3.3">
         <div class="rank-head">
-          <span class="rank-no">04</span>
+          <span class="rank-no">05</span>
           <h3>recordly</h3> <span class="dim">1.3.3</span>
-          <div class="rank-val"><b>6.17</b><span>×</span></div>
+          <div class="rank-val"><b>5.89</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:86.1%"></i></div>
+        <div class="rank-track"><i style="width:81.5%"></i></div>
       </article>
       <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
       on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
     </div>
     </div>
     <div data-scope="p-darwin" hidden>
-      <p class="scope-note">Apple M1 — 9 runs, 3 tools across 4 builds. One machine, so nothing here is cross-checked.</p>
+      <p class="scope-note">Apple M1 — 11 runs, 4 tools across 5 builds. One machine, so nothing here is cross-checked.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
-      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">4×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">3×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">2×</span></div>
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">7×</span><span class="tick" style="left:83.3%;transform:translateX(-50%)">6×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">5×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">4×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">3×</span><span class="tick" style="left:16.7%;transform:translateX(-50%)">2×</span></div>
       <article class="rank-row" data-node="openscreen-cli@1.11.0-rc">
         <div class="rank-head">
           <span class="rank-no">01</span>
           <h3>openscreen</h3> <span class="dim">1.11.0-rc</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span>
           <div class="rank-val"><b>1.04</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:1.2%"></i></div>
+        <div class="rank-track"><i style="width:0.6%"></i></div>
       </article>
       <article class="rank-row" data-node="cap@0.5.9">
         <div class="rank-head">
@@ -362,7 +370,7 @@
           <h3>cap</h3> <span class="dim">0.5.9</span>
           <div class="rank-val"><b>1.24</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:7.8%"></i></div>
+        <div class="rank-track"><i style="width:3.9%"></i></div>
       </article>
       <article class="rank-row" data-node="recordly@1.3.3">
         <div class="rank-head">
@@ -370,7 +378,15 @@
           <h3>recordly</h3> <span class="dim">1.3.3</span>
           <div class="rank-val"><b>2.68</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:56.0%"></i></div>
+        <div class="rank-track"><i style="width:28.0%"></i></div>
+      </article>
+      <article class="rank-row" data-node="screen-studio@3.7.5-4595">
+        <div class="rank-head">
+          <span class="rank-no">04</span>
+          <h3>screen-studio</h3> <span class="dim">3.7.5-4595</span>
+          <div class="rank-val"><b>4.68</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:61.4%"></i></div>
       </article>
       <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
       on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
@@ -533,7 +549,7 @@
       <p><strong>No tool is the reference.</strong> Machines are joined pair by pair, so no
       submission has to contain any particular tool.</p>
     </div>
-    <p class="mono-note">Cross-check: where a pair was measured on more than one machine, its ratio moves by 87.41% at the median — widest: openscreen against cap, 1.67× on Apple M1 and 0.19× on Ryzen 5 7520U.</p>
+    <p class="mono-note">Cross-check: where a pair was measured on more than one machine, its ratio moves by 86.63% at the median — widest: openscreen against cap, 1.67× on Apple M1 and 0.19× on Ryzen 5 7520U.</p>
     <p class="mono-note">1 older build not shown: each row is the newest build measured, and the ones it replaced are still in the solve. <a href="builds.html">Every build measured →</a></p>
   </section>
 
@@ -550,7 +566,7 @@
       <div class="strip-rows">
         <div class="strip-row">
           <div class="strip-name">openscreen</div>
-          <div class="strip-lane"><div class="rng" style="left:5.76%;width:16.93%"></div><div class="dot" style="left:11.24%;background:var(--accent)" title="Apple M1 (macOS) — 2.023× the floor, 36.8 s, 97.8 fps"></div><div class="dot" style="left:5.79%;background:var(--accent)" title="Apple M1 (macOS) — 1.043× the floor, 19.03 s, 189.2 fps"></div><div class="dot" style="left:5.77%;background:var(--accent)" title="Apple M1 (macOS) — 1.038× the floor, 18.9 s, 190.5 fps"></div><div class="dot" style="left:5.76%;background:var(--accent)" title="Apple M1 (macOS) — 1.037× the floor, 18.91 s, 190.3 fps"></div><div class="dot" style="left:18.33%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 3.3× the floor, 76.84 s, 46.8 fps"></div><div class="dot" style="left:22.69%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 4.085× the floor, 77.85 s, 46.2 fps"></div><div class="dot" style="left:6.24%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 1.124× the floor, 27.27 s, 132 fps"></div><div class="dot" style="left:8.79%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.582× the floor, 32.76 s, 109.9 fps"></div><div class="dot" style="left:10.59%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.907× the floor, 39.03 s, 92.2 fps"></div><div class="dot" style="left:8.09%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.457× the floor, 30.63 s, 117.5 fps"></div><div class="dot" style="left:10.22%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.839× the floor, 34.93 s, 103.1 fps"></div><div class="dot" style="left:8.01%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.441× the floor, 30.73 s, 117.2 fps"></div><div class="dot" style="left:11.19%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 2.015× the floor, 38.55 s, 93.4 fps"></div><div class="dot" style="left:9.28%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.671× the floor, 35.74 s, 100.7 fps"></div><div class="dot" style="left:7.18%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.292× the floor, 10.09 s, 356.7 fps"></div><div class="dot" style="left:6.69%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.204× the floor, 9.38 s, 383.6 fps"></div><div class="dot" style="left:7.01%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.262× the floor, 9.75 s, 369.2 fps"></div><div class="dot" style="left:6.90%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.242× the floor, 9.37 s, 384.2 fps"></div></div>
+          <div class="strip-lane"><div class="rng" style="left:5.76%;width:16.93%"></div><div class="dot" style="left:11.24%;background:var(--accent)" title="Apple M1 (macOS) — 2.023× the floor, 36.8 s, 97.8 fps"></div><div class="dot" style="left:5.79%;background:var(--accent)" title="Apple M1 (macOS) — 1.043× the floor, 19.03 s, 189.2 fps"></div><div class="dot" style="left:5.77%;background:var(--accent)" title="Apple M1 (macOS) — 1.038× the floor, 18.9 s, 190.5 fps"></div><div class="dot" style="left:5.76%;background:var(--accent)" title="Apple M1 (macOS) — 1.037× the floor, 18.91 s, 190.3 fps"></div><div class="dot" style="left:5.76%;background:var(--accent)" title="Apple M1 (macOS) — 1.037× the floor, 18.9 s, 190.5 fps"></div><div class="dot" style="left:18.33%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 3.3× the floor, 76.84 s, 46.8 fps"></div><div class="dot" style="left:22.69%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 4.085× the floor, 77.85 s, 46.2 fps"></div><div class="dot" style="left:6.24%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 1.124× the floor, 27.27 s, 132 fps"></div><div class="dot" style="left:8.79%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.582× the floor, 32.76 s, 109.9 fps"></div><div class="dot" style="left:10.59%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.907× the floor, 39.03 s, 92.2 fps"></div><div class="dot" style="left:8.09%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.457× the floor, 30.63 s, 117.5 fps"></div><div class="dot" style="left:10.22%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.839× the floor, 34.93 s, 103.1 fps"></div><div class="dot" style="left:8.01%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.441× the floor, 30.73 s, 117.2 fps"></div><div class="dot" style="left:11.19%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 2.015× the floor, 38.55 s, 93.4 fps"></div><div class="dot" style="left:9.28%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.671× the floor, 35.74 s, 100.7 fps"></div><div class="dot" style="left:7.18%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.292× the floor, 10.09 s, 356.7 fps"></div><div class="dot" style="left:6.69%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.204× the floor, 9.38 s, 383.6 fps"></div><div class="dot" style="left:7.01%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.262× the floor, 9.75 s, 369.2 fps"></div><div class="dot" style="left:6.90%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.242× the floor, 9.37 s, 384.2 fps"></div></div>
         </div>
         <div class="strip-row">
           <div class="strip-name">focusee</div>
@@ -564,6 +580,10 @@
           <div class="strip-name">recordly</div>
           <div class="strip-lane"><div class="rng" style="left:14.59%;width:79.84%"></div><div class="dot" style="left:14.59%;background:var(--accent)" title="Apple M1 (macOS) — 2.626× the floor, 47.74 s, 75.4 fps"></div><div class="dot" style="left:76.17%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 13.71× the floor, 323.9 s, 11.1 fps"></div><div class="dot" style="left:94.43%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 16.997× the floor, 324.46 s, 11.1 fps"></div><div class="dot" style="left:59.19%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 10.654× the floor, 203.15 s, 17.7 fps"></div><div class="dot" style="left:58.03%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 10.446× the floor, 197.62 s, 18.2 fps"></div><div class="dot" style="left:20.57%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 3.702× the floor, 28.79 s, 125.1 fps"></div><div class="dot" style="left:18.89%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 3.4× the floor, 26.39 s, 136.4 fps"></div></div>
         </div>
+        <div class="strip-row">
+          <div class="strip-name">screen-studio</div>
+          <div class="strip-lane"><div class="dot" style="left:26.01%;background:var(--accent)" title="Apple M1 (macOS) — 4.681× the floor, 85.73 s, 42 fps"></div></div>
+        </div>
       </div>
       <div class="strip-foot"><div></div><div><span style="left:5.56%">1×</span><span style="left:11.11%">2×</span><span style="left:16.67%">3×</span><span style="left:22.22%">4×</span><span style="left:27.78%">5×</span><span style="left:33.33%">6×</span><span style="left:38.89%">7×</span><span style="left:44.44%">8×</span><span style="left:50.00%">9×</span><span style="left:55.56%">10×</span><span style="left:61.11%">11×</span><span style="left:66.67%">12×</span><span style="left:72.22%">13×</span><span style="left:77.78%">14×</span><span style="left:83.33%">15×</span><span style="left:88.89%">16×</span><span style="left:94.44%">17×</span></div></div>
     </div></div>
@@ -574,7 +594,7 @@
   <section>
     <div class="sec-head">
       <h2>03 — Every run</h2>
-      <span class="sec-note" id="f-count">43 runs</span>
+      <span class="sec-note" id="f-count">45 runs</span>
     </div>
     <p class="prose">Every run, with the machine that produced it. <strong>Cost</strong> compares
     across rows; seconds and frame rate don't — they describe one machine.</p>
@@ -587,7 +607,7 @@
         <select id="f-platform"><option value="">all</option><option value="darwin">darwin</option><option value="linux">linux</option><option value="win32">win32</option></select>
       </label>
       <label>Tool
-        <select id="f-tool"><option value="">all</option><option value="cap">cap</option><option value="focusee">focusee</option><option value="openscreen-cli">openscreen</option><option value="recordly">recordly</option></select>
+        <select id="f-tool"><option value="">all</option><option value="cap">cap</option><option value="focusee">focusee</option><option value="openscreen-cli">openscreen</option><option value="recordly">recordly</option><option value="screen-studio">screen-studio</option></select>
       </label>
     </div>
 
@@ -615,6 +635,21 @@
             <td class="num"><strong>1.45</strong></td>
             <td class="num">785</td>
             <td class="num dim">14%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="Apple M1" data-platform="darwin" data-tool="openscreen-cli">
+            <td class="nw"><strong>openscreen</strong> <span class="dim">1.11.0-rc.1</span></td>
+            <td class="nw" title="Apple M1 · Apple M1">Apple M1</td>
+            <td class="dim">darwin</td>
+            <td class="num"><strong>1.037×</strong></td>
+            <td class="num dim">1.25×</td>
+            <td class="num nw">18.90 <span class="dim">±0.03</span></td>
+            <td class="num">190.5</td>
+            <td class="num">27.81</td>
+            <td class="num"><strong>1.47</strong></td>
+            <td class="num">785</td>
+            <td class="num dim">49%</td>
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
@@ -722,6 +757,21 @@
             <td class="num dim">51%</td>
             <td>full</td>
             <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="Apple M1" data-platform="darwin" data-tool="screen-studio">
+            <td class="nw"><strong>screen-studio</strong> <span class="dim">3.7.5-4595</span></td>
+            <td class="nw" title="Apple M1 · Apple M1">Apple M1</td>
+            <td class="dim">darwin</td>
+            <td class="num"><strong>4.681×</strong></td>
+            <td class="num dim">1.23×</td>
+            <td class="num nw">85.73</td>
+            <td class="num">42.0</td>
+            <td class="num">219.99</td>
+            <td class="num"><strong>2.57</strong></td>
+            <td class="num">1450</td>
+            <td class="num dim">76%</td>
+            <td>full</td>
+            <td class="dim">cdp+menu</td>
           </tr>
           <tr data-machine="Apple M1" data-platform="darwin" data-tool="recordly">
             <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
@@ -1283,7 +1333,7 @@
             <tr>
               <td><strong>cap</strong></td>
               <td class="nw">0.5.9</td>
-              <td class="num">2.937×</td>
+              <td class="num">2.806×</td>
               <td class="num">16</td>
               <td class="dim">macOS, Linux, Windows</td>
               <td class="num nw">1.21–9.345×</td>
@@ -1292,7 +1342,7 @@
             <tr>
               <td><strong>focusee</strong></td>
               <td class="nw">2.3.5</td>
-              <td class="num">1.218×</td>
+              <td class="num">1.163×</td>
               <td class="num">2</td>
               <td class="dim">Windows</td>
               <td class="num nw">1.145–1.157×</td>
@@ -1301,8 +1351,8 @@
             <tr>
               <td><strong>openscreen-cli</strong></td>
               <td class="nw">1.11.0-rc <span class="dim">rc</span></td>
-              <td class="num">1.321×</td>
-              <td class="num">9</td>
+              <td class="num">1.262×</td>
+              <td class="num">10</td>
               <td class="dim">macOS, Linux, Windows</td>
               <td class="num nw">1.037–1.839×</td>
               <td class="num dim">1.11.0-rc.1</td>
@@ -1310,7 +1360,7 @@
             <tr>
               <td><strong>openscreen-cli</strong></td>
               <td class="nw">1.10.0</td>
-              <td class="num">1.806×</td>
+              <td class="num">1.726×</td>
               <td class="num">9</td>
               <td class="dim">macOS, Linux, Windows</td>
               <td class="num nw">1.204–4.085×</td>
@@ -1319,11 +1369,20 @@
             <tr>
               <td><strong>recordly</strong></td>
               <td class="nw">1.3.3</td>
-              <td class="num">6.167×</td>
+              <td class="num">5.892×</td>
               <td class="num">7</td>
               <td class="dim">macOS, Linux, Windows</td>
               <td class="num nw">2.626–16.997×</td>
               <td class="num dim">1.3.3</td>
+            </tr>
+            <tr>
+              <td><strong>screen-studio</strong></td>
+              <td class="nw">3.7.5-4595</td>
+              <td class="num">5.7×</td>
+              <td class="num">1</td>
+              <td class="dim">macOS</td>
+              <td class="num nw">4.681–4.681×</td>
+              <td class="num dim">3.7.5-4595</td>
             </tr>
           </tbody>
         </table>

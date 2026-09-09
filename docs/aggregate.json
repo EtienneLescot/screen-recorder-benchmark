@@ -6,7 +6,7 @@
       "build": "2.3.5",
       "prerelease": false,
       "component": 0,
-      "relativeCost": 1.218,
+      "relativeCost": 1.163,
       "submissions": 2,
       "machines": [
         "AMD Ryzen 7 5800X 8-Core Processor"
@@ -28,8 +28,8 @@
       "build": "1.11.0-rc",
       "prerelease": true,
       "component": 0,
-      "relativeCost": 1.321,
-      "submissions": 9,
+      "relativeCost": 1.262,
+      "submissions": 10,
       "machines": [
         "Apple M1",
         "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -54,7 +54,7 @@
       "build": "1.10.0",
       "prerelease": false,
       "component": 0,
-      "relativeCost": 1.806,
+      "relativeCost": 1.726,
       "submissions": 9,
       "machines": [
         "Apple M1",
@@ -80,7 +80,7 @@
       "build": "0.5.9",
       "prerelease": false,
       "component": 0,
-      "relativeCost": 2.937,
+      "relativeCost": 2.806,
       "submissions": 16,
       "machines": [
         "Apple M1",
@@ -101,12 +101,34 @@
       ]
     },
     {
+      "node": "screen-studio@3.7.5-4595",
+      "tool": "screen-studio",
+      "build": "3.7.5-4595",
+      "prerelease": false,
+      "component": 0,
+      "relativeCost": 5.7,
+      "submissions": 1,
+      "machines": [
+        "Apple M1"
+      ],
+      "platforms": [
+        "darwin"
+      ],
+      "versions": [
+        "3.7.5-4595"
+      ],
+      "observedCostRange": [
+        4.681,
+        4.681
+      ]
+    },
+    {
       "node": "recordly@1.3.3",
       "tool": "recordly",
       "build": "1.3.3",
       "prerelease": false,
       "component": 0,
-      "relativeCost": 6.167,
+      "relativeCost": 5.892,
       "submissions": 7,
       "machines": [
         "Apple M1",
@@ -177,6 +199,15 @@
       "a": "openscreen-cli@1.11.0-rc",
       "b": "cap@0.5.9",
       "logRatio": -0.16650116,
+      "weight": 1,
+      "machine": "Apple M1",
+      "platform": "darwin",
+      "gpu": "Apple M1"
+    },
+    {
+      "a": "screen-studio@3.7.5-4595",
+      "b": "openscreen-cli@1.11.0-rc",
+      "logRatio": 1.507396956,
       "weight": 1,
       "machine": "Apple M1",
       "platform": "darwin",
@@ -827,6 +858,109 @@
       "nodes": [
         "openscreen-cli@1.11.0-rc",
         "cap@0.5.9"
+      ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
+        "submittedAt": "2026-09-09T07:19:22.350Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "darwin",
+          "chip": "Apple M1",
+          "gpu": "Apple M1",
+          "cpuCount": 8,
+          "memoryGiB": 8,
+          "osVersion": "26.5",
+          "osBuild": "25F71"
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 79.9,
+          "loadSpreadPercentagePoints": 27.3,
+          "driftRatio": 0.9953,
+          "floorSpreadPercent": 0.22,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "c407c71ad0de9c89533abe2d66918657f76f4e9474d86241efc8e03e5d779c66",
+          "durationSec": 60,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "screen-studio",
+            "version": "3.7.5-4595",
+            "exportMs": 85735,
+            "madMs": 2,
+            "runs": 3,
+            "localFloorMs": 18317,
+            "softwareFloorMs": 22471,
+            "floorSpreadPercent": 0.22,
+            "cpuSeconds": 219.99,
+            "peakRssMiB": 1449.6,
+            "foreignCpuPercent": 76.2,
+            "outputBytes": 66894355,
+            "outputMeanVolumeDb": -46.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cdp+menu"
+          },
+          {
+            "tool": "openscreen-cli",
+            "version": "1.11.0-rc.1",
+            "exportMs": 18902,
+            "madMs": 30,
+            "runs": 3,
+            "localFloorMs": 18233,
+            "softwareFloorMs": 22850,
+            "floorSpreadPercent": 0.2,
+            "cpuSeconds": 27.81,
+            "peakRssMiB": 784.8,
+            "foreignCpuPercent": 48.9,
+            "outputBytes": 60032092,
+            "outputMeanVolumeDb": -49.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          }
+        ],
+        "notes": [
+          "screen-studio: app read back: padding 3.8, radius 40, shadow 0.2, motion blur 0.5, cursor 1.5× (2006 moves, 16 clicks), camera 0.25 bottom-right, 3 zoom ranges, audio true",
+          "screen-studio: cursor size is written as 150% → 1.5; the app's Cursor panel displays twice that, and its own default for an imported project is 1.5",
+          "screen-studio: cursor smoothing is a spring here, not a scalar: 0.7 enables it and the app's own spring constants are left alone",
+          "screen-studio: panels — screen: Background · Wallpaper · Gradient · Color · Image · Wallpaper · macOS · Spring · Sunset · Radiant · Energy · Iridescent · Midnight · Glassmorphism · Raycast · Pick random wallpaper · Background blur · Padding · 3.8% · Reset · Rounded corners · 40 · Reset · Ins",
+          "screen-studio: panels — cursor: Cursor size · 3.0× · Reset · Cursor style · Always use pointer cursor · Don't change cursor, even if selecting text, etc. · Hide cursor if not moving · Loop cursor position · Near the end of the video, cursor will move back to its initial position · Hide curso",
+          "screen-studio: panels — camera: · Dynamic camera layout · Camera position · Camera size · 25% · Reset · Roundness · 25% · Reset · Shape · Square · Horizontal · Vertical · Original · Mirror horizontally · Hide camera · Camera size during zoom ·",
+          "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60."
+        ],
+        "_path": "submissions/darwin/apple-m1-2026-09-09.json"
+      },
+      "weight": 1,
+      "reasons": [],
+      "tools": [
+        "screen-studio",
+        "openscreen-cli"
+      ],
+      "nodes": [
+        "screen-studio@3.7.5-4595",
+        "openscreen-cli@1.11.0-rc"
       ]
     },
     {
@@ -2369,14 +2503,15 @@
       "focusee@2.3.5",
       "openscreen-cli@1.10.0",
       "openscreen-cli@1.11.0-rc",
-      "recordly@1.3.3"
+      "recordly@1.3.3",
+      "screen-studio@3.7.5-4595"
     ]
   ],
   "consistency": {
-    "edges": 32,
+    "edges": 33,
     "redundantEdges": 28,
     "measurable": true,
-    "medianResidualPercent": 87.41,
+    "medianResidualPercent": 86.63,
     "maxResidualPercent": 225.55,
     "byPlatform": {
       "sameGpuPairs": 13,
@@ -2415,7 +2550,7 @@
         "build": "2.3.5",
         "prerelease": false,
         "component": 0,
-        "relativeCost": 0.559,
+        "relativeCost": 0.569,
         "submissions": 2,
         "machines": [
           "AMD Ryzen 7 5800X 8-Core Processor"
@@ -2437,13 +2572,15 @@
         "build": "1.11.0-rc",
         "prerelease": true,
         "component": 0,
-        "relativeCost": 0.625,
-        "submissions": 6,
+        "relativeCost": 0.637,
+        "submissions": 7,
         "machines": [
+          "Apple M1",
           "AMD Ryzen 5 7520U with Radeon Graphics",
           "AMD Ryzen 7 5800X 8-Core Processor"
         ],
         "platforms": [
+          "darwin",
           "linux",
           "win32"
         ],
@@ -2461,7 +2598,7 @@
         "build": "1.10.0",
         "prerelease": false,
         "component": 0,
-        "relativeCost": 2.048,
+        "relativeCost": 2.087,
         "submissions": 4,
         "machines": [
           "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -2484,7 +2621,7 @@
         "build": "0.5.9",
         "prerelease": false,
         "component": 0,
-        "relativeCost": 2.558,
+        "relativeCost": 2.607,
         "submissions": 8,
         "machines": [
           "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -2502,12 +2639,34 @@
         ]
       },
       {
+        "node": "screen-studio@3.7.5-4595",
+        "tool": "screen-studio",
+        "build": "3.7.5-4595",
+        "prerelease": false,
+        "component": 0,
+        "relativeCost": 2.937,
+        "submissions": 1,
+        "machines": [
+          "Apple M1"
+        ],
+        "platforms": [
+          "darwin"
+        ],
+        "versions": [
+          "3.7.5-4595"
+        ],
+        "observedCostRange": [
+          3.815,
+          3.815
+        ]
+      },
+      {
         "node": "recordly@1.3.3",
         "tool": "recordly",
         "build": "1.3.3",
         "prerelease": false,
         "component": 0,
-        "relativeCost": 11.228,
+        "relativeCost": 11.442,
         "submissions": 2,
         "machines": [
           "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -2525,6 +2684,15 @@
       }
     ],
     "edges": [
+      {
+        "a": "screen-studio@3.7.5-4595",
+        "b": "openscreen-cli@1.11.0-rc",
+        "logRatio": 1.528718935,
+        "weight": 1,
+        "machine": "Apple M1",
+        "platform": "darwin",
+        "gpu": "Apple M1"
+      },
       {
         "a": "openscreen-cli@1.10.0",
         "b": "cap@0.5.9",
@@ -2653,6 +2821,109 @@
       }
     ],
     "used": [
+      {
+        "sub": {
+          "schemaVersion": 1,
+          "submittedAt": "2026-09-09T07:19:22.350Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "darwin",
+            "chip": "Apple M1",
+            "gpu": "Apple M1",
+            "cpuCount": 8,
+            "memoryGiB": 8,
+            "osVersion": "26.5",
+            "osBuild": "25F71"
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 79.9,
+            "loadSpreadPercentagePoints": 27.3,
+            "driftRatio": 0.9953,
+            "floorSpreadPercent": 0.22,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "c407c71ad0de9c89533abe2d66918657f76f4e9474d86241efc8e03e5d779c66",
+            "durationSec": 60,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "screen-studio",
+              "version": "3.7.5-4595",
+              "exportMs": 85735,
+              "madMs": 2,
+              "runs": 3,
+              "localFloorMs": 18317,
+              "softwareFloorMs": 22471,
+              "floorSpreadPercent": 0.22,
+              "cpuSeconds": 219.99,
+              "peakRssMiB": 1449.6,
+              "foreignCpuPercent": 76.2,
+              "outputBytes": 66894355,
+              "outputMeanVolumeDb": -46.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cdp+menu"
+            },
+            {
+              "tool": "openscreen-cli",
+              "version": "1.11.0-rc.1",
+              "exportMs": 18902,
+              "madMs": 30,
+              "runs": 3,
+              "localFloorMs": 18233,
+              "softwareFloorMs": 22850,
+              "floorSpreadPercent": 0.2,
+              "cpuSeconds": 27.81,
+              "peakRssMiB": 784.8,
+              "foreignCpuPercent": 48.9,
+              "outputBytes": 60032092,
+              "outputMeanVolumeDb": -49.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            }
+          ],
+          "notes": [
+            "screen-studio: app read back: padding 3.8, radius 40, shadow 0.2, motion blur 0.5, cursor 1.5× (2006 moves, 16 clicks), camera 0.25 bottom-right, 3 zoom ranges, audio true",
+            "screen-studio: cursor size is written as 150% → 1.5; the app's Cursor panel displays twice that, and its own default for an imported project is 1.5",
+            "screen-studio: cursor smoothing is a spring here, not a scalar: 0.7 enables it and the app's own spring constants are left alone",
+            "screen-studio: panels — screen: Background · Wallpaper · Gradient · Color · Image · Wallpaper · macOS · Spring · Sunset · Radiant · Energy · Iridescent · Midnight · Glassmorphism · Raycast · Pick random wallpaper · Background blur · Padding · 3.8% · Reset · Rounded corners · 40 · Reset · Ins",
+            "screen-studio: panels — cursor: Cursor size · 3.0× · Reset · Cursor style · Always use pointer cursor · Don't change cursor, even if selecting text, etc. · Hide cursor if not moving · Loop cursor position · Near the end of the video, cursor will move back to its initial position · Hide curso",
+            "screen-studio: panels — camera: · Dynamic camera layout · Camera position · Camera size · 25% · Reset · Roundness · 25% · Reset · Shape · Square · Horizontal · Vertical · Original · Mirror horizontally · Hide camera · Camera size during zoom ·",
+            "openscreen-cli: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60."
+          ],
+          "_path": "submissions/darwin/apple-m1-2026-09-09.json"
+        },
+        "weight": 1,
+        "reasons": [],
+        "tools": [
+          "screen-studio",
+          "openscreen-cli"
+        ],
+        "nodes": [
+          "screen-studio@3.7.5-4595",
+          "openscreen-cli@1.11.0-rc"
+        ]
+      },
       {
         "sub": {
           "schemaVersion": 1,
@@ -4519,14 +4790,15 @@
         "focusee@2.3.5",
         "openscreen-cli@1.10.0",
         "openscreen-cli@1.11.0-rc",
-        "recordly@1.3.3"
+        "recordly@1.3.3",
+        "screen-studio@3.7.5-4595"
       ]
     ],
     "consistency": {
-      "edges": 14,
+      "edges": 15,
       "redundantEdges": 10,
       "measurable": true,
-      "medianResidualPercent": 32.53,
+      "medianResidualPercent": 30.41,
       "maxResidualPercent": 328.15,
       "byPlatform": {
         "sameGpuPairs": 6,
