@@ -200,10 +200,10 @@ export const APPS = {
 	},
 	focusee: {
 		roster: "FocuSee",
+		// Both adapters now write the project rather than clicking the editor (lib/focuseeProject.mjs),
+		// so what is left on either platform is the till.
 		blocker:
-			process.platform === "darwin"
-				? "export requires an activated licence — there is no trial export, and the macOS driver can only reach the canvas"
-				: null,
+			"export requires an activated licence — there is no trial export. Pressing Export raises a “FocuSee Premium” panel whose only action is Buy Now and nothing is written; on macOS an account that *has* a licence but no free device slot is refused in exactly the same words. Everything before that is automated on both platforms: the project, the editor read-back, and the export dialog with format, resolution and frame rate pinned and re-read",
 		driver: { darwin: "./drivers/focusee.mjs", win32: "./drivers/focusee-win.mjs" },
 		// On macOS the export is gated behind a purchase in 2.4.1 (see drivers/focusee.mjs); on
 		// Windows the vendor ships the real application rather than a downloader stub, so it is

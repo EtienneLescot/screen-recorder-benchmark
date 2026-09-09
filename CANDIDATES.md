@@ -97,7 +97,7 @@ the answer on the machine in front of you.
 | Screen Studio | yes (screen-studio) | **no** | export requires an activated licence — there is no trial export and no watermark path. Pressing Export on an unactivated install opens an “Activate Screen Studio” window asking for the email behind a licence key or subscription, and choosing Export from the app's own command menu ends at the same window. Import, the editor and every scenario feature automate fine |
 | Cap | yes (cap) | yes | — |
 | Recordly | yes (recordly, recordly-cuda) | **no** | exports the app's default scene rather than the pinned one — opening a project rewrites it with the app's normalised state, replacing corner radius (40 -> 12.5), padding, cursor size, smoothing, motion blur and click effects with defaults. The export succeeds and passes every pixel check, because the verifier tests that an effect is present, not that it matches the scenario |
-| FocuSee | yes (focusee) | yes | — |
+| FocuSee | yes (focusee) | **no** | export requires an activated licence — there is no trial export. Pressing Export raises a “FocuSee Premium” panel whose only action is Buy Now and nothing is written; on macOS an account that *has* a licence but no free device slot is refused in exactly the same words. Everything before that is automated on both platforms: the project, the editor read-back, and the export dialog with format, resolution and frame rate pinned and re-read |
 <!-- status:end -->
 
 `ffmpeg (re-encode floor)` is not a candidate. It is the unit, and carries no roster entry.
