@@ -52,8 +52,14 @@
  * · **The editor window is excluded from screen capture.** A screenshot of its frame shows the
  *   desktop behind it; only the update prompt and the recorder HUD are visible. Diagnose FocuSee
  *   through the accessibility tree, never a picture.
- * · **An update prompt steals the front.** 2.4.1 opens "Please update FocuSee to explore more"
- *   over the editor on launch. It is dismissed by name before anything else is clicked.
+ * · **Two things steal the front on launch, and neither is the editor.** 2.4.1 opens "Please
+ *   update FocuSee to explore more", and an account whose device slots are all used opens "You've
+ *   reached the maximum number of devices that can be activated for your current account." Both
+ *   are answered by name — an unrecognised sheet is left alone rather than confirmed blind — and
+ *   the second one is worth reading before anyone buys a licence twice: an account that *has* a
+ *   current order but no free slot for this machine is refused at export exactly like an
+ *   unlicensed one, log line included (`Export free has exported:`). The notice is the only thing
+ *   that tells the two apart, so it travels with the run and into the error.
  *
  * Not applied, and reported as missing rather than skipped quietly: the webcam inset. Adding a
  * `webcam` recorder session to an imported project's `metadata.json`, with the camera clip beside
@@ -178,18 +184,34 @@ function editorSettings() {
 	};
 }
 
-/** 2.4.1 opens an update prompt over the editor; it takes the front until it is answered. */
-function dismissUpdatePrompt() {
+/**
+ * Clear what FocuSee puts in front of its own windows on launch, and say what was there.
+ *
+ * Two of these exist and both take the front until they are answered: the update prompt 2.4.1
+ * opens over the editor, and the account notice that appears when a licensed account has no
+ * device slot left. Only alerts matched by their own text are answered — an unrecognised sheet
+ * is left alone rather than confirmed blind.
+ */
+function dismissBlockingAlerts() {
 	return ax(`
-		let done = "none";
+		const out = { update: null, notice: null };
 		for (const w of windows()) {
 			for (const name of ["Skip this version", "Remind me later"]) {
 				const b = button(w, name);
-				if (b) { b.click(); done = name; break; }
+				if (b) { b.click(); out.update = name; break; }
 			}
-			if (done !== "none") break;
+			if (out.update) break;
 		}
-		JSON.stringify(done);
+		for (const w of windows()) {
+			const line = labelsIn(w)
+				.map(p => p[1])
+				.find(t => /maximum number of devices|activation rights/i.test(t));
+			if (!line) continue;
+			const ok = button(w, "OK");
+			if (ok) { ok.click(); out.notice = line.slice(0, 240); }
+			break;
+		}
+		JSON.stringify(out);
 	`);
 }
 
@@ -540,7 +562,7 @@ export default {
 		await launchApp(APP, PROC);
 		await sleep(9000);
 		activateApp(PROC);
-		const update = dismissUpdatePrompt();
+		const launchAlerts = dismissBlockingAlerts();
 		await sleep(600);
 
 		// `open -a` is the obvious route for the *source* and it is the wrong one: FocuSee's
@@ -639,7 +661,11 @@ export default {
 		while (Date.now() - t0 < 90_000 && !appIsRunning(PROC)) await sleep(500);
 		await sleep(18000);
 		activateApp(PROC);
-		dismissUpdatePrompt();
+		const alerts = dismissBlockingAlerts();
+		// An account notice outlives the launch that raised it, and it is the difference between
+		// "no licence" and "a licence this machine has no slot for" — so it travels with the run.
+		const activation = alerts.notice ?? launchAlerts.notice ?? null;
+		ctx.state.activationNotice = activation;
 		await sleep(800);
 
 		// What the app says it opened, not what was written to it.
@@ -664,7 +690,10 @@ export default {
 					: "no pointer written",
 				"webcam not applied: FocuSee composites a camera only for footage it recorded itself — a webcam recorder added to an imported project leaves its own export line at W:0",
 				"background is FocuSee's own catalogue (2000x2000 wallpapers, 4.0 Mpx), as the scenario's tool-default tolerance allows",
-				update !== "none" ? `dismissed the update prompt via "${update}"` : "no update prompt",
+				launchAlerts.update || alerts.update
+					? `dismissed the update prompt via "${launchAlerts.update ?? alerts.update}"`
+					: "no update prompt",
+				...(activation ? [`FocuSee raised an account notice on launch: ${activation}`] : []),
 			],
 		};
 	},
@@ -683,7 +712,7 @@ export default {
 			.replace(/\.mp4$/i, "");
 
 		activateApp(PROC);
-		dismissUpdatePrompt();
+		dismissBlockingAlerts();
 		dismissSheet();
 		await sleep(600);
 
@@ -787,7 +816,13 @@ export default {
 							`"Export ${tier[1]} has exported: ${tier[2]}" inside a UserRightsManager block` +
 							(configure ? `, against the configuration it read back as "${configure}"` : "") +
 							". Every other step of this driver is unattended; activate a licence once during preflight " +
-							"and this row measures like any other.",
+							"and this row measures like any other." +
+							// A paid account with no free device slot lands here too, saying `free`, which is
+							// how a purchase that is already made gets chased twice.
+							(ctx.state?.activationNotice
+								? ` Note that a purchase is not the same as a slot: this install answered "${ctx.state.activationNotice}" ` +
+									"on launch, and until a device is freed on the account it reports the free tier here."
+								: ""),
 					);
 				}
 				// The free tier's *first* export is allowed, and the wall takes a moment to draw
