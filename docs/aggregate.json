@@ -6,7 +6,7 @@
       "build": "2.4.1",
       "prerelease": false,
       "component": 0,
-      "relativeCost": 1.127,
+      "relativeCost": 1.17,
       "submissions": 1,
       "machines": [
         "Apple M1"
@@ -23,34 +23,12 @@
       ]
     },
     {
-      "node": "focusee@2.3.5",
-      "tool": "focusee",
-      "build": "2.3.5",
-      "prerelease": false,
-      "component": 0,
-      "relativeCost": 1.157,
-      "submissions": 2,
-      "machines": [
-        "AMD Ryzen 7 5800X 8-Core Processor"
-      ],
-      "platforms": [
-        "win32"
-      ],
-      "versions": [
-        "2.3.5"
-      ],
-      "observedCostRange": [
-        1.145,
-        1.157
-      ]
-    },
-    {
       "node": "openscreen@1.11.0-rc",
       "tool": "openscreen",
       "build": "1.11.0-rc",
       "prerelease": true,
       "component": 0,
-      "relativeCost": 1.256,
+      "relativeCost": 1.305,
       "submissions": 11,
       "machines": [
         "Apple M1",
@@ -71,13 +49,36 @@
       ]
     },
     {
+      "node": "focusee@2.3.5",
+      "tool": "focusee",
+      "build": "2.3.5",
+      "prerelease": false,
+      "component": 0,
+      "relativeCost": 1.593,
+      "submissions": 3,
+      "machines": [
+        "AMD Ryzen 5 7520U with Radeon Graphics",
+        "AMD Ryzen 7 5800X 8-Core Processor"
+      ],
+      "platforms": [
+        "win32"
+      ],
+      "versions": [
+        "2.3.5"
+      ],
+      "observedCostRange": [
+        1.145,
+        10.728
+      ]
+    },
+    {
       "node": "openscreen@1.10.0",
       "tool": "openscreen",
       "build": "1.10.0",
       "prerelease": false,
       "component": 0,
-      "relativeCost": 1.717,
-      "submissions": 9,
+      "relativeCost": 1.671,
+      "submissions": 10,
       "machines": [
         "Apple M1",
         "AMD Ryzen 5 7520U with Radeon Graphics",
@@ -102,7 +103,7 @@
       "build": "0.5.9",
       "prerelease": false,
       "component": 0,
-      "relativeCost": 2.792,
+      "relativeCost": 2.785,
       "submissions": 16,
       "machines": [
         "Apple M1",
@@ -123,34 +124,12 @@
       ]
     },
     {
-      "node": "screen-studio@3.7.5-4595",
-      "tool": "screen-studio",
-      "build": "3.7.5-4595",
-      "prerelease": false,
-      "component": 0,
-      "relativeCost": 5.671,
-      "submissions": 1,
-      "machines": [
-        "Apple M1"
-      ],
-      "platforms": [
-        "darwin"
-      ],
-      "versions": [
-        "3.7.5-4595"
-      ],
-      "observedCostRange": [
-        4.681,
-        4.681
-      ]
-    },
-    {
       "node": "recordly@1.3.3",
       "tool": "recordly",
       "build": "1.3.3",
       "prerelease": false,
       "component": 0,
-      "relativeCost": 5.862,
+      "relativeCost": 5.775,
       "submissions": 7,
       "machines": [
         "Apple M1",
@@ -168,6 +147,28 @@
       "observedCostRange": [
         2.626,
         16.997
+      ]
+    },
+    {
+      "node": "screen-studio@3.7.5-4595",
+      "tool": "screen-studio",
+      "build": "3.7.5-4595",
+      "prerelease": false,
+      "component": 0,
+      "relativeCost": 5.89,
+      "submissions": 1,
+      "machines": [
+        "Apple M1"
+      ],
+      "platforms": [
+        "darwin"
+      ],
+      "versions": [
+        "3.7.5-4595"
+      ],
+      "observedCostRange": [
+        4.681,
+        4.681
       ]
     }
   ],
@@ -402,6 +403,15 @@
       "b": "cap@0.5.9",
       "logRatio": -1.666383687,
       "weight": 1,
+      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+      "platform": "win32",
+      "gpu": "AMD Radeon(TM) Graphics"
+    },
+    {
+      "a": "focusee@2.3.5",
+      "b": "openscreen@1.10.0",
+      "logRatio": 1.788195628,
+      "weight": 0.132,
       "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
       "platform": "win32",
       "gpu": "AMD Radeon(TM) Graphics"
@@ -2186,6 +2196,112 @@
     {
       "sub": {
         "schemaVersion": 1,
+        "submittedAt": "2026-09-10T09:36:18.264Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "win32",
+          "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "AMD Radeon(TM) Graphics",
+          "cpuCount": 8,
+          "memoryGiB": 15.3,
+          "osVersion": "10.0.26200",
+          "osBuild": "26200"
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 162,
+          "loadSpreadPercentagePoints": 71,
+          "driftRatio": 1.0266,
+          "floorSpreadPercent": 6.02,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "ef5cc06cc6299da594c9b0f95a64bfef083b17152a5466264d7364c205d4fb4a",
+          "durationSec": 60,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "focusee",
+            "version": "2.3.5",
+            "exportMs": 207791,
+            "madMs": 3287,
+            "runs": 3,
+            "localFloorMs": 19369,
+            "softwareFloorMs": 41099,
+            "floorSpreadPercent": 2.36,
+            "cpuSeconds": 467.23,
+            "peakRssMiB": 3339.9,
+            "foreignCpuPercent": 162,
+            "outputBytes": 101773644,
+            "outputMeanVolumeDb": -49.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "uia"
+          },
+          {
+            "tool": "openscreen",
+            "version": "1.10.0",
+            "exportMs": 34524,
+            "madMs": 743,
+            "runs": 3,
+            "localFloorMs": 19240,
+            "softwareFloorMs": 42306,
+            "floorSpreadPercent": 6.02,
+            "cpuSeconds": 11.08,
+            "peakRssMiB": 966.4,
+            "foreignCpuPercent": 91,
+            "outputBytes": 56884485,
+            "outputMeanVolumeDb": -49.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          }
+        ],
+        "notes": [
+          "focusee: timeline: / 01:00.00, zooms 1.6x 2.2x 1.8x",
+          "focusee: telemetry: 3600 moves, 16 clicks",
+          "focusee: padding=5/25, roundness=20/20 (FocuSee's own slider units — the scenario's 40px has no conversion into that range and is clamped), shadow=0.2",
+          "focusee: the app took every channel the project declares",
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "focusee: this row disagrees with the 5800X rows by a factor of nine on the same build — 10.73x here against 1.15x there, both full fidelity and verified. The machines differ in GPU, not in what was measured: an RTX 4070 Ti there, integrated Radeon graphics here. OpenScreen is 3.5x slower on this machine, which is the CPU gap; FocuSee is 24x slower, which is not. Its 467 CPU-seconds for a 208s export, over two cores held continuously, look like compositing falling back off the GPU. Published as disagreement rather than averaged, per the protocol.",
+          "conditions: measured with the desktop session in use — the Claude app and a browser held ~45% of one core throughout, on four physical cores. That is the 71-point load gap between the legs, and the reason this row is weighted x0.132. The floors themselves were steady (2.36% and 6.02% spread, drift 1.027)."
+        ],
+        "_path": "submissions/win32/amd-ryzen-5-7520u-2026-09-10.json"
+      },
+      "weight": 0.132,
+      "reasons": [
+        "ratios carry 3.9% relative uncertainty",
+        "background load differed by 71 points between tools"
+      ],
+      "tools": [
+        "focusee",
+        "openscreen"
+      ],
+      "nodes": [
+        "focusee@2.3.5",
+        "openscreen@1.10.0"
+      ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
         "submittedAt": "2026-08-28T07:54:49.183Z",
         "submitter": {
           "name": "Etienne Lescot"
@@ -2643,11 +2759,11 @@
     ]
   ],
   "consistency": {
-    "edges": 34,
-    "redundantEdges": 28,
+    "edges": 35,
+    "redundantEdges": 29,
     "measurable": true,
-    "medianResidualPercent": 85.74,
-    "maxResidualPercent": 225.55,
+    "medianResidualPercent": 79.23,
+    "maxResidualPercent": 526.99,
     "byPlatform": {
       "sameGpuPairs": 13,
       "samePlatformPairs": 10,
@@ -2685,7 +2801,7 @@
         "build": "2.4.1",
         "prerelease": false,
         "component": 0,
-        "relativeCost": 0.575,
+        "relativeCost": 0.617,
         "submissions": 1,
         "machines": [
           "Apple M1"
@@ -2702,34 +2818,12 @@
         ]
       },
       {
-        "node": "focusee@2.3.5",
-        "tool": "focusee",
-        "build": "2.3.5",
-        "prerelease": false,
-        "component": 0,
-        "relativeCost": 0.594,
-        "submissions": 2,
-        "machines": [
-          "AMD Ryzen 7 5800X 8-Core Processor"
-        ],
-        "platforms": [
-          "win32"
-        ],
-        "versions": [
-          "2.3.5"
-        ],
-        "observedCostRange": [
-          0.513,
-          0.575
-        ]
-      },
-      {
         "node": "openscreen@1.11.0-rc",
         "tool": "openscreen",
         "build": "1.11.0-rc",
         "prerelease": true,
         "component": 0,
-        "relativeCost": 0.665,
+        "relativeCost": 0.713,
         "submissions": 8,
         "machines": [
           "Apple M1",
@@ -2750,13 +2844,36 @@
         ]
       },
       {
+        "node": "focusee@2.3.5",
+        "tool": "focusee",
+        "build": "2.3.5",
+        "prerelease": false,
+        "component": 0,
+        "relativeCost": 0.941,
+        "submissions": 3,
+        "machines": [
+          "AMD Ryzen 5 7520U with Radeon Graphics",
+          "AMD Ryzen 7 5800X 8-Core Processor"
+        ],
+        "platforms": [
+          "win32"
+        ],
+        "versions": [
+          "2.3.5"
+        ],
+        "observedCostRange": [
+          0.513,
+          5.056
+        ]
+      },
+      {
         "node": "openscreen@1.10.0",
         "tool": "openscreen",
         "build": "1.10.0",
         "prerelease": false,
         "component": 0,
-        "relativeCost": 2.178,
-        "submissions": 4,
+        "relativeCost": 1.923,
+        "submissions": 5,
         "machines": [
           "AMD Ryzen 5 7520U with Radeon Graphics"
         ],
@@ -2778,7 +2895,7 @@
         "build": "0.5.9",
         "prerelease": false,
         "component": 0,
-        "relativeCost": 2.721,
+        "relativeCost": 2.609,
         "submissions": 8,
         "machines": [
           "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -2801,7 +2918,7 @@
         "build": "3.7.5-4595",
         "prerelease": false,
         "component": 0,
-        "relativeCost": 3.065,
+        "relativeCost": 3.288,
         "submissions": 1,
         "machines": [
           "Apple M1"
@@ -2823,7 +2940,7 @@
         "build": "1.3.3",
         "prerelease": false,
         "component": 0,
-        "relativeCost": 11.942,
+        "relativeCost": 10.987,
         "submissions": 2,
         "machines": [
           "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -2963,6 +3080,15 @@
         "b": "cap@0.5.9",
         "logRatio": -1.676747032,
         "weight": 1,
+        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+        "platform": "win32",
+        "gpu": "AMD Radeon(TM) Graphics"
+      },
+      {
+        "a": "focusee@2.3.5",
+        "b": "openscreen@1.10.0",
+        "logRatio": 1.823823162,
+        "weight": 0.132,
         "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
         "platform": "win32",
         "gpu": "AMD Radeon(TM) Graphics"
@@ -4044,6 +4170,112 @@
       {
         "sub": {
           "schemaVersion": 1,
+          "submittedAt": "2026-09-10T09:36:18.264Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "win32",
+            "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "gpu": "AMD Radeon(TM) Graphics",
+            "cpuCount": 8,
+            "memoryGiB": 15.3,
+            "osVersion": "10.0.26200",
+            "osBuild": "26200"
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 162,
+            "loadSpreadPercentagePoints": 71,
+            "driftRatio": 1.0266,
+            "floorSpreadPercent": 6.02,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "ef5cc06cc6299da594c9b0f95a64bfef083b17152a5466264d7364c205d4fb4a",
+            "durationSec": 60,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "focusee",
+              "version": "2.3.5",
+              "exportMs": 207791,
+              "madMs": 3287,
+              "runs": 3,
+              "localFloorMs": 19369,
+              "softwareFloorMs": 41099,
+              "floorSpreadPercent": 2.36,
+              "cpuSeconds": 467.23,
+              "peakRssMiB": 3339.9,
+              "foreignCpuPercent": 162,
+              "outputBytes": 101773644,
+              "outputMeanVolumeDb": -49.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "uia"
+            },
+            {
+              "tool": "openscreen",
+              "version": "1.10.0",
+              "exportMs": 34524,
+              "madMs": 743,
+              "runs": 3,
+              "localFloorMs": 19240,
+              "softwareFloorMs": 42306,
+              "floorSpreadPercent": 6.02,
+              "cpuSeconds": 11.08,
+              "peakRssMiB": 966.4,
+              "foreignCpuPercent": 91,
+              "outputBytes": 56884485,
+              "outputMeanVolumeDb": -49.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            }
+          ],
+          "notes": [
+            "focusee: timeline: / 01:00.00, zooms 1.6x 2.2x 1.8x",
+            "focusee: telemetry: 3600 moves, 16 clicks",
+            "focusee: padding=5/25, roundness=20/20 (FocuSee's own slider units — the scenario's 40px has no conversion into that range and is clamped), shadow=0.2",
+            "focusee: the app took every channel the project declares",
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "focusee: this row disagrees with the 5800X rows by a factor of nine on the same build — 10.73x here against 1.15x there, both full fidelity and verified. The machines differ in GPU, not in what was measured: an RTX 4070 Ti there, integrated Radeon graphics here. OpenScreen is 3.5x slower on this machine, which is the CPU gap; FocuSee is 24x slower, which is not. Its 467 CPU-seconds for a 208s export, over two cores held continuously, look like compositing falling back off the GPU. Published as disagreement rather than averaged, per the protocol.",
+            "conditions: measured with the desktop session in use — the Claude app and a browser held ~45% of one core throughout, on four physical cores. That is the 71-point load gap between the legs, and the reason this row is weighted x0.132. The floors themselves were steady (2.36% and 6.02% spread, drift 1.027)."
+          ],
+          "_path": "submissions/win32/amd-ryzen-5-7520u-2026-09-10.json"
+        },
+        "weight": 0.132,
+        "reasons": [
+          "ratios carry 3.9% relative uncertainty",
+          "background load differed by 71 points between tools"
+        ],
+        "tools": [
+          "focusee",
+          "openscreen"
+        ],
+        "nodes": [
+          "focusee@2.3.5",
+          "openscreen@1.10.0"
+        ]
+      },
+      {
+        "sub": {
+          "schemaVersion": 1,
           "submittedAt": "2026-09-09T10:58:58.355Z",
           "submitter": {
             "name": "Etienne Lescot"
@@ -5065,11 +5297,11 @@
       ]
     ],
     "consistency": {
-      "edges": 16,
-      "redundantEdges": 10,
+      "edges": 17,
+      "redundantEdges": 11,
       "measurable": true,
-      "medianResidualPercent": 29.65,
-      "maxResidualPercent": 328.15,
+      "medianResidualPercent": 50.69,
+      "maxResidualPercent": 1165.88,
       "byPlatform": {
         "sameGpuPairs": 6,
         "samePlatformPairs": 6,
