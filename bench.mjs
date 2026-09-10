@@ -516,8 +516,9 @@ async function cmdRun({ flags }) {
 	const results = prior.filter((r) => !apps.includes(r.app));
 	const localFloor = new Map();
 	// Gated on there being something to divide, not on how many tools are being measured. A
-	// one-tool run is still a measurement — it just cannot be submitted — and without a floor
-	// its seconds compare the machine to itself and nothing else.
+	// one-tool run needs a floor exactly as much as a four-tool run does: without one its seconds
+	// compare the machine to itself and nothing else, and the aggregate cannot count it.
+	// `--apps ffmpeg-baseline` alone still skips it, having nothing to divide.
 	const interleaveFloor = !flags["no-local-floor"] && apps.some((a) => a !== "ffmpeg-baseline");
 	// Bring the GPU to its steady clock before anything is measured.
 	//
@@ -819,7 +820,7 @@ async function cmdRun({ flags }) {
 	// README tells contributors to run `--apps cap,openscreen` — which never put it in the
 	// list, so the control never fired, driftRatio stayed null, and the schema rejected the
 	// submission that the documented command produced.
-	if (!flags["no-control"] && results.length > 1) {
+	if (!flags["no-control"] && results.length) {
 		log("\nclosing control: re-running the floor to measure drift over the run");
 		const driver = await loadDriver("ffmpeg-baseline");
 		const baseCtx = {
@@ -1011,10 +1012,8 @@ async function cmdSubmit({ flags }) {
 		submitter: flags.as ? { name: String(flags.as) } : undefined,
 	});
 	const problems = [];
-	if ((sub.measurements ?? []).length < 2) {
-		problems.push(
-			"fewer than two verified tools with a local floor — this cannot contribute a ratio",
-		);
+	if (!(sub.measurements ?? []).length) {
+		problems.push("no verified tool with a local floor — there is nothing here to publish");
 	}
 	if (sub.source.kind !== "public-bundle") {
 		problems.push(
@@ -1300,7 +1299,8 @@ async function cmdApps() {
 		}`,
 	);
 	log("");
-	log("A submission needs at least two tools measured together; which two is up to you.");
+	log("A submission needs one verified tool with its floor. Which tools is up to you:");
+	log("the denominator is ffmpeg, measured beside each leg, not another tool.");
 }
 
 async function cmdStatus({ flags }) {

@@ -2,7 +2,7 @@
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "https://github.com/EtienneLescot/screen-recorder-benchmark/schema/submission.schema.json",
 	"title": "Benchmark submission",
-	"description": "One machine's measurements, contributed to the aggregate. A submission carries at least two tools measured under the same conditions, because it is the ratio between them that travels — never the seconds.",
+	"description": "One machine's measurements, contributed to the aggregate. Each cost is an export divided by an ffmpeg transcode of the same footage, measured beside it on the same machine, so one verified measurement is already a complete observation — never the seconds.",
 	"type": "object",
 	"required": ["schemaVersion", "submittedAt", "machine", "scenario", "source", "measurements"],
 	"additionalProperties": false,
@@ -89,8 +89,8 @@
 		},
 		"measurements": {
 			"type": "array",
-			"minItems": 2,
-			"description": "At least two tools. One tool contributes no ratio and cannot join the graph; no particular tool is required.",
+			"minItems": 1,
+			"description": "At least one verified tool. The denominator is ffmpeg, measured beside each leg rather than another tool, so no particular tool is required and one is enough.",
 			"items": {
 				"type": "object",
 				"required": ["tool", "version", "exportMs", "fidelity", "verified"],
@@ -133,7 +133,7 @@
 					},
 					"verified": {
 						"type": "boolean",
-						"description": "Output passed metadata, pixel and audio verification. Unverified measurements are recorded and excluded from the ratio graph."
+						"description": "Output passed metadata, pixel and audio verification. Unverified measurements are recorded and not counted."
 					},
 					"automation": { "type": "string" }
 				}

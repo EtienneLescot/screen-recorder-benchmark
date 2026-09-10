@@ -5,8 +5,8 @@
       "tool": "focusee",
       "build": "2.4.1",
       "prerelease": false,
-      "component": 0,
-      "relativeCost": 1.17,
+      "relativeCost": 0.932,
+      "setups": 1,
       "submissions": 1,
       "machines": [
         "Apple M1"
@@ -27,8 +27,8 @@
       "tool": "openscreen",
       "build": "1.11.0-rc",
       "prerelease": true,
-      "component": 0,
-      "relativeCost": 1.305,
+      "relativeCost": 1.221,
+      "setups": 4,
       "submissions": 11,
       "machines": [
         "Apple M1",
@@ -49,35 +49,12 @@
       ]
     },
     {
-      "node": "focusee@2.3.5",
-      "tool": "focusee",
-      "build": "2.3.5",
-      "prerelease": false,
-      "component": 0,
-      "relativeCost": 1.593,
-      "submissions": 3,
-      "machines": [
-        "AMD Ryzen 5 7520U with Radeon Graphics",
-        "AMD Ryzen 7 5800X 8-Core Processor"
-      ],
-      "platforms": [
-        "win32"
-      ],
-      "versions": [
-        "2.3.5"
-      ],
-      "observedCostRange": [
-        1.145,
-        10.728
-      ]
-    },
-    {
       "node": "openscreen@1.10.0",
       "tool": "openscreen",
       "build": "1.10.0",
       "prerelease": false,
-      "component": 0,
-      "relativeCost": 1.671,
+      "relativeCost": 2.163,
+      "setups": 4,
       "submissions": 10,
       "machines": [
         "Apple M1",
@@ -102,8 +79,8 @@
       "tool": "cap",
       "build": "0.5.9",
       "prerelease": false,
-      "component": 0,
-      "relativeCost": 2.785,
+      "relativeCost": 3.858,
+      "setups": 4,
       "submissions": 16,
       "machines": [
         "Apple M1",
@@ -124,12 +101,57 @@
       ]
     },
     {
+      "node": "screen-studio@3.7.5-4595",
+      "tool": "screen-studio",
+      "build": "3.7.5-4595",
+      "prerelease": false,
+      "relativeCost": 4.681,
+      "setups": 1,
+      "submissions": 1,
+      "machines": [
+        "Apple M1"
+      ],
+      "platforms": [
+        "darwin"
+      ],
+      "versions": [
+        "3.7.5-4595"
+      ],
+      "observedCostRange": [
+        4.681,
+        4.681
+      ]
+    },
+    {
+      "node": "focusee@2.3.5",
+      "tool": "focusee",
+      "build": "2.3.5",
+      "prerelease": false,
+      "relativeCost": 5.94,
+      "setups": 2,
+      "submissions": 3,
+      "machines": [
+        "AMD Ryzen 5 7520U with Radeon Graphics",
+        "AMD Ryzen 7 5800X 8-Core Processor"
+      ],
+      "platforms": [
+        "win32"
+      ],
+      "versions": [
+        "2.3.5"
+      ],
+      "observedCostRange": [
+        1.145,
+        10.728
+      ]
+    },
+    {
       "node": "recordly@1.3.3",
       "tool": "recordly",
       "build": "1.3.3",
       "prerelease": false,
-      "component": 0,
-      "relativeCost": 5.775,
+      "relativeCost": 8.031,
+      "setups": 4,
       "submissions": 7,
       "machines": [
         "Apple M1",
@@ -148,345 +170,6 @@
         2.626,
         16.997
       ]
-    },
-    {
-      "node": "screen-studio@3.7.5-4595",
-      "tool": "screen-studio",
-      "build": "3.7.5-4595",
-      "prerelease": false,
-      "component": 0,
-      "relativeCost": 5.89,
-      "submissions": 1,
-      "machines": [
-        "Apple M1"
-      ],
-      "platforms": [
-        "darwin"
-      ],
-      "versions": [
-        "3.7.5-4595"
-      ],
-      "observedCostRange": [
-        4.681,
-        4.681
-      ]
-    }
-  ],
-  "edges": [
-    {
-      "a": "openscreen@1.10.0",
-      "b": "cap@0.5.9",
-      "logRatio": 0.513735322,
-      "weight": 1,
-      "machine": "Apple M1",
-      "platform": "darwin",
-      "gpu": "Apple M1"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "recordly@1.3.3",
-      "logRatio": -0.260725172,
-      "weight": 1,
-      "machine": "Apple M1",
-      "platform": "darwin",
-      "gpu": "Apple M1"
-    },
-    {
-      "a": "cap@0.5.9",
-      "b": "recordly@1.3.3",
-      "logRatio": -0.774460494,
-      "weight": 1,
-      "machine": "Apple M1",
-      "platform": "darwin",
-      "gpu": "Apple M1"
-    },
-    {
-      "a": "openscreen@1.11.0-rc",
-      "b": "cap@0.5.9",
-      "logRatio": -0.18439984,
-      "weight": 1,
-      "machine": "Apple M1",
-      "platform": "darwin",
-      "gpu": "Apple M1"
-    },
-    {
-      "a": "openscreen@1.11.0-rc",
-      "b": "cap@0.5.9",
-      "logRatio": -0.174823687,
-      "weight": 1,
-      "machine": "Apple M1",
-      "platform": "darwin",
-      "gpu": "Apple M1"
-    },
-    {
-      "a": "openscreen@1.11.0-rc",
-      "b": "cap@0.5.9",
-      "logRatio": -0.16650116,
-      "weight": 1,
-      "machine": "Apple M1",
-      "platform": "darwin",
-      "gpu": "Apple M1"
-    },
-    {
-      "a": "screen-studio@3.7.5-4595",
-      "b": "openscreen@1.11.0-rc",
-      "logRatio": 1.507396956,
-      "weight": 1,
-      "machine": "Apple M1",
-      "platform": "darwin",
-      "gpu": "Apple M1"
-    },
-    {
-      "a": "openscreen@1.11.0-rc",
-      "b": "focusee@2.4.1",
-      "logRatio": 0.108600683,
-      "weight": 1,
-      "machine": "Apple M1",
-      "platform": "darwin",
-      "gpu": "Apple M1"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "cap@0.5.9",
-      "logRatio": 0.277435028,
-      "weight": 1,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "linux",
-      "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "recordly@1.3.3",
-      "logRatio": -1.424254014,
-      "weight": 1,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "linux",
-      "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-    },
-    {
-      "a": "cap@0.5.9",
-      "b": "recordly@1.3.3",
-      "logRatio": -1.701689042,
-      "weight": 1,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "linux",
-      "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "cap@0.5.9",
-      "logRatio": 0.311726343,
-      "weight": 1,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "linux",
-      "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "recordly@1.3.3",
-      "logRatio": -1.425711834,
-      "weight": 1,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "linux",
-      "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-    },
-    {
-      "a": "cap@0.5.9",
-      "b": "recordly@1.3.3",
-      "logRatio": -1.737438177,
-      "weight": 1,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "linux",
-      "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-    },
-    {
-      "a": "openscreen@1.11.0-rc",
-      "b": "cap@0.5.9",
-      "logRatio": -0.765656701,
-      "weight": 1,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "linux",
-      "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-    },
-    {
-      "a": "cap@0.5.9",
-      "b": "openscreen@1.10.0",
-      "logRatio": 1.656523957,
-      "weight": 0.6,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "win32",
-      "gpu": "AMD Radeon(TM) Graphics"
-    },
-    {
-      "a": "cap@0.5.9",
-      "b": "recordly@1.3.3",
-      "logRatio": -0.250509231,
-      "weight": 0.6,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "win32",
-      "gpu": "AMD Radeon(TM) Graphics"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "recordly@1.3.3",
-      "logRatio": -1.907033188,
-      "weight": 0.6,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "win32",
-      "gpu": "AMD Radeon(TM) Graphics"
-    },
-    {
-      "a": "cap@0.5.9",
-      "b": "openscreen@1.10.0",
-      "logRatio": 1.39495074,
-      "weight": 0.25,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "win32",
-      "gpu": "AMD Radeon(TM) Graphics"
-    },
-    {
-      "a": "cap@0.5.9",
-      "b": "recordly@1.3.3",
-      "logRatio": -0.305823347,
-      "weight": 0.25,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "win32",
-      "gpu": "AMD Radeon(TM) Graphics"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "recordly@1.3.3",
-      "logRatio": -1.700774087,
-      "weight": 0.25,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "win32",
-      "gpu": "AMD Radeon(TM) Graphics"
-    },
-    {
-      "a": "openscreen@1.11.0-rc",
-      "b": "cap@0.5.9",
-      "logRatio": -1.733784349,
-      "weight": 0.875,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "win32",
-      "gpu": "AMD Radeon(TM) Graphics"
-    },
-    {
-      "a": "openscreen@1.11.0-rc",
-      "b": "cap@0.5.9",
-      "logRatio": -1.563043276,
-      "weight": 0.11,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "win32",
-      "gpu": "AMD Radeon(TM) Graphics"
-    },
-    {
-      "a": "openscreen@1.11.0-rc",
-      "b": "cap@0.5.9",
-      "logRatio": -1.800382567,
-      "weight": 1,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "win32",
-      "gpu": "AMD Radeon(TM) Graphics"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "cap@0.5.9",
-      "logRatio": -1.534038186,
-      "weight": 0.05,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "win32",
-      "gpu": "AMD Radeon(TM) Graphics"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "cap@0.5.9",
-      "logRatio": -1.666383687,
-      "weight": 1,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "win32",
-      "gpu": "AMD Radeon(TM) Graphics"
-    },
-    {
-      "a": "focusee@2.3.5",
-      "b": "openscreen@1.10.0",
-      "logRatio": 1.788195628,
-      "weight": 0.132,
-      "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-      "platform": "win32",
-      "gpu": "AMD Radeon(TM) Graphics"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "cap@0.5.9",
-      "logRatio": -0.821492271,
-      "weight": 1,
-      "machine": "AMD Ryzen 7 5800X 8-Core Processor",
-      "platform": "win32",
-      "gpu": "NVIDIA GeForce RTX 4070 Ti"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "recordly@1.3.3",
-      "logRatio": -1.053050582,
-      "weight": 1,
-      "machine": "AMD Ryzen 7 5800X 8-Core Processor",
-      "platform": "win32",
-      "gpu": "NVIDIA GeForce RTX 4070 Ti"
-    },
-    {
-      "a": "cap@0.5.9",
-      "b": "recordly@1.3.3",
-      "logRatio": -0.231558312,
-      "weight": 1,
-      "machine": "AMD Ryzen 7 5800X 8-Core Processor",
-      "platform": "win32",
-      "gpu": "NVIDIA GeForce RTX 4070 Ti"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "cap@0.5.9",
-      "logRatio": -0.960196613,
-      "weight": 1,
-      "machine": "AMD Ryzen 7 5800X 8-Core Processor",
-      "platform": "win32",
-      "gpu": "NVIDIA GeForce RTX 4070 Ti"
-    },
-    {
-      "a": "openscreen@1.10.0",
-      "b": "recordly@1.3.3",
-      "logRatio": -1.03839479,
-      "weight": 1,
-      "machine": "AMD Ryzen 7 5800X 8-Core Processor",
-      "platform": "win32",
-      "gpu": "NVIDIA GeForce RTX 4070 Ti"
-    },
-    {
-      "a": "cap@0.5.9",
-      "b": "recordly@1.3.3",
-      "logRatio": -0.078198177,
-      "weight": 1,
-      "machine": "AMD Ryzen 7 5800X 8-Core Processor",
-      "platform": "win32",
-      "gpu": "NVIDIA GeForce RTX 4070 Ti"
-    },
-    {
-      "a": "openscreen@1.11.0-rc",
-      "b": "focusee@2.3.5",
-      "logRatio": 0.097416691,
-      "weight": 0.36,
-      "machine": "AMD Ryzen 7 5800X 8-Core Processor",
-      "platform": "win32",
-      "gpu": "NVIDIA GeForce RTX 4070 Ti"
-    },
-    {
-      "a": "openscreen@1.11.0-rc",
-      "b": "focusee@2.3.5",
-      "logRatio": 0.07043148,
-      "weight": 0.5,
-      "machine": "AMD Ryzen 7 5800X 8-Core Processor",
-      "platform": "win32",
-      "gpu": "NVIDIA GeForce RTX 4070 Ti"
     }
   ],
   "used": [
@@ -2747,46 +2430,34 @@
     }
   ],
   "skipped": [],
-  "components": [
-    [
-      "cap@0.5.9",
-      "focusee@2.3.5",
-      "focusee@2.4.1",
-      "openscreen@1.10.0",
-      "openscreen@1.11.0-rc",
-      "recordly@1.3.3",
-      "screen-studio@3.7.5-4595"
-    ]
-  ],
   "consistency": {
-    "edges": 35,
-    "redundantEdges": 29,
+    "observations": 49,
+    "repeatedBuilds": 5,
     "measurable": true,
-    "medianResidualPercent": 79.23,
-    "maxResidualPercent": 526.99,
+    "medianSpreadPercent": 547.26,
+    "maxSpreadPercent": 836.77,
     "byPlatform": {
-      "sameGpuPairs": 13,
-      "samePlatformPairs": 10,
-      "crossPlatformPairs": 4,
-      "sameGpuSpreadPercent": 5.69,
-      "samePlatformSpreadPercent": 14.08,
-      "crossPlatformSpreadPercent": 356.65
+      "sameGpuRepeats": 14,
+      "samePlatformRepeats": 10,
+      "crossPlatformRepeats": 4,
+      "sameGpuSpreadPercent": 8.09,
+      "samePlatformSpreadPercent": 35.5,
+      "crossPlatformSpreadPercent": 257.37
     },
     "worst": {
-      "a": "openscreen@1.10.0",
-      "b": "cap@0.5.9",
-      "spreadPercent": 784.74,
-      "inverts": true,
+      "node": "focusee@2.3.5",
+      "tool": "focusee",
+      "spreadPercent": 836.77,
       "ends": [
+        {
+          "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "platform": "win32",
+          "cost": 1.15
+        },
         {
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
           "platform": "win32",
-          "ratio": 0.19
-        },
-        {
-          "machine": "Apple M1",
-          "platform": "darwin",
-          "ratio": 1.67
+          "cost": 10.73
         }
       ]
     }
@@ -2800,8 +2471,8 @@
         "tool": "focusee",
         "build": "2.4.1",
         "prerelease": false,
-        "component": 0,
-        "relativeCost": 0.617,
+        "relativeCost": 0.691,
+        "setups": 1,
         "submissions": 1,
         "machines": [
           "Apple M1"
@@ -2822,8 +2493,8 @@
         "tool": "openscreen",
         "build": "1.11.0-rc",
         "prerelease": true,
-        "component": 0,
         "relativeCost": 0.713,
+        "setups": 4,
         "submissions": 8,
         "machines": [
           "Apple M1",
@@ -2844,35 +2515,12 @@
         ]
       },
       {
-        "node": "focusee@2.3.5",
-        "tool": "focusee",
-        "build": "2.3.5",
-        "prerelease": false,
-        "component": 0,
-        "relativeCost": 0.941,
-        "submissions": 3,
-        "machines": [
-          "AMD Ryzen 5 7520U with Radeon Graphics",
-          "AMD Ryzen 7 5800X 8-Core Processor"
-        ],
-        "platforms": [
-          "win32"
-        ],
-        "versions": [
-          "2.3.5"
-        ],
-        "observedCostRange": [
-          0.513,
-          5.056
-        ]
-      },
-      {
         "node": "openscreen@1.10.0",
         "tool": "openscreen",
         "build": "1.10.0",
         "prerelease": false,
-        "component": 0,
-        "relativeCost": 1.923,
+        "relativeCost": 1.414,
+        "setups": 2,
         "submissions": 5,
         "machines": [
           "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -2894,8 +2542,8 @@
         "tool": "cap",
         "build": "0.5.9",
         "prerelease": false,
-        "component": 0,
-        "relativeCost": 2.609,
+        "relativeCost": 2.799,
+        "setups": 2,
         "submissions": 8,
         "machines": [
           "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -2913,12 +2561,35 @@
         ]
       },
       {
+        "node": "focusee@2.3.5",
+        "tool": "focusee",
+        "build": "2.3.5",
+        "prerelease": false,
+        "relativeCost": 2.802,
+        "setups": 2,
+        "submissions": 3,
+        "machines": [
+          "AMD Ryzen 5 7520U with Radeon Graphics",
+          "AMD Ryzen 7 5800X 8-Core Processor"
+        ],
+        "platforms": [
+          "win32"
+        ],
+        "versions": [
+          "2.3.5"
+        ],
+        "observedCostRange": [
+          0.513,
+          5.056
+        ]
+      },
+      {
         "node": "screen-studio@3.7.5-4595",
         "tool": "screen-studio",
         "build": "3.7.5-4595",
         "prerelease": false,
-        "component": 0,
-        "relativeCost": 3.288,
+        "relativeCost": 3.815,
+        "setups": 1,
         "submissions": 1,
         "machines": [
           "Apple M1"
@@ -2939,8 +2610,8 @@
         "tool": "recordly",
         "build": "1.3.3",
         "prerelease": false,
-        "component": 0,
-        "relativeCost": 10.987,
+        "relativeCost": 8.688,
+        "setups": 1,
         "submissions": 2,
         "machines": [
           "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -2955,161 +2626,6 @@
           8.684,
           8.691
         ]
-      }
-    ],
-    "edges": [
-      {
-        "a": "screen-studio@3.7.5-4595",
-        "b": "openscreen@1.11.0-rc",
-        "logRatio": 1.528718935,
-        "weight": 1,
-        "machine": "Apple M1",
-        "platform": "darwin",
-        "gpu": "Apple M1"
-      },
-      {
-        "a": "openscreen@1.11.0-rc",
-        "b": "focusee@2.4.1",
-        "logRatio": 0.144684086,
-        "weight": 1,
-        "machine": "Apple M1",
-        "platform": "darwin",
-        "gpu": "Apple M1"
-      },
-      {
-        "a": "openscreen@1.10.0",
-        "b": "cap@0.5.9",
-        "logRatio": 0.294717789,
-        "weight": 1,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "linux",
-        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-      },
-      {
-        "a": "openscreen@1.10.0",
-        "b": "recordly@1.3.3",
-        "logRatio": -1.436003568,
-        "weight": 1,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "linux",
-        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-      },
-      {
-        "a": "cap@0.5.9",
-        "b": "recordly@1.3.3",
-        "logRatio": -1.730721356,
-        "weight": 1,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "linux",
-        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-      },
-      {
-        "a": "openscreen@1.10.0",
-        "b": "cap@0.5.9",
-        "logRatio": 0.271355866,
-        "weight": 1,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "linux",
-        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-      },
-      {
-        "a": "openscreen@1.10.0",
-        "b": "recordly@1.3.3",
-        "logRatio": -1.461489035,
-        "weight": 1,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "linux",
-        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-      },
-      {
-        "a": "cap@0.5.9",
-        "b": "recordly@1.3.3",
-        "logRatio": -1.732844901,
-        "weight": 1,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "linux",
-        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-      },
-      {
-        "a": "openscreen@1.11.0-rc",
-        "b": "cap@0.5.9",
-        "logRatio": -0.734816935,
-        "weight": 1,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "linux",
-        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)"
-      },
-      {
-        "a": "openscreen@1.11.0-rc",
-        "b": "cap@0.5.9",
-        "logRatio": -1.707430235,
-        "weight": 0.875,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "win32",
-        "gpu": "AMD Radeon(TM) Graphics"
-      },
-      {
-        "a": "openscreen@1.11.0-rc",
-        "b": "cap@0.5.9",
-        "logRatio": -1.658750682,
-        "weight": 0.11,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "win32",
-        "gpu": "AMD Radeon(TM) Graphics"
-      },
-      {
-        "a": "openscreen@1.11.0-rc",
-        "b": "cap@0.5.9",
-        "logRatio": -1.796384157,
-        "weight": 1,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "win32",
-        "gpu": "AMD Radeon(TM) Graphics"
-      },
-      {
-        "a": "openscreen@1.10.0",
-        "b": "cap@0.5.9",
-        "logRatio": -1.464353909,
-        "weight": 0.05,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "win32",
-        "gpu": "AMD Radeon(TM) Graphics"
-      },
-      {
-        "a": "openscreen@1.10.0",
-        "b": "cap@0.5.9",
-        "logRatio": -1.676747032,
-        "weight": 1,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "win32",
-        "gpu": "AMD Radeon(TM) Graphics"
-      },
-      {
-        "a": "focusee@2.3.5",
-        "b": "openscreen@1.10.0",
-        "logRatio": 1.823823162,
-        "weight": 0.132,
-        "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-        "platform": "win32",
-        "gpu": "AMD Radeon(TM) Graphics"
-      },
-      {
-        "a": "openscreen@1.11.0-rc",
-        "b": "focusee@2.3.5",
-        "logRatio": 0.164557004,
-        "weight": 0.36,
-        "machine": "AMD Ryzen 7 5800X 8-Core Processor",
-        "platform": "win32",
-        "gpu": "NVIDIA GeForce RTX 4070 Ti"
-      },
-      {
-        "a": "openscreen@1.11.0-rc",
-        "b": "focusee@2.3.5",
-        "logRatio": 0.074070143,
-        "weight": 0.5,
-        "machine": "AMD Ryzen 7 5800X 8-Core Processor",
-        "platform": "win32",
-        "gpu": "NVIDIA GeForce RTX 4070 Ti"
       }
     ],
     "used": [
@@ -5285,46 +4801,34 @@
         "why": "no verified measurement with a software floor"
       }
     ],
-    "components": [
-      [
-        "cap@0.5.9",
-        "focusee@2.3.5",
-        "focusee@2.4.1",
-        "openscreen@1.10.0",
-        "openscreen@1.11.0-rc",
-        "recordly@1.3.3",
-        "screen-studio@3.7.5-4595"
-      ]
-    ],
     "consistency": {
-      "edges": 17,
-      "redundantEdges": 11,
+      "observations": 28,
+      "repeatedBuilds": 5,
       "measurable": true,
-      "medianResidualPercent": 50.69,
-      "maxResidualPercent": 1165.88,
+      "medianSpreadPercent": 166.9,
+      "maxSpreadPercent": 886.38,
       "byPlatform": {
-        "sameGpuPairs": 6,
-        "samePlatformPairs": 6,
-        "crossPlatformPairs": 2,
-        "sameGpuSpreadPercent": 5.97,
-        "samePlatformSpreadPercent": 5.97,
-        "crossPlatformSpreadPercent": 310.87
+        "sameGpuRepeats": 9,
+        "samePlatformRepeats": 8,
+        "crossPlatformRepeats": 3,
+        "sameGpuSpreadPercent": 3.58,
+        "samePlatformSpreadPercent": 8.8,
+        "crossPlatformSpreadPercent": 150.04
       },
       "worst": {
-        "a": "openscreen@1.10.0",
-        "b": "cap@0.5.9",
-        "spreadPercent": 618.12,
-        "inverts": true,
+        "node": "focusee@2.3.5",
+        "tool": "focusee",
+        "spreadPercent": 886.38,
         "ends": [
           {
-            "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machine": "AMD Ryzen 7 5800X 8-Core Processor",
             "platform": "win32",
-            "ratio": 0.19
+            "cost": 0.51
           },
           {
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-            "platform": "linux",
-            "ratio": 1.34
+            "platform": "win32",
+            "cost": 5.06
           }
         ]
       }
