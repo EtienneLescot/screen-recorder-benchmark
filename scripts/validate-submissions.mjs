@@ -2,7 +2,7 @@
 /**
  * Schema-check every submission, and apply the two rules the schema cannot express.
  *
- * Rejection is only ever for form: a malformed file, fewer than two verified tools, or footage
+ * Rejection is only ever for form: a malformed file, no verified tool at all, or footage
  * nobody else can obtain. Never for a number being unflattering to any tool — including the one
  * this benchmark's author maintains.
  */

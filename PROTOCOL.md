@@ -153,26 +153,71 @@ machine you have.
 
 A measurement without a local floor contributes to nothing. It is recorded, not counted.
 
-## 7. Aggregation — the ratio graph
+## 7. Aggregation — the median against the floor
 
-Submissions come from machines that share nothing. They are combined as a graph, not an average.
+Submissions come from machines that share nothing. What they do share is the denominator: §6
+requires every counted measurement to divide its export by an ffmpeg transcode of the same
+footage, on the same machine, minutes away under the same load. A cost is therefore already
+dimensionless when it leaves the machine, and aggregating is pooling those costs.
 
-- **Nodes** are tools. **Edges** are ratios between two tools measured on the same machine in
-  the same submission, weighted by log(a/b).
-- The global solution is recovered by **weighted least squares over every edge at once**, up to
-  one free constant per connected component. Presentation rescales each component so its
-  cheapest tool reads 1.00× — that is cosmetic, and privileges nothing.
-- **Redundant paths disagree slightly, and the disagreement is the quality signal.** The
-  aggregate publishes the median and worst residual; a large one means submissions genuinely
-  conflict and the ranking should be read with that in mind.
+- **One figure per build**, the average of its costs. Plain arithmetic, so a reader can check it
+  against the run table.
+- **Averaged per setup before it is averaged across them.** Each platform-chip-GPU counts once.
+  Otherwise the machine that submitted four runs outvotes the machine that submitted one, and
+  the published figure is a fact about the submitter rather than about the tool.
+- **Weights apply inside a setup and nowhere else.** They grade the conditions of a run against
+  other runs of the same hardware. Between setups the differences are hardware, not quality.
+- **A figure can never sit outside the runs behind it.** An average is bounded by its own sample.
+
+The fleet is heterogeneous and will stay that way: different chips, different GPUs, different
+media stacks. A build's cost moves by a factor of six across it in the worst case, and no
+aggregate makes that go away. One bar is the average across the machines measured, which is the
+question a reader arrives with. §7.1 publishes how far the runs behind it sat apart, the scope
+buttons re-run the same aggregation over one platform or one GPU, and the run table lists every
+run with the machine that produced it.
 
 ### The rule that matters
 
-**A submission must contain at least two tools, and no particular tool is required.**
+**No particular tool is required in a submission, and one tool is enough.**
 
-There is no common denominator by construction: any overlapping pair contributes an edge, and
-the graph recomposes as long as submissions overlap. Consistency is then checkable through
-redundant paths, which a fixed-anchor design could not offer.
+Requiring every submission to include OpenScreen would make the whole ranking contestable in one
+sentence, since the benchmark's author maintains it. ffmpeg is not a competitor, ships on every
+platform, and is measured beside each leg on the submitter's own machine.
+
+A submission used to need two tools. That rule existed to serve the ratio graph, which could do
+nothing with a lone measurement, and the runner enforced it upstream by skipping the floor
+entirely unless two apps were listed. Both are gone: the floor runs beside every leg, and a
+single verified measurement with its floor is a complete observation. Somebody holding a licence
+for one of these products can now measure it.
+
+### What this replaced, and why
+
+Until 2026-09, submissions were combined as a **graph of ratios**: tools were nodes, every pair
+measured together was an edge weighted by log(a/b), and the ranking came from weighted least
+squares over all edges. It was built for a premise that was never true here — that there is no
+common denominator — and it stacked a second normalisation on the floor.
+
+The cost was not theoretical. A build held into the graph by a single neighbour inherited that
+neighbour's level, fitted across machines the build never ran on, and the page printed figures
+outside every run behind them. Screen Studio was measured once, at 4.681×, and published at
+5.70×. The graph could only reach that by assuming a tool's cost against the floor is the same
+on every machine, and §7.1 is the measurement that it is not.
+
+No submission was invalidated. The raw runs never changed; only what is computed from them.
+
+### 7.1 How far a cost moves between machines
+
+Reported in three tiers, because the same number means three different things:
+
+| Tier | What disagreement there means |
+|---|---|
+| same platform **and** GPU | two runs of one setup — this is the figure that should be small |
+| same platform, different GPU | the floor divides out the encoder block while the compositing under test is shader-bound, and those do not scale together |
+| between platforms | a product fact, not an error: a tool tuned for VideoToolbox need not cost the same on NVENC |
+
+Only the first is a fault. The third will never converge with more submissions, because there is
+nothing there to converge to — which is why the per-platform rankings exist and why one
+page-wide figure is read beside its spread, not instead of it.
 
 ### Weighting
 
@@ -236,5 +281,5 @@ node bench.mjs submit --run <runId> > submission.json
 Open a PR adding it under `submissions/<platform>/<chip>-<date>.json`. It is validated against
 `schema/submission.schema.json` in CI and folded into the aggregate on merge.
 
-A submission is rejected only for failing the schema, containing fewer than two verified tools,
-or using a footage source that cannot be verified.
+A submission is rejected only for failing the schema, containing no verified measurement with
+a local floor, or using a footage source that cannot be verified.

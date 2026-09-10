@@ -162,10 +162,6 @@
   .rank-track i{position:absolute;left:0;top:0;bottom:0;background:var(--ink-2)}
   .rank-track i.thin{background:repeating-linear-gradient(45deg,
     var(--ink-2) 0 5px,var(--line-2) 5px 10px)}
-  /* The seam between two disconnected solves. Warm, like every other caveat on the page,
-     and mono so it reads as apparatus rather than as another ranked row. */
-  .rank-split{margin:0;padding:18px 0 6px;font-family:var(--mono);font-size:10.5px;
-    line-height:1.6;letter-spacing:.02em;color:var(--warm);max-width:70ch}
   .chart-foot{margin:0;padding:14px 0 0;font-family:var(--mono);font-size:10.5px;line-height:1.6;
     letter-spacing:.02em;color:var(--ink-3)}
 
@@ -276,7 +272,7 @@
     <div>
       <h1>Which screen recorder exports fastest?</h1>
       <p class="hero-lede">Same clip, same edit, same machine. We time each app's export, then
-      divide by what plain <code>ffmpeg</code> needs on that machine — so 1.17× means 17% longer than a raw re-encode, on any hardware.</p>
+      divide by what plain <code>ffmpeg</code> needs on that machine — so 0.93× means 7% quicker than a raw re-encode, on any hardware.</p>
     </div>
     <div class="hero-side">
       <div class="stats">
@@ -291,7 +287,6 @@
       audio before it counts</div>
     </div>
   </section>
-
   <section class="lead-section">
     <div class="sec-head">
       <h2>01 — Ranking</h2>
@@ -310,46 +305,46 @@
       <p class="scope-note">All 49 runs — 5 tools across 7 builds, 3 machines, 3 platforms. Every machine combined.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
-      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">7×</span><span class="tick" style="left:83.3%;transform:translateX(-50%)">6×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">5×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">4×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">3×</span><span class="tick" style="left:16.7%;transform:translateX(-50%)">2×</span></div>
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">9×</span><span class="tick" style="left:75.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">5×</span><span class="tick" style="left:25.0%;transform:translateX(-50%)">3×</span></div>
       <article class="rank-row" data-node="focusee@2.4.1">
         <div class="rank-head">
           <span class="rank-no">01</span>
-          <h3>focusee</h3> <span class="dim">2.4.1</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span><span class="tag" title="measured 0.932× in its only run — the figure shown is where the graph places this build against the tools it was measured beside, and so carries the level of machines it never ran on">above its run</span>
-          <div class="rank-val"><b>1.17</b><span>×</span></div>
+          <h3>focusee</h3> <span class="dim">2.4.1</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
+          <div class="rank-val"><b>0.93</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i class="thin" style="width:2.8%"></i></div>
+        <div class="rank-track"><i class="thin" style="width:0.0%"></i></div>
       </article>
       <article class="rank-row" data-node="openscreen@1.11.0-rc">
         <div class="rank-head">
           <span class="rank-no">02</span>
           <h3>openscreen</h3> <span class="dim">1.11.0-rc</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span>
-          <div class="rank-val"><b>1.30</b><span>×</span></div>
+          <div class="rank-val"><b>1.22</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:5.1%"></i></div>
+        <div class="rank-track"><i style="width:2.8%"></i></div>
       </article>
       <article class="rank-row" data-node="cap@0.5.9">
         <div class="rank-head">
           <span class="rank-no">03</span>
           <h3>cap</h3> <span class="dim">0.5.9</span>
-          <div class="rank-val"><b>2.79</b><span>×</span></div>
+          <div class="rank-val"><b>3.86</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:29.8%"></i></div>
-      </article>
-      <article class="rank-row" data-node="recordly@1.3.3">
-        <div class="rank-head">
-          <span class="rank-no">04</span>
-          <h3>recordly</h3> <span class="dim">1.3.3</span>
-          <div class="rank-val"><b>5.78</b><span>×</span></div>
-        </div>
-        <div class="rank-track"><i style="width:79.6%"></i></div>
+        <div class="rank-track"><i style="width:35.7%"></i></div>
       </article>
       <article class="rank-row" data-node="screen-studio@3.7.5-4595">
         <div class="rank-head">
-          <span class="rank-no">05</span>
-          <h3>screen-studio</h3> <span class="dim">3.7.5-4595</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span><span class="tag" title="measured 4.681× in its only run — the figure shown is where the graph places this build against the tools it was measured beside, and so carries the level of machines it never ran on">above its run</span>
-          <div class="rank-val"><b>5.89</b><span>×</span></div>
+          <span class="rank-no">04</span>
+          <h3>screen-studio</h3> <span class="dim">3.7.5-4595</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
+          <div class="rank-val"><b>4.68</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i class="thin" style="width:81.5%"></i></div>
+        <div class="rank-track"><i class="thin" style="width:46.0%"></i></div>
+      </article>
+      <article class="rank-row" data-node="recordly@1.3.3">
+        <div class="rank-head">
+          <span class="rank-no">05</span>
+          <h3>recordly</h3> <span class="dim">1.3.3</span>
+          <div class="rank-val"><b>8.03</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:87.9%"></i></div>
       </article>
       <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
       on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
@@ -380,17 +375,17 @@
         <div class="rank-head">
           <span class="rank-no">03</span>
           <h3>cap</h3> <span class="dim">0.5.9</span>
-          <div class="rank-val"><b>1.24</b><span>×</span></div>
+          <div class="rank-val"><b>1.23</b><span>×</span></div>
         </div>
         <div class="rank-track"><i style="width:3.9%"></i></div>
       </article>
       <article class="rank-row" data-node="recordly@1.3.3">
         <div class="rank-head">
           <span class="rank-no">04</span>
-          <h3>recordly</h3> <span class="dim">1.3.3</span><span class="tag" title="measured 2.626× in its only run — the figure shown is where the graph places this build against the tools it was measured beside, and so carries the level of machines it never ran on">above its run</span>
-          <div class="rank-val"><b>2.68</b><span>×</span></div>
+          <h3>recordly</h3> <span class="dim">1.3.3</span>
+          <div class="rank-val"><b>2.63</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:28.0%"></i></div>
+        <div class="rank-track"><i style="width:27.1%"></i></div>
       </article>
       <article class="rank-row" data-node="screen-studio@3.7.5-4595">
         <div class="rank-head">
@@ -413,33 +408,33 @@
         <div class="rank-head">
           <span class="rank-no">01</span>
           <h3>openscreen</h3> <span class="dim">1.11.0-rc</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span>
-          <div class="rank-val"><b>1.35</b><span>×</span></div>
+          <div class="rank-val"><b>1.36</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:4.4%"></i></div>
-      </article>
-      <article class="rank-row" data-node="focusee@2.3.5">
-        <div class="rank-head">
-          <span class="rank-no">02</span>
-          <h3>focusee</h3> <span class="dim">2.3.5</span>
-          <div class="rank-val"><b>1.68</b><span>×</span></div>
-        </div>
-        <div class="rank-track"><i style="width:8.5%"></i></div>
+        <div class="rank-track"><i style="width:4.5%"></i></div>
       </article>
       <article class="rank-row" data-node="cap@0.5.9">
         <div class="rank-head">
-          <span class="rank-no">03</span>
+          <span class="rank-no">02</span>
           <h3>cap</h3> <span class="dim">0.5.9</span>
-          <div class="rank-val"><b>6.88</b><span>×</span></div>
+          <div class="rank-val"><b>5.78</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:73.5%"></i></div>
+        <div class="rank-track"><i style="width:59.8%"></i></div>
+      </article>
+      <article class="rank-row" data-node="focusee@2.3.5">
+        <div class="rank-head">
+          <span class="rank-no">03</span>
+          <h3>focusee</h3> <span class="dim">2.3.5</span>
+          <div class="rank-val"><b>5.94</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:61.8%"></i></div>
       </article>
       <article class="rank-row" data-node="recordly@1.3.3">
         <div class="rank-head">
           <span class="rank-no">04</span>
           <h3>recordly</h3> <span class="dim">1.3.3</span>
-          <div class="rank-val"><b>7.67</b><span>×</span></div>
+          <div class="rank-val"><b>7.07</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:83.4%"></i></div>
+        <div class="rank-track"><i style="width:75.9%"></i></div>
       </article>
       <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
       on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
@@ -449,30 +444,30 @@
       <p class="scope-note">Ryzen 5 7520U — 8 runs, 3 tools across 4 builds. One machine, so nothing here is cross-checked.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
-      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">16×</span><span class="tick" style="left:86.7%;transform:translateX(-50%)">14×</span><span class="tick" style="left:73.3%;transform:translateX(-50%)">12×</span><span class="tick" style="left:60.0%;transform:translateX(-50%)">10×</span><span class="tick" style="left:46.7%;transform:translateX(-50%)">8×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">6×</span><span class="tick" style="left:20.0%;transform:translateX(-50%)">4×</span></div>
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">18×</span><span class="tick" style="left:88.2%;transform:translateX(-50%)">16×</span><span class="tick" style="left:76.5%;transform:translateX(-50%)">14×</span><span class="tick" style="left:64.7%;transform:translateX(-50%)">12×</span><span class="tick" style="left:52.9%;transform:translateX(-50%)">10×</span><span class="tick" style="left:41.2%;transform:translateX(-50%)">8×</span><span class="tick" style="left:29.4%;transform:translateX(-50%)">6×</span><span class="tick" style="left:17.6%;transform:translateX(-50%)">4×</span></div>
       <article class="rank-row" data-node="openscreen@1.11.0-rc">
         <div class="rank-head">
           <span class="rank-no">01</span>
-          <h3>openscreen</h3> <span class="dim">1.11.0-rc</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span><span class="tag" title="measured 1.124× in its only run — the figure shown is where the graph places this build against the tools it was measured beside, and so carries the level of machines it never ran on">above its run</span>
-          <div class="rank-val"><b>1.15</b><span>×</span></div>
+          <h3>openscreen</h3> <span class="dim">1.11.0-rc</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span>
+          <div class="rank-val"><b>1.12</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:1.0%"></i></div>
+        <div class="rank-track"><i style="width:0.7%"></i></div>
       </article>
       <article class="rank-row" data-node="cap@0.5.9">
         <div class="rank-head">
           <span class="rank-no">02</span>
           <h3>cap</h3> <span class="dim">0.5.9</span>
-          <div class="rank-val"><b>2.48</b><span>×</span></div>
+          <div class="rank-val"><b>2.64</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:9.9%"></i></div>
+        <div class="rank-track"><i style="width:9.6%"></i></div>
       </article>
       <article class="rank-row" data-node="recordly@1.3.3">
         <div class="rank-head">
           <span class="rank-no">03</span>
           <h3>recordly</h3> <span class="dim">1.3.3</span>
-          <div class="rank-val"><b>13.84</b><span>×</span></div>
+          <div class="rank-val"><b>15.35</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:85.6%"></i></div>
+        <div class="rank-track"><i style="width:84.4%"></i></div>
       </article>
       <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
       on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
@@ -482,38 +477,38 @@
       <p class="scope-note">Ryzen 5 7520U — 26 runs, 4 tools across 5 builds. One machine, so nothing here is cross-checked.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
-      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">21×</span><span class="tick" style="left:90.0%;transform:translateX(-50%)">19×</span><span class="tick" style="left:80.0%;transform:translateX(-50%)">17×</span><span class="tick" style="left:70.0%;transform:translateX(-50%)">15×</span><span class="tick" style="left:60.0%;transform:translateX(-50%)">13×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">11×</span><span class="tick" style="left:40.0%;transform:translateX(-50%)">9×</span><span class="tick" style="left:30.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:20.0%;transform:translateX(-50%)">5×</span></div>
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">15×</span><span class="tick" style="left:85.7%;transform:translateX(-50%)">13×</span><span class="tick" style="left:71.4%;transform:translateX(-50%)">11×</span><span class="tick" style="left:57.1%;transform:translateX(-50%)">9×</span><span class="tick" style="left:42.9%;transform:translateX(-50%)">7×</span><span class="tick" style="left:28.6%;transform:translateX(-50%)">5×</span><span class="tick" style="left:14.3%;transform:translateX(-50%)">3×</span></div>
       <article class="rank-row" data-node="openscreen@1.11.0-rc">
         <div class="rank-head">
           <span class="rank-no">01</span>
           <h3>openscreen</h3> <span class="dim">1.11.0-rc</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span>
-          <div class="rank-val"><b>1.21</b><span>×</span></div>
+          <div class="rank-val"><b>1.30</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:1.0%"></i></div>
+        <div class="rank-track"><i style="width:2.1%"></i></div>
       </article>
       <article class="rank-row" data-node="cap@0.5.9">
         <div class="rank-head">
           <span class="rank-no">02</span>
           <h3>cap</h3> <span class="dim">0.5.9</span>
-          <div class="rank-val"><b>5.02</b><span>×</span></div>
+          <div class="rank-val"><b>5.58</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:20.1%"></i></div>
-      </article>
-      <article class="rank-row" data-node="recordly@1.3.3">
-        <div class="rank-head">
-          <span class="rank-no">03</span>
-          <h3>recordly</h3> <span class="dim">1.3.3</span>
-          <div class="rank-val"><b>15.83</b><span>×</span></div>
-        </div>
-        <div class="rank-track"><i style="width:74.1%"></i></div>
+        <div class="rank-track"><i style="width:32.7%"></i></div>
       </article>
       <article class="rank-row" data-node="focusee@2.3.5">
         <div class="rank-head">
-          <span class="rank-no">04</span>
-          <h3>focusee</h3> <span class="dim">2.3.5</span><span class="tag" title="measured 10.728× in its only run — the figure shown is where the graph places this build against the tools it was measured beside, and so carries the level of machines it never ran on">above its run</span>
-          <div class="rank-val"><b>17.49</b><span>×</span></div>
+          <span class="rank-no">03</span>
+          <h3>focusee</h3> <span class="dim">2.3.5</span>
+          <div class="rank-val"><b>10.73</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:82.5%"></i></div>
+        <div class="rank-track"><i style="width:69.5%"></i></div>
+      </article>
+      <article class="rank-row" data-node="recordly@1.3.3">
+        <div class="rank-head">
+          <span class="rank-no">04</span>
+          <h3>recordly</h3> <span class="dim">1.3.3</span>
+          <div class="rank-val"><b>12.97</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:85.5%"></i></div>
       </article>
       <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
       on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
@@ -524,30 +519,13 @@
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">4×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">3×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">2×</span></div>
-      <article class="rank-row" data-node="cap@0.5.9">
-        <div class="rank-head">
-          <span class="rank-no">01</span>
-          <h3>cap</h3> <span class="dim">0.5.9</span>
-          <div class="rank-val"><b>3.04</b><span>×</span></div>
-        </div>
-        <div class="rank-track"><i style="width:68.0%"></i></div>
-      </article>
-      <article class="rank-row" data-node="recordly@1.3.3">
-        <div class="rank-head">
-          <span class="rank-no">02</span>
-          <h3>recordly</h3> <span class="dim">1.3.3</span>
-          <div class="rank-val"><b>3.55</b><span>×</span></div>
-        </div>
-        <div class="rank-track"><i style="width:84.9%"></i></div>
-      </article>
-      <p class="rank-split">Never measured beside the 2 tools above, so the two sets of figures were levelled separately and do not rank against each other.</p>
       <article class="rank-row" data-node="focusee@2.3.5">
         <div class="rank-head">
           <span class="rank-no">01</span>
           <h3>focusee</h3> <span class="dim">2.3.5</span>
           <div class="rank-val"><b>1.15</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:5.0%"></i></div>
+        <div class="rank-track"><i style="width:5.1%"></i></div>
       </article>
       <article class="rank-row" data-node="openscreen@1.11.0-rc">
         <div class="rank-head">
@@ -556,6 +534,22 @@
           <div class="rank-val"><b>1.25</b><span>×</span></div>
         </div>
         <div class="rank-track"><i style="width:8.3%"></i></div>
+      </article>
+      <article class="rank-row" data-node="cap@0.5.9">
+        <div class="rank-head">
+          <span class="rank-no">03</span>
+          <h3>cap</h3> <span class="dim">0.5.9</span>
+          <div class="rank-val"><b>3.04</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:68.0%"></i></div>
+      </article>
+      <article class="rank-row" data-node="recordly@1.3.3">
+        <div class="rank-head">
+          <span class="rank-no">04</span>
+          <h3>recordly</h3> <span class="dim">1.3.3</span>
+          <div class="rank-val"><b>3.55</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:85.0%"></i></div>
       </article>
       <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
       on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
@@ -567,11 +561,11 @@
       as ffmpeg did on that machine — not twice as fast.</p>
       <p><strong>ffmpeg is the 1×.</strong> It re-encodes the clip and composites nothing, so a
       tool that paints a wallpaper, rounds the corners and animates a zoom sits above it.</p>
-      <p><strong>No tool is the reference.</strong> Machines are joined pair by pair, so no
-      submission has to contain any particular tool.</p>
+      <p><strong>No tool is the reference.</strong> Every export is divided by an ffmpeg
+      transcode on its own machine, so no submission has to contain any particular tool.</p>
     </div>
-    <p class="mono-note">Cross-check: where a pair was measured on more than one machine, its ratio moves by 79.23% at the median — widest: openscreen against cap, 1.67× on Apple M1 and 0.19× on Ryzen 5 7520U.</p>
-    <p class="mono-note">2 older builds not shown: each row is the newest build measured, and the ones it replaced are still in the solve. <a href="builds.html">Every build measured →</a></p>
+    <p class="mono-note">Cross-check: where a build was measured on more than one machine, its cost moves by 547.26% at the median — widest: focusee, 1.15× on Ryzen 7 5800X and 10.73× on Ryzen 5 7520U.</p>
+    <p class="mono-note">2 older builds not shown: each row is the newest build measured, and the ones it replaced keep their own figures. <a href="builds.html">Every build measured →</a></p>
   </section>
 
   <section>
@@ -809,21 +803,6 @@
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
-          <tr data-machine="Apple M1" data-platform="darwin" data-tool="recordly">
-            <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
-            <td class="nw" title="Apple M1 · Apple M1">Apple M1</td>
-            <td class="dim">darwin</td>
-            <td class="num"><strong>2.626×</strong></td>
-            <td class="num dim">—</td>
-            <td class="num nw">47.74 <span class="dim">±0.01</span></td>
-            <td class="num">75.4</td>
-            <td class="num">90.61</td>
-            <td class="num"><strong>1.90</strong></td>
-            <td class="num">1232</td>
-            <td class="num dim">93%</td>
-            <td>full</td>
-            <td class="dim">cdp</td>
-          </tr>
           <tr data-machine="Apple M1" data-platform="darwin" data-tool="screen-studio">
             <td class="nw"><strong>screen-studio</strong> <span class="dim">3.7.5-4595</span></td>
             <td class="nw" title="Apple M1 · Apple M1">Apple M1</td>
@@ -838,6 +817,21 @@
             <td class="num dim">76%</td>
             <td>full</td>
             <td class="dim">cdp+menu</td>
+          </tr>
+          <tr data-machine="Apple M1" data-platform="darwin" data-tool="recordly">
+            <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
+            <td class="nw" title="Apple M1 · Apple M1">Apple M1</td>
+            <td class="dim">darwin</td>
+            <td class="num"><strong>2.626×</strong></td>
+            <td class="num dim">—</td>
+            <td class="num nw">47.74 <span class="dim">±0.01</span></td>
+            <td class="num">75.4</td>
+            <td class="num">90.61</td>
+            <td class="num"><strong>1.90</strong></td>
+            <td class="num">1232</td>
+            <td class="num dim">93%</td>
+            <td>full</td>
+            <td class="dim">cdp</td>
           </tr>
           <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="focusee">
             <td class="nw"><strong>focusee</strong> <span class="dim">2.3.5</span></td>
@@ -1414,7 +1408,7 @@
             <tr>
               <td><strong>cap</strong></td>
               <td class="nw">0.5.9</td>
-              <td class="num">2.785×</td>
+              <td class="num">3.858×</td>
               <td class="num">16</td>
               <td class="dim">macOS, Linux, Windows</td>
               <td class="num nw">1.21–9.345×</td>
@@ -1423,7 +1417,7 @@
             <tr>
               <td><strong>focusee</strong></td>
               <td class="nw">2.4.1</td>
-              <td class="num">1.17×</td>
+              <td class="num">0.932×</td>
               <td class="num">1</td>
               <td class="dim">macOS</td>
               <td class="num nw">0.932–0.932×</td>
@@ -1432,7 +1426,7 @@
             <tr>
               <td><strong>focusee</strong></td>
               <td class="nw">2.3.5</td>
-              <td class="num">1.593×</td>
+              <td class="num">5.94×</td>
               <td class="num">3</td>
               <td class="dim">Windows</td>
               <td class="num nw">1.145–10.728×</td>
@@ -1441,7 +1435,7 @@
             <tr>
               <td><strong>openscreen</strong></td>
               <td class="nw">1.11.0-rc <span class="dim">rc</span></td>
-              <td class="num">1.305×</td>
+              <td class="num">1.221×</td>
               <td class="num">11</td>
               <td class="dim">macOS, Linux, Windows</td>
               <td class="num nw">1.037–1.839×</td>
@@ -1450,7 +1444,7 @@
             <tr>
               <td><strong>openscreen</strong></td>
               <td class="nw">1.10.0</td>
-              <td class="num">1.671×</td>
+              <td class="num">2.163×</td>
               <td class="num">10</td>
               <td class="dim">macOS, Linux, Windows</td>
               <td class="num nw">1.204–4.085×</td>
@@ -1459,7 +1453,7 @@
             <tr>
               <td><strong>recordly</strong></td>
               <td class="nw">1.3.3</td>
-              <td class="num">5.775×</td>
+              <td class="num">8.031×</td>
               <td class="num">7</td>
               <td class="dim">macOS, Linux, Windows</td>
               <td class="num nw">2.626–16.997×</td>
@@ -1468,7 +1462,7 @@
             <tr>
               <td><strong>screen-studio</strong></td>
               <td class="nw">3.7.5-4595</td>
-              <td class="num">5.89×</td>
+              <td class="num">4.681×</td>
               <td class="num">1</td>
               <td class="dim">macOS</td>
               <td class="num nw">4.681–4.681×</td>

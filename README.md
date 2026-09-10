@@ -44,8 +44,8 @@ node bench.mjs run --bundle commons-upload --apps cap,openscreen
 ```
 
 `ffmpeg-baseline` is added automatically and is not a competitor — it is the unit everything
-else is divided by. A run needs **at least two tools** to produce a usable measurement, and
-which two is up to you.
+else is divided by. It is measured beside each app, so **one tool is a usable submission**;
+which tools you run is up to you.
 
 ## What is measured
 
@@ -90,13 +90,17 @@ node bench.mjs submit --run <runId> --as "your name" > submissions/<platform>/<c
 Open a PR. CI validates it against [`schema/submission.schema.json`](./schema/submission.schema.json)
 and regenerates the site.
 
-Submissions are combined as a **graph of ratios**, not an average: tools are nodes, every pair
-measured together on one machine is an edge, and the global ranking is recovered by least
-squares over all of them. So **no particular tool is required in a submission** — the graph
-recomposes as long as submissions overlap, and where they overlap redundantly, the disagreement
-between them is published.
+Submissions are combined **against ffmpeg, not against each other**. Every export is divided by
+an ffmpeg transcode of the same footage on the same machine, minutes away under the same load,
+so a cost is already dimensionless before it leaves the machine that produced it. A build's
+figure is the average of those costs, taken per machine first so that whoever submits most runs
+does not decide the number.
 
-A submission is rejected for failing the schema, carrying fewer than two verified tools, or
+So **no particular tool is required in a submission** — the denominator is ffmpeg, which is not
+a competitor. How far a build's cost moves between machines is published beside it, because a
+build's cost is not one number: Recordly runs 2.6× on an M1 and 17× on a Ryzen 5 7520U.
+
+A submission is rejected for failing the schema, carrying no verified tool with a floor, or
 using footage nobody else can obtain. Nothing else.
 
 ## Roster
@@ -155,7 +159,7 @@ scenarios/index.mjs    the scenario and the pinned output target
 lib/runner.mjs         the shared clock every adapter is timed by
 lib/measure.mjs        stopwatch, process sampling, output + audio verification
 lib/visualCheck.mjs    pixel verification of the effects
-lib/aggregate.mjs      the ratio graph and its solver
+lib/aggregate.mjs      folding submissions into one figure per build
 lib/publicSource.mjs   fetch, verify and normalise public footage
 lib/platform.mjs       everything that differs between macOS and Windows
 drivers/               one per tool — see drivers/README.md for the contract
