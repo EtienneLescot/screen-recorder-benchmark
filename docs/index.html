@@ -272,7 +272,7 @@
     <div>
       <h1>Which screen recorder exports fastest?</h1>
       <p class="hero-lede">Same clip, same edit, same machine. We time each app's export, then
-      divide by what plain <code>ffmpeg</code> needs on that machine — so 0.93× means 7% quicker than a raw re-encode, on any hardware.</p>
+      divide by what plain <code>ffmpeg</code> needs on that machine — so 1.22× means 22% longer than a raw re-encode, on any hardware.</p>
     </div>
     <div class="hero-side">
       <div class="stats">
@@ -306,17 +306,9 @@
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">9×</span><span class="tick" style="left:75.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">5×</span><span class="tick" style="left:25.0%;transform:translateX(-50%)">3×</span></div>
-      <article class="rank-row" data-node="focusee@2.4.1">
-        <div class="rank-head">
-          <span class="rank-no">01</span>
-          <h3>focusee</h3> <span class="dim">2.4.1</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
-          <div class="rank-val"><b>0.93</b><span>×</span></div>
-        </div>
-        <div class="rank-track"><i class="thin" style="width:0.0%"></i></div>
-      </article>
       <article class="rank-row" data-node="openscreen@1.11.0-rc">
         <div class="rank-head">
-          <span class="rank-no">02</span>
+          <span class="rank-no">01</span>
           <h3>openscreen</h3> <span class="dim">1.11.0-rc</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span>
           <div class="rank-val"><b>1.22</b><span>×</span></div>
         </div>
@@ -324,11 +316,19 @@
       </article>
       <article class="rank-row" data-node="cap@0.5.9">
         <div class="rank-head">
-          <span class="rank-no">03</span>
+          <span class="rank-no">02</span>
           <h3>cap</h3> <span class="dim">0.5.9</span>
           <div class="rank-val"><b>3.86</b><span>×</span></div>
         </div>
         <div class="rank-track"><i style="width:35.7%"></i></div>
+      </article>
+      <article class="rank-row" data-node="focusee@2.4.1">
+        <div class="rank-head">
+          <span class="rank-no">03</span>
+          <h3>focusee</h3> <span class="dim" title="this tool is not on the same release everywhere it was measured — each platform contributes the newest build measured on it">2.4.1 (macOS) · 2.3.5 (Windows)</span>
+          <div class="rank-val"><b>4.27</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i style="width:40.9%"></i></div>
       </article>
       <article class="rank-row" data-node="screen-studio@3.7.5-4595">
         <div class="rank-head">
@@ -565,7 +565,7 @@
       transcode on its own machine, so no submission has to contain any particular tool.</p>
     </div>
     <p class="mono-note">Cross-check: where a build was measured on more than one machine, its cost moves by 547.26% at the median — widest: focusee, 1.15× on Ryzen 7 5800X and 10.73× on Ryzen 5 7520U.</p>
-    <p class="mono-note">2 older builds not shown: each row is the newest build measured, and the ones it replaced keep their own figures. <a href="builds.html">Every build measured →</a></p>
+    <p class="mono-note">1 older build not shown: each row is the newest build measured, and the ones it replaced keep their own figures. <a href="builds.html">Every build measured →</a></p>
   </section>
 
   <section>

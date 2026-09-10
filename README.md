@@ -96,6 +96,10 @@ so a cost is already dimensionless before it leaves the machine that produced it
 figure is the average of those costs, taken per machine first so that whoever submits most runs
 does not decide the number.
 
+The chart shows the build a reader would install today, decided **per platform** — vendors do
+not ship every platform on the same day. Where a tool is not on the same release everywhere, the
+row names each build against its platforms: `2.4.1 (macOS) · 2.3.5 (Windows)`.
+
 So **no particular tool is required in a submission** — the denominator is ffmpeg, which is not
 a competitor. How far a build's cost moves between machines is published beside it, because a
 build's cost is not one number: Recordly runs 2.6× on an M1 and 17× on a Ryzen 5 7520U.
