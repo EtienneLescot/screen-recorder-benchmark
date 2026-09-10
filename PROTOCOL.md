@@ -169,7 +169,31 @@ dimensionless when it leaves the machine, and aggregating is pooling those costs
   other runs of the same hardware. Between setups the differences are hardware, not quality.
 - **A figure can never sit outside the runs behind it.** An average is bounded by its own sample.
 
-The fleet is heterogeneous and will stay that way: different chips, different GPUs, different
+### 7.2 One row per tool, and which build it is
+
+The chart shows one row per tool: the build a reader would install today. That is decided **per
+platform**, not globally.
+
+A vendor does not ship every platform on the same day. FocuSee was measured at 2.4.1 on an M1
+and 2.3.5 on two Windows machines, and taking the newest build anywhere made the headline row a
+macOS-only figure while both Windows machines dropped out of the chart for belonging to an older
+build. Each platform therefore contributes the newest build measured on it, and the row averages
+the setups underneath all of them.
+
+Where the platforms are not on the same release, the row names every build against the platforms
+it answers for: `2.4.1 (macOS) · 2.3.5 (Windows)`. One version number over a row that is half one
+release and half another would be true of only some of the runs beneath it. Where they agree,
+which is the usual case, the row names one build and reads as it always did.
+
+This is the only place a row may rest on more than one build. A version is a competitor and
+averaging two of them erases what the vendor shipped, so the mixture is allowed only because it
+is principled — the current release on each platform — and only because it is named rather than
+hidden. Inside a scope that is one platform there is nothing to mix, which is why the
+per-platform rankings never had the problem.
+
+### 7.3 The fleet is heterogeneous
+
+Different chips, different GPUs, different
 media stacks. A build's cost moves by a factor of six across it in the worst case, and no
 aggregate makes that go away. One bar is the average across the machines measured, which is the
 question a reader arrives with. §7.1 publishes how far the runs behind it sat apart, the scope
