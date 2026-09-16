@@ -141,6 +141,53 @@
       ]
     },
     {
+      "node": "cap@0.6.0",
+      "tool": "cap",
+      "build": "0.6.0",
+      "prerelease": false,
+      "relativeCost": 3.591,
+      "setups": [
+        {
+          "platform": "darwin",
+          "machine": "Apple M1",
+          "gpu": "Apple M1",
+          "runs": 1,
+          "cost": 1.186
+        },
+        {
+          "platform": "linux",
+          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+          "runs": 1,
+          "cost": 2.861
+        },
+        {
+          "platform": "win32",
+          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "AMD Radeon(TM) Graphics",
+          "runs": 1,
+          "cost": 6.727
+        }
+      ],
+      "submissions": 3,
+      "machines": [
+        "Apple M1",
+        "AMD Ryzen 5 7520U with Radeon Graphics"
+      ],
+      "platforms": [
+        "darwin",
+        "linux",
+        "win32"
+      ],
+      "versions": [
+        "0.6.0"
+      ],
+      "observedCostRange": [
+        1.186,
+        6.727
+      ]
+    },
+    {
       "node": "cap@0.5.9",
       "tool": "cap",
       "build": "0.5.9",
@@ -193,45 +240,6 @@
       "observedCostRange": [
         1.21,
         9.345
-      ]
-    },
-    {
-      "node": "cap@0.6.0",
-      "tool": "cap",
-      "build": "0.6.0",
-      "prerelease": false,
-      "relativeCost": 3.957,
-      "setups": [
-        {
-          "platform": "darwin",
-          "machine": "Apple M1",
-          "gpu": "Apple M1",
-          "runs": 1,
-          "cost": 1.186
-        },
-        {
-          "platform": "win32",
-          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-          "gpu": "AMD Radeon(TM) Graphics",
-          "runs": 1,
-          "cost": 6.727
-        }
-      ],
-      "submissions": 2,
-      "machines": [
-        "Apple M1",
-        "AMD Ryzen 5 7520U with Radeon Graphics"
-      ],
-      "platforms": [
-        "darwin",
-        "win32"
-      ],
-      "versions": [
-        "0.6.0"
-      ],
-      "observedCostRange": [
-        1.186,
-        6.727
       ]
     },
     {
@@ -1397,6 +1405,82 @@
       "nodes": [
         "openscreen@1.11.0-rc",
         "cap@0.5.9"
+      ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
+        "submittedAt": "2026-09-16T11:22:16.115Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "linux",
+          "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+          "cpuCount": 8,
+          "memoryGiB": 14.9,
+          "osVersion": "24.04",
+          "osBuild": ""
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 114.5,
+          "loadSpreadPercentagePoints": 0,
+          "driftRatio": 1.377,
+          "floorSpreadPercent": 1.41,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "502588cae0a8507c03ee964006be140543206f3c774ef06dcbf9fdc5f369d9f1",
+          "durationSec": 60.007,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "cap",
+            "version": "0.6.0",
+            "exportMs": 54708,
+            "madMs": 260,
+            "runs": 3,
+            "localFloorMs": 19123,
+            "softwareFloorMs": 38653,
+            "floorSpreadPercent": 1.41,
+            "cpuSeconds": 171,
+            "peakRssMiB": 703.8,
+            "foreignCpuPercent": 82.6,
+            "outputBytes": 188420825,
+            "outputMeanVolumeDb": -49.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          }
+        ],
+        "notes": [
+          "cap: zoom segments written: 3",
+          "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
+        ],
+        "_path": "submissions/linux/amd-ryzen-5-7520u-2026-09-16.json"
+      },
+      "weight": 1,
+      "reasons": [],
+      "tools": [
+        "cap"
+      ],
+      "nodes": [
+        "cap@0.6.0"
       ]
     },
     {
@@ -2771,7 +2855,7 @@
   ],
   "skipped": [],
   "consistency": {
-    "observations": 51,
+    "observations": 52,
     "repeatedBuilds": 6,
     "measurable": true,
     "medianSpreadPercent": 505.94,
@@ -2934,7 +3018,7 @@
         "tool": "cap",
         "build": "0.6.0",
         "prerelease": false,
-        "relativeCost": 2.232,
+        "relativeCost": 1.96,
         "setups": [
           {
             "platform": "darwin",
@@ -2944,6 +3028,13 @@
             "cost": 0.983
           },
           {
+            "platform": "linux",
+            "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+            "runs": 1,
+            "cost": 1.415
+          },
+          {
             "platform": "win32",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
             "gpu": "AMD Radeon(TM) Graphics",
@@ -2951,13 +3042,14 @@
             "cost": 3.482
           }
         ],
-        "submissions": 2,
+        "submissions": 3,
         "machines": [
           "Apple M1",
           "AMD Ryzen 5 7520U with Radeon Graphics"
         ],
         "platforms": [
           "darwin",
+          "linux",
           "win32"
         ],
         "versions": [
@@ -3733,6 +3825,82 @@
         "nodes": [
           "openscreen@1.11.0-rc",
           "cap@0.5.9"
+        ]
+      },
+      {
+        "sub": {
+          "schemaVersion": 1,
+          "submittedAt": "2026-09-16T11:22:16.115Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "linux",
+            "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+            "cpuCount": 8,
+            "memoryGiB": 14.9,
+            "osVersion": "24.04",
+            "osBuild": ""
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 114.5,
+            "loadSpreadPercentagePoints": 0,
+            "driftRatio": 1.377,
+            "floorSpreadPercent": 1.41,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "502588cae0a8507c03ee964006be140543206f3c774ef06dcbf9fdc5f369d9f1",
+            "durationSec": 60.007,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "cap",
+              "version": "0.6.0",
+              "exportMs": 54708,
+              "madMs": 260,
+              "runs": 3,
+              "localFloorMs": 19123,
+              "softwareFloorMs": 38653,
+              "floorSpreadPercent": 1.41,
+              "cpuSeconds": 171,
+              "peakRssMiB": 703.8,
+              "foreignCpuPercent": 82.6,
+              "outputBytes": 188420825,
+              "outputMeanVolumeDb": -49.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            }
+          ],
+          "notes": [
+            "cap: zoom segments written: 3",
+            "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
+          ],
+          "_path": "submissions/linux/amd-ryzen-5-7520u-2026-09-16.json"
+        },
+        "weight": 1,
+        "reasons": [],
+        "tools": [
+          "cap"
+        ],
+        "nodes": [
+          "cap@0.6.0"
         ]
       },
       {
@@ -5433,7 +5601,7 @@
       }
     ],
     "consistency": {
-      "observations": 30,
+      "observations": 31,
       "repeatedBuilds": 6,
       "measurable": true,
       "medianSpreadPercent": 178.47,
