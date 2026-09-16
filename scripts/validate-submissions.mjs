@@ -69,10 +69,16 @@ for (const sub of subs) {
 	const { _path, ...clean } = sub;
 	for (const e of validate(clean, schema, where)) problems.push(e);
 
+	// One is enough, and has been since the aggregate stopped solving a ratio graph: the
+	// denominator is an ffmpeg transcode measured beside each leg, not another tool, so a lone
+	// measurement is already a complete ratio. The graph needed a second tool to form an edge;
+	// nothing does now. That change updated this file's docstring and the schema's `minItems`
+	// and left the check itself at two, which rejected exactly the single-tool submission it was
+	// written to admit — somebody holding a licence for one of these products.
 	const verified = (clean.measurements ?? []).filter((m) => m.verified && m.localFloorMs);
-	if (verified.length < 2) {
+	if (verified.length < 1) {
 		problems.push(
-			`${where}: ${verified.length} verified tool(s) with a local floor — a submission needs two to contribute a ratio`,
+			`${where}: no verified tool with a local floor — a cost needs an export and the floor it is divided by`,
 		);
 	}
 	if (clean.source?.kind === "public-bundle" && !clean.source.downloadSha256) {
