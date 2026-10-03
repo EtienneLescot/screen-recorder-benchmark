@@ -20,6 +20,7 @@ import {
 	CALIBRATION_PATH,
 	calibrateApp,
 	calibrationFixture,
+	loadAllCalibrations,
 	loadCalibration,
 	sameMachine,
 	saveCalibration,
@@ -400,19 +401,34 @@ async function cmdRun({ flags }) {
 		webcam: buildWebcam(WORK_DIR, spec).path,
 	};
 
-	const calibration = loadCalibration();
-	if (calibration.machine) {
-		const here = machineFingerprint();
-		if (!sameMachine(calibration.machine, here)) {
-			log(
-				`⚠ benchmark/calibration.json was solved on ${calibration.machine.chip} / ${calibration.machine.osVersion}, ` +
-					`not this machine. Re-run \`bench.mjs calibrate\` — app versions differ between machines and ` +
-					`a stale padding solve makes the apps composite different rectangles.\n`,
-			);
-		}
-	} else if (Object.keys(calibration.apps ?? {}).length) {
-		log("⚠ benchmark/calibration.json has no machine stamp; re-run `bench.mjs calibrate`.\n");
-	} else {
+	// The file holds one bucket per machine, so the question is no longer "whose solve is this?"
+	// but "is mine in there?".
+	const here = machineFingerprint();
+	const mine = loadCalibration(here);
+	const buckets = loadAllCalibrations();
+	const others = buckets
+		.filter((b) => !sameMachine(b.machine, here) && Object.keys(b.apps ?? {}).length)
+		.sort((a, b) => String(b.generatedAt ?? "").localeCompare(String(a.generatedAt ?? "")));
+	// Another machine's solve is borrowed, not ignored — and said out loud.
+	//
+	// The padding a control produces is a property of the app, not the machine, so the number
+	// from the next machine over is usually the right one; the alternative is each driver's
+	// documented default, which is what once composited OpenScreen at 10% against FocuSee's 5%.
+	// The risk being guarded is version skew rather than hardware, and a borrowed solve that
+	// announces itself is not the silent kind the stamp exists to catch.
+	const borrowed = Object.keys(mine.apps ?? {}).length ? null : others[0];
+	const calibration = borrowed ?? mine;
+	if (borrowed) {
+		const whose = borrowed.machine
+			? `${borrowed.machine.chip} / ${borrowed.machine.osVersion}`
+			: "an unstamped solve";
+		log(
+			`⚠ benchmark/calibration.json holds no solve for this machine; using the one from ` +
+				`${whose}. Run \`bench.mjs calibrate\` — app versions differ between machines, and a ` +
+				`padding solve for a build this machine does not have makes the apps composite ` +
+				`different rectangles.\n`,
+		);
+	} else if (!Object.keys(calibration.apps ?? {}).length) {
 		log("· no calibration found — each driver will use its documented default padding.\n");
 	}
 	const runId = flags.id ?? newRunId();
