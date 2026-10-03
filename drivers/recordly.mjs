@@ -506,7 +506,12 @@ export default {
 		// dialog. A fixed 2 s pause then clicked "MP4" into a panel that was not there, and the
 		// run reported "aria-pressed came back null" three times in a row after a first
 		// repetition that had worked.
-		const panelOpen = async () => (await pressed("Lightning (Beta)")) !== null;
+		//
+		// Detected by the container button, not the pipeline one: 1.4.0 dropped the
+		// Lightning/Legacy choice from this panel altogether, so waiting for "Lightning (Beta)"
+		// waited for a control that no longer exists and reported a panel that had opened as one
+		// that never did. MP4 has been on the panel in every build this adapter has met.
+		const panelOpen = async () => (await pressed("MP4")) !== null;
 		let opened = false;
 		for (let attempt = 0; attempt < 3 && !opened; attempt++) {
 			await clickAny(["Exporter", "Export"], "the export panel");
@@ -543,10 +548,18 @@ export default {
 		// That is the pipeline a user on this platform actually gets, so it is the one measured —
 		// and `pipeline` is recorded on every run, so a Linux row can never be read as a Lightning
 		// row.
+		//
+		// From 1.4.0 there is no control to pin: the panel no longer offers the choice, and the
+		// app takes its "modern" pipeline (the one 1.3.x labelled Lightning) unless a project
+		// asks otherwise — the panel component defaults `exportPipelineModel` to "modern", and
+		// nothing this adapter writes names one. With no button to read back, the evidence is
+		// the route the editor prints while it renders ("Path: WebGPU + Breeze …"), which is
+		// recorded below on every repetition; `pipeline` is then null rather than a claim.
 		const PIPELINE = IS_LINUX ? ["Legacy", "Héritage"] : ["Lightning (Beta)", "Lightning"];
-		const pipelinePinned = await pin(PIPELINE, "export pipeline");
+		const pipelineOffered = (await pressed("Legacy")) !== null;
+		const pipelinePinned = pipelineOffered ? await pin(PIPELINE, "export pipeline") : null;
 		// And the other one, to prove the panel is not showing both as selected.
-		const legacyStillOn = await pressed("Legacy");
+		const legacyStillOn = pipelineOffered ? await pressed("Legacy") : null;
 
 		// The CUDA opt-in is a switch, not one of the pressed buttons above: it carries
 		// aria-checked, it is only rendered once the pipeline is not Legacy, and it is addressed
@@ -607,7 +620,12 @@ export default {
 			cudaApplied,
 		});
 
-		await clickAny(["Exporter en Video", "Export Video", "Exporter la vidéo"], "the export action");
+		// 1.4.0 names the action after the format ("Export MP4", "Exporter en MP4"); earlier
+		// builds said "Video". Both are tried, the format-named one first.
+		await clickAny(
+			["Export MP4", "Exporter en MP4", "Exporter en Video", "Export Video", "Exporter la vidéo"],
+			"the export action",
+		);
 		ctx.commit();
 		// Where the measured window actually goes. The leg reports ~62 s against a 60 s source
 		// while the panel shows render speeds around 185 fps, which would be ~19 s of rendering —
