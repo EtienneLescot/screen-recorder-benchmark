@@ -1,5 +1,5 @@
 {
-	"generatedAt": "2026-10-02T13:57:43.180Z",
+	"generatedAt": "2026-10-03T18:41:55.758Z",
 	"machine": {
 		"chip": "Apple M1",
 		"osVersion": "26.5",
@@ -110,6 +110,112 @@
 						"bottom": 971,
 						"width": 1606,
 						"height": 864
+					}
+				}
+			]
+		},
+		"cap": {
+			"app": "cap",
+			"target": 5,
+			"paddingControl": 13.32,
+			"achievedInsetPercent": 4.81,
+			"achievedBox": {
+				"left": 92,
+				"top": 52,
+				"right": 1827,
+				"bottom": 1027,
+				"width": 1736,
+				"height": 976
+			},
+			"withinTolerance": true,
+			"probes": [
+				{
+					"control": 2.5,
+					"inset": 1.02,
+					"box": {
+						"left": 19,
+						"top": 11,
+						"right": 1900,
+						"bottom": 1068,
+						"width": 1882,
+						"height": 1058
+					}
+				},
+				{
+					"control": 5,
+					"inset": 1.94,
+					"box": {
+						"left": 37,
+						"top": 21,
+						"right": 1882,
+						"bottom": 1058,
+						"width": 1846,
+						"height": 1038
+					}
+				},
+				{
+					"control": 13.32,
+					"inset": 4.81,
+					"box": {
+						"left": 92,
+						"top": 52,
+						"right": 1827,
+						"bottom": 1027,
+						"width": 1736,
+						"height": 976
+					}
+				}
+			]
+		},
+		"recordly": {
+			"app": "recordly",
+			"target": 5,
+			"paddingControl": 26,
+			"achievedInsetPercent": 5.19,
+			"achievedBox": {
+				"left": 100,
+				"top": 56,
+				"right": 1819,
+				"bottom": 1023,
+				"width": 1720,
+				"height": 968
+			},
+			"withinTolerance": true,
+			"probes": [
+				{
+					"control": 10,
+					"inset": 2.04,
+					"box": {
+						"left": 39,
+						"top": 22,
+						"right": 1880,
+						"bottom": 1057,
+						"width": 1842,
+						"height": 1036
+					}
+				},
+				{
+					"control": 20,
+					"inset": 3.89,
+					"box": {
+						"left": 77,
+						"top": 43,
+						"right": 1842,
+						"bottom": 1037,
+						"width": 1766,
+						"height": 995
+					}
+				},
+				{
+					"control": 26,
+					"inset": 5.19,
+					"box": {
+						"left": 100,
+						"top": 56,
+						"right": 1819,
+						"bottom": 1023,
+						"width": 1720,
+						"height": 968
 					}
 				}
 			]
