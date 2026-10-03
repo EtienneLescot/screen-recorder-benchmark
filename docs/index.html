@@ -272,14 +272,14 @@
     <div>
       <h1>Which screen recorder exports fastest?</h1>
       <p class="hero-lede">Same clip, same edit, same machine. We time each app's export, then
-      divide by what plain <code>ffmpeg</code> needs on that machine — so 1.23× means 23% longer than a raw re-encode, on any hardware.</p>
+      divide by what plain <code>ffmpeg</code> needs on that machine — so 1.40× means 40% longer than a raw re-encode, on any hardware.</p>
     </div>
     <div class="hero-side">
       <div class="stats">
-        <div><b>26</b><span>Submissions</span></div>
-        <div><b>56</b><span>Runs</span></div>
+        <div><b>28</b><span>Submissions</span></div>
+        <div><b>62</b><span>Runs</span></div>
         <div><b>5</b><span>Tools timed</span></div>
-        <div><b>11</b><span>Builds</span></div>
+        <div><b>12</b><span>Builds</span></div>
         <div><b>3</b><span>Machines</span></div>
         <div><b>3</b><span>Platforms</span></div>
       </div>
@@ -302,17 +302,17 @@
     </div>
 
     <div data-scope="all">
-      <p class="scope-note">All 56 runs — 5 tools across 11 builds, 3 machines, 3 platforms. Every machine combined.</p>
+      <p class="scope-note">All 62 runs — 5 tools across 12 builds, 3 machines, 3 platforms. Every machine combined.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
-      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">9×</span><span class="tick" style="left:75.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">5×</span><span class="tick" style="left:25.0%;transform:translateX(-50%)">3×</span></div>
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">11×</span><span class="tick" style="left:80.0%;transform:translateX(-50%)">9×</span><span class="tick" style="left:60.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:40.0%;transform:translateX(-50%)">5×</span><span class="tick" style="left:20.0%;transform:translateX(-50%)">3×</span></div>
       <article class="rank-row" data-node="openscreen@2.0.0">
         <div class="rank-head">
           <span class="rank-no">01</span>
-          <h3>openscreen</h3> <span class="dim" title="this tool is not on the same release everywhere it was measured — each platform contributes the newest build measured on it">2.0.0 (macOS) · 1.11.0-rc (Linux, Windows)</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span>
-          <div class="rank-val"><b>1.23</b><span>×</span></div>
+          <h3>openscreen</h3> <span class="dim" title="this tool is not on the same release everywhere it was measured — each platform contributes the newest build measured on it">2.0.0 (macOS, Windows) · 1.11.0-rc (Linux)</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span>
+          <div class="rank-val"><b>1.40</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:2.8%"></i></div>
+        <div class="rank-track"><i style="width:4.0%"></i></div>
       </article>
       <article class="rank-row" data-node="screen-studio@4.0.1-4897">
         <div class="rank-head">
@@ -320,15 +320,15 @@
           <h3>screen-studio</h3> <span class="dim">4.0.1-4897</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
           <div class="rank-val"><b>2.06</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i class="thin" style="width:13.2%"></i></div>
+        <div class="rank-track"><i class="thin" style="width:10.6%"></i></div>
       </article>
       <article class="rank-row" data-node="cap@0.6.0">
         <div class="rank-head">
           <span class="rank-no">03</span>
           <h3>cap</h3> <span class="dim">0.6.0</span>
-          <div class="rank-val"><b>3.59</b><span>×</span></div>
+          <div class="rank-val"><b>3.66</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:32.4%"></i></div>
+        <div class="rank-track"><i style="width:26.6%"></i></div>
       </article>
       <article class="rank-row" data-node="focusee@2.4.1">
         <div class="rank-head">
@@ -336,15 +336,15 @@
           <h3>focusee</h3> <span class="dim" title="this tool is not on the same release everywhere it was measured — each platform contributes the newest build measured on it">2.4.1 (macOS) · 2.3.5 (Windows)</span>
           <div class="rank-val"><b>4.27</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:40.9%"></i></div>
+        <div class="rank-track"><i style="width:32.7%"></i></div>
       </article>
-      <article class="rank-row" data-node="recordly@1.3.3">
+      <article class="rank-row" data-node="recordly@1.4.0">
         <div class="rank-head">
           <span class="rank-no">05</span>
-          <h3>recordly</h3> <span class="dim">1.3.3</span>
-          <div class="rank-val"><b>8.03</b><span>×</span></div>
+          <h3>recordly</h3> <span class="dim" title="this tool is not on the same release everywhere it was measured — each platform contributes the newest build measured on it">1.4.0 (Windows) · 1.3.3 (macOS, Linux)</span>
+          <div class="rank-val"><b>8.19</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:87.9%"></i></div>
+        <div class="rank-track"><i style="width:71.9%"></i></div>
       </article>
       <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
       on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
@@ -400,17 +400,17 @@
     </div>
     </div>
     <div data-scope="p-win32" hidden>
-      <p class="scope-note">Ryzen 5 7520U · Ryzen 7 5800X — 29 runs, 4 tools across 6 builds.</p>
+      <p class="scope-note">Ryzen 5 7520U · Ryzen 7 5800X — 35 runs, 4 tools across 8 builds.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
       <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">9×</span><span class="tick" style="left:75.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">5×</span><span class="tick" style="left:25.0%;transform:translateX(-50%)">3×</span></div>
-      <article class="rank-row" data-node="openscreen@1.11.0-rc">
+      <article class="rank-row" data-node="openscreen@2.0.0">
         <div class="rank-head">
           <span class="rank-no">01</span>
-          <h3>openscreen</h3> <span class="dim">1.11.0-rc</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span>
-          <div class="rank-val"><b>1.36</b><span>×</span></div>
+          <h3>openscreen</h3> <span class="dim">2.0.0</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
+          <div class="rank-val"><b>2.01</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:4.5%"></i></div>
+        <div class="rank-track"><i class="thin" style="width:12.7%"></i></div>
       </article>
       <article class="rank-row" data-node="focusee@2.3.5">
         <div class="rank-head">
@@ -420,21 +420,21 @@
         </div>
         <div class="rank-track"><i style="width:61.8%"></i></div>
       </article>
-      <article class="rank-row" data-node="cap@0.6.0">
+      <article class="rank-row" data-node="recordly@1.4.0">
         <div class="rank-head">
           <span class="rank-no">03</span>
-          <h3>cap</h3> <span class="dim">0.6.0</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
-          <div class="rank-val"><b>6.73</b><span>×</span></div>
+          <h3>recordly</h3> <span class="dim">1.4.0</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
+          <div class="rank-val"><b>6.58</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i class="thin" style="width:71.6%"></i></div>
+        <div class="rank-track"><i class="thin" style="width:69.7%"></i></div>
       </article>
-      <article class="rank-row" data-node="recordly@1.3.3">
+      <article class="rank-row" data-node="cap@0.6.0">
         <div class="rank-head">
           <span class="rank-no">04</span>
-          <h3>recordly</h3> <span class="dim">1.3.3</span>
-          <div class="rank-val"><b>7.07</b><span>×</span></div>
+          <h3>cap</h3> <span class="dim">0.6.0</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
+          <div class="rank-val"><b>6.93</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:75.9%"></i></div>
+        <div class="rank-track"><i class="thin" style="width:74.1%"></i></div>
       </article>
       <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
       on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
@@ -474,25 +474,25 @@
     </div>
     </div>
     <div data-scope="g-amd" hidden>
-      <p class="scope-note">Ryzen 5 7520U — 28 runs, 4 tools across 6 builds. One machine, so nothing here is cross-checked.</p>
+      <p class="scope-note">Ryzen 5 7520U — 34 runs, 4 tools across 8 builds. One machine, so nothing here is cross-checked.</p>
       <div class="chart">
       <p class="better">↓ Lower is better — a shorter bar is a faster export</p>
-      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">15×</span><span class="tick" style="left:85.7%;transform:translateX(-50%)">13×</span><span class="tick" style="left:71.4%;transform:translateX(-50%)">11×</span><span class="tick" style="left:57.1%;transform:translateX(-50%)">9×</span><span class="tick" style="left:42.9%;transform:translateX(-50%)">7×</span><span class="tick" style="left:28.6%;transform:translateX(-50%)">5×</span><span class="tick" style="left:14.3%;transform:translateX(-50%)">3×</span></div>
-      <article class="rank-row" data-node="openscreen@1.11.0-rc">
+      <div class="chart-axis"><span class="floor" style="left:0">ffmpeg 1.00×</span><span class="tick top" style="left:100.0%;transform:translateX(-100%)">13×</span><span class="tick" style="left:83.3%;transform:translateX(-50%)">11×</span><span class="tick" style="left:66.7%;transform:translateX(-50%)">9×</span><span class="tick" style="left:50.0%;transform:translateX(-50%)">7×</span><span class="tick" style="left:33.3%;transform:translateX(-50%)">5×</span><span class="tick" style="left:16.7%;transform:translateX(-50%)">3×</span></div>
+      <article class="rank-row" data-node="openscreen@2.0.0">
         <div class="rank-head">
           <span class="rank-no">01</span>
-          <h3>openscreen</h3> <span class="dim">1.11.0-rc</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span>
-          <div class="rank-val"><b>1.30</b><span>×</span></div>
+          <h3>openscreen</h3> <span class="dim" title="this tool is not on the same release everywhere it was measured — each platform contributes the newest build measured on it">2.0.0 (Windows) · 1.11.0-rc (Linux)</span> <span class="tag" title="a prerelease — published by the vendor, but not the release build">rc</span>
+          <div class="rank-val"><b>1.57</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:2.1%"></i></div>
+        <div class="rank-track"><i style="width:4.7%"></i></div>
       </article>
       <article class="rank-row" data-node="cap@0.6.0">
         <div class="rank-head">
           <span class="rank-no">02</span>
           <h3>cap</h3> <span class="dim">0.6.0</span>
-          <div class="rank-val"><b>4.79</b><span>×</span></div>
+          <div class="rank-val"><b>4.89</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:27.1%"></i></div>
+        <div class="rank-track"><i style="width:32.5%"></i></div>
       </article>
       <article class="rank-row" data-node="focusee@2.3.5">
         <div class="rank-head">
@@ -500,15 +500,15 @@
           <h3>focusee</h3> <span class="dim">2.3.5</span>
           <div class="rank-val"><b>10.73</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:69.5%"></i></div>
+        <div class="rank-track"><i style="width:81.1%"></i></div>
       </article>
-      <article class="rank-row" data-node="recordly@1.3.3">
+      <article class="rank-row" data-node="recordly@1.4.0">
         <div class="rank-head">
           <span class="rank-no">04</span>
-          <h3>recordly</h3> <span class="dim">1.3.3</span>
-          <div class="rank-val"><b>12.97</b><span>×</span></div>
+          <h3>recordly</h3> <span class="dim" title="this tool is not on the same release everywhere it was measured — each platform contributes the newest build measured on it">1.4.0 (Windows) · 1.3.3 (Linux)</span>
+          <div class="rank-val"><b>10.96</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:85.5%"></i></div>
+        <div class="rank-track"><i style="width:83.0%"></i></div>
       </article>
       <p class="chart-foot">Bars start where ffmpeg finishes: their length is what the tool spends
       on top of a raw re-encode. The figure beside each is the full ratio, floor included.</p>
@@ -564,7 +564,7 @@
       <p><strong>No tool is the reference.</strong> Every export is divided by an ffmpeg
       transcode on its own machine, so no submission has to contain any particular tool.</p>
     </div>
-    <p class="mono-note">Cross-check: where a build was measured on more than one machine, its cost moves by 467.27% at the median — widest: focusee, 1.15× on Ryzen 7 5800X and 10.73× on Ryzen 5 7520U.</p>
+    <p class="mono-note">Cross-check: where a build was measured on more than one machine, its cost moves by 239.35% at the median — widest: focusee, 1.15× on Ryzen 7 5800X and 10.73× on Ryzen 5 7520U.</p>
     <p class="mono-note">4 older builds not shown: each row is the newest build measured, and the ones it replaced keep their own figures. <a href="builds.html">Every build measured →</a></p>
   </section>
 
@@ -585,11 +585,11 @@
         </div>
         <div class="strip-row">
           <div class="strip-name">openscreen</div>
-          <div class="strip-lane"><div class="rng" style="left:5.76%;width:16.93%"></div><div class="dot" style="left:11.24%;background:var(--accent)" title="Apple M1 (macOS) — 2.023× the floor, 36.8 s, 97.8 fps"></div><div class="dot" style="left:5.79%;background:var(--accent)" title="Apple M1 (macOS) — 1.043× the floor, 19.03 s, 189.2 fps"></div><div class="dot" style="left:5.77%;background:var(--accent)" title="Apple M1 (macOS) — 1.038× the floor, 18.9 s, 190.5 fps"></div><div class="dot" style="left:5.76%;background:var(--accent)" title="Apple M1 (macOS) — 1.037× the floor, 18.91 s, 190.3 fps"></div><div class="dot" style="left:5.76%;background:var(--accent)" title="Apple M1 (macOS) — 1.037× the floor, 18.9 s, 190.5 fps"></div><div class="dot" style="left:5.77%;background:var(--accent)" title="Apple M1 (macOS) — 1.039× the floor, 18.91 s, 190.4 fps"></div><div class="dot" style="left:6.17%;background:var(--accent)" title="Apple M1 (macOS) — 1.111× the floor, 20.2 s, 178.2 fps"></div><div class="dot" style="left:5.92%;background:var(--accent)" title="Apple M1 (macOS) — 1.065× the floor, 19.41 s, 185.4 fps"></div><div class="dot" style="left:18.33%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 3.3× the floor, 76.84 s, 46.8 fps"></div><div class="dot" style="left:22.69%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 4.085× the floor, 77.85 s, 46.2 fps"></div><div class="dot" style="left:6.24%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 1.124× the floor, 27.27 s, 132 fps"></div><div class="dot" style="left:8.79%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.582× the floor, 32.76 s, 109.9 fps"></div><div class="dot" style="left:10.59%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.907× the floor, 39.03 s, 92.2 fps"></div><div class="dot" style="left:8.09%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.457× the floor, 30.63 s, 117.5 fps"></div><div class="dot" style="left:10.22%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.839× the floor, 34.93 s, 103.1 fps"></div><div class="dot" style="left:8.01%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.441× the floor, 30.73 s, 117.2 fps"></div><div class="dot" style="left:11.19%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 2.015× the floor, 38.55 s, 93.4 fps"></div><div class="dot" style="left:9.28%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.671× the floor, 35.74 s, 100.7 fps"></div><div class="dot" style="left:9.97%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.794× the floor, 34.52 s, 104.3 fps"></div><div class="dot" style="left:7.18%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.292× the floor, 10.09 s, 356.7 fps"></div><div class="dot" style="left:6.69%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.204× the floor, 9.38 s, 383.6 fps"></div><div class="dot" style="left:7.01%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.262× the floor, 9.75 s, 369.2 fps"></div><div class="dot" style="left:6.90%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.242× the floor, 9.37 s, 384.2 fps"></div></div>
+          <div class="strip-lane"><div class="rng" style="left:5.76%;width:16.93%"></div><div class="dot" style="left:11.24%;background:var(--accent)" title="Apple M1 (macOS) — 2.023× the floor, 36.8 s, 97.8 fps"></div><div class="dot" style="left:5.79%;background:var(--accent)" title="Apple M1 (macOS) — 1.043× the floor, 19.03 s, 189.2 fps"></div><div class="dot" style="left:5.77%;background:var(--accent)" title="Apple M1 (macOS) — 1.038× the floor, 18.9 s, 190.5 fps"></div><div class="dot" style="left:5.76%;background:var(--accent)" title="Apple M1 (macOS) — 1.037× the floor, 18.91 s, 190.3 fps"></div><div class="dot" style="left:5.76%;background:var(--accent)" title="Apple M1 (macOS) — 1.037× the floor, 18.9 s, 190.5 fps"></div><div class="dot" style="left:5.77%;background:var(--accent)" title="Apple M1 (macOS) — 1.039× the floor, 18.91 s, 190.4 fps"></div><div class="dot" style="left:6.17%;background:var(--accent)" title="Apple M1 (macOS) — 1.111× the floor, 20.2 s, 178.2 fps"></div><div class="dot" style="left:5.92%;background:var(--accent)" title="Apple M1 (macOS) — 1.065× the floor, 19.41 s, 185.4 fps"></div><div class="dot" style="left:18.33%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 3.3× the floor, 76.84 s, 46.8 fps"></div><div class="dot" style="left:22.69%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 4.085× the floor, 77.85 s, 46.2 fps"></div><div class="dot" style="left:6.24%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 1.124× the floor, 27.27 s, 132 fps"></div><div class="dot" style="left:8.79%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.582× the floor, 32.76 s, 109.9 fps"></div><div class="dot" style="left:10.59%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.907× the floor, 39.03 s, 92.2 fps"></div><div class="dot" style="left:8.09%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.457× the floor, 30.63 s, 117.5 fps"></div><div class="dot" style="left:10.22%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.839× the floor, 34.93 s, 103.1 fps"></div><div class="dot" style="left:8.01%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.441× the floor, 30.73 s, 117.2 fps"></div><div class="dot" style="left:11.19%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 2.015× the floor, 38.55 s, 93.4 fps"></div><div class="dot" style="left:9.28%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.671× the floor, 35.74 s, 100.7 fps"></div><div class="dot" style="left:9.97%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.794× the floor, 34.52 s, 104.3 fps"></div><div class="dot" style="left:11.83%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 2.13× the floor, 42.88 s, 84 fps"></div><div class="dot" style="left:10.72%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 1.929× the floor, 35.44 s, 101.6 fps"></div><div class="dot" style="left:7.18%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.292× the floor, 10.09 s, 356.7 fps"></div><div class="dot" style="left:6.69%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.204× the floor, 9.38 s, 383.6 fps"></div><div class="dot" style="left:7.01%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.262× the floor, 9.75 s, 369.2 fps"></div><div class="dot" style="left:6.90%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 1.242× the floor, 9.37 s, 384.2 fps"></div></div>
         </div>
         <div class="strip-row">
           <div class="strip-name">cap</div>
-          <div class="strip-lane"><div class="rng" style="left:6.59%;width:45.33%"></div><div class="dot" style="left:6.72%;background:var(--accent)" title="Apple M1 (macOS) — 1.21× the floor, 22.01 s, 163.6 fps"></div><div class="dot" style="left:6.97%;background:var(--accent)" title="Apple M1 (macOS) — 1.255× the floor, 22.88 s, 157.3 fps"></div><div class="dot" style="left:6.87%;background:var(--accent)" title="Apple M1 (macOS) — 1.236× the floor, 22.52 s, 159.9 fps"></div><div class="dot" style="left:6.80%;background:var(--accent)" title="Apple M1 (macOS) — 1.224× the floor, 22.3 s, 161.4 fps"></div><div class="dot" style="left:6.59%;background:var(--accent)" title="Apple M1 (macOS) — 1.186× the floor, 21.6 s, 166.7 fps"></div><div class="dot" style="left:13.89%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 2.5× the floor, 57.31 s, 62.8 fps"></div><div class="dot" style="left:16.62%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 2.991× the floor, 57.14 s, 63 fps"></div><div class="dot" style="left:13.42%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 2.416× the floor, 57.02 s, 63.1 fps"></div><div class="dot" style="left:15.89%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 2.861× the floor, 54.71 s, 65.8 fps"></div><div class="dot" style="left:46.07%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 8.293× the floor, 175.28 s, 20.5 fps"></div><div class="dot" style="left:42.74%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 7.694× the floor, 149.85 s, 24 fps"></div><div class="dot" style="left:45.84%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 8.251× the floor, 172.42 s, 20.9 fps"></div><div class="dot" style="left:48.77%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 8.778× the floor, 185.62 s, 19.4 fps"></div><div class="dot" style="left:48.46%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 8.723× the floor, 185.29 s, 19.4 fps"></div><div class="dot" style="left:51.92%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 9.345× the floor, 181.18 s, 19.9 fps"></div><div class="dot" style="left:49.14%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 8.845× the floor, 190.94 s, 18.9 fps"></div><div class="dot" style="left:37.37%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 6.727× the floor, 143.53 s, 25.1 fps"></div><div class="dot" style="left:16.32%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 2.937× the floor, 22.97 s, 156.7 fps"></div><div class="dot" style="left:17.47%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 3.145× the floor, 24.48 s, 147.1 fps"></div></div>
+          <div class="strip-lane"><div class="rng" style="left:6.59%;width:45.33%"></div><div class="dot" style="left:6.72%;background:var(--accent)" title="Apple M1 (macOS) — 1.21× the floor, 22.01 s, 163.6 fps"></div><div class="dot" style="left:6.97%;background:var(--accent)" title="Apple M1 (macOS) — 1.255× the floor, 22.88 s, 157.3 fps"></div><div class="dot" style="left:6.87%;background:var(--accent)" title="Apple M1 (macOS) — 1.236× the floor, 22.52 s, 159.9 fps"></div><div class="dot" style="left:6.80%;background:var(--accent)" title="Apple M1 (macOS) — 1.224× the floor, 22.3 s, 161.4 fps"></div><div class="dot" style="left:6.59%;background:var(--accent)" title="Apple M1 (macOS) — 1.186× the floor, 21.6 s, 166.7 fps"></div><div class="dot" style="left:13.89%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 2.5× the floor, 57.31 s, 62.8 fps"></div><div class="dot" style="left:16.62%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 2.991× the floor, 57.14 s, 63 fps"></div><div class="dot" style="left:13.42%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 2.416× the floor, 57.02 s, 63.1 fps"></div><div class="dot" style="left:15.89%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 2.861× the floor, 54.71 s, 65.8 fps"></div><div class="dot" style="left:46.07%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 8.293× the floor, 175.28 s, 20.5 fps"></div><div class="dot" style="left:42.74%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 7.694× the floor, 149.85 s, 24 fps"></div><div class="dot" style="left:45.84%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 8.251× the floor, 172.42 s, 20.9 fps"></div><div class="dot" style="left:48.77%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 8.778× the floor, 185.62 s, 19.4 fps"></div><div class="dot" style="left:48.46%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 8.723× the floor, 185.29 s, 19.4 fps"></div><div class="dot" style="left:51.92%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 9.345× the floor, 181.18 s, 19.9 fps"></div><div class="dot" style="left:49.14%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 8.845× the floor, 190.94 s, 18.9 fps"></div><div class="dot" style="left:37.37%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 6.727× the floor, 143.53 s, 25.1 fps"></div><div class="dot" style="left:38.24%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 6.883× the floor, 135.27 s, 26.6 fps"></div><div class="dot" style="left:38.86%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 6.994× the floor, 130.26 s, 27.6 fps"></div><div class="dot" style="left:16.32%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 2.937× the floor, 22.97 s, 156.7 fps"></div><div class="dot" style="left:17.47%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 3.145× the floor, 24.48 s, 147.1 fps"></div></div>
         </div>
         <div class="strip-row">
           <div class="strip-name">screen-studio</div>
@@ -597,7 +597,7 @@
         </div>
         <div class="strip-row">
           <div class="strip-name">recordly</div>
-          <div class="strip-lane"><div class="rng" style="left:14.59%;width:79.84%"></div><div class="dot" style="left:14.59%;background:var(--accent)" title="Apple M1 (macOS) — 2.626× the floor, 47.74 s, 75.4 fps"></div><div class="dot" style="left:76.17%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 13.71× the floor, 323.9 s, 11.1 fps"></div><div class="dot" style="left:94.43%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 16.997× the floor, 324.46 s, 11.1 fps"></div><div class="dot" style="left:59.19%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 10.654× the floor, 203.15 s, 17.7 fps"></div><div class="dot" style="left:58.03%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 10.446× the floor, 197.62 s, 18.2 fps"></div><div class="dot" style="left:20.57%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 3.702× the floor, 28.79 s, 125.1 fps"></div><div class="dot" style="left:18.89%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 3.4× the floor, 26.39 s, 136.4 fps"></div></div>
+          <div class="strip-lane"><div class="rng" style="left:14.59%;width:79.84%"></div><div class="dot" style="left:14.59%;background:var(--accent)" title="Apple M1 (macOS) — 2.626× the floor, 47.74 s, 75.4 fps"></div><div class="dot" style="left:76.17%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 13.71× the floor, 323.9 s, 11.1 fps"></div><div class="dot" style="left:94.43%;background:var(--ink-2)" title="Ryzen 5 7520U (Linux) — 16.997× the floor, 324.46 s, 11.1 fps"></div><div class="dot" style="left:59.19%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 10.654× the floor, 203.15 s, 17.7 fps"></div><div class="dot" style="left:58.03%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 10.446× the floor, 197.62 s, 18.2 fps"></div><div class="dot" style="left:34.06%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 6.131× the floor, 226.44 s, 15.9 fps"></div><div class="dot" style="left:38.29%;background:var(--warm)" title="Ryzen 5 7520U (Windows) — 6.893× the floor, 216.65 s, 16.6 fps"></div><div class="dot" style="left:20.57%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 3.702× the floor, 28.79 s, 125.1 fps"></div><div class="dot" style="left:18.89%;background:var(--warm)" title="Ryzen 7 5800X (Windows) — 3.4× the floor, 26.39 s, 136.4 fps"></div></div>
         </div>
       </div>
       <div class="strip-foot"><div></div><div><span style="left:5.56%">1×</span><span style="left:11.11%">2×</span><span style="left:16.67%">3×</span><span style="left:22.22%">4×</span><span style="left:27.78%">5×</span><span style="left:33.33%">6×</span><span style="left:38.89%">7×</span><span style="left:44.44%">8×</span><span style="left:50.00%">9×</span><span style="left:55.56%">10×</span><span style="left:61.11%">11×</span><span style="left:66.67%">12×</span><span style="left:72.22%">13×</span><span style="left:77.78%">14×</span><span style="left:83.33%">15×</span><span style="left:88.89%">16×</span><span style="left:94.44%">17×</span></div></div>
@@ -609,7 +609,7 @@
   <section>
     <div class="sec-head">
       <h2>03 — Every run</h2>
-      <span class="sec-note" id="f-count">56 runs</span>
+      <span class="sec-note" id="f-count">62 runs</span>
     </div>
     <p class="prose">Every run, with the machine that produced it. <strong>Cost</strong> compares
     across rows; seconds and frame rate don't — they describe one machine.</p>
@@ -1044,6 +1044,21 @@
             <td class="dim">cli</td>
           </tr>
           <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="openscreen">
+            <td class="nw"><strong>openscreen</strong> <span class="dim">2.0.0</span></td>
+            <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>1.929×</strong></td>
+            <td class="num dim">2.12×</td>
+            <td class="num nw">35.44 <span class="dim">±2.35</span></td>
+            <td class="num">101.6</td>
+            <td class="num">9.91</td>
+            <td class="num"><strong>0.28</strong></td>
+            <td class="num">919</td>
+            <td class="num dim">38%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="openscreen">
             <td class="nw"><strong>openscreen</strong> <span class="dim">1.10.0</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
@@ -1055,6 +1070,21 @@
             <td class="num"><strong>0.28</strong></td>
             <td class="num">947</td>
             <td class="num dim">64%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="openscreen">
+            <td class="nw"><strong>openscreen</strong> <span class="dim">2.0.0</span></td>
+            <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>2.130×</strong></td>
+            <td class="num dim">2.29×</td>
+            <td class="num nw">42.88 <span class="dim">±0.44</span></td>
+            <td class="num">84.0</td>
+            <td class="num">16.46</td>
+            <td class="num"><strong>0.38</strong></td>
+            <td class="num">1586</td>
+            <td class="num dim">118%</td>
             <td>full</td>
             <td class="dim">cli</td>
           </tr>
@@ -1164,6 +1194,36 @@
             <td class="dim">cli</td>
           </tr>
           <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="cap">
+            <td class="nw"><strong>cap</strong> <span class="dim">0.6.0</span></td>
+            <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>6.883×</strong></td>
+            <td class="num dim">2.05×</td>
+            <td class="num nw">135.27 <span class="dim">±0.91</span></td>
+            <td class="num">26.6</td>
+            <td class="num">51.81</td>
+            <td class="num"><strong>0.38</strong></td>
+            <td class="num">1384</td>
+            <td class="num dim">43%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="cap">
+            <td class="nw"><strong>cap</strong> <span class="dim">0.6.0</span></td>
+            <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>6.994×</strong></td>
+            <td class="num dim">2.14×</td>
+            <td class="num nw">130.26 <span class="dim">±0.08</span></td>
+            <td class="num">27.6</td>
+            <td class="num">48.05</td>
+            <td class="num"><strong>0.37</strong></td>
+            <td class="num">1378</td>
+            <td class="num dim">50%</td>
+            <td>full</td>
+            <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="cap">
             <td class="nw"><strong>cap</strong> <span class="dim">0.5.9</span></td>
             <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
             <td class="dim">win32</td>
@@ -1267,6 +1327,36 @@
             <td class="num dim">72%</td>
             <td>full</td>
             <td class="dim">cli</td>
+          </tr>
+          <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="recordly">
+            <td class="nw"><strong>recordly</strong> <span class="dim">1.4.0</span></td>
+            <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>6.131×</strong></td>
+            <td class="num dim">1.08×</td>
+            <td class="num nw">226.44 <span class="dim">±0.39</span></td>
+            <td class="num">15.9</td>
+            <td class="num">601.78</td>
+            <td class="num"><strong>2.66</strong></td>
+            <td class="num">2369</td>
+            <td class="num dim">57%</td>
+            <td>full</td>
+            <td class="dim">cdp</td>
+          </tr>
+          <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="recordly">
+            <td class="nw"><strong>recordly</strong> <span class="dim">1.4.0</span></td>
+            <td class="nw" title="AMD Ryzen 5 7520U with Radeon Graphics · AMD Radeon(TM) Graphics">Ryzen 5 7520U</td>
+            <td class="dim">win32</td>
+            <td class="num"><strong>6.893×</strong></td>
+            <td class="num dim">1.28×</td>
+            <td class="num nw">216.65 <span class="dim">±7.29</span></td>
+            <td class="num">16.6</td>
+            <td class="num">613.65</td>
+            <td class="num"><strong>2.83</strong></td>
+            <td class="num">2324</td>
+            <td class="num dim">48%</td>
+            <td>full</td>
+            <td class="dim">cdp</td>
           </tr>
           <tr data-machine="Ryzen 5 7520U" data-platform="win32" data-tool="recordly">
             <td class="nw"><strong>recordly</strong> <span class="dim">1.3.3</span></td>
@@ -1513,10 +1603,10 @@
             <tr>
               <td><strong>cap</strong></td>
               <td class="nw">0.6.0</td>
-              <td class="num">3.591×</td>
-              <td class="num">3</td>
+              <td class="num">3.659×</td>
+              <td class="num">5</td>
               <td class="dim">macOS, Linux, Windows</td>
-              <td class="num nw">1.186–6.727×</td>
+              <td class="num nw">1.186–6.994×</td>
               <td class="num dim">0.6.0</td>
             </tr>
             <tr>
@@ -1549,10 +1639,10 @@
             <tr>
               <td><strong>openscreen</strong></td>
               <td class="nw">2.0.0</td>
-              <td class="num">1.065×</td>
-              <td class="num">1</td>
-              <td class="dim">macOS</td>
-              <td class="num nw">1.065–1.065×</td>
+              <td class="num">1.539×</td>
+              <td class="num">3</td>
+              <td class="dim">macOS, Windows</td>
+              <td class="num nw">1.065–2.13×</td>
               <td class="num dim">2.0.0</td>
             </tr>
             <tr>
@@ -1581,6 +1671,15 @@
               <td class="dim">macOS, Linux, Windows</td>
               <td class="num nw">1.204–4.085×</td>
               <td class="num dim">1.10.0</td>
+            </tr>
+            <tr>
+              <td><strong>recordly</strong></td>
+              <td class="nw">1.4.0</td>
+              <td class="num">6.576×</td>
+              <td class="num">2</td>
+              <td class="dim">Windows</td>
+              <td class="num nw">6.131–6.893×</td>
+              <td class="num dim">1.4.0</td>
             </tr>
             <tr>
               <td><strong>recordly</strong></td>

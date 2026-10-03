@@ -31,36 +31,6 @@
       ]
     },
     {
-      "node": "openscreen@2.0.0",
-      "tool": "openscreen",
-      "build": "2.0.0",
-      "prerelease": false,
-      "relativeCost": 1.065,
-      "setups": [
-        {
-          "platform": "darwin",
-          "machine": "Apple M1",
-          "gpu": "Apple M1",
-          "runs": 1,
-          "cost": 1.065
-        }
-      ],
-      "submissions": 1,
-      "machines": [
-        "Apple M1"
-      ],
-      "platforms": [
-        "darwin"
-      ],
-      "versions": [
-        "2.0.0"
-      ],
-      "observedCostRange": [
-        1.065,
-        1.065
-      ]
-    },
-    {
       "node": "openscreen@2.0.0-rc",
       "tool": "openscreen",
       "build": "2.0.0-rc",
@@ -143,6 +113,45 @@
       "observedCostRange": [
         1.037,
         1.839
+      ]
+    },
+    {
+      "node": "openscreen@2.0.0",
+      "tool": "openscreen",
+      "build": "2.0.0",
+      "prerelease": false,
+      "relativeCost": 1.539,
+      "setups": [
+        {
+          "platform": "darwin",
+          "machine": "Apple M1",
+          "gpu": "Apple M1",
+          "runs": 1,
+          "cost": 1.065
+        },
+        {
+          "platform": "win32",
+          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "AMD Radeon(TM) Graphics",
+          "runs": 2,
+          "cost": 2.013
+        }
+      ],
+      "submissions": 3,
+      "machines": [
+        "Apple M1",
+        "AMD Ryzen 5 7520U with Radeon Graphics"
+      ],
+      "platforms": [
+        "darwin",
+        "win32"
+      ],
+      "versions": [
+        "2.0.0"
+      ],
+      "observedCostRange": [
+        1.065,
+        2.13
       ]
     },
     {
@@ -235,7 +244,7 @@
       "tool": "cap",
       "build": "0.6.0",
       "prerelease": false,
-      "relativeCost": 3.591,
+      "relativeCost": 3.659,
       "setups": [
         {
           "platform": "darwin",
@@ -255,11 +264,11 @@
           "platform": "win32",
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
           "gpu": "AMD Radeon(TM) Graphics",
-          "runs": 1,
-          "cost": 6.727
+          "runs": 3,
+          "cost": 6.929
         }
       ],
-      "submissions": 3,
+      "submissions": 5,
       "machines": [
         "Apple M1",
         "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -274,7 +283,7 @@
       ],
       "observedCostRange": [
         1.186,
-        6.727
+        6.994
       ]
     },
     {
@@ -398,6 +407,36 @@
       "observedCostRange": [
         1.145,
         10.728
+      ]
+    },
+    {
+      "node": "recordly@1.4.0",
+      "tool": "recordly",
+      "build": "1.4.0",
+      "prerelease": false,
+      "relativeCost": 6.576,
+      "setups": [
+        {
+          "platform": "win32",
+          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "AMD Radeon(TM) Graphics",
+          "runs": 2,
+          "cost": 6.576
+        }
+      ],
+      "submissions": 2,
+      "machines": [
+        "AMD Ryzen 5 7520U with Radeon Graphics"
+      ],
+      "platforms": [
+        "win32"
+      ],
+      "versions": [
+        "1.4.0"
+      ],
+      "observedCostRange": [
+        6.131,
+        6.893
       ]
     },
     {
@@ -2704,6 +2743,259 @@
     {
       "sub": {
         "schemaVersion": 1,
+        "submittedAt": "2026-10-03T22:10:57.544Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "win32",
+          "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "AMD Radeon(TM) Graphics",
+          "cpuCount": 8,
+          "memoryGiB": 15.3,
+          "osVersion": "10.0.26200",
+          "osBuild": "26200"
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 162,
+          "loadSpreadPercentagePoints": 75,
+          "driftRatio": 1.0247,
+          "floorSpreadPercent": 15.03,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "ef5cc06cc6299da594c9b0f95a64bfef083b17152a5466264d7364c205d4fb4a",
+          "durationSec": 60,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "openscreen",
+            "version": "2.0.0",
+            "exportMs": 42879,
+            "madMs": 439,
+            "runs": 3,
+            "localFloorMs": 20127,
+            "softwareFloorMs": 46150,
+            "floorSpreadPercent": 15.03,
+            "cpuSeconds": 16.46,
+            "peakRssMiB": 1586.1,
+            "foreignCpuPercent": 118,
+            "outputBytes": 131526575,
+            "outputMeanVolumeDb": -37.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "cap",
+            "version": "0.6.0",
+            "exportMs": 135272,
+            "madMs": 909,
+            "runs": 3,
+            "localFloorMs": 19654,
+            "softwareFloorMs": 40302,
+            "floorSpreadPercent": 0.69,
+            "cpuSeconds": 51.81,
+            "peakRssMiB": 1383.6,
+            "foreignCpuPercent": 43,
+            "outputBytes": 150743287,
+            "outputMeanVolumeDb": -49.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "recordly",
+            "version": "1.4.0",
+            "exportMs": 226437,
+            "madMs": 389,
+            "runs": 3,
+            "localFloorMs": 36933,
+            "softwareFloorMs": 39757,
+            "floorSpreadPercent": 8.75,
+            "cpuSeconds": 601.78,
+            "peakRssMiB": 2368.6,
+            "foreignCpuPercent": 57,
+            "outputBytes": 79308927,
+            "outputMeanVolumeDb": -46.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cdp"
+          }
+        ],
+        "notes": [
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "cap: zoom segments written: 3",
+          "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+          "recordly: CUDA export path: available=false, requested=false",
+          "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+          "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events."
+        ],
+        "_path": "submissions/win32/amd-ryzen-5-7520u-2026-10-03.json"
+      },
+      "weight": 0.055,
+      "reasons": [
+        "ratios carry 6.0% relative uncertainty",
+        "background load differed by 75 points between tools"
+      ],
+      "tools": [
+        "openscreen",
+        "cap",
+        "recordly"
+      ],
+      "nodes": [
+        "openscreen@2.0.0",
+        "cap@0.6.0",
+        "recordly@1.4.0"
+      ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
+        "submittedAt": "2026-10-03T23:35:10.890Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "win32",
+          "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "AMD Radeon(TM) Graphics",
+          "cpuCount": 8,
+          "memoryGiB": 15.3,
+          "osVersion": "10.0.26200",
+          "osBuild": "26200"
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 95.5,
+          "loadSpreadPercentagePoints": 12.5,
+          "driftRatio": 1.1166,
+          "floorSpreadPercent": 8.51,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "ef5cc06cc6299da594c9b0f95a64bfef083b17152a5466264d7364c205d4fb4a",
+          "durationSec": 60,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "openscreen",
+            "version": "2.0.0",
+            "exportMs": 35436,
+            "madMs": 2347,
+            "runs": 3,
+            "localFloorMs": 18369,
+            "softwareFloorMs": 38958,
+            "floorSpreadPercent": 8.51,
+            "cpuSeconds": 9.91,
+            "peakRssMiB": 919.2,
+            "foreignCpuPercent": 37.5,
+            "outputBytes": 131526575,
+            "outputMeanVolumeDb": -37.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "cap",
+            "version": "0.6.0",
+            "exportMs": 130265,
+            "madMs": 80,
+            "runs": 3,
+            "localFloorMs": 18625,
+            "softwareFloorMs": 39776,
+            "floorSpreadPercent": 2.66,
+            "cpuSeconds": 48.05,
+            "peakRssMiB": 1377.6,
+            "foreignCpuPercent": 50,
+            "outputBytes": 150743287,
+            "outputMeanVolumeDb": -49.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "recordly",
+            "version": "1.4.0",
+            "exportMs": 216654,
+            "madMs": 7295,
+            "runs": 3,
+            "localFloorMs": 31430,
+            "softwareFloorMs": 40336,
+            "floorSpreadPercent": 4.14,
+            "cpuSeconds": 613.65,
+            "peakRssMiB": 2324,
+            "foreignCpuPercent": 48,
+            "outputBytes": 79308927,
+            "outputMeanVolumeDb": -46.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cdp"
+          }
+        ],
+        "notes": [
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "cap: zoom segments written: 3",
+          "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+          "recordly: CUDA export path: available=false, requested=false",
+          "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+          "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events."
+        ],
+        "_path": "submissions/win32/amd-ryzen-5-7520u-2026-10-03b.json"
+      },
+      "weight": 0.077,
+      "reasons": [
+        "ratios carry 7.2% relative uncertainty"
+      ],
+      "tools": [
+        "openscreen",
+        "cap",
+        "recordly"
+      ],
+      "nodes": [
+        "openscreen@2.0.0",
+        "cap@0.6.0",
+        "recordly@1.4.0"
+      ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
         "submittedAt": "2026-08-28T07:54:49.183Z",
         "submitter": {
           "name": "Etienne Lescot"
@@ -3150,18 +3442,18 @@
   ],
   "skipped": [],
   "consistency": {
-    "observations": 56,
-    "repeatedBuilds": 7,
+    "observations": 62,
+    "repeatedBuilds": 9,
     "measurable": true,
-    "medianSpreadPercent": 467.27,
+    "medianSpreadPercent": 239.35,
     "maxSpreadPercent": 836.77,
     "byPlatform": {
-      "sameGpuRepeats": 15,
-      "samePlatformRepeats": 11,
-      "crossPlatformRepeats": 5,
-      "sameGpuSpreadPercent": 7.3,
-      "samePlatformSpreadPercent": 23.98,
-      "crossPlatformSpreadPercent": 467.27
+      "sameGpuRepeats": 18,
+      "samePlatformRepeats": 14,
+      "crossPlatformRepeats": 6,
+      "sameGpuSpreadPercent": 8.09,
+      "samePlatformSpreadPercent": 23.8,
+      "crossPlatformSpreadPercent": 257.08
     },
     "worst": {
       "node": "focusee@2.3.5",
@@ -3271,6 +3563,36 @@
         ]
       },
       {
+        "node": "openscreen@2.0.0",
+        "tool": "openscreen",
+        "build": "2.0.0",
+        "prerelease": false,
+        "relativeCost": 0.918,
+        "setups": [
+          {
+            "platform": "win32",
+            "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "gpu": "AMD Radeon(TM) Graphics",
+            "runs": 2,
+            "cost": 0.918
+          }
+        ],
+        "submissions": 2,
+        "machines": [
+          "AMD Ryzen 5 7520U with Radeon Graphics"
+        ],
+        "platforms": [
+          "win32"
+        ],
+        "versions": [
+          "2.0.0"
+        ],
+        "observedCostRange": [
+          0.91,
+          0.929
+        ]
+      },
+      {
         "node": "openscreen@1.10.0",
         "tool": "openscreen",
         "build": "1.10.0",
@@ -3313,7 +3635,7 @@
         "tool": "cap",
         "build": "0.6.0",
         "prerelease": false,
-        "relativeCost": 1.96,
+        "relativeCost": 1.907,
         "setups": [
           {
             "platform": "darwin",
@@ -3333,11 +3655,11 @@
             "platform": "win32",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
             "gpu": "AMD Radeon(TM) Graphics",
-            "runs": 1,
-            "cost": 3.482
+            "runs": 3,
+            "cost": 3.323
           }
         ],
-        "submissions": 3,
+        "submissions": 5,
         "machines": [
           "Apple M1",
           "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -3459,6 +3781,36 @@
         "observedCostRange": [
           3.815,
           3.815
+        ]
+      },
+      {
+        "node": "recordly@1.4.0",
+        "tool": "recordly",
+        "build": "1.4.0",
+        "prerelease": false,
+        "relativeCost": 5.506,
+        "setups": [
+          {
+            "platform": "win32",
+            "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "gpu": "AMD Radeon(TM) Graphics",
+            "runs": 2,
+            "cost": 5.506
+          }
+        ],
+        "submissions": 2,
+        "machines": [
+          "AMD Ryzen 5 7520U with Radeon Graphics"
+        ],
+        "platforms": [
+          "win32"
+        ],
+        "versions": [
+          "1.4.0"
+        ],
+        "observedCostRange": [
+          5.371,
+          5.696
         ]
       },
       {
@@ -4886,6 +5238,259 @@
       {
         "sub": {
           "schemaVersion": 1,
+          "submittedAt": "2026-10-03T22:10:57.544Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "win32",
+            "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "gpu": "AMD Radeon(TM) Graphics",
+            "cpuCount": 8,
+            "memoryGiB": 15.3,
+            "osVersion": "10.0.26200",
+            "osBuild": "26200"
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 162,
+            "loadSpreadPercentagePoints": 75,
+            "driftRatio": 1.0247,
+            "floorSpreadPercent": 15.03,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "ef5cc06cc6299da594c9b0f95a64bfef083b17152a5466264d7364c205d4fb4a",
+            "durationSec": 60,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "openscreen",
+              "version": "2.0.0",
+              "exportMs": 42879,
+              "madMs": 439,
+              "runs": 3,
+              "localFloorMs": 20127,
+              "softwareFloorMs": 46150,
+              "floorSpreadPercent": 15.03,
+              "cpuSeconds": 16.46,
+              "peakRssMiB": 1586.1,
+              "foreignCpuPercent": 118,
+              "outputBytes": 131526575,
+              "outputMeanVolumeDb": -37.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            },
+            {
+              "tool": "cap",
+              "version": "0.6.0",
+              "exportMs": 135272,
+              "madMs": 909,
+              "runs": 3,
+              "localFloorMs": 19654,
+              "softwareFloorMs": 40302,
+              "floorSpreadPercent": 0.69,
+              "cpuSeconds": 51.81,
+              "peakRssMiB": 1383.6,
+              "foreignCpuPercent": 43,
+              "outputBytes": 150743287,
+              "outputMeanVolumeDb": -49.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            },
+            {
+              "tool": "recordly",
+              "version": "1.4.0",
+              "exportMs": 226437,
+              "madMs": 389,
+              "runs": 3,
+              "localFloorMs": 36933,
+              "softwareFloorMs": 39757,
+              "floorSpreadPercent": 8.75,
+              "cpuSeconds": 601.78,
+              "peakRssMiB": 2368.6,
+              "foreignCpuPercent": 57,
+              "outputBytes": 79308927,
+              "outputMeanVolumeDb": -46.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cdp"
+            }
+          ],
+          "notes": [
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "cap: zoom segments written: 3",
+            "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+            "recordly: CUDA export path: available=false, requested=false",
+            "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+            "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events."
+          ],
+          "_path": "submissions/win32/amd-ryzen-5-7520u-2026-10-03.json"
+        },
+        "weight": 0.055,
+        "reasons": [
+          "ratios carry 6.0% relative uncertainty",
+          "background load differed by 75 points between tools"
+        ],
+        "tools": [
+          "openscreen",
+          "cap",
+          "recordly"
+        ],
+        "nodes": [
+          "openscreen@2.0.0",
+          "cap@0.6.0",
+          "recordly@1.4.0"
+        ]
+      },
+      {
+        "sub": {
+          "schemaVersion": 1,
+          "submittedAt": "2026-10-03T23:35:10.890Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "win32",
+            "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "gpu": "AMD Radeon(TM) Graphics",
+            "cpuCount": 8,
+            "memoryGiB": 15.3,
+            "osVersion": "10.0.26200",
+            "osBuild": "26200"
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 95.5,
+            "loadSpreadPercentagePoints": 12.5,
+            "driftRatio": 1.1166,
+            "floorSpreadPercent": 8.51,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "ef5cc06cc6299da594c9b0f95a64bfef083b17152a5466264d7364c205d4fb4a",
+            "durationSec": 60,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "openscreen",
+              "version": "2.0.0",
+              "exportMs": 35436,
+              "madMs": 2347,
+              "runs": 3,
+              "localFloorMs": 18369,
+              "softwareFloorMs": 38958,
+              "floorSpreadPercent": 8.51,
+              "cpuSeconds": 9.91,
+              "peakRssMiB": 919.2,
+              "foreignCpuPercent": 37.5,
+              "outputBytes": 131526575,
+              "outputMeanVolumeDb": -37.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            },
+            {
+              "tool": "cap",
+              "version": "0.6.0",
+              "exportMs": 130265,
+              "madMs": 80,
+              "runs": 3,
+              "localFloorMs": 18625,
+              "softwareFloorMs": 39776,
+              "floorSpreadPercent": 2.66,
+              "cpuSeconds": 48.05,
+              "peakRssMiB": 1377.6,
+              "foreignCpuPercent": 50,
+              "outputBytes": 150743287,
+              "outputMeanVolumeDb": -49.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            },
+            {
+              "tool": "recordly",
+              "version": "1.4.0",
+              "exportMs": 216654,
+              "madMs": 7295,
+              "runs": 3,
+              "localFloorMs": 31430,
+              "softwareFloorMs": 40336,
+              "floorSpreadPercent": 4.14,
+              "cpuSeconds": 613.65,
+              "peakRssMiB": 2324,
+              "foreignCpuPercent": 48,
+              "outputBytes": 79308927,
+              "outputMeanVolumeDb": -46.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cdp"
+            }
+          ],
+          "notes": [
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "cap: zoom segments written: 3",
+            "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+            "recordly: CUDA export path: available=false, requested=false",
+            "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+            "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events."
+          ],
+          "_path": "submissions/win32/amd-ryzen-5-7520u-2026-10-03b.json"
+        },
+        "weight": 0.077,
+        "reasons": [
+          "ratios carry 7.2% relative uncertainty"
+        ],
+        "tools": [
+          "openscreen",
+          "cap",
+          "recordly"
+        ],
+        "nodes": [
+          "openscreen@2.0.0",
+          "cap@0.6.0",
+          "recordly@1.4.0"
+        ]
+      },
+      {
+        "sub": {
+          "schemaVersion": 1,
           "submittedAt": "2026-09-09T10:58:58.355Z",
           "submitter": {
             "name": "Etienne Lescot"
@@ -6083,17 +6688,17 @@
       }
     ],
     "consistency": {
-      "observations": 31,
-      "repeatedBuilds": 6,
+      "observations": 37,
+      "repeatedBuilds": 8,
       "measurable": true,
-      "medianSpreadPercent": 178.47,
+      "medianSpreadPercent": 92.47,
       "maxSpreadPercent": 886.38,
       "byPlatform": {
-        "sameGpuRepeats": 9,
-        "samePlatformRepeats": 8,
+        "sameGpuRepeats": 12,
+        "samePlatformRepeats": 11,
         "crossPlatformRepeats": 4,
-        "sameGpuSpreadPercent": 3.58,
-        "samePlatformSpreadPercent": 8.8,
+        "sameGpuSpreadPercent": 4.8,
+        "samePlatformSpreadPercent": 6.04,
         "crossPlatformSpreadPercent": 159.72
       },
       "worst": {
