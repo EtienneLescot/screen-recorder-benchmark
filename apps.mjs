@@ -118,7 +118,7 @@ export const APPS = {
 			approxMB: 201,
 			darwin: {
 				method: "dmg",
-				url: "https://github.com/webadderallorg/Recordly/releases/download/v1.3.3/Recordly-arm64.dmg",
+				url: "https://github.com/webadderallorg/Recordly/releases/download/v1.4.0/Recordly-arm64.dmg",
 				appName: "Recordly.app",
 			},
 			// Resolved from the release feed rather than pinned like the dmg above: the vendor

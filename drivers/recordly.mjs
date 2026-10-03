@@ -512,22 +512,19 @@ export default {
 			return null;
 		};
 
-		/**
-		 * The action button, used both as the sentinel below and as the click that starts the
-		 * export — one list, because they have to agree about what "the panel is usable" means.
-		 */
-		const EXPORT_ACTION = ["Exporter en Video", "Export Video", "Exporter la vidéo"];
-
-		// The sentinel is the action button, because it is the one control whose absence means the
-		// panel cannot be driven at all.
 		//
-		// It used to be "Lightning (Beta)", the pipeline selector, and 1.4.0 deleted that row —
-		// replacing it with ENCODING: Fast / Balanced / Quality. The panel kept opening exactly as
-		// it always had; only the thing being looked for was gone. So the adapter reported "the
-		// export panel never opened" three times about a panel that was open on screen, and the
-		// screen dump attached to the error was truncated before it reached the panel's own
-		// controls, which made the wrong diagnosis look confirmed.
-		const panelOpen = async () => (await present(EXPORT_ACTION)) !== null;
+		// Detected by the container button, not the pipeline one: 1.4.0 dropped the
+		// Lightning/Legacy choice from this panel altogether, so waiting for "Lightning (Beta)"
+		// waited for a control that no longer exists and reported a panel that had opened as one
+		// that never did. MP4 has been on the panel in every build this adapter has met.
+		//
+		// The container rather than the action button, which was the other candidate: the action
+		// is named for the format on the macOS 1.4.0 build and for "Video" on win32/fr, so a
+		// sentinel resting on it passes on whichever machine it was written against and fails on
+		// the other. "MP4" is not translated. Separately, the screen dump attached to the failure
+		// below is capped at 60 controls and the panel's own controls fall past the cap, which is
+		// what made "the panel never opened" look confirmed when the panel was open on screen.
+		const panelOpen = async () => (await pressed("MP4")) !== null;
 		let opened = false;
 		for (let attempt = 0; attempt < 3 && !opened; attempt++) {
 			await clickAny(["Exporter", "Export"], "the export panel");
@@ -569,17 +566,22 @@ export default {
 		// and `pipeline` is recorded on every run, so a Linux row can never be read as a Lightning
 		// row.
 		//
-		// Pinned only where the build still offers the choice. 1.4.0 removed the row on Windows:
-		// there is no Lightning and no Legacy, so there is no default to distrust either, and the
-		// run records `pipeline: null` to say the app was not asked. The pin stays for the builds
-		// that do offer it — the Linux reasoning above is load-bearing, and an unconditional pin
-		// would now fail on 1.4.0 for the absence of a control rather than for anything measured.
+		// From 1.4.0 there is no control to pin: the panel no longer offers the choice, and the
+		// app takes its "modern" pipeline (the one 1.3.x labelled Lightning) unless a project
+		// asks otherwise — the panel component defaults `exportPipelineModel` to "modern", and
+		// nothing this adapter writes names one. With no button to read back, the evidence is
+		// the route the editor prints while it renders ("Path: WebGPU + Breeze …"), which is
+		// recorded below on every repetition; `pipeline` is then null rather than a claim.
+		//
+		// Whether the choice is offered is probed with the platform's own labels rather than with
+		// "Legacy" alone: on a French Linux build that button reads "Héritage", and probing only
+		// the English word would skip the pin on the one platform where pinning it is
+		// load-bearing — the Linux reasoning above is not optional.
 		const PIPELINE = IS_LINUX ? ["Legacy", "Héritage"] : ["Lightning (Beta)", "Lightning"];
-		const pipelinePinned = (await present(PIPELINE))
-			? await pin(PIPELINE, "export pipeline")
-			: null;
+		const pipelineOffered = (await present(PIPELINE)) !== null;
+		const pipelinePinned = pipelineOffered ? await pin(PIPELINE, "export pipeline") : null;
 		// And the other one, to prove the panel is not showing both as selected.
-		const legacyStillOn = await pressed("Legacy");
+		const legacyStillOn = pipelineOffered ? await pressed("Legacy") : null;
 
 		/**
 		 * The encoding effort, pinned for the same reason the CUDA switch is set rather than
@@ -657,7 +659,13 @@ export default {
 			cudaApplied,
 		});
 
-		await clickAny(EXPORT_ACTION, "the export action");
+		// 1.4.0 names the action after the format ("Export MP4", "Exporter en MP4") on the macOS
+		// build; win32/fr 1.4.0 still says "Exporter en Video", and earlier builds said "Video"
+		// everywhere. All are tried, the format-named ones first.
+		await clickAny(
+			["Export MP4", "Exporter en MP4", "Exporter en Video", "Export Video", "Exporter la vidéo"],
+			"the export action",
+		);
 		ctx.commit();
 		// Where the measured window actually goes. The leg reports ~62 s against a 60 s source
 		// while the panel shows render speeds around 185 fps, which would be ~19 s of rendering —
