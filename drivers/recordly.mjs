@@ -506,7 +506,28 @@ export default {
 		// dialog. A fixed 2 s pause then clicked "MP4" into a panel that was not there, and the
 		// run reported "aria-pressed came back null" three times in a row after a first
 		// repetition that had worked.
-		const panelOpen = async () => (await pressed("Lightning (Beta)")) !== null;
+		/** Which of these labels is on screen at all — `pressed` answers null when it finds none. */
+		const present = async (labels) => {
+			for (const l of labels) if ((await pressed(l)) !== null) return l;
+			return null;
+		};
+
+		/**
+		 * The action button, used both as the sentinel below and as the click that starts the
+		 * export — one list, because they have to agree about what "the panel is usable" means.
+		 */
+		const EXPORT_ACTION = ["Exporter en Video", "Export Video", "Exporter la vidéo"];
+
+		// The sentinel is the action button, because it is the one control whose absence means the
+		// panel cannot be driven at all.
+		//
+		// It used to be "Lightning (Beta)", the pipeline selector, and 1.4.0 deleted that row —
+		// replacing it with ENCODING: Fast / Balanced / Quality. The panel kept opening exactly as
+		// it always had; only the thing being looked for was gone. So the adapter reported "the
+		// export panel never opened" three times about a panel that was open on screen, and the
+		// screen dump attached to the error was truncated before it reached the panel's own
+		// controls, which made the wrong diagnosis look confirmed.
+		const panelOpen = async () => (await present(EXPORT_ACTION)) !== null;
 		let opened = false;
 		for (let attempt = 0; attempt < 3 && !opened; attempt++) {
 			await clickAny(["Exporter", "Export"], "the export panel");
@@ -516,8 +537,12 @@ export default {
 			}
 		}
 		if (!opened) {
+			// The window list as well as the screen contents: this adapter is bound to one target
+			// (`windowType=editor`), so a panel that is not in the DOM and a panel that is in another
+			// window look identical from inside it, and only one of the two is the adapter's fault.
 			throw new Error(
-				`the export panel never opened after three attempts; on screen: ${await onScreen()}`,
+				`the export panel never opened after three attempts; on screen: ${await onScreen()}; ` +
+					`windows: ${JSON.stringify((await listTargets(PORT)).map((t) => `${t.type}:${t.url}`))}`,
 			);
 		}
 
@@ -543,10 +568,33 @@ export default {
 		// That is the pipeline a user on this platform actually gets, so it is the one measured —
 		// and `pipeline` is recorded on every run, so a Linux row can never be read as a Lightning
 		// row.
+		//
+		// Pinned only where the build still offers the choice. 1.4.0 removed the row on Windows:
+		// there is no Lightning and no Legacy, so there is no default to distrust either, and the
+		// run records `pipeline: null` to say the app was not asked. The pin stays for the builds
+		// that do offer it — the Linux reasoning above is load-bearing, and an unconditional pin
+		// would now fail on 1.4.0 for the absence of a control rather than for anything measured.
 		const PIPELINE = IS_LINUX ? ["Legacy", "Héritage"] : ["Lightning (Beta)", "Lightning"];
-		const pipelinePinned = await pin(PIPELINE, "export pipeline");
+		const pipelinePinned = (await present(PIPELINE))
+			? await pin(PIPELINE, "export pipeline")
+			: null;
 		// And the other one, to prove the panel is not showing both as selected.
 		const legacyStillOn = await pressed("Legacy");
+
+		/**
+		 * The encoding effort, pinned for the same reason the CUDA switch is set rather than
+		 * clicked: the panel restores it from preferences, so whatever a human last chose on this
+		 * machine would otherwise ride into the measurement.
+		 *
+		 * 1.4.0 put this row where the pipeline selector used to be. It is not new — 1.3.3's panel
+		 * opened on Balanced too, and the adapter simply trusted that — so pinning Balanced is
+		 * both the deliberate choice and the one that keeps these numbers comparable with the
+		 * 1.3.3 rows already published. Recorded either way.
+		 */
+		const ENCODING = ["Balanced", "Équilibré"];
+		const encodingPinned = (await present(ENCODING))
+			? await pin(ENCODING, "encoding effort")
+			: null;
 
 		// The CUDA opt-in is a switch, not one of the pressed buttons above: it carries
 		// aria-checked, it is only rendered once the pipeline is not Legacy, and it is addressed
@@ -600,14 +648,16 @@ export default {
 			size: `${t.width}x${t.height}`,
 			fps: t.fps,
 			// The label the panel confirmed as selected, and Legacy's own state beside it.
+			// Both are null on a build that offers no pipeline choice at all, such as 1.4.0.
 			pipeline: pipelinePinned,
 			legacySelected: legacyStillOn,
+			encoding: encodingPinned,
 			cudaRequested: this.useCuda,
 			// Read back off the switch, not inferred from the request.
 			cudaApplied,
 		});
 
-		await clickAny(["Exporter en Video", "Export Video", "Exporter la vidéo"], "the export action");
+		await clickAny(EXPORT_ACTION, "the export action");
 		ctx.commit();
 		// Where the measured window actually goes. The leg reports ~62 s against a 60 s source
 		// while the panel shows render speeds around 185 fps, which would be ~19 s of rendering —
