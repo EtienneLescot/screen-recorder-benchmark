@@ -270,7 +270,7 @@
     <div>
       <h1>Every build measured</h1>
       <p class="hero-lede">Each build is ranked on its own, so a release and the release before
-      it are two rows here rather than one average. focusee, openscreen, screen-studio, cap have been measured on more than one build.</p>
+      it are two rows here rather than one average. focusee, openscreen, screen-studio, cap, recordly have been measured on more than one build.</p>
     </div>
   </section>
 
@@ -294,12 +294,14 @@
       </fieldset>
       <fieldset class="pick">
         <legend>openscreen</legend>
+        <label><input type="checkbox" data-node="openscreen@2.0.0" checked> 2.0.0</label>
         <label><input type="checkbox" data-node="openscreen@2.0.0-rc" checked> 2.0.0-rc</label>
         <label><input type="checkbox" data-node="openscreen@1.11.0-rc" checked> 1.11.0-rc</label>
         <label><input type="checkbox" data-node="openscreen@1.10.0" checked> 1.10.0</label>
       </fieldset>
       <fieldset class="pick">
         <legend>recordly</legend>
+        <label><input type="checkbox" data-node="recordly@1.4.0" checked> 1.4.0</label>
         <label><input type="checkbox" data-node="recordly@1.3.3" checked> 1.3.3</label>
       </fieldset>
       <fieldset class="pick">
@@ -335,9 +337,17 @@
         </div>
         <div class="rank-track"><i style="width:2.8%"></i></div>
       </article>
-      <article class="rank-row" data-node="screen-studio@4.0.1-4897">
+      <article class="rank-row" data-node="openscreen@2.0.0">
         <div class="rank-head">
           <span class="rank-no">04</span>
+          <h3>openscreen</h3> <span class="dim">2.0.0</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
+          <div class="rank-val"><b>2.01</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i class="thin" style="width:12.7%"></i></div>
+      </article>
+      <article class="rank-row" data-node="screen-studio@4.0.1-4897">
+        <div class="rank-head">
+          <span class="rank-no">05</span>
           <h3>screen-studio</h3> <span class="dim">4.0.1-4897</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
           <div class="rank-val"><b>2.07</b><span>×</span></div>
         </div>
@@ -345,7 +355,7 @@
       </article>
       <article class="rank-row" data-node="openscreen@1.10.0">
         <div class="rank-head">
-          <span class="rank-no">05</span>
+          <span class="rank-no">06</span>
           <h3>openscreen</h3> <span class="dim">1.10.0</span>
           <div class="rank-val"><b>2.16</b><span>×</span></div>
         </div>
@@ -353,15 +363,15 @@
       </article>
       <article class="rank-row" data-node="cap@0.6.0">
         <div class="rank-head">
-          <span class="rank-no">06</span>
+          <span class="rank-no">07</span>
           <h3>cap</h3> <span class="dim">0.6.0</span>
-          <div class="rank-val"><b>3.59</b><span>×</span></div>
+          <div class="rank-val"><b>3.66</b><span>×</span></div>
         </div>
-        <div class="rank-track"><i style="width:32.4%"></i></div>
+        <div class="rank-track"><i style="width:33.2%"></i></div>
       </article>
       <article class="rank-row" data-node="cap@0.5.9">
         <div class="rank-head">
-          <span class="rank-no">07</span>
+          <span class="rank-no">08</span>
           <h3>cap</h3> <span class="dim">0.5.9</span>
           <div class="rank-val"><b>3.86</b><span>×</span></div>
         </div>
@@ -369,7 +379,7 @@
       </article>
       <article class="rank-row" data-node="screen-studio@3.7.5-4595">
         <div class="rank-head">
-          <span class="rank-no">08</span>
+          <span class="rank-no">09</span>
           <h3>screen-studio</h3> <span class="dim">3.7.5-4595</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
           <div class="rank-val"><b>4.68</b><span>×</span></div>
         </div>
@@ -377,15 +387,23 @@
       </article>
       <article class="rank-row" data-node="focusee@2.3.5">
         <div class="rank-head">
-          <span class="rank-no">09</span>
+          <span class="rank-no">10</span>
           <h3>focusee</h3> <span class="dim">2.3.5</span>
           <div class="rank-val"><b>5.94</b><span>×</span></div>
         </div>
         <div class="rank-track"><i style="width:61.8%"></i></div>
       </article>
+      <article class="rank-row" data-node="recordly@1.4.0">
+        <div class="rank-head">
+          <span class="rank-no">11</span>
+          <h3>recordly</h3> <span class="dim">1.4.0</span><span class="tag" title="measured on one machine — no independent confirmation">1 machine</span>
+          <div class="rank-val"><b>6.58</b><span>×</span></div>
+        </div>
+        <div class="rank-track"><i class="thin" style="width:69.7%"></i></div>
+      </article>
       <article class="rank-row" data-node="recordly@1.3.3">
         <div class="rank-head">
-          <span class="rank-no">10</span>
+          <span class="rank-no">12</span>
           <h3>recordly</h3> <span class="dim">1.3.3</span>
           <div class="rank-val"><b>8.03</b><span>×</span></div>
         </div>
@@ -400,7 +418,7 @@
     <a href="index.html">Ranking</a>
     <a href="https://github.com/EtienneLescot/screen-recorder-benchmark">Source</a>
     <a href="https://github.com/EtienneLescot/screen-recorder-benchmark/blob/main/PROTOCOL.md">Protocol</a>
-    <span class="end">MIT · data CC-BY · 2026-10-02</span>
+    <span class="end">MIT · data CC-BY · 2026-10-03</span>
   </footer>
 </div>
 

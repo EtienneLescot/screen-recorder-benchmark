@@ -119,7 +119,7 @@
 			}
 		},
 		{
-			"generatedAt": "2026-10-03T19:12:12.096Z",
+			"generatedAt": "2026-10-03T20:08:19.612Z",
 			"machine": {
 				"chip": "AMD Ryzen 5 7520U with Radeon Graphics",
 				"osVersion": "10.0.26200",
@@ -242,6 +242,47 @@
 								"bottom": 1023,
 								"width": 1720,
 								"height": 968
+							}
+						}
+					]
+				},
+				"openscreen": {
+					"app": "openscreen",
+					"target": 5,
+					"paddingControl": 25,
+					"achievedInsetPercent": 5,
+					"achievedBox": {
+						"left": 96,
+						"top": 54,
+						"right": 1823,
+						"bottom": 1025,
+						"width": 1728,
+						"height": 972
+					},
+					"withinTolerance": true,
+					"probes": [
+						{
+							"control": 25,
+							"inset": 5,
+							"box": {
+								"left": 96,
+								"top": 54,
+								"right": 1823,
+								"bottom": 1025,
+								"width": 1728,
+								"height": 972
+							}
+						},
+						{
+							"control": 50,
+							"inset": 10,
+							"box": {
+								"left": 123,
+								"top": 108,
+								"right": 1727,
+								"bottom": 971,
+								"width": 1605,
+								"height": 864
 							}
 						}
 					]
