@@ -506,11 +506,24 @@ export default {
 		// dialog. A fixed 2 s pause then clicked "MP4" into a panel that was not there, and the
 		// run reported "aria-pressed came back null" three times in a row after a first
 		// repetition that had worked.
+		/** Which of these labels is on screen at all — `pressed` answers null when it finds none. */
+		const present = async (labels) => {
+			for (const l of labels) if ((await pressed(l)) !== null) return l;
+			return null;
+		};
+
 		//
 		// Detected by the container button, not the pipeline one: 1.4.0 dropped the
 		// Lightning/Legacy choice from this panel altogether, so waiting for "Lightning (Beta)"
 		// waited for a control that no longer exists and reported a panel that had opened as one
 		// that never did. MP4 has been on the panel in every build this adapter has met.
+		//
+		// The container rather than the action button, which was the other candidate: the action
+		// is named for the format on the macOS 1.4.0 build and for "Video" on win32/fr, so a
+		// sentinel resting on it passes on whichever machine it was written against and fails on
+		// the other. "MP4" is not translated. Separately, the screen dump attached to the failure
+		// below is capped at 60 controls and the panel's own controls fall past the cap, which is
+		// what made "the panel never opened" look confirmed when the panel was open on screen.
 		const panelOpen = async () => (await pressed("MP4")) !== null;
 		let opened = false;
 		for (let attempt = 0; attempt < 3 && !opened; attempt++) {
@@ -521,8 +534,12 @@ export default {
 			}
 		}
 		if (!opened) {
+			// The window list as well as the screen contents: this adapter is bound to one target
+			// (`windowType=editor`), so a panel that is not in the DOM and a panel that is in another
+			// window look identical from inside it, and only one of the two is the adapter's fault.
 			throw new Error(
-				`the export panel never opened after three attempts; on screen: ${await onScreen()}`,
+				`the export panel never opened after three attempts; on screen: ${await onScreen()}; ` +
+					`windows: ${JSON.stringify((await listTargets(PORT)).map((t) => `${t.type}:${t.url}`))}`,
 			);
 		}
 
@@ -555,11 +572,31 @@ export default {
 		// nothing this adapter writes names one. With no button to read back, the evidence is
 		// the route the editor prints while it renders ("Path: WebGPU + Breeze …"), which is
 		// recorded below on every repetition; `pipeline` is then null rather than a claim.
+		//
+		// Whether the choice is offered is probed with the platform's own labels rather than with
+		// "Legacy" alone: on a French Linux build that button reads "Héritage", and probing only
+		// the English word would skip the pin on the one platform where pinning it is
+		// load-bearing — the Linux reasoning above is not optional.
 		const PIPELINE = IS_LINUX ? ["Legacy", "Héritage"] : ["Lightning (Beta)", "Lightning"];
-		const pipelineOffered = (await pressed("Legacy")) !== null;
+		const pipelineOffered = (await present(PIPELINE)) !== null;
 		const pipelinePinned = pipelineOffered ? await pin(PIPELINE, "export pipeline") : null;
 		// And the other one, to prove the panel is not showing both as selected.
 		const legacyStillOn = pipelineOffered ? await pressed("Legacy") : null;
+
+		/**
+		 * The encoding effort, pinned for the same reason the CUDA switch is set rather than
+		 * clicked: the panel restores it from preferences, so whatever a human last chose on this
+		 * machine would otherwise ride into the measurement.
+		 *
+		 * 1.4.0 put this row where the pipeline selector used to be. It is not new — 1.3.3's panel
+		 * opened on Balanced too, and the adapter simply trusted that — so pinning Balanced is
+		 * both the deliberate choice and the one that keeps these numbers comparable with the
+		 * 1.3.3 rows already published. Recorded either way.
+		 */
+		const ENCODING = ["Balanced", "Équilibré"];
+		const encodingPinned = (await present(ENCODING))
+			? await pin(ENCODING, "encoding effort")
+			: null;
 
 		// The CUDA opt-in is a switch, not one of the pressed buttons above: it carries
 		// aria-checked, it is only rendered once the pipeline is not Legacy, and it is addressed
@@ -613,15 +650,18 @@ export default {
 			size: `${t.width}x${t.height}`,
 			fps: t.fps,
 			// The label the panel confirmed as selected, and Legacy's own state beside it.
+			// Both are null on a build that offers no pipeline choice at all, such as 1.4.0.
 			pipeline: pipelinePinned,
 			legacySelected: legacyStillOn,
+			encoding: encodingPinned,
 			cudaRequested: this.useCuda,
 			// Read back off the switch, not inferred from the request.
 			cudaApplied,
 		});
 
-		// 1.4.0 names the action after the format ("Export MP4", "Exporter en MP4"); earlier
-		// builds said "Video". Both are tried, the format-named one first.
+		// 1.4.0 names the action after the format ("Export MP4", "Exporter en MP4") on the macOS
+		// build; win32/fr 1.4.0 still says "Exporter en Video", and earlier builds said "Video"
+		// everywhere. All are tried, the format-named ones first.
 		await clickAny(
 			["Export MP4", "Exporter en MP4", "Exporter en Video", "Export Video", "Exporter la vidéo"],
 			"the export action",
