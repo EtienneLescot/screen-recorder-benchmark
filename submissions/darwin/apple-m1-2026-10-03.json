@@ -85,6 +85,6 @@
 		"screen-studio: cursor smoothing is a spring here, not a scalar: 0.7 enables it and the app's own spring constants are left alone",
 		"ffmpeg-baseline: encoder: h264_videotoolbox (hardware)",
 		"ffmpeg-baseline: No compositing: this row is the encode-only reference, not a product.",
-		"run 20261003T184226Z also measured cap 0.6.0 and recordly 1.4.0; neither is submitted from it. Cap ran under 137% foreign load (macOS ANECompilerService), against 12-54% for the two rows here. Recordly 1.4.0 exported, but the project it saved back carries cursor size 2.5, cursor smoothing 0.67 and webcam size 10 where 1.5, 0.7 and 0.25 were written, so the scene it rendered is not the pinned one."
+		"run 20261003T184226Z also measured cap 0.6.0 and recordly 1.4.0; neither is submitted from it. Cap ran under 137% foreign load (macOS ANECompilerService), against 12-54% for the two rows here. Recordly 1.4.0 exported, but the project it saved back carries cursor size 2.5, cursor smoothing 0.67 and webcam size 10 where 1.5, 0.7 and 0.25 were written, so the scene it rendered is not exactly the pinned one; it is submitted separately, with that disclosed, as apple-m1-2026-10-03c.json."
 	]
 }
