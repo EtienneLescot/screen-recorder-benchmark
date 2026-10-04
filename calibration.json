@@ -394,6 +394,125 @@
 					]
 				}
 			}
+		},
+		{
+			"generatedAt": "2026-10-04T15:36:05.677Z",
+			"machine": {
+				"chip": "Apple M1",
+				"osVersion": "27.0",
+				"model": "Macmini9,1",
+				"id": "71a990fe9b9928b4"
+			},
+			"scenario": "full-demo",
+			"targetInsetPercent": 5,
+			"fixture": {
+				"spec": {
+					"name": "calib-1080p60-4s",
+					"width": 1920,
+					"height": 1080,
+					"fps": 60,
+					"durationSec": 4,
+					"seed": 20260825,
+					"sourceBitrateMbps": 12
+				},
+				"sha256": "13a33878d902dd6e2b0ce6b0f6c246092d24c2bd138321aad45e04ed7e872e28"
+			},
+			"apps": {
+				"openscreen": {
+					"app": "openscreen",
+					"target": 5,
+					"paddingControl": 25,
+					"achievedInsetPercent": 5,
+					"achievedBox": {
+						"left": 96,
+						"top": 54,
+						"right": 1823,
+						"bottom": 1025,
+						"width": 1728,
+						"height": 972
+					},
+					"withinTolerance": true,
+					"probes": [
+						{
+							"control": 25,
+							"inset": 5,
+							"box": {
+								"left": 96,
+								"top": 54,
+								"right": 1823,
+								"bottom": 1025,
+								"width": 1728,
+								"height": 972
+							}
+						},
+						{
+							"control": 50,
+							"inset": 10,
+							"box": {
+								"left": 122,
+								"top": 108,
+								"right": 1727,
+								"bottom": 971,
+								"width": 1606,
+								"height": 864
+							}
+						}
+					]
+				},
+				"screen-studio": {
+					"app": "screen-studio",
+					"target": 5,
+					"paddingControl": 5.72,
+					"achievedInsetPercent": 5.19,
+					"achievedBox": {
+						"left": 99,
+						"top": 56,
+						"right": 1821,
+						"bottom": 1023,
+						"width": 1723,
+						"height": 968
+					},
+					"withinTolerance": true,
+					"probes": [
+						{
+							"control": 5,
+							"inset": 4.44,
+							"box": {
+								"left": 87,
+								"top": 49,
+								"right": 1832,
+								"bottom": 1031,
+								"width": 1746,
+								"height": 983
+							}
+						},
+						{
+							"control": 10,
+							"inset": 8.33,
+							"box": {
+								"left": 160,
+								"top": 90,
+								"right": 1759,
+								"bottom": 989,
+								"width": 1600,
+								"height": 900
+							}
+						},
+						{
+							"control": 5.72,
+							"inset": 5.19,
+							"box": {
+								"left": 99,
+								"top": 56,
+								"right": 1821,
+								"bottom": 1023,
+								"width": 1723,
+								"height": 968
+							}
+						}
+					]
+				}
+			}
 		}
 	]
 }

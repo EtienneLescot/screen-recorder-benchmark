@@ -57,6 +57,8 @@ function validate(node, sch, path = "") {
 	if (sch.minItems != null && Array.isArray(node) && node.length < sch.minItems) {
 		out.push(`${path}: needs at least ${sch.minItems} entries, has ${node.length}`);
 	}
+	if (sch.pattern && typeof node === "string" && !new RegExp(sch.pattern).test(node))
+		out.push(`${path}: ${JSON.stringify(node)} does not match ${sch.pattern}`);
 	if (sch.minimum != null && typeof node === "number" && node < sch.minimum)
 		out.push(`${path}: below ${sch.minimum}`);
 	if (sch.maximum != null && typeof node === "number" && node > sch.maximum)
