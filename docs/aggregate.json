@@ -31,36 +31,6 @@
       ]
     },
     {
-      "node": "openscreen@2.0.0",
-      "tool": "openscreen",
-      "build": "2.0.0",
-      "prerelease": false,
-      "relativeCost": 1.068,
-      "setups": [
-        {
-          "platform": "darwin",
-          "machine": "Apple M1",
-          "gpu": "Apple M1",
-          "runs": 2,
-          "cost": 1.068
-        }
-      ],
-      "submissions": 2,
-      "machines": [
-        "Apple M1"
-      ],
-      "platforms": [
-        "darwin"
-      ],
-      "versions": [
-        "2.0.0"
-      ],
-      "observedCostRange": [
-        1.065,
-        1.074
-      ]
-    },
-    {
       "node": "openscreen@2.0.0-rc",
       "tool": "openscreen",
       "build": "2.0.0-rc",
@@ -143,6 +113,45 @@
       "observedCostRange": [
         1.037,
         1.839
+      ]
+    },
+    {
+      "node": "openscreen@2.0.0",
+      "tool": "openscreen",
+      "build": "2.0.0",
+      "prerelease": false,
+      "relativeCost": 1.246,
+      "setups": [
+        {
+          "platform": "darwin",
+          "machine": "Apple M1",
+          "gpu": "Apple M1",
+          "runs": 2,
+          "cost": 1.068
+        },
+        {
+          "platform": "linux",
+          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+          "runs": 1,
+          "cost": 1.423
+        }
+      ],
+      "submissions": 3,
+      "machines": [
+        "Apple M1",
+        "AMD Ryzen 5 7520U with Radeon Graphics"
+      ],
+      "platforms": [
+        "darwin",
+        "linux"
+      ],
+      "versions": [
+        "2.0.0"
+      ],
+      "observedCostRange": [
+        1.065,
+        1.423
       ]
     },
     {
@@ -265,7 +274,7 @@
       "tool": "cap",
       "build": "0.6.0",
       "prerelease": false,
-      "relativeCost": 3.592,
+      "relativeCost": 3.571,
       "setups": [
         {
           "platform": "darwin",
@@ -278,8 +287,8 @@
           "platform": "linux",
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
           "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
-          "runs": 1,
-          "cost": 2.861
+          "runs": 2,
+          "cost": 2.797
         },
         {
           "platform": "win32",
@@ -289,7 +298,7 @@
           "cost": 6.727
         }
       ],
-      "submissions": 4,
+      "submissions": 5,
       "machines": [
         "Apple M1",
         "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -2074,6 +2083,106 @@
     {
       "sub": {
         "schemaVersion": 1,
+        "submittedAt": "2026-10-04T13:18:15.686Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "linux",
+          "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+          "cpuCount": 8,
+          "memoryGiB": 14.9,
+          "osVersion": "24.04",
+          "osBuild": ""
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 16.8,
+          "loadSpreadPercentagePoints": 8.8,
+          "driftRatio": 0.9975,
+          "floorSpreadPercent": 0.22,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "502588cae0a8507c03ee964006be140543206f3c774ef06dcbf9fdc5f369d9f1",
+          "durationSec": 60.007,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "openscreen",
+            "version": "2.0.0",
+            "exportMs": 26973,
+            "madMs": 41,
+            "runs": 3,
+            "localFloorMs": 18960,
+            "softwareFloorMs": 34745,
+            "floorSpreadPercent": 0.22,
+            "cpuSeconds": 60,
+            "peakRssMiB": 1019.8,
+            "foreignCpuPercent": 5.2,
+            "outputBytes": 98407047,
+            "outputMeanVolumeDb": -37.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "cap",
+            "version": "0.6.0",
+            "exportMs": 51681,
+            "madMs": 25,
+            "runs": 3,
+            "localFloorMs": 18905,
+            "softwareFloorMs": 35157,
+            "floorSpreadPercent": 0.15,
+            "cpuSeconds": 158,
+            "peakRssMiB": 764.2,
+            "foreignCpuPercent": 14,
+            "outputBytes": 188420825,
+            "outputMeanVolumeDb": -49.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          }
+        ],
+        "notes": [
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "cap: zoom segments written: 3",
+          "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+          "run linux-20261004 did not measure recordly 1.4.0: on this machine every export ends on its own \"Lightning (Beta) export failed\" panel — Reason: Cannot read properties of undefined (reading '_resourceType'); Renderer: webgpu; Encoder path: WebCodecs (avc1.640033/prefer-software/realtime); Breeze fallback: H.264 Annex B encoding is not supported at 1920x1080. 1.4.0 normalises exportPipelineModel to \"modern\" whatever a project asks, so the Legacy pipeline earlier Linux rows used is no longer reachable."
+        ],
+        "_path": "submissions/linux/amd-ryzen-5-7520u-2026-10-04.json"
+      },
+      "weight": 1,
+      "reasons": [],
+      "tools": [
+        "openscreen",
+        "cap"
+      ],
+      "nodes": [
+        "openscreen@2.0.0",
+        "cap@0.6.0"
+      ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
         "submittedAt": "2026-08-28T18:09:13.263Z",
         "submitter": {
           "name": "Etienne Lescot"
@@ -3443,18 +3552,18 @@
   ],
   "skipped": [],
   "consistency": {
-    "observations": 60,
+    "observations": 62,
     "repeatedBuilds": 8,
     "measurable": true,
     "medianSpreadPercent": 338.75,
     "maxSpreadPercent": 836.77,
     "byPlatform": {
-      "sameGpuRepeats": 17,
-      "samePlatformRepeats": 13,
-      "crossPlatformRepeats": 5,
-      "sameGpuSpreadPercent": 7.07,
+      "sameGpuRepeats": 18,
+      "samePlatformRepeats": 14,
+      "crossPlatformRepeats": 6,
+      "sameGpuSpreadPercent": 6.85,
       "samePlatformSpreadPercent": 23.8,
-      "crossPlatformSpreadPercent": 465.89
+      "crossPlatformSpreadPercent": 252.61
     },
     "worst": {
       "node": "focusee@2.3.5",
@@ -3568,7 +3677,7 @@
         "tool": "openscreen",
         "build": "2.0.0",
         "prerelease": false,
-        "relativeCost": 0.803,
+        "relativeCost": 0.79,
         "setups": [
           {
             "platform": "darwin",
@@ -3576,20 +3685,29 @@
             "gpu": "Apple M1",
             "runs": 1,
             "cost": 0.803
+          },
+          {
+            "platform": "linux",
+            "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+            "runs": 1,
+            "cost": 0.776
           }
         ],
-        "submissions": 1,
+        "submissions": 2,
         "machines": [
-          "Apple M1"
+          "Apple M1",
+          "AMD Ryzen 5 7520U with Radeon Graphics"
         ],
         "platforms": [
-          "darwin"
+          "darwin",
+          "linux"
         ],
         "versions": [
           "2.0.0"
         ],
         "observedCostRange": [
-          0.803,
+          0.776,
           0.803
         ]
       },
@@ -3666,7 +3784,7 @@
         "tool": "cap",
         "build": "0.6.0",
         "prerelease": false,
-        "relativeCost": 1.96,
+        "relativeCost": 1.969,
         "setups": [
           {
             "platform": "darwin",
@@ -3679,8 +3797,8 @@
             "platform": "linux",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
             "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
-            "runs": 1,
-            "cost": 1.415
+            "runs": 2,
+            "cost": 1.443
           },
           {
             "platform": "win32",
@@ -3690,7 +3808,7 @@
             "cost": 3.482
           }
         ],
-        "submissions": 3,
+        "submissions": 4,
         "machines": [
           "Apple M1",
           "AMD Ryzen 5 7520U with Radeon Graphics"
@@ -4653,6 +4771,106 @@
           "cap"
         ],
         "nodes": [
+          "cap@0.6.0"
+        ]
+      },
+      {
+        "sub": {
+          "schemaVersion": 1,
+          "submittedAt": "2026-10-04T13:18:15.686Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "linux",
+            "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+            "cpuCount": 8,
+            "memoryGiB": 14.9,
+            "osVersion": "24.04",
+            "osBuild": ""
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 16.8,
+            "loadSpreadPercentagePoints": 8.8,
+            "driftRatio": 0.9975,
+            "floorSpreadPercent": 0.22,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "502588cae0a8507c03ee964006be140543206f3c774ef06dcbf9fdc5f369d9f1",
+            "durationSec": 60.007,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "openscreen",
+              "version": "2.0.0",
+              "exportMs": 26973,
+              "madMs": 41,
+              "runs": 3,
+              "localFloorMs": 18960,
+              "softwareFloorMs": 34745,
+              "floorSpreadPercent": 0.22,
+              "cpuSeconds": 60,
+              "peakRssMiB": 1019.8,
+              "foreignCpuPercent": 5.2,
+              "outputBytes": 98407047,
+              "outputMeanVolumeDb": -37.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            },
+            {
+              "tool": "cap",
+              "version": "0.6.0",
+              "exportMs": 51681,
+              "madMs": 25,
+              "runs": 3,
+              "localFloorMs": 18905,
+              "softwareFloorMs": 35157,
+              "floorSpreadPercent": 0.15,
+              "cpuSeconds": 158,
+              "peakRssMiB": 764.2,
+              "foreignCpuPercent": 14,
+              "outputBytes": 188420825,
+              "outputMeanVolumeDb": -49.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            }
+          ],
+          "notes": [
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "cap: zoom segments written: 3",
+            "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+            "run linux-20261004 did not measure recordly 1.4.0: on this machine every export ends on its own \"Lightning (Beta) export failed\" panel — Reason: Cannot read properties of undefined (reading '_resourceType'); Renderer: webgpu; Encoder path: WebCodecs (avc1.640033/prefer-software/realtime); Breeze fallback: H.264 Annex B encoding is not supported at 1920x1080. 1.4.0 normalises exportPipelineModel to \"modern\" whatever a project asks, so the Legacy pipeline earlier Linux rows used is no longer reachable."
+          ],
+          "_path": "submissions/linux/amd-ryzen-5-7520u-2026-10-04.json"
+        },
+        "weight": 1,
+        "reasons": [],
+        "tools": [
+          "openscreen",
+          "cap"
+        ],
+        "nodes": [
+          "openscreen@2.0.0",
           "cap@0.6.0"
         ]
       },
@@ -6685,18 +6903,18 @@
       }
     ],
     "consistency": {
-      "observations": 33,
-      "repeatedBuilds": 6,
+      "observations": 35,
+      "repeatedBuilds": 7,
       "measurable": true,
-      "medianSpreadPercent": 178.47,
+      "medianSpreadPercent": 166.9,
       "maxSpreadPercent": 886.38,
       "byPlatform": {
-        "sameGpuRepeats": 9,
-        "samePlatformRepeats": 8,
-        "crossPlatformRepeats": 4,
-        "sameGpuSpreadPercent": 3.58,
-        "samePlatformSpreadPercent": 8.8,
-        "crossPlatformSpreadPercent": 159.72
+        "sameGpuRepeats": 10,
+        "samePlatformRepeats": 9,
+        "crossPlatformRepeats": 5,
+        "sameGpuSpreadPercent": 3.72,
+        "samePlatformSpreadPercent": 3.86,
+        "crossPlatformSpreadPercent": 150.04
       },
       "worst": {
         "node": "focusee@2.3.5",
