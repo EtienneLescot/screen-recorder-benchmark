@@ -10,6 +10,8 @@
         {
           "platform": "darwin",
           "machine": "Apple M1",
+          "machineSuffix": " · 8 GB",
+          "machineKey": "hw:Apple M1|8",
           "gpu": "Apple M1",
           "runs": 1,
           "cost": 0.932
@@ -17,7 +19,7 @@
       ],
       "submissions": 1,
       "machines": [
-        "Apple M1"
+        "Apple M1 · 8 GB"
       ],
       "platforms": [
         "darwin"
@@ -40,6 +42,8 @@
         {
           "platform": "darwin",
           "machine": "Apple M1",
+          "machineSuffix": " · 8 GB",
+          "machineKey": "hw:Apple M1|8",
           "gpu": "Apple M1",
           "runs": 1,
           "cost": 1.111
@@ -47,7 +51,7 @@
       ],
       "submissions": 1,
       "machines": [
-        "Apple M1"
+        "Apple M1 · 8 GB"
       ],
       "platforms": [
         "darwin"
@@ -61,77 +65,35 @@
       ]
     },
     {
-      "node": "openscreen@1.11.0-rc",
-      "tool": "openscreen",
-      "build": "1.11.0-rc",
-      "prerelease": true,
-      "relativeCost": 1.221,
-      "setups": [
-        {
-          "platform": "darwin",
-          "machine": "Apple M1",
-          "gpu": "Apple M1",
-          "runs": 5,
-          "cost": 1.039
-        },
-        {
-          "platform": "linux",
-          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-          "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
-          "runs": 1,
-          "cost": 1.124
-        },
-        {
-          "platform": "win32",
-          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-          "gpu": "AMD Radeon(TM) Graphics",
-          "runs": 3,
-          "cost": 1.47
-        },
-        {
-          "platform": "win32",
-          "machine": "AMD Ryzen 7 5800X 8-Core Processor",
-          "gpu": "NVIDIA GeForce RTX 4070 Ti",
-          "runs": 2,
-          "cost": 1.25
-        }
-      ],
-      "submissions": 11,
-      "machines": [
-        "Apple M1",
-        "AMD Ryzen 5 7520U with Radeon Graphics",
-        "AMD Ryzen 7 5800X 8-Core Processor"
-      ],
-      "platforms": [
-        "darwin",
-        "linux",
-        "win32"
-      ],
-      "versions": [
-        "1.11.0-rc.1"
-      ],
-      "observedCostRange": [
-        1.037,
-        1.839
-      ]
-    },
-    {
       "node": "openscreen@2.0.0",
       "tool": "openscreen",
       "build": "2.0.0",
       "prerelease": false,
-      "relativeCost": 1.229,
+      "relativeCost": 1.189,
       "setups": [
         {
           "platform": "darwin",
           "machine": "Apple M1",
+          "machineSuffix": " · 8 GB",
+          "machineKey": "hw:Apple M1|8",
           "gpu": "Apple M1",
-          "runs": 2,
-          "cost": 1.068
+          "runs": 1,
+          "cost": 1.065
+        },
+        {
+          "platform": "darwin",
+          "machine": "Apple M1",
+          "machineSuffix": " · 16 GB",
+          "machineKey": "hw:Apple M1|16",
+          "gpu": "Apple M1",
+          "runs": 1,
+          "cost": 1.074
         },
         {
           "platform": "linux",
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
           "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
           "runs": 1,
           "cost": 1.423
@@ -139,6 +101,8 @@
         {
           "platform": "win32",
           "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
           "gpu": "NVIDIA GeForce RTX 4070 Ti",
           "runs": 1,
           "cost": 1.195
@@ -146,7 +110,8 @@
       ],
       "submissions": 4,
       "machines": [
-        "Apple M1",
+        "Apple M1 · 8 GB",
+        "Apple M1 · 16 GB",
         "AMD Ryzen 5 7520U with Radeon Graphics",
         "AMD Ryzen 7 5800X 8-Core Processor"
       ],
@@ -164,23 +129,98 @@
       ]
     },
     {
-      "node": "screen-studio@4.0.1-4897",
-      "tool": "screen-studio",
-      "build": "4.0.1-4897",
-      "prerelease": false,
-      "relativeCost": 2.032,
+      "node": "openscreen@1.11.0-rc",
+      "tool": "openscreen",
+      "build": "1.11.0-rc",
+      "prerelease": true,
+      "relativeCost": 1.221,
       "setups": [
         {
           "platform": "darwin",
           "machine": "Apple M1",
+          "machineSuffix": " · 8 GB",
+          "machineKey": "hw:Apple M1|8",
           "gpu": "Apple M1",
+          "runs": 5,
+          "cost": 1.039
+        },
+        {
+          "platform": "linux",
+          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
+          "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+          "runs": 1,
+          "cost": 1.124
+        },
+        {
+          "platform": "win32",
+          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
+          "gpu": "AMD Radeon(TM) Graphics",
           "runs": 3,
-          "cost": 2.032
+          "cost": 1.47
+        },
+        {
+          "platform": "win32",
+          "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
+          "gpu": "NVIDIA GeForce RTX 4070 Ti",
+          "runs": 2,
+          "cost": 1.25
+        }
+      ],
+      "submissions": 11,
+      "machines": [
+        "Apple M1 · 8 GB",
+        "AMD Ryzen 5 7520U with Radeon Graphics",
+        "AMD Ryzen 7 5800X 8-Core Processor"
+      ],
+      "platforms": [
+        "darwin",
+        "linux",
+        "win32"
+      ],
+      "versions": [
+        "1.11.0-rc.1"
+      ],
+      "observedCostRange": [
+        1.037,
+        1.839
+      ]
+    },
+    {
+      "node": "screen-studio@4.0.1-4897",
+      "tool": "screen-studio",
+      "build": "4.0.1-4897",
+      "prerelease": false,
+      "relativeCost": 1.997,
+      "setups": [
+        {
+          "platform": "darwin",
+          "machine": "Apple M1",
+          "machineSuffix": " · 8 GB",
+          "machineKey": "hw:Apple M1|8",
+          "gpu": "Apple M1",
+          "runs": 2,
+          "cost": 2.056
+        },
+        {
+          "platform": "darwin",
+          "machine": "Apple M1",
+          "machineSuffix": " · 16 GB",
+          "machineKey": "hw:Apple M1|16",
+          "gpu": "Apple M1",
+          "runs": 1,
+          "cost": 1.937
         }
       ],
       "submissions": 3,
       "machines": [
-        "Apple M1"
+        "Apple M1 · 8 GB",
+        "Apple M1 · 16 GB"
       ],
       "platforms": [
         "darwin"
@@ -203,6 +243,8 @@
         {
           "platform": "darwin",
           "machine": "Apple M1",
+          "machineSuffix": " · 8 GB",
+          "machineKey": "hw:Apple M1|8",
           "gpu": "Apple M1",
           "runs": 1,
           "cost": 2.023
@@ -210,6 +252,8 @@
         {
           "platform": "linux",
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
           "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
           "runs": 2,
           "cost": 3.692
@@ -217,6 +261,8 @@
         {
           "platform": "win32",
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
           "gpu": "AMD Radeon(TM) Graphics",
           "runs": 5,
           "cost": 1.69
@@ -224,6 +270,8 @@
         {
           "platform": "win32",
           "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
           "gpu": "NVIDIA GeForce RTX 4070 Ti",
           "runs": 2,
           "cost": 1.248
@@ -231,7 +279,7 @@
       ],
       "submissions": 10,
       "machines": [
-        "Apple M1",
+        "Apple M1 · 8 GB",
         "AMD Ryzen 5 7520U with Radeon Graphics",
         "AMD Ryzen 7 5800X 8-Core Processor"
       ],
@@ -258,6 +306,8 @@
         {
           "platform": "darwin",
           "machine": "Apple M1",
+          "machineSuffix": " · 8 GB",
+          "machineKey": "hw:Apple M1|8",
           "gpu": "Apple M1",
           "runs": 4,
           "cost": 1.231
@@ -265,6 +315,8 @@
         {
           "platform": "linux",
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
           "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
           "runs": 3,
           "cost": 2.636
@@ -272,6 +324,8 @@
         {
           "platform": "win32",
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
           "gpu": "AMD Radeon(TM) Graphics",
           "runs": 7,
           "cost": 8.525
@@ -279,6 +333,8 @@
         {
           "platform": "win32",
           "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
           "gpu": "NVIDIA GeForce RTX 4070 Ti",
           "runs": 2,
           "cost": 3.041
@@ -286,7 +342,7 @@
       ],
       "submissions": 16,
       "machines": [
-        "Apple M1",
+        "Apple M1 · 8 GB",
         "AMD Ryzen 5 7520U with Radeon Graphics",
         "AMD Ryzen 7 5800X 8-Core Processor"
       ],
@@ -313,6 +369,8 @@
         {
           "platform": "darwin",
           "machine": "Apple M1",
+          "machineSuffix": " · 8 GB",
+          "machineKey": "hw:Apple M1|8",
           "gpu": "Apple M1",
           "runs": 1,
           "cost": 4.681
@@ -320,7 +378,7 @@
       ],
       "submissions": 1,
       "machines": [
-        "Apple M1"
+        "Apple M1 · 8 GB"
       ],
       "platforms": [
         "darwin"
@@ -343,6 +401,8 @@
         {
           "platform": "darwin",
           "machine": "Apple M1",
+          "machineSuffix": " · 8 GB",
+          "machineKey": "hw:Apple M1|8",
           "gpu": "Apple M1",
           "runs": 2,
           "cost": 1.189
@@ -350,6 +410,8 @@
         {
           "platform": "linux",
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
           "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
           "runs": 2,
           "cost": 2.797
@@ -357,6 +419,8 @@
         {
           "platform": "win32",
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
           "gpu": "AMD Radeon(TM) Graphics",
           "runs": 1,
           "cost": 6.727
@@ -364,6 +428,8 @@
         {
           "platform": "win32",
           "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
           "gpu": "NVIDIA GeForce RTX 4070 Ti",
           "runs": 1,
           "cost": 8.261
@@ -371,7 +437,7 @@
       ],
       "submissions": 6,
       "machines": [
-        "Apple M1",
+        "Apple M1 · 8 GB",
         "AMD Ryzen 5 7520U with Radeon Graphics",
         "AMD Ryzen 7 5800X 8-Core Processor"
       ],
@@ -398,6 +464,8 @@
         {
           "platform": "darwin",
           "machine": "Apple M1",
+          "machineSuffix": " · 8 GB",
+          "machineKey": "hw:Apple M1|8",
           "gpu": "Apple M1",
           "runs": 1,
           "cost": 2.69
@@ -405,6 +473,8 @@
         {
           "platform": "win32",
           "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
           "gpu": "NVIDIA GeForce RTX 4070 Ti",
           "runs": 1,
           "cost": 7.185
@@ -412,7 +482,7 @@
       ],
       "submissions": 2,
       "machines": [
-        "Apple M1",
+        "Apple M1 · 8 GB",
         "AMD Ryzen 7 5800X 8-Core Processor"
       ],
       "platforms": [
@@ -437,6 +507,8 @@
         {
           "platform": "win32",
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
           "gpu": "AMD Radeon(TM) Graphics",
           "runs": 1,
           "cost": 10.728
@@ -444,6 +516,8 @@
         {
           "platform": "win32",
           "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
           "gpu": "NVIDIA GeForce RTX 4070 Ti",
           "runs": 2,
           "cost": 1.152
@@ -475,6 +549,8 @@
         {
           "platform": "darwin",
           "machine": "Apple M1",
+          "machineSuffix": " · 8 GB",
+          "machineKey": "hw:Apple M1|8",
           "gpu": "Apple M1",
           "runs": 1,
           "cost": 2.626
@@ -482,6 +558,8 @@
         {
           "platform": "linux",
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
           "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
           "runs": 2,
           "cost": 15.353
@@ -489,6 +567,8 @@
         {
           "platform": "win32",
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
           "gpu": "AMD Radeon(TM) Graphics",
           "runs": 2,
           "cost": 10.593
@@ -496,6 +576,8 @@
         {
           "platform": "win32",
           "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "machineSuffix": "",
+          "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
           "gpu": "NVIDIA GeForce RTX 4070 Ti",
           "runs": 2,
           "cost": 3.551
@@ -503,7 +585,7 @@
       ],
       "submissions": 7,
       "machines": [
-        "Apple M1",
+        "Apple M1 · 8 GB",
         "AMD Ryzen 5 7520U with Radeon Graphics",
         "AMD Ryzen 7 5800X 8-Core Processor"
       ],
@@ -3725,11 +3807,13 @@
       "ends": [
         {
           "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "machineSuffix": "",
           "platform": "win32",
           "cost": 1.15
         },
         {
           "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "machineSuffix": "",
           "platform": "win32",
           "cost": 10.73
         }
@@ -3750,6 +3834,8 @@
           {
             "platform": "darwin",
             "machine": "Apple M1",
+            "machineSuffix": " · 8 GB",
+            "machineKey": "hw:Apple M1|8",
             "gpu": "Apple M1",
             "runs": 1,
             "cost": 0.691
@@ -3757,7 +3843,7 @@
         ],
         "submissions": 1,
         "machines": [
-          "Apple M1"
+          "Apple M1 · 8 GB"
         ],
         "platforms": [
           "darwin"
@@ -3780,6 +3866,8 @@
           {
             "platform": "darwin",
             "machine": "Apple M1",
+            "machineSuffix": " · 8 GB",
+            "machineKey": "hw:Apple M1|8",
             "gpu": "Apple M1",
             "runs": 2,
             "cost": 0.813
@@ -3787,6 +3875,8 @@
           {
             "platform": "linux",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
             "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
             "runs": 1,
             "cost": 0.727
@@ -3794,6 +3884,8 @@
           {
             "platform": "win32",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
             "gpu": "AMD Radeon(TM) Graphics",
             "runs": 3,
             "cost": 0.701
@@ -3801,6 +3893,8 @@
           {
             "platform": "win32",
             "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
             "gpu": "NVIDIA GeForce RTX 4070 Ti",
             "runs": 2,
             "cost": 0.613
@@ -3808,7 +3902,7 @@
         ],
         "submissions": 8,
         "machines": [
-          "Apple M1",
+          "Apple M1 · 8 GB",
           "AMD Ryzen 5 7520U with Radeon Graphics",
           "AMD Ryzen 7 5800X 8-Core Processor"
         ],
@@ -3835,6 +3929,8 @@
           {
             "platform": "darwin",
             "machine": "Apple M1",
+            "machineSuffix": " · 16 GB",
+            "machineKey": "hw:Apple M1|16",
             "gpu": "Apple M1",
             "runs": 1,
             "cost": 0.803
@@ -3842,6 +3938,8 @@
           {
             "platform": "linux",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
             "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
             "runs": 1,
             "cost": 0.776
@@ -3849,6 +3947,8 @@
           {
             "platform": "win32",
             "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
             "gpu": "NVIDIA GeForce RTX 4070 Ti",
             "runs": 1,
             "cost": 0.611
@@ -3856,7 +3956,7 @@
         ],
         "submissions": 3,
         "machines": [
-          "Apple M1",
+          "Apple M1 · 16 GB",
           "AMD Ryzen 5 7520U with Radeon Graphics",
           "AMD Ryzen 7 5800X 8-Core Processor"
         ],
@@ -3883,6 +3983,8 @@
           {
             "platform": "linux",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
             "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
             "runs": 2,
             "cost": 2.041
@@ -3890,6 +3992,8 @@
           {
             "platform": "win32",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
             "gpu": "AMD Radeon(TM) Graphics",
             "runs": 3,
             "cost": 0.787
@@ -3921,6 +4025,8 @@
           {
             "platform": "darwin",
             "machine": "Apple M1",
+            "machineSuffix": " · 16 GB",
+            "machineKey": "hw:Apple M1|16",
             "gpu": "Apple M1",
             "runs": 1,
             "cost": 1.456
@@ -3928,7 +4034,7 @@
         ],
         "submissions": 1,
         "machines": [
-          "Apple M1"
+          "Apple M1 · 16 GB"
         ],
         "platforms": [
           "darwin"
@@ -3951,6 +4057,8 @@
           {
             "platform": "darwin",
             "machine": "Apple M1",
+            "machineSuffix": " · 8 GB",
+            "machineKey": "hw:Apple M1|8",
             "gpu": "Apple M1",
             "runs": 1,
             "cost": 0.983
@@ -3958,6 +4066,8 @@
           {
             "platform": "linux",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
             "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
             "runs": 2,
             "cost": 1.443
@@ -3965,6 +4075,8 @@
           {
             "platform": "win32",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
             "gpu": "AMD Radeon(TM) Graphics",
             "runs": 1,
             "cost": 3.482
@@ -3972,6 +4084,8 @@
           {
             "platform": "win32",
             "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
             "gpu": "NVIDIA GeForce RTX 4070 Ti",
             "runs": 1,
             "cost": 4.077
@@ -3979,7 +4093,7 @@
         ],
         "submissions": 5,
         "machines": [
-          "Apple M1",
+          "Apple M1 · 8 GB",
           "AMD Ryzen 5 7520U with Radeon Graphics",
           "AMD Ryzen 7 5800X 8-Core Processor"
         ],
@@ -4006,6 +4120,8 @@
           {
             "platform": "linux",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
             "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
             "runs": 3,
             "cost": 1.53
@@ -4013,6 +4129,8 @@
           {
             "platform": "win32",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
             "gpu": "AMD Radeon(TM) Graphics",
             "runs": 5,
             "cost": 4.068
@@ -4044,6 +4162,8 @@
           {
             "platform": "win32",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
             "gpu": "AMD Radeon(TM) Graphics",
             "runs": 1,
             "cost": 5.056
@@ -4051,6 +4171,8 @@
           {
             "platform": "win32",
             "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
             "gpu": "NVIDIA GeForce RTX 4070 Ti",
             "runs": 2,
             "cost": 0.549
@@ -4082,6 +4204,8 @@
           {
             "platform": "win32",
             "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 7 5800X 8-Core Processor|32",
             "gpu": "NVIDIA GeForce RTX 4070 Ti",
             "runs": 1,
             "cost": 3.705
@@ -4112,6 +4236,8 @@
           {
             "platform": "darwin",
             "machine": "Apple M1",
+            "machineSuffix": " · 8 GB",
+            "machineKey": "hw:Apple M1|8",
             "gpu": "Apple M1",
             "runs": 1,
             "cost": 3.815
@@ -4119,7 +4245,7 @@
         ],
         "submissions": 1,
         "machines": [
-          "Apple M1"
+          "Apple M1 · 8 GB"
         ],
         "platforms": [
           "darwin"
@@ -4142,6 +4268,8 @@
           {
             "platform": "linux",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machineSuffix": "",
+            "machineKey": "hw:AMD Ryzen 5 7520U with Radeon Graphics|16",
             "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
             "runs": 2,
             "cost": 8.688
@@ -7250,11 +7378,13 @@
         "ends": [
           {
             "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+            "machineSuffix": "",
             "platform": "win32",
             "cost": 0.51
           },
           {
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "machineSuffix": "",
             "platform": "win32",
             "cost": 5.06
           }

@@ -28,7 +28,12 @@
 				"cpuCount": { "type": "integer", "minimum": 1 },
 				"memoryGiB": { "type": "number" },
 				"osVersion": { "type": "string" },
-				"osBuild": { "type": ["string", "null"] }
+				"osBuild": { "type": ["string", "null"] },
+				"id": {
+					"description": "Which physical machine: a salted SHA-256 of the SMBIOS system UUID, first 16 hex digits — never the UUID itself. Null where the platform does not expose it without elevation.",
+					"type": ["string", "null"],
+					"pattern": "^[0-9a-f]{16}$"
+				}
 			}
 		},
 		"conditions": {
