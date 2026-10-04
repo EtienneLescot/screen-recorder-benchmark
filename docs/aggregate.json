@@ -35,17 +35,17 @@
       "tool": "openscreen",
       "build": "2.0.0",
       "prerelease": false,
-      "relativeCost": 1.065,
+      "relativeCost": 1.068,
       "setups": [
         {
           "platform": "darwin",
           "machine": "Apple M1",
           "gpu": "Apple M1",
-          "runs": 1,
-          "cost": 1.065
+          "runs": 2,
+          "cost": 1.068
         }
       ],
-      "submissions": 1,
+      "submissions": 2,
       "machines": [
         "Apple M1"
       ],
@@ -57,7 +57,7 @@
       ],
       "observedCostRange": [
         1.065,
-        1.065
+        1.074
       ]
     },
     {
@@ -150,17 +150,17 @@
       "tool": "screen-studio",
       "build": "4.0.1-4897",
       "prerelease": false,
-      "relativeCost": 2.056,
+      "relativeCost": 2.032,
       "setups": [
         {
           "platform": "darwin",
           "machine": "Apple M1",
           "gpu": "Apple M1",
-          "runs": 2,
-          "cost": 2.056
+          "runs": 3,
+          "cost": 2.032
         }
       ],
-      "submissions": 2,
+      "submissions": 3,
       "machines": [
         "Apple M1"
       ],
@@ -171,7 +171,7 @@
         "4.0.1-4897"
       ],
       "observedCostRange": [
-        2.045,
+        1.937,
         2.066
       ]
     },
@@ -1541,6 +1541,111 @@
       ],
       "nodes": [
         "recordly@1.4.0"
+      ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
+        "submittedAt": "2026-10-04T12:25:21.577Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "darwin",
+          "chip": "Apple M1",
+          "gpu": "Apple M1",
+          "cpuCount": 8,
+          "memoryGiB": 16,
+          "osVersion": "27.0",
+          "osBuild": "26A428"
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 247.8,
+          "loadSpreadPercentagePoints": 84,
+          "driftRatio": 0.9957,
+          "floorSpreadPercent": 1.18,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "04c5627dc26f3c0a06afdb31caf7160d33cfdf616ef4b9ac15909bb92b1c52a9",
+          "durationSec": 60,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "openscreen",
+            "version": "2.0.0",
+            "exportMs": 20190,
+            "madMs": 36,
+            "runs": 3,
+            "localFloorMs": 18795,
+            "softwareFloorMs": 25154,
+            "floorSpreadPercent": 1.18,
+            "cpuSeconds": 30.39,
+            "peakRssMiB": 858.4,
+            "foreignCpuPercent": 161.8,
+            "outputBytes": 135766084,
+            "outputMeanVolumeDb": -37.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "screen-studio",
+            "version": "4.0.1-4897",
+            "exportMs": 36194,
+            "madMs": 68,
+            "runs": 3,
+            "localFloorMs": 18684,
+            "softwareFloorMs": 24854,
+            "floorSpreadPercent": 0.43,
+            "cpuSeconds": 56.16,
+            "peakRssMiB": 1989.9,
+            "foreignCpuPercent": 77.8,
+            "outputBytes": 102976839,
+            "outputMeanVolumeDb": -46.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cdp+menu"
+          }
+        ],
+        "notes": [
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "screen-studio: app read back: padding 5.72, radius 40, shadow 0.2, motion blur 0.5, cursor 1.5× (2006 moves, 16 clicks), camera 0.25 bottom-right, 3 zoom ranges, audio true",
+          "screen-studio: cursor size is written as 150% → 1.5; the app's Cursor panel displays twice that, and its own default for an imported project is 1.5",
+          "screen-studio: cursor smoothing is a spring here, not a scalar: 0.7 enables it and the app's own spring constants are left alone",
+          "screen-studio: panels — screen: ",
+          "screen-studio: panels — cursor: ",
+          "screen-studio: panels — camera: "
+        ],
+        "_path": "submissions/darwin/apple-m1-2026-10-04.json"
+      },
+      "weight": 0.5,
+      "reasons": [
+        "background load differed by 84 points between tools"
+      ],
+      "tools": [
+        "openscreen",
+        "screen-studio"
+      ],
+      "nodes": [
+        "openscreen@2.0.0",
+        "screen-studio@4.0.1-4897"
       ]
     },
     {
@@ -3338,17 +3443,17 @@
   ],
   "skipped": [],
   "consistency": {
-    "observations": 58,
-    "repeatedBuilds": 7,
+    "observations": 60,
+    "repeatedBuilds": 8,
     "measurable": true,
-    "medianSpreadPercent": 467.27,
+    "medianSpreadPercent": 338.75,
     "maxSpreadPercent": 836.77,
     "byPlatform": {
-      "sameGpuRepeats": 16,
-      "samePlatformRepeats": 12,
+      "sameGpuRepeats": 17,
+      "samePlatformRepeats": 13,
       "crossPlatformRepeats": 5,
-      "sameGpuSpreadPercent": 7.18,
-      "samePlatformSpreadPercent": 23.89,
+      "sameGpuSpreadPercent": 7.07,
+      "samePlatformSpreadPercent": 23.8,
       "crossPlatformSpreadPercent": 465.89
     },
     "worst": {
@@ -3459,6 +3564,36 @@
         ]
       },
       {
+        "node": "openscreen@2.0.0",
+        "tool": "openscreen",
+        "build": "2.0.0",
+        "prerelease": false,
+        "relativeCost": 0.803,
+        "setups": [
+          {
+            "platform": "darwin",
+            "machine": "Apple M1",
+            "gpu": "Apple M1",
+            "runs": 1,
+            "cost": 0.803
+          }
+        ],
+        "submissions": 1,
+        "machines": [
+          "Apple M1"
+        ],
+        "platforms": [
+          "darwin"
+        ],
+        "versions": [
+          "2.0.0"
+        ],
+        "observedCostRange": [
+          0.803,
+          0.803
+        ]
+      },
+      {
         "node": "openscreen@1.10.0",
         "tool": "openscreen",
         "build": "1.10.0",
@@ -3494,6 +3629,36 @@
         "observedCostRange": [
           0.775,
           2.067
+        ]
+      },
+      {
+        "node": "screen-studio@4.0.1-4897",
+        "tool": "screen-studio",
+        "build": "4.0.1-4897",
+        "prerelease": false,
+        "relativeCost": 1.456,
+        "setups": [
+          {
+            "platform": "darwin",
+            "machine": "Apple M1",
+            "gpu": "Apple M1",
+            "runs": 1,
+            "cost": 1.456
+          }
+        ],
+        "submissions": 1,
+        "machines": [
+          "Apple M1"
+        ],
+        "platforms": [
+          "darwin"
+        ],
+        "versions": [
+          "4.0.1-4897"
+        ],
+        "observedCostRange": [
+          1.456,
+          1.456
         ]
       },
       {
@@ -3961,6 +4126,111 @@
         ],
         "nodes": [
           "cap@0.6.0"
+        ]
+      },
+      {
+        "sub": {
+          "schemaVersion": 1,
+          "submittedAt": "2026-10-04T12:25:21.577Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "darwin",
+            "chip": "Apple M1",
+            "gpu": "Apple M1",
+            "cpuCount": 8,
+            "memoryGiB": 16,
+            "osVersion": "27.0",
+            "osBuild": "26A428"
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 247.8,
+            "loadSpreadPercentagePoints": 84,
+            "driftRatio": 0.9957,
+            "floorSpreadPercent": 1.18,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "04c5627dc26f3c0a06afdb31caf7160d33cfdf616ef4b9ac15909bb92b1c52a9",
+            "durationSec": 60,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "openscreen",
+              "version": "2.0.0",
+              "exportMs": 20190,
+              "madMs": 36,
+              "runs": 3,
+              "localFloorMs": 18795,
+              "softwareFloorMs": 25154,
+              "floorSpreadPercent": 1.18,
+              "cpuSeconds": 30.39,
+              "peakRssMiB": 858.4,
+              "foreignCpuPercent": 161.8,
+              "outputBytes": 135766084,
+              "outputMeanVolumeDb": -37.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            },
+            {
+              "tool": "screen-studio",
+              "version": "4.0.1-4897",
+              "exportMs": 36194,
+              "madMs": 68,
+              "runs": 3,
+              "localFloorMs": 18684,
+              "softwareFloorMs": 24854,
+              "floorSpreadPercent": 0.43,
+              "cpuSeconds": 56.16,
+              "peakRssMiB": 1989.9,
+              "foreignCpuPercent": 77.8,
+              "outputBytes": 102976839,
+              "outputMeanVolumeDb": -46.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cdp+menu"
+            }
+          ],
+          "notes": [
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "screen-studio: app read back: padding 5.72, radius 40, shadow 0.2, motion blur 0.5, cursor 1.5× (2006 moves, 16 clicks), camera 0.25 bottom-right, 3 zoom ranges, audio true",
+            "screen-studio: cursor size is written as 150% → 1.5; the app's Cursor panel displays twice that, and its own default for an imported project is 1.5",
+            "screen-studio: cursor smoothing is a spring here, not a scalar: 0.7 enables it and the app's own spring constants are left alone",
+            "screen-studio: panels — screen: ",
+            "screen-studio: panels — cursor: ",
+            "screen-studio: panels — camera: "
+          ],
+          "_path": "submissions/darwin/apple-m1-2026-10-04.json"
+        },
+        "weight": 0.5,
+        "reasons": [
+          "background load differed by 84 points between tools"
+        ],
+        "tools": [
+          "openscreen",
+          "screen-studio"
+        ],
+        "nodes": [
+          "openscreen@2.0.0",
+          "screen-studio@4.0.1-4897"
         ]
       },
       {
@@ -6415,7 +6685,7 @@
       }
     ],
     "consistency": {
-      "observations": 31,
+      "observations": 33,
       "repeatedBuilds": 6,
       "measurable": true,
       "medianSpreadPercent": 178.47,
