@@ -1,224 +1,399 @@
 {
-	"generatedAt": "2026-10-03T18:41:55.758Z",
-	"machine": {
-		"chip": "Apple M1",
-		"osVersion": "26.5",
-		"model": "Macmini9,1"
-	},
-	"scenario": "full-demo",
-	"targetInsetPercent": 5,
-	"fixture": {
-		"spec": {
-			"name": "calib-1080p60-4s",
-			"width": 1920,
-			"height": 1080,
-			"fps": 60,
-			"durationSec": 4,
-			"seed": 20260825,
-			"sourceBitrateMbps": 12
-		},
-		"sha256": "574cd13f8e130381c7271a0e9b172f765089fbb99abc4f4548f29b4244b011e4"
-	},
-	"apps": {
-		"screen-studio": {
-			"app": "screen-studio",
-			"target": 5,
-			"paddingControl": 5.72,
-			"achievedInsetPercent": 5.19,
-			"achievedBox": {
-				"left": 99,
-				"top": 56,
-				"right": 1821,
-				"bottom": 1023,
-				"width": 1723,
-				"height": 968
+	"machines": [
+		{
+			"generatedAt": "2026-10-03T18:41:55.758Z",
+			"machine": {
+				"chip": "Apple M1",
+				"osVersion": "26.5",
+				"model": "Macmini9,1"
 			},
-			"withinTolerance": true,
-			"probes": [
-				{
-					"control": 5,
-					"inset": 4.44,
-					"box": {
-						"left": 87,
-						"top": 49,
-						"right": 1832,
-						"bottom": 1031,
-						"width": 1746,
-						"height": 983
-					}
+			"scenario": "full-demo",
+			"targetInsetPercent": 5,
+			"fixture": {
+				"spec": {
+					"name": "calib-1080p60-4s",
+					"width": 1920,
+					"height": 1080,
+					"fps": 60,
+					"durationSec": 4,
+					"seed": 20260825,
+					"sourceBitrateMbps": 12
 				},
-				{
-					"control": 10,
-					"inset": 8.33,
-					"box": {
-						"left": 160,
-						"top": 90,
-						"right": 1759,
-						"bottom": 989,
-						"width": 1600,
-						"height": 900
-					}
-				},
-				{
-					"control": 5.72,
-					"inset": 5.19,
-					"box": {
+				"sha256": "574cd13f8e130381c7271a0e9b172f765089fbb99abc4f4548f29b4244b011e4"
+			},
+			"apps": {
+				"screen-studio": {
+					"app": "screen-studio",
+					"target": 5,
+					"paddingControl": 5.72,
+					"achievedInsetPercent": 5.19,
+					"achievedBox": {
 						"left": 99,
 						"top": 56,
 						"right": 1821,
 						"bottom": 1023,
 						"width": 1723,
 						"height": 968
-					}
-				}
-			]
-		},
-		"openscreen": {
-			"app": "openscreen",
-			"target": 5,
-			"paddingControl": 25,
-			"achievedInsetPercent": 5,
-			"achievedBox": {
-				"left": 96,
-				"top": 54,
-				"right": 1823,
-				"bottom": 1025,
-				"width": 1728,
-				"height": 972
-			},
-			"withinTolerance": true,
-			"probes": [
-				{
-					"control": 25,
-					"inset": 5,
-					"box": {
+					},
+					"withinTolerance": true,
+					"probes": [
+						{
+							"control": 5,
+							"inset": 4.44,
+							"box": {
+								"left": 87,
+								"top": 49,
+								"right": 1832,
+								"bottom": 1031,
+								"width": 1746,
+								"height": 983
+							}
+						},
+						{
+							"control": 10,
+							"inset": 8.33,
+							"box": {
+								"left": 160,
+								"top": 90,
+								"right": 1759,
+								"bottom": 989,
+								"width": 1600,
+								"height": 900
+							}
+						},
+						{
+							"control": 5.72,
+							"inset": 5.19,
+							"box": {
+								"left": 99,
+								"top": 56,
+								"right": 1821,
+								"bottom": 1023,
+								"width": 1723,
+								"height": 968
+							}
+						}
+					]
+				},
+				"openscreen": {
+					"app": "openscreen",
+					"target": 5,
+					"paddingControl": 25,
+					"achievedInsetPercent": 5,
+					"achievedBox": {
 						"left": 96,
 						"top": 54,
 						"right": 1823,
 						"bottom": 1025,
 						"width": 1728,
 						"height": 972
-					}
+					},
+					"withinTolerance": true,
+					"probes": [
+						{
+							"control": 25,
+							"inset": 5,
+							"box": {
+								"left": 96,
+								"top": 54,
+								"right": 1823,
+								"bottom": 1025,
+								"width": 1728,
+								"height": 972
+							}
+						},
+						{
+							"control": 50,
+							"inset": 10,
+							"box": {
+								"left": 122,
+								"top": 108,
+								"right": 1727,
+								"bottom": 971,
+								"width": 1606,
+								"height": 864
+							}
+						}
+					]
 				},
-				{
-					"control": 50,
-					"inset": 10,
-					"box": {
-						"left": 122,
-						"top": 108,
-						"right": 1727,
-						"bottom": 971,
-						"width": 1606,
-						"height": 864
-					}
-				}
-			]
-		},
-		"cap": {
-			"app": "cap",
-			"target": 5,
-			"paddingControl": 13.32,
-			"achievedInsetPercent": 4.81,
-			"achievedBox": {
-				"left": 92,
-				"top": 52,
-				"right": 1827,
-				"bottom": 1027,
-				"width": 1736,
-				"height": 976
-			},
-			"withinTolerance": true,
-			"probes": [
-				{
-					"control": 2.5,
-					"inset": 1.02,
-					"box": {
-						"left": 19,
-						"top": 11,
-						"right": 1900,
-						"bottom": 1068,
-						"width": 1882,
-						"height": 1058
-					}
-				},
-				{
-					"control": 5,
-					"inset": 1.94,
-					"box": {
-						"left": 37,
-						"top": 21,
-						"right": 1882,
-						"bottom": 1058,
-						"width": 1846,
-						"height": 1038
-					}
-				},
-				{
-					"control": 13.32,
-					"inset": 4.81,
-					"box": {
+				"cap": {
+					"app": "cap",
+					"target": 5,
+					"paddingControl": 13.32,
+					"achievedInsetPercent": 4.81,
+					"achievedBox": {
 						"left": 92,
 						"top": 52,
 						"right": 1827,
 						"bottom": 1027,
 						"width": 1736,
 						"height": 976
-					}
-				}
-			]
-		},
-		"recordly": {
-			"app": "recordly",
-			"target": 5,
-			"paddingControl": 26,
-			"achievedInsetPercent": 5.19,
-			"achievedBox": {
-				"left": 100,
-				"top": 56,
-				"right": 1819,
-				"bottom": 1023,
-				"width": 1720,
-				"height": 968
-			},
-			"withinTolerance": true,
-			"probes": [
-				{
-					"control": 10,
-					"inset": 2.04,
-					"box": {
-						"left": 39,
-						"top": 22,
-						"right": 1880,
-						"bottom": 1057,
-						"width": 1842,
-						"height": 1036
-					}
+					},
+					"withinTolerance": true,
+					"probes": [
+						{
+							"control": 2.5,
+							"inset": 1.02,
+							"box": {
+								"left": 19,
+								"top": 11,
+								"right": 1900,
+								"bottom": 1068,
+								"width": 1882,
+								"height": 1058
+							}
+						},
+						{
+							"control": 5,
+							"inset": 1.94,
+							"box": {
+								"left": 37,
+								"top": 21,
+								"right": 1882,
+								"bottom": 1058,
+								"width": 1846,
+								"height": 1038
+							}
+						},
+						{
+							"control": 13.32,
+							"inset": 4.81,
+							"box": {
+								"left": 92,
+								"top": 52,
+								"right": 1827,
+								"bottom": 1027,
+								"width": 1736,
+								"height": 976
+							}
+						}
+					]
 				},
-				{
-					"control": 20,
-					"inset": 3.89,
-					"box": {
-						"left": 77,
-						"top": 43,
-						"right": 1842,
-						"bottom": 1037,
-						"width": 1766,
-						"height": 995
-					}
-				},
-				{
-					"control": 26,
-					"inset": 5.19,
-					"box": {
+				"recordly": {
+					"app": "recordly",
+					"target": 5,
+					"paddingControl": 26,
+					"achievedInsetPercent": 5.19,
+					"achievedBox": {
 						"left": 100,
 						"top": 56,
 						"right": 1819,
 						"bottom": 1023,
 						"width": 1720,
 						"height": 968
-					}
+					},
+					"withinTolerance": true,
+					"probes": [
+						{
+							"control": 10,
+							"inset": 2.04,
+							"box": {
+								"left": 39,
+								"top": 22,
+								"right": 1880,
+								"bottom": 1057,
+								"width": 1842,
+								"height": 1036
+							}
+						},
+						{
+							"control": 20,
+							"inset": 3.89,
+							"box": {
+								"left": 77,
+								"top": 43,
+								"right": 1842,
+								"bottom": 1037,
+								"width": 1766,
+								"height": 995
+							}
+						},
+						{
+							"control": 26,
+							"inset": 5.19,
+							"box": {
+								"left": 100,
+								"top": 56,
+								"right": 1819,
+								"bottom": 1023,
+								"width": 1720,
+								"height": 968
+							}
+						}
+					]
 				}
-			]
+			}
+		},
+		{
+			"generatedAt": "2026-10-03T23:44:13.862Z",
+			"machine": {
+				"chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+				"osVersion": "10.0.26200",
+				"model": "ASUSTeK COMPUTER INC. Vivobook Go E1404FA_E1404FA"
+			},
+			"scenario": "full-demo",
+			"targetInsetPercent": 5,
+			"fixture": {
+				"spec": {
+					"name": "calib-1080p60-4s",
+					"width": 1920,
+					"height": 1080,
+					"fps": 60,
+					"durationSec": 4,
+					"seed": 20260825,
+					"sourceBitrateMbps": 12
+				},
+				"sha256": "c3540cabb6e41bf4102e68edaec0cd46133477b2eb0df6d96ec12b42c051a8d5"
+			},
+			"apps": {
+				"cap": {
+					"app": "cap",
+					"target": 5,
+					"paddingControl": 13.32,
+					"achievedInsetPercent": 4.81,
+					"achievedBox": {
+						"left": 92,
+						"top": 52,
+						"right": 1827,
+						"bottom": 1027,
+						"width": 1736,
+						"height": 976
+					},
+					"withinTolerance": true,
+					"probes": [
+						{
+							"control": 2.5,
+							"inset": 1.02,
+							"box": {
+								"left": 19,
+								"top": 11,
+								"right": 1900,
+								"bottom": 1068,
+								"width": 1882,
+								"height": 1058
+							}
+						},
+						{
+							"control": 5,
+							"inset": 1.94,
+							"box": {
+								"left": 37,
+								"top": 21,
+								"right": 1882,
+								"bottom": 1058,
+								"width": 1846,
+								"height": 1038
+							}
+						},
+						{
+							"control": 13.32,
+							"inset": 4.81,
+							"box": {
+								"left": 92,
+								"top": 52,
+								"right": 1827,
+								"bottom": 1027,
+								"width": 1736,
+								"height": 976
+							}
+						}
+					]
+				},
+				"recordly": {
+					"app": "recordly",
+					"target": 5,
+					"paddingControl": 26,
+					"achievedInsetPercent": 5.19,
+					"achievedBox": {
+						"left": 100,
+						"top": 56,
+						"right": 1819,
+						"bottom": 1023,
+						"width": 1720,
+						"height": 968
+					},
+					"withinTolerance": true,
+					"probes": [
+						{
+							"control": 10,
+							"inset": 2.04,
+							"box": {
+								"left": 39,
+								"top": 22,
+								"right": 1880,
+								"bottom": 1057,
+								"width": 1842,
+								"height": 1036
+							}
+						},
+						{
+							"control": 20,
+							"inset": 3.89,
+							"box": {
+								"left": 77,
+								"top": 43,
+								"right": 1842,
+								"bottom": 1037,
+								"width": 1766,
+								"height": 995
+							}
+						},
+						{
+							"control": 26,
+							"inset": 5.19,
+							"box": {
+								"left": 100,
+								"top": 56,
+								"right": 1819,
+								"bottom": 1023,
+								"width": 1720,
+								"height": 968
+							}
+						}
+					]
+				},
+				"openscreen": {
+					"app": "openscreen",
+					"target": 5,
+					"paddingControl": 25,
+					"achievedInsetPercent": 5,
+					"achievedBox": {
+						"left": 96,
+						"top": 54,
+						"right": 1823,
+						"bottom": 1025,
+						"width": 1728,
+						"height": 972
+					},
+					"withinTolerance": true,
+					"probes": [
+						{
+							"control": 25,
+							"inset": 5,
+							"box": {
+								"left": 96,
+								"top": 54,
+								"right": 1823,
+								"bottom": 1025,
+								"width": 1728,
+								"height": 972
+							}
+						},
+						{
+							"control": 50,
+							"inset": 10,
+							"box": {
+								"left": 123,
+								"top": 108,
+								"right": 1727,
+								"bottom": 971,
+								"width": 1605,
+								"height": 864
+							}
+						}
+					]
+				}
+			}
 		}
-	}
+	]
 }
