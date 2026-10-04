@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "submittedAt": "2026-10-04T15:02:33.710Z",
+  "submitter": {
+    "name": "Etienne Lescot"
+  },
+  "machine": {
+    "platform": "win32",
+    "chip": "AMD Ryzen 7 5800X 8-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "cpuCount": 16,
+    "memoryGiB": 31.9,
+    "osVersion": "10.0.26200",
+    "osBuild": "26200"
+  },
+  "conditions": {
+    "onACPower": true,
+    "maxForeignCpuPercent": 209,
+    "loadSpreadPercentagePoints": 116,
+    "driftRatio": 0.9956,
+    "floorSpreadPercent": 0.45,
+    "remoteDesktopActive": false
+  },
+  "scenario": {
+    "step": "S4",
+    "outputWidth": 1920,
+    "outputHeight": 1080,
+    "outputFps": 60,
+    "outputCodec": "h264"
+  },
+  "source": {
+    "kind": "public-bundle",
+    "bundle": "commons-upload",
+    "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+    "normalisedSha256": "9162881a929643de62a4a97dee57571d514878d727585da60709bf4dfefd0d53",
+    "durationSec": 60.007,
+    "frames": 3600
+  },
+  "measurements": [
+    {
+      "tool": "openscreen",
+      "version": "2.0.0",
+      "exportMs": 9054,
+      "madMs": 13,
+      "runs": 3,
+      "localFloorMs": 7576,
+      "softwareFloorMs": 14815,
+      "floorSpreadPercent": 0.28,
+      "cpuSeconds": 4.52,
+      "peakRssMiB": 796,
+      "foreignCpuPercent": 192,
+      "outputBytes": 55802265,
+      "outputMeanVolumeDb": -37.8,
+      "fidelity": 1,
+      "missing": [],
+      "contradicted": [],
+      "verified": true,
+      "automation": "cli"
+    },
+    {
+      "tool": "recordly",
+      "version": "1.4.0",
+      "exportMs": 54841,
+      "madMs": 80,
+      "runs": 3,
+      "localFloorMs": 7633,
+      "softwareFloorMs": 14801,
+      "floorSpreadPercent": 0.24,
+      "cpuSeconds": 162.72,
+      "peakRssMiB": 1695.3,
+      "foreignCpuPercent": 197,
+      "outputBytes": 53705646,
+      "outputMeanVolumeDb": -46.8,
+      "fidelity": 1,
+      "missing": [],
+      "contradicted": [],
+      "verified": true,
+      "automation": "cdp"
+    },
+    {
+      "tool": "cap",
+      "version": "0.6.0",
+      "exportMs": 62379,
+      "madMs": 3883,
+      "runs": 3,
+      "localFloorMs": 7551,
+      "softwareFloorMs": 15302,
+      "floorSpreadPercent": 0.45,
+      "cpuSeconds": 27.33,
+      "peakRssMiB": 1106.1,
+      "foreignCpuPercent": 81,
+      "outputBytes": 155336023,
+      "outputMeanVolumeDb": -49.8,
+      "fidelity": 1,
+      "missing": [],
+      "contradicted": [],
+      "verified": true,
+      "automation": "cli"
+    }
+  ],
+  "notes": [
+    "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+    "recordly: CUDA export path: available=false, requested=false",
+    "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+    "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events.",
+    "cap: zoom segments written: 3",
+    "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
+  ]
+}

@@ -120,14 +120,21 @@
       "tool": "openscreen",
       "build": "2.0.0",
       "prerelease": false,
-      "relativeCost": 1.539,
+      "relativeCost": 1.425,
       "setups": [
         {
           "platform": "darwin",
           "machine": "Apple M1",
           "gpu": "Apple M1",
+          "runs": 2,
+          "cost": 1.068
+        },
+        {
+          "platform": "linux",
+          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
           "runs": 1,
-          "cost": 1.065
+          "cost": 1.423
         },
         {
           "platform": "win32",
@@ -135,15 +142,24 @@
           "gpu": "AMD Radeon(TM) Graphics",
           "runs": 2,
           "cost": 2.013
+        },
+        {
+          "platform": "win32",
+          "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "gpu": "NVIDIA GeForce RTX 4070 Ti",
+          "runs": 1,
+          "cost": 1.195
         }
       ],
-      "submissions": 3,
+      "submissions": 6,
       "machines": [
         "Apple M1",
-        "AMD Ryzen 5 7520U with Radeon Graphics"
+        "AMD Ryzen 5 7520U with Radeon Graphics",
+        "AMD Ryzen 7 5800X 8-Core Processor"
       ],
       "platforms": [
         "darwin",
+        "linux",
         "win32"
       ],
       "versions": [
@@ -159,17 +175,17 @@
       "tool": "screen-studio",
       "build": "4.0.1-4897",
       "prerelease": false,
-      "relativeCost": 2.056,
+      "relativeCost": 2.032,
       "setups": [
         {
           "platform": "darwin",
           "machine": "Apple M1",
           "gpu": "Apple M1",
-          "runs": 2,
-          "cost": 2.056
+          "runs": 3,
+          "cost": 2.032
         }
       ],
-      "submissions": 2,
+      "submissions": 3,
       "machines": [
         "Apple M1"
       ],
@@ -180,7 +196,7 @@
         "4.0.1-4897"
       ],
       "observedCostRange": [
-        2.045,
+        1.937,
         2.066
       ]
     },
@@ -237,53 +253,6 @@
       "observedCostRange": [
         1.204,
         4.085
-      ]
-    },
-    {
-      "node": "cap@0.6.0",
-      "tool": "cap",
-      "build": "0.6.0",
-      "prerelease": false,
-      "relativeCost": 3.659,
-      "setups": [
-        {
-          "platform": "darwin",
-          "machine": "Apple M1",
-          "gpu": "Apple M1",
-          "runs": 1,
-          "cost": 1.186
-        },
-        {
-          "platform": "linux",
-          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-          "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
-          "runs": 1,
-          "cost": 2.861
-        },
-        {
-          "platform": "win32",
-          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-          "gpu": "AMD Radeon(TM) Graphics",
-          "runs": 3,
-          "cost": 6.929
-        }
-      ],
-      "submissions": 5,
-      "machines": [
-        "Apple M1",
-        "AMD Ryzen 5 7520U with Radeon Graphics"
-      ],
-      "platforms": [
-        "darwin",
-        "linux",
-        "win32"
-      ],
-      "versions": [
-        "0.6.0"
-      ],
-      "observedCostRange": [
-        1.186,
-        6.994
       ]
     },
     {
@@ -372,6 +341,108 @@
       ]
     },
     {
+      "node": "cap@0.6.0",
+      "tool": "cap",
+      "build": "0.6.0",
+      "prerelease": false,
+      "relativeCost": 4.794,
+      "setups": [
+        {
+          "platform": "darwin",
+          "machine": "Apple M1",
+          "gpu": "Apple M1",
+          "runs": 2,
+          "cost": 1.189
+        },
+        {
+          "platform": "linux",
+          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+          "runs": 2,
+          "cost": 2.797
+        },
+        {
+          "platform": "win32",
+          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "AMD Radeon(TM) Graphics",
+          "runs": 3,
+          "cost": 6.929
+        },
+        {
+          "platform": "win32",
+          "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "gpu": "NVIDIA GeForce RTX 4070 Ti",
+          "runs": 1,
+          "cost": 8.261
+        }
+      ],
+      "submissions": 8,
+      "machines": [
+        "Apple M1",
+        "AMD Ryzen 5 7520U with Radeon Graphics",
+        "AMD Ryzen 7 5800X 8-Core Processor"
+      ],
+      "platforms": [
+        "darwin",
+        "linux",
+        "win32"
+      ],
+      "versions": [
+        "0.6.0"
+      ],
+      "observedCostRange": [
+        1.186,
+        8.261
+      ]
+    },
+    {
+      "node": "recordly@1.4.0",
+      "tool": "recordly",
+      "build": "1.4.0",
+      "prerelease": false,
+      "relativeCost": 5.484,
+      "setups": [
+        {
+          "platform": "darwin",
+          "machine": "Apple M1",
+          "gpu": "Apple M1",
+          "runs": 1,
+          "cost": 2.69
+        },
+        {
+          "platform": "win32",
+          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "AMD Radeon(TM) Graphics",
+          "runs": 2,
+          "cost": 6.576
+        },
+        {
+          "platform": "win32",
+          "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+          "gpu": "NVIDIA GeForce RTX 4070 Ti",
+          "runs": 1,
+          "cost": 7.185
+        }
+      ],
+      "submissions": 4,
+      "machines": [
+        "Apple M1",
+        "AMD Ryzen 5 7520U with Radeon Graphics",
+        "AMD Ryzen 7 5800X 8-Core Processor"
+      ],
+      "platforms": [
+        "darwin",
+        "win32"
+      ],
+      "versions": [
+        "1.4.0"
+      ],
+      "observedCostRange": [
+        2.69,
+        7.185
+      ]
+    },
+    {
       "node": "focusee@2.3.5",
       "tool": "focusee",
       "build": "2.3.5",
@@ -407,36 +478,6 @@
       "observedCostRange": [
         1.145,
         10.728
-      ]
-    },
-    {
-      "node": "recordly@1.4.0",
-      "tool": "recordly",
-      "build": "1.4.0",
-      "prerelease": false,
-      "relativeCost": 6.576,
-      "setups": [
-        {
-          "platform": "win32",
-          "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
-          "gpu": "AMD Radeon(TM) Graphics",
-          "runs": 2,
-          "cost": 6.576
-        }
-      ],
-      "submissions": 2,
-      "machines": [
-        "AMD Ryzen 5 7520U with Radeon Graphics"
-      ],
-      "platforms": [
-        "win32"
-      ],
-      "versions": [
-        "1.4.0"
-      ],
-      "observedCostRange": [
-        6.131,
-        6.893
       ]
     },
     {
@@ -1379,12 +1420,275 @@
           "screen-studio: cursor smoothing is a spring here, not a scalar: 0.7 enables it and the app's own spring constants are left alone",
           "ffmpeg-baseline: encoder: h264_videotoolbox (hardware)",
           "ffmpeg-baseline: No compositing: this row is the encode-only reference, not a product.",
-          "run 20261003T184226Z also measured cap 0.6.0 and recordly 1.4.0; neither is submitted from it. Cap ran under 137% foreign load (macOS ANECompilerService), against 12-54% for the two rows here. Recordly 1.4.0 exported, but the project it saved back carries cursor size 2.5, cursor smoothing 0.67 and webcam size 10 where 1.5, 0.7 and 0.25 were written, so the scene it rendered is not the pinned one."
+          "run 20261003T184226Z also measured cap 0.6.0 and recordly 1.4.0; neither is submitted from it. Cap ran under 137% foreign load (macOS ANECompilerService), against 12-54% for the two rows here. Recordly 1.4.0 exported, but the project it saved back carries cursor size 2.5, cursor smoothing 0.67 and webcam size 10 where 1.5, 0.7 and 0.25 were written, so the scene it rendered is not exactly the pinned one; it is submitted separately, with that disclosed, as apple-m1-2026-10-03c.json."
         ],
         "_path": "submissions/darwin/apple-m1-2026-10-03.json"
       },
       "weight": 1,
       "reasons": [],
+      "tools": [
+        "openscreen",
+        "screen-studio"
+      ],
+      "nodes": [
+        "openscreen@2.0.0",
+        "screen-studio@4.0.1-4897"
+      ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
+        "submittedAt": "2026-10-03T21:25:52.797Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "darwin",
+          "chip": "Apple M1",
+          "gpu": "Apple M1",
+          "cpuCount": 8,
+          "memoryGiB": 8,
+          "osVersion": "26.5",
+          "osBuild": "25F71"
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 29.2,
+          "loadSpreadPercentagePoints": 0,
+          "driftRatio": 0.9996,
+          "floorSpreadPercent": 0.13,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "c407c71ad0de9c89533abe2d66918657f76f4e9474d86241efc8e03e5d779c66",
+          "durationSec": 60,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "cap",
+            "version": "0.6.0",
+            "exportMs": 21691,
+            "madMs": 38,
+            "runs": 3,
+            "localFloorMs": 18201,
+            "softwareFloorMs": null,
+            "floorSpreadPercent": 0.13,
+            "cpuSeconds": 15.35,
+            "peakRssMiB": 946.4,
+            "foreignCpuPercent": 26.5,
+            "outputBytes": 93748444,
+            "outputMeanVolumeDb": -49.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          }
+        ],
+        "notes": [
+          "cap: zoom segments written: 3",
+          "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+          "ffmpeg-baseline: encoder: h264_videotoolbox (hardware)",
+          "ffmpeg-baseline: No compositing: this row is the encode-only reference, not a product."
+        ],
+        "_path": "submissions/darwin/apple-m1-2026-10-03b.json"
+      },
+      "weight": 1,
+      "reasons": [],
+      "tools": [
+        "cap"
+      ],
+      "nodes": [
+        "cap@0.6.0"
+      ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
+        "submittedAt": "2026-10-04T06:54:56.098Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "darwin",
+          "chip": "Apple M1",
+          "gpu": "Apple M1",
+          "cpuCount": 8,
+          "memoryGiB": 8,
+          "osVersion": "26.5",
+          "osBuild": "25F71"
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 63.1,
+          "loadSpreadPercentagePoints": 0,
+          "driftRatio": 0.9999,
+          "floorSpreadPercent": 0.19,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "c407c71ad0de9c89533abe2d66918657f76f4e9474d86241efc8e03e5d779c66",
+          "durationSec": 60,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "recordly",
+            "version": "1.4.0",
+            "exportMs": 49303,
+            "madMs": 23,
+            "runs": 3,
+            "localFloorMs": 18331,
+            "softwareFloorMs": null,
+            "floorSpreadPercent": 0.19,
+            "cpuSeconds": 65.24,
+            "peakRssMiB": 1189.6,
+            "foreignCpuPercent": 62.9,
+            "outputBytes": 51364737,
+            "outputMeanVolumeDb": -46.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cdp"
+          }
+        ],
+        "notes": [
+          "recordly: CUDA export path: available=false, requested=false",
+          "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+          "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events.",
+          "ffmpeg-baseline: encoder: h264_videotoolbox (hardware)",
+          "ffmpeg-baseline: No compositing: this row is the encode-only reference, not a product.",
+          "recordly: taken from run 20261003T184226Z, whose openscreen and screen-studio rows are apple-m1-2026-10-03.json; each cost uses its own paired floor. The scene is not exactly the pinned one: Recordly 1.4.0 migrates the written project to its version 2 and saves back cursor size 2.5, cursor smoothing 0.67, cursor motion blur 0.6, webcam size 10 and webcam mirror on, where 1.5, 0.7, 0.5 and 0.25 were written (mirror unset). Wallpaper, shadow, zoom motion blur, padding and click effect are kept, and corner radius is converted (40 px -> 3.70 % of the short side). Published as is: the replaced values are judged not to move the cost significantly."
+        ],
+        "_path": "submissions/darwin/apple-m1-2026-10-03c.json"
+      },
+      "weight": 1,
+      "reasons": [],
+      "tools": [
+        "recordly"
+      ],
+      "nodes": [
+        "recordly@1.4.0"
+      ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
+        "submittedAt": "2026-10-04T12:25:21.577Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "darwin",
+          "chip": "Apple M1",
+          "gpu": "Apple M1",
+          "cpuCount": 8,
+          "memoryGiB": 16,
+          "osVersion": "27.0",
+          "osBuild": "26A428"
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 247.8,
+          "loadSpreadPercentagePoints": 84,
+          "driftRatio": 0.9957,
+          "floorSpreadPercent": 1.18,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "04c5627dc26f3c0a06afdb31caf7160d33cfdf616ef4b9ac15909bb92b1c52a9",
+          "durationSec": 60,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "openscreen",
+            "version": "2.0.0",
+            "exportMs": 20190,
+            "madMs": 36,
+            "runs": 3,
+            "localFloorMs": 18795,
+            "softwareFloorMs": 25154,
+            "floorSpreadPercent": 1.18,
+            "cpuSeconds": 30.39,
+            "peakRssMiB": 858.4,
+            "foreignCpuPercent": 161.8,
+            "outputBytes": 135766084,
+            "outputMeanVolumeDb": -37.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "screen-studio",
+            "version": "4.0.1-4897",
+            "exportMs": 36194,
+            "madMs": 68,
+            "runs": 3,
+            "localFloorMs": 18684,
+            "softwareFloorMs": 24854,
+            "floorSpreadPercent": 0.43,
+            "cpuSeconds": 56.16,
+            "peakRssMiB": 1989.9,
+            "foreignCpuPercent": 77.8,
+            "outputBytes": 102976839,
+            "outputMeanVolumeDb": -46.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cdp+menu"
+          }
+        ],
+        "notes": [
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "screen-studio: app read back: padding 5.72, radius 40, shadow 0.2, motion blur 0.5, cursor 1.5× (2006 moves, 16 clicks), camera 0.25 bottom-right, 3 zoom ranges, audio true",
+          "screen-studio: cursor size is written as 150% → 1.5; the app's Cursor panel displays twice that, and its own default for an imported project is 1.5",
+          "screen-studio: cursor smoothing is a spring here, not a scalar: 0.7 enables it and the app's own spring constants are left alone",
+          "screen-studio: panels — screen: ",
+          "screen-studio: panels — cursor: ",
+          "screen-studio: panels — camera: "
+        ],
+        "_path": "submissions/darwin/apple-m1-2026-10-04.json"
+      },
+      "weight": 0.5,
+      "reasons": [
+        "background load differed by 84 points between tools"
+      ],
       "tools": [
         "openscreen",
         "screen-studio"
@@ -1814,6 +2118,106 @@
         "cap"
       ],
       "nodes": [
+        "cap@0.6.0"
+      ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
+        "submittedAt": "2026-10-04T13:18:15.686Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "linux",
+          "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+          "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+          "cpuCount": 8,
+          "memoryGiB": 14.9,
+          "osVersion": "24.04",
+          "osBuild": ""
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 16.8,
+          "loadSpreadPercentagePoints": 8.8,
+          "driftRatio": 0.9975,
+          "floorSpreadPercent": 0.22,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "502588cae0a8507c03ee964006be140543206f3c774ef06dcbf9fdc5f369d9f1",
+          "durationSec": 60.007,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "openscreen",
+            "version": "2.0.0",
+            "exportMs": 26973,
+            "madMs": 41,
+            "runs": 3,
+            "localFloorMs": 18960,
+            "softwareFloorMs": 34745,
+            "floorSpreadPercent": 0.22,
+            "cpuSeconds": 60,
+            "peakRssMiB": 1019.8,
+            "foreignCpuPercent": 5.2,
+            "outputBytes": 98407047,
+            "outputMeanVolumeDb": -37.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "cap",
+            "version": "0.6.0",
+            "exportMs": 51681,
+            "madMs": 25,
+            "runs": 3,
+            "localFloorMs": 18905,
+            "softwareFloorMs": 35157,
+            "floorSpreadPercent": 0.15,
+            "cpuSeconds": 158,
+            "peakRssMiB": 764.2,
+            "foreignCpuPercent": 14,
+            "outputBytes": 188420825,
+            "outputMeanVolumeDb": -49.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          }
+        ],
+        "notes": [
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "cap: zoom segments written: 3",
+          "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+          "run linux-20261004 did not measure recordly 1.4.0: on this machine every export ends on its own \"Lightning (Beta) export failed\" panel — Reason: Cannot read properties of undefined (reading '_resourceType'); Renderer: webgpu; Encoder path: WebCodecs (avc1.640033/prefer-software/realtime); Breeze fallback: H.264 Annex B encoding is not supported at 1920x1080. 1.4.0 normalises exportPipelineModel to \"modern\" whatever a project asks, so the Legacy pipeline earlier Linux rows used is no longer reachable."
+        ],
+        "_path": "submissions/linux/amd-ryzen-5-7520u-2026-10-04.json"
+      },
+      "weight": 1,
+      "reasons": [],
+      "tools": [
+        "openscreen",
+        "cap"
+      ],
+      "nodes": [
+        "openscreen@2.0.0",
         "cap@0.6.0"
       ]
     },
@@ -3438,22 +3842,149 @@
         "openscreen@1.11.0-rc",
         "focusee@2.3.5"
       ]
+    },
+    {
+      "sub": {
+        "schemaVersion": 1,
+        "submittedAt": "2026-10-04T15:02:33.710Z",
+        "submitter": {
+          "name": "Etienne Lescot"
+        },
+        "machine": {
+          "platform": "win32",
+          "chip": "AMD Ryzen 7 5800X 8-Core Processor",
+          "gpu": "NVIDIA GeForce RTX 4070 Ti",
+          "cpuCount": 16,
+          "memoryGiB": 31.9,
+          "osVersion": "10.0.26200",
+          "osBuild": "26200"
+        },
+        "conditions": {
+          "onACPower": true,
+          "maxForeignCpuPercent": 209,
+          "loadSpreadPercentagePoints": 116,
+          "driftRatio": 0.9956,
+          "floorSpreadPercent": 0.45,
+          "remoteDesktopActive": false
+        },
+        "scenario": {
+          "step": "S4",
+          "outputWidth": 1920,
+          "outputHeight": 1080,
+          "outputFps": 60,
+          "outputCodec": "h264"
+        },
+        "source": {
+          "kind": "public-bundle",
+          "bundle": "commons-upload",
+          "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+          "normalisedSha256": "9162881a929643de62a4a97dee57571d514878d727585da60709bf4dfefd0d53",
+          "durationSec": 60.007,
+          "frames": 3600
+        },
+        "measurements": [
+          {
+            "tool": "openscreen",
+            "version": "2.0.0",
+            "exportMs": 9054,
+            "madMs": 13,
+            "runs": 3,
+            "localFloorMs": 7576,
+            "softwareFloorMs": 14815,
+            "floorSpreadPercent": 0.28,
+            "cpuSeconds": 4.52,
+            "peakRssMiB": 796,
+            "foreignCpuPercent": 192,
+            "outputBytes": 55802265,
+            "outputMeanVolumeDb": -37.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          },
+          {
+            "tool": "recordly",
+            "version": "1.4.0",
+            "exportMs": 54841,
+            "madMs": 80,
+            "runs": 3,
+            "localFloorMs": 7633,
+            "softwareFloorMs": 14801,
+            "floorSpreadPercent": 0.24,
+            "cpuSeconds": 162.72,
+            "peakRssMiB": 1695.3,
+            "foreignCpuPercent": 197,
+            "outputBytes": 53705646,
+            "outputMeanVolumeDb": -46.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cdp"
+          },
+          {
+            "tool": "cap",
+            "version": "0.6.0",
+            "exportMs": 62379,
+            "madMs": 3883,
+            "runs": 3,
+            "localFloorMs": 7551,
+            "softwareFloorMs": 15302,
+            "floorSpreadPercent": 0.45,
+            "cpuSeconds": 27.33,
+            "peakRssMiB": 1106.1,
+            "foreignCpuPercent": 81,
+            "outputBytes": 155336023,
+            "outputMeanVolumeDb": -49.8,
+            "fidelity": 1,
+            "missing": [],
+            "contradicted": [],
+            "verified": true,
+            "automation": "cli"
+          }
+        ],
+        "notes": [
+          "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+          "recordly: CUDA export path: available=false, requested=false",
+          "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+          "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events.",
+          "cap: zoom segments written: 3",
+          "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
+        ],
+        "_path": "submissions/win32/amd-ryzen-7-5800x-2026-10-04.json"
+      },
+      "weight": 0.07,
+      "reasons": [
+        "ratios carry 5.3% relative uncertainty",
+        "background load differed by 116 points between tools"
+      ],
+      "tools": [
+        "openscreen",
+        "recordly",
+        "cap"
+      ],
+      "nodes": [
+        "openscreen@2.0.0",
+        "recordly@1.4.0",
+        "cap@0.6.0"
+      ]
     }
   ],
   "skipped": [],
   "consistency": {
-    "observations": 62,
+    "observations": 71,
     "repeatedBuilds": 9,
     "measurable": true,
     "medianSpreadPercent": 239.35,
     "maxSpreadPercent": 836.77,
     "byPlatform": {
-      "sameGpuRepeats": 18,
-      "samePlatformRepeats": 14,
-      "crossPlatformRepeats": 6,
-      "sameGpuSpreadPercent": 8.09,
+      "sameGpuRepeats": 21,
+      "samePlatformRepeats": 17,
+      "crossPlatformRepeats": 7,
+      "sameGpuSpreadPercent": 7.07,
       "samePlatformSpreadPercent": 23.8,
-      "crossPlatformSpreadPercent": 257.08
+      "crossPlatformSpreadPercent": 156.29
     },
     "worst": {
       "node": "focusee@2.3.5",
@@ -3567,28 +4098,53 @@
         "tool": "openscreen",
         "build": "2.0.0",
         "prerelease": false,
-        "relativeCost": 0.918,
+        "relativeCost": 0.777,
         "setups": [
+          {
+            "platform": "darwin",
+            "machine": "Apple M1",
+            "gpu": "Apple M1",
+            "runs": 1,
+            "cost": 0.803
+          },
+          {
+            "platform": "linux",
+            "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+            "runs": 1,
+            "cost": 0.776
+          },
           {
             "platform": "win32",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
             "gpu": "AMD Radeon(TM) Graphics",
             "runs": 2,
             "cost": 0.918
+          },
+          {
+            "platform": "win32",
+            "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+            "gpu": "NVIDIA GeForce RTX 4070 Ti",
+            "runs": 1,
+            "cost": 0.611
           }
         ],
-        "submissions": 2,
+        "submissions": 5,
         "machines": [
-          "AMD Ryzen 5 7520U with Radeon Graphics"
+          "Apple M1",
+          "AMD Ryzen 5 7520U with Radeon Graphics",
+          "AMD Ryzen 7 5800X 8-Core Processor"
         ],
         "platforms": [
+          "darwin",
+          "linux",
           "win32"
         ],
         "versions": [
           "2.0.0"
         ],
         "observedCostRange": [
-          0.91,
+          0.611,
           0.929
         ]
       },
@@ -3631,11 +4187,41 @@
         ]
       },
       {
+        "node": "screen-studio@4.0.1-4897",
+        "tool": "screen-studio",
+        "build": "4.0.1-4897",
+        "prerelease": false,
+        "relativeCost": 1.456,
+        "setups": [
+          {
+            "platform": "darwin",
+            "machine": "Apple M1",
+            "gpu": "Apple M1",
+            "runs": 1,
+            "cost": 1.456
+          }
+        ],
+        "submissions": 1,
+        "machines": [
+          "Apple M1"
+        ],
+        "platforms": [
+          "darwin"
+        ],
+        "versions": [
+          "4.0.1-4897"
+        ],
+        "observedCostRange": [
+          1.456,
+          1.456
+        ]
+      },
+      {
         "node": "cap@0.6.0",
         "tool": "cap",
         "build": "0.6.0",
         "prerelease": false,
-        "relativeCost": 1.907,
+        "relativeCost": 2.457,
         "setups": [
           {
             "platform": "darwin",
@@ -3648,8 +4234,8 @@
             "platform": "linux",
             "machine": "AMD Ryzen 5 7520U with Radeon Graphics",
             "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
-            "runs": 1,
-            "cost": 1.415
+            "runs": 2,
+            "cost": 1.443
           },
           {
             "platform": "win32",
@@ -3657,12 +4243,20 @@
             "gpu": "AMD Radeon(TM) Graphics",
             "runs": 3,
             "cost": 3.323
+          },
+          {
+            "platform": "win32",
+            "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+            "gpu": "NVIDIA GeForce RTX 4070 Ti",
+            "runs": 1,
+            "cost": 4.077
           }
         ],
-        "submissions": 5,
+        "submissions": 7,
         "machines": [
           "Apple M1",
-          "AMD Ryzen 5 7520U with Radeon Graphics"
+          "AMD Ryzen 5 7520U with Radeon Graphics",
+          "AMD Ryzen 7 5800X 8-Core Processor"
         ],
         "platforms": [
           "darwin",
@@ -3674,7 +4268,7 @@
         ],
         "observedCostRange": [
           0.983,
-          3.482
+          4.077
         ]
       },
       {
@@ -3788,7 +4382,7 @@
         "tool": "recordly",
         "build": "1.4.0",
         "prerelease": false,
-        "relativeCost": 5.506,
+        "relativeCost": 4.606,
         "setups": [
           {
             "platform": "win32",
@@ -3796,11 +4390,19 @@
             "gpu": "AMD Radeon(TM) Graphics",
             "runs": 2,
             "cost": 5.506
+          },
+          {
+            "platform": "win32",
+            "machine": "AMD Ryzen 7 5800X 8-Core Processor",
+            "gpu": "NVIDIA GeForce RTX 4070 Ti",
+            "runs": 1,
+            "cost": 3.705
           }
         ],
-        "submissions": 2,
+        "submissions": 3,
         "machines": [
-          "AMD Ryzen 5 7520U with Radeon Graphics"
+          "AMD Ryzen 5 7520U with Radeon Graphics",
+          "AMD Ryzen 7 5800X 8-Core Processor"
         ],
         "platforms": [
           "win32"
@@ -3809,7 +4411,7 @@
           "1.4.0"
         ],
         "observedCostRange": [
-          5.371,
+          3.705,
           5.696
         ]
       },
@@ -4125,6 +4727,111 @@
         ],
         "nodes": [
           "cap@0.6.0"
+        ]
+      },
+      {
+        "sub": {
+          "schemaVersion": 1,
+          "submittedAt": "2026-10-04T12:25:21.577Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "darwin",
+            "chip": "Apple M1",
+            "gpu": "Apple M1",
+            "cpuCount": 8,
+            "memoryGiB": 16,
+            "osVersion": "27.0",
+            "osBuild": "26A428"
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 247.8,
+            "loadSpreadPercentagePoints": 84,
+            "driftRatio": 0.9957,
+            "floorSpreadPercent": 1.18,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "04c5627dc26f3c0a06afdb31caf7160d33cfdf616ef4b9ac15909bb92b1c52a9",
+            "durationSec": 60,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "openscreen",
+              "version": "2.0.0",
+              "exportMs": 20190,
+              "madMs": 36,
+              "runs": 3,
+              "localFloorMs": 18795,
+              "softwareFloorMs": 25154,
+              "floorSpreadPercent": 1.18,
+              "cpuSeconds": 30.39,
+              "peakRssMiB": 858.4,
+              "foreignCpuPercent": 161.8,
+              "outputBytes": 135766084,
+              "outputMeanVolumeDb": -37.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            },
+            {
+              "tool": "screen-studio",
+              "version": "4.0.1-4897",
+              "exportMs": 36194,
+              "madMs": 68,
+              "runs": 3,
+              "localFloorMs": 18684,
+              "softwareFloorMs": 24854,
+              "floorSpreadPercent": 0.43,
+              "cpuSeconds": 56.16,
+              "peakRssMiB": 1989.9,
+              "foreignCpuPercent": 77.8,
+              "outputBytes": 102976839,
+              "outputMeanVolumeDb": -46.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cdp+menu"
+            }
+          ],
+          "notes": [
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "screen-studio: app read back: padding 5.72, radius 40, shadow 0.2, motion blur 0.5, cursor 1.5× (2006 moves, 16 clicks), camera 0.25 bottom-right, 3 zoom ranges, audio true",
+            "screen-studio: cursor size is written as 150% → 1.5; the app's Cursor panel displays twice that, and its own default for an imported project is 1.5",
+            "screen-studio: cursor smoothing is a spring here, not a scalar: 0.7 enables it and the app's own spring constants are left alone",
+            "screen-studio: panels — screen: ",
+            "screen-studio: panels — cursor: ",
+            "screen-studio: panels — camera: "
+          ],
+          "_path": "submissions/darwin/apple-m1-2026-10-04.json"
+        },
+        "weight": 0.5,
+        "reasons": [
+          "background load differed by 84 points between tools"
+        ],
+        "tools": [
+          "openscreen",
+          "screen-studio"
+        ],
+        "nodes": [
+          "openscreen@2.0.0",
+          "screen-studio@4.0.1-4897"
         ]
       },
       {
@@ -4547,6 +5254,106 @@
           "cap"
         ],
         "nodes": [
+          "cap@0.6.0"
+        ]
+      },
+      {
+        "sub": {
+          "schemaVersion": 1,
+          "submittedAt": "2026-10-04T13:18:15.686Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "linux",
+            "chip": "AMD Ryzen 5 7520U with Radeon Graphics",
+            "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Mendocino (rev c1)",
+            "cpuCount": 8,
+            "memoryGiB": 14.9,
+            "osVersion": "24.04",
+            "osBuild": ""
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 16.8,
+            "loadSpreadPercentagePoints": 8.8,
+            "driftRatio": 0.9975,
+            "floorSpreadPercent": 0.22,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "502588cae0a8507c03ee964006be140543206f3c774ef06dcbf9fdc5f369d9f1",
+            "durationSec": 60.007,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "openscreen",
+              "version": "2.0.0",
+              "exportMs": 26973,
+              "madMs": 41,
+              "runs": 3,
+              "localFloorMs": 18960,
+              "softwareFloorMs": 34745,
+              "floorSpreadPercent": 0.22,
+              "cpuSeconds": 60,
+              "peakRssMiB": 1019.8,
+              "foreignCpuPercent": 5.2,
+              "outputBytes": 98407047,
+              "outputMeanVolumeDb": -37.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            },
+            {
+              "tool": "cap",
+              "version": "0.6.0",
+              "exportMs": 51681,
+              "madMs": 25,
+              "runs": 3,
+              "localFloorMs": 18905,
+              "softwareFloorMs": 35157,
+              "floorSpreadPercent": 0.15,
+              "cpuSeconds": 158,
+              "peakRssMiB": 764.2,
+              "foreignCpuPercent": 14,
+              "outputBytes": 188420825,
+              "outputMeanVolumeDb": -49.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            }
+          ],
+          "notes": [
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "cap: zoom segments written: 3",
+            "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+            "run linux-20261004 did not measure recordly 1.4.0: on this machine every export ends on its own \"Lightning (Beta) export failed\" panel — Reason: Cannot read properties of undefined (reading '_resourceType'); Renderer: webgpu; Encoder path: WebCodecs (avc1.640033/prefer-software/realtime); Breeze fallback: H.264 Annex B encoding is not supported at 1920x1080. 1.4.0 normalises exportPipelineModel to \"modern\" whatever a project asks, so the Legacy pipeline earlier Linux rows used is no longer reachable."
+          ],
+          "_path": "submissions/linux/amd-ryzen-5-7520u-2026-10-04.json"
+        },
+        "weight": 1,
+        "reasons": [],
+        "tools": [
+          "openscreen",
+          "cap"
+        ],
+        "nodes": [
+          "openscreen@2.0.0",
           "cap@0.6.0"
         ]
       },
@@ -5695,6 +6502,133 @@
           "openscreen@1.11.0-rc",
           "focusee@2.3.5"
         ]
+      },
+      {
+        "sub": {
+          "schemaVersion": 1,
+          "submittedAt": "2026-10-04T15:02:33.710Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "win32",
+            "chip": "AMD Ryzen 7 5800X 8-Core Processor",
+            "gpu": "NVIDIA GeForce RTX 4070 Ti",
+            "cpuCount": 16,
+            "memoryGiB": 31.9,
+            "osVersion": "10.0.26200",
+            "osBuild": "26200"
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 209,
+            "loadSpreadPercentagePoints": 116,
+            "driftRatio": 0.9956,
+            "floorSpreadPercent": 0.45,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "9162881a929643de62a4a97dee57571d514878d727585da60709bf4dfefd0d53",
+            "durationSec": 60.007,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "openscreen",
+              "version": "2.0.0",
+              "exportMs": 9054,
+              "madMs": 13,
+              "runs": 3,
+              "localFloorMs": 7576,
+              "softwareFloorMs": 14815,
+              "floorSpreadPercent": 0.28,
+              "cpuSeconds": 4.52,
+              "peakRssMiB": 796,
+              "foreignCpuPercent": 192,
+              "outputBytes": 55802265,
+              "outputMeanVolumeDb": -37.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            },
+            {
+              "tool": "recordly",
+              "version": "1.4.0",
+              "exportMs": 54841,
+              "madMs": 80,
+              "runs": 3,
+              "localFloorMs": 7633,
+              "softwareFloorMs": 14801,
+              "floorSpreadPercent": 0.24,
+              "cpuSeconds": 162.72,
+              "peakRssMiB": 1695.3,
+              "foreignCpuPercent": 197,
+              "outputBytes": 53705646,
+              "outputMeanVolumeDb": -46.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cdp"
+            },
+            {
+              "tool": "cap",
+              "version": "0.6.0",
+              "exportMs": 62379,
+              "madMs": 3883,
+              "runs": 3,
+              "localFloorMs": 7551,
+              "softwareFloorMs": 15302,
+              "floorSpreadPercent": 0.45,
+              "cpuSeconds": 27.33,
+              "peakRssMiB": 1106.1,
+              "foreignCpuPercent": 81,
+              "outputBytes": 155336023,
+              "outputMeanVolumeDb": -49.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            }
+          ],
+          "notes": [
+            "openscreen: MP4 export is fixed at 60 fps (MP4_EXPORT_FPS, src/cli/CliExportRunner.tsx) — which is why the pinned target is 60.",
+            "recordly: CUDA export path: available=false, requested=false",
+            "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+            "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events.",
+            "cap: zoom segments written: 3",
+            "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a"
+          ],
+          "_path": "submissions/win32/amd-ryzen-7-5800x-2026-10-04.json"
+        },
+        "weight": 0.07,
+        "reasons": [
+          "ratios carry 5.3% relative uncertainty",
+          "background load differed by 116 points between tools"
+        ],
+        "tools": [
+          "openscreen",
+          "recordly",
+          "cap"
+        ],
+        "nodes": [
+          "openscreen@2.0.0",
+          "recordly@1.4.0",
+          "cap@0.6.0"
+        ]
       }
     ],
     "skipped": [
@@ -6252,9 +7186,153 @@
             "screen-studio: cursor smoothing is a spring here, not a scalar: 0.7 enables it and the app's own spring constants are left alone",
             "ffmpeg-baseline: encoder: h264_videotoolbox (hardware)",
             "ffmpeg-baseline: No compositing: this row is the encode-only reference, not a product.",
-            "run 20261003T184226Z also measured cap 0.6.0 and recordly 1.4.0; neither is submitted from it. Cap ran under 137% foreign load (macOS ANECompilerService), against 12-54% for the two rows here. Recordly 1.4.0 exported, but the project it saved back carries cursor size 2.5, cursor smoothing 0.67 and webcam size 10 where 1.5, 0.7 and 0.25 were written, so the scene it rendered is not the pinned one."
+            "run 20261003T184226Z also measured cap 0.6.0 and recordly 1.4.0; neither is submitted from it. Cap ran under 137% foreign load (macOS ANECompilerService), against 12-54% for the two rows here. Recordly 1.4.0 exported, but the project it saved back carries cursor size 2.5, cursor smoothing 0.67 and webcam size 10 where 1.5, 0.7 and 0.25 were written, so the scene it rendered is not exactly the pinned one; it is submitted separately, with that disclosed, as apple-m1-2026-10-03c.json."
           ],
           "_path": "submissions/darwin/apple-m1-2026-10-03.json"
+        },
+        "why": "no verified measurement with a software floor"
+      },
+      {
+        "sub": {
+          "schemaVersion": 1,
+          "submittedAt": "2026-10-03T21:25:52.797Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "darwin",
+            "chip": "Apple M1",
+            "gpu": "Apple M1",
+            "cpuCount": 8,
+            "memoryGiB": 8,
+            "osVersion": "26.5",
+            "osBuild": "25F71"
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 29.2,
+            "loadSpreadPercentagePoints": 0,
+            "driftRatio": 0.9996,
+            "floorSpreadPercent": 0.13,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "c407c71ad0de9c89533abe2d66918657f76f4e9474d86241efc8e03e5d779c66",
+            "durationSec": 60,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "cap",
+              "version": "0.6.0",
+              "exportMs": 21691,
+              "madMs": 38,
+              "runs": 3,
+              "localFloorMs": 18201,
+              "softwareFloorMs": null,
+              "floorSpreadPercent": 0.13,
+              "cpuSeconds": 15.35,
+              "peakRssMiB": 946.4,
+              "foreignCpuPercent": 26.5,
+              "outputBytes": 93748444,
+              "outputMeanVolumeDb": -49.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cli"
+            }
+          ],
+          "notes": [
+            "cap: zoom segments written: 3",
+            "cap: camera track: content/camera.mp4; cursor telemetry: content/cursor.json; audio: content/system-audio.m4a",
+            "ffmpeg-baseline: encoder: h264_videotoolbox (hardware)",
+            "ffmpeg-baseline: No compositing: this row is the encode-only reference, not a product."
+          ],
+          "_path": "submissions/darwin/apple-m1-2026-10-03b.json"
+        },
+        "why": "no verified measurement with a software floor"
+      },
+      {
+        "sub": {
+          "schemaVersion": 1,
+          "submittedAt": "2026-10-04T06:54:56.098Z",
+          "submitter": {
+            "name": "Etienne Lescot"
+          },
+          "machine": {
+            "platform": "darwin",
+            "chip": "Apple M1",
+            "gpu": "Apple M1",
+            "cpuCount": 8,
+            "memoryGiB": 8,
+            "osVersion": "26.5",
+            "osBuild": "25F71"
+          },
+          "conditions": {
+            "onACPower": true,
+            "maxForeignCpuPercent": 63.1,
+            "loadSpreadPercentagePoints": 0,
+            "driftRatio": 0.9999,
+            "floorSpreadPercent": 0.19,
+            "remoteDesktopActive": false
+          },
+          "scenario": {
+            "step": "S4",
+            "outputWidth": 1920,
+            "outputHeight": 1080,
+            "outputFps": 60,
+            "outputCodec": "h264"
+          },
+          "source": {
+            "kind": "public-bundle",
+            "bundle": "commons-upload",
+            "downloadSha256": "f8f1cd1fab93e739c6a071e5664619299f9f012d352f0055c1b52957d8004dc4",
+            "normalisedSha256": "c407c71ad0de9c89533abe2d66918657f76f4e9474d86241efc8e03e5d779c66",
+            "durationSec": 60,
+            "frames": 3600
+          },
+          "measurements": [
+            {
+              "tool": "recordly",
+              "version": "1.4.0",
+              "exportMs": 49303,
+              "madMs": 23,
+              "runs": 3,
+              "localFloorMs": 18331,
+              "softwareFloorMs": null,
+              "floorSpreadPercent": 0.19,
+              "cpuSeconds": 65.24,
+              "peakRssMiB": 1189.6,
+              "foreignCpuPercent": 62.9,
+              "outputBytes": 51364737,
+              "outputMeanVolumeDb": -46.8,
+              "fidelity": 1,
+              "missing": [],
+              "contradicted": [],
+              "verified": true,
+              "automation": "cdp"
+            }
+          ],
+          "notes": [
+            "recordly: CUDA export path: available=false, requested=false",
+            "recordly: zoom 1.6x is not a preset; applied 1.5x (depth 2)",
+            "recordly: Export is triggered through the editor's own action, so the app picks its pipeline, backend and encoder as it would for a user; the backend it actually used is recorded from its progress events.",
+            "ffmpeg-baseline: encoder: h264_videotoolbox (hardware)",
+            "ffmpeg-baseline: No compositing: this row is the encode-only reference, not a product.",
+            "recordly: taken from run 20261003T184226Z, whose openscreen and screen-studio rows are apple-m1-2026-10-03.json; each cost uses its own paired floor. The scene is not exactly the pinned one: Recordly 1.4.0 migrates the written project to its version 2 and saves back cursor size 2.5, cursor smoothing 0.67, cursor motion blur 0.6, webcam size 10 and webcam mirror on, where 1.5, 0.7, 0.5 and 0.25 were written (mirror unset). Wallpaper, shadow, zoom motion blur, padding and click effect are kept, and corner radius is converted (40 px -> 3.70 % of the short side). Published as is: the replaced values are judged not to move the cost significantly."
+          ],
+          "_path": "submissions/darwin/apple-m1-2026-10-03c.json"
         },
         "why": "no verified measurement with a software floor"
       },
@@ -6688,18 +7766,18 @@
       }
     ],
     "consistency": {
-      "observations": 37,
+      "observations": 44,
       "repeatedBuilds": 8,
       "measurable": true,
-      "medianSpreadPercent": 92.47,
+      "medianSpreadPercent": 102.55,
       "maxSpreadPercent": 886.38,
       "byPlatform": {
-        "sameGpuRepeats": 12,
-        "samePlatformRepeats": 11,
-        "crossPlatformRepeats": 4,
-        "sameGpuSpreadPercent": 4.8,
-        "samePlatformSpreadPercent": 6.04,
-        "crossPlatformSpreadPercent": 159.72
+        "sameGpuRepeats": 13,
+        "samePlatformRepeats": 12,
+        "crossPlatformRepeats": 5,
+        "sameGpuSpreadPercent": 3.86,
+        "samePlatformSpreadPercent": 18.46,
+        "crossPlatformSpreadPercent": 150.04
       },
       "worst": {
         "node": "focusee@2.3.5",

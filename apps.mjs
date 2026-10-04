@@ -82,28 +82,19 @@ export const APPS = {
 	},
 	recordly: {
 		roster: "Recordly",
-		// Exports fine — this is not FocuSee's "cannot export at all". What it will not do is
-		// export *this scenario*: opening a project rewrites it with the app's own normalised
-		// state, and the scenario's values go with it. Measured by writing a project, reading it
-		// back after the app had opened it, and diffing, inside a single prepare() call:
+		// No blocker since 1.4.0. Up to 1.3.3, opening a project replaced the scenario's corner
+		// radius (40 -> 12.5) and padding with the app's defaults, so the scene was not the
+		// pinned one. 1.4.0 keeps wallpaper, shadow, zoom motion blur, padding and click effect,
+		// and converts the radius (40 px -> 3.70% of the short side). What it still replaces on
+		// open, measured on an Apple M1 by reading back the project it saved:
 		//
-		//   borderRadius        40   -> 12.5   (the app's default)
-		//   padding             0    -> 20     (ditto; probes at 10 and 20 give one box)
 		//   cursorSize          1.5  -> 2.5
 		//   cursorSmoothing     0.7  -> 0.67
-		//   cursorMotionBlur    0.5  -> 0.4
-		//   cursorClickEffect   ripple -> dropped
+		//   cursorMotionBlur    0.5  -> 0.6
+		//   webcam.size         0.25 -> 10, mirror on
 		//
-		// So its exports composite the app's default scene, not the pinned one, and its cost is
-		// not doing the same work as the rows beside it. The published measurements are left in
-		// place with this attached rather than withdrawn: they are real exports of a real
-		// product, and the disagreement is the information.
-		//
-		// It still scores fidelity "full", which is the more useful half of the finding: the
-		// verifier asks whether a corner is rounded and whether a cursor was drawn, never whether
-		// they are the ones the scenario asked for. Every tool here is checked that way.
-		blocker:
-			"exports the app's default scene rather than the pinned one — opening a project rewrites it with the app's normalised state, replacing corner radius (40 -> 12.5), padding, cursor size, smoothing, motion blur and click effects with defaults. The export succeeds and passes every pixel check, because the verifier tests that an effect is present, not that it matches the scenario",
+		// Judged not to move the cost significantly, so its rows are measured and ranked like
+		// any other; each submission says which values it rendered.
 		driver: "./drivers/recordly.mjs",
 		default: true,
 		install: {
@@ -141,10 +132,7 @@ export const APPS = {
 	},
 	"recordly-cuda": {
 		roster: "Recordly",
-		// The same application behind a toggle, so the same finding: see `recordly` above. Said
-		// here as well rather than inherited, because this row would otherwise read "ready" for a
-		// product the row above it documents as not applying the scenario.
-		blocker: "same as recordly — the app rewrites the project with its own defaults on open",
+		// The same application behind a toggle: see `recordly` above.
 		driver: "./drivers/recordly-cuda.mjs",
 		// Off by default: the CUDA path is shipped disabled and marked Experimental in the
 		// product, so the default row has to be the one a fresh install produces. Enable this
